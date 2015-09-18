@@ -3,6 +3,8 @@
 
 target 'BreakOut' do
 
+pod 'Instabug'
+
 end
 
 target 'BreakOutTests' do

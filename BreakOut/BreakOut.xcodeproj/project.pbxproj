@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		265DEB641BAC48B90076F222 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 265DEB631BAC48B90076F222 /* Podfile */; };
+		265DEB661BAC4A6F0076F222 /* PrivatConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DEB651BAC4A6F0076F222 /* PrivatConstants.swift */; };
 		2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */; };
 		2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5811B7E4BB4000CF85A /* FirstViewController.swift */; };
 		2678A5841B7E4BB4000CF85A /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5831B7E4BB4000CF85A /* SecondViewController.swift */; };
@@ -14,6 +16,8 @@
 		2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2678A5881B7E4BB4000CF85A /* Images.xcassets */; };
 		2678A58C1B7E4BB4000CF85A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2678A58A1B7E4BB4000CF85A /* LaunchScreen.xib */; };
 		2678A5981B7E4BB4000CF85A /* BreakOutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */; };
+		2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2678A5A11B7F3B2D000CF85A /* MapKit.framework */; };
+		ACE9769FEB92E0E355219AE4 /* libPods-BreakOut.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5D74E5AF7B48C6E143801F /* libPods-BreakOut.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		265DEB631BAC48B90076F222 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		265DEB651BAC4A6F0076F222 /* PrivatConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivatConstants.swift; sourceTree = "<group>"; };
+		265DEB671BAC59190076F222 /* bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bridging-header.h"; sourceTree = "<group>"; };
 		2678A57A1B7E4BB4000CF85A /* BreakOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2678A57E1B7E4BB4000CF85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +45,10 @@
 		2678A5911B7E4BB4000CF85A /* BreakOutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BreakOutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2678A5961B7E4BB4000CF85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakOutTests.swift; sourceTree = "<group>"; };
+		2678A5A11B7F3B2D000CF85A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
+		4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
+		7B5D74E5AF7B48C6E143801F /* libPods-BreakOut.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BreakOut.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */,
+				ACE9769FEB92E0E355219AE4 /* libPods-BreakOut.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,12 +71,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1EB499C04979986967F64D58 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7B5D74E5AF7B48C6E143801F /* libPods-BreakOut.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2678A5711B7E4BB4000CF85A = {
 			isa = PBXGroup;
 			children = (
+				2678A5A11B7F3B2D000CF85A /* MapKit.framework */,
 				2678A57C1B7E4BB4000CF85A /* BreakOut */,
 				2678A5941B7E4BB4000CF85A /* BreakOutTests */,
 				2678A57B1B7E4BB4000CF85A /* Products */,
+				76316474C4E7DB2AC2746191 /* Pods */,
+				1EB499C04979986967F64D58 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -93,7 +117,10 @@
 		2678A57D1B7E4BB4000CF85A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				265DEB631BAC48B90076F222 /* Podfile */,
 				2678A57E1B7E4BB4000CF85A /* Info.plist */,
+				265DEB651BAC4A6F0076F222 /* PrivatConstants.swift */,
+				265DEB671BAC59190076F222 /* bridging-header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -115,6 +142,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		76316474C4E7DB2AC2746191 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */,
+				42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,9 +158,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2678A59B1B7E4BB4000CF85A /* Build configuration list for PBXNativeTarget "BreakOut" */;
 			buildPhases = (
+				D91768FD65E90ACD22734D60 /* Check Pods Manifest.lock */,
 				2678A5761B7E4BB4000CF85A /* Sources */,
 				2678A5771B7E4BB4000CF85A /* Frameworks */,
 				2678A5781B7E4BB4000CF85A /* Resources */,
+				A39614A99CC9EF16419513BD /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -159,6 +197,7 @@
 		2678A5721B7E4BB4000CF85A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = BreakOut;
 				TargetAttributes = {
@@ -197,6 +236,7 @@
 			files = (
 				2678A5871B7E4BB4000CF85A /* Main.storyboard in Resources */,
 				2678A58C1B7E4BB4000CF85A /* LaunchScreen.xib in Resources */,
+				265DEB641BAC48B90076F222 /* Podfile in Resources */,
 				2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,6 +250,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A39614A99CC9EF16419513BD /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D91768FD65E90ACD22734D60 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2678A5761B7E4BB4000CF85A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -218,6 +291,7 @@
 				2678A5841B7E4BB4000CF85A /* SecondViewController.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
+				265DEB661BAC4A6F0076F222 /* PrivatConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,21 +418,27 @@
 		};
 		2678A59C1B7E4BB4000CF85A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BreakOut/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
 			};
 			name = Debug;
 		};
 		2678A59D1B7E4BB4000CF85A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BreakOut/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
 			};
 			name = Release;
 		};
@@ -415,6 +495,7 @@
 				2678A59D1B7E4BB4000CF85A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2678A59E1B7E4BB4000CF85A /* Build configuration list for PBXNativeTarget "BreakOutTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +504,7 @@
 				2678A5A01B7E4BB4000CF85A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
