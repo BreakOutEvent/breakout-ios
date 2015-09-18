@@ -4,6 +4,8 @@
 target 'BreakOut' do
 
 pod 'Instabug'
+pod 'Fabric'
+pod 'Crashlytics'
 
 end
 

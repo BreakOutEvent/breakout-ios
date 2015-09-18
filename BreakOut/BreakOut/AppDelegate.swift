@@ -8,6 +8,10 @@
 
 import UIKit
 
+import Fabric
+import Crashlytics
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -19,6 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Instabug Setup
         Instabug.startWithToken(PrivatConstants.instabugAPIToken, captureSource: IBGCaptureSourceUIKit, invocationEvent: IBGInvocationEventShake)
+        
+        //Fabric Setup
+        //Fabric.with([Crashlytics.self()])
+        Fabric.with([Crashlytics.startWithAPIKey(PrivatConstants.crashlyticsAPIToken)])
+
         
         return true
     }

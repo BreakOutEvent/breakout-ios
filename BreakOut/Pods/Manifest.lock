@@ -1,10 +1,18 @@
 PODS:
+  - Crashlytics (3.3.1)
+  - Fabric (1.5.1):
+    - Fabric/Base (= 1.5.1)
+  - Fabric/Base (1.5.1)
   - Instabug (4.1.6)
 
 DEPENDENCIES:
+  - Crashlytics
+  - Fabric
   - Instabug
 
 SPEC CHECKSUMS:
+  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
+  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   Instabug: 6f87a52937b449c03e9f99b81ee85b13eea0cf25
 
 COCOAPODS: 0.38.2

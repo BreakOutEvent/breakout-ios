@@ -31,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		265DEB631BAC48B90076F222 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		265DEB631BAC48B90076F222 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		265DEB651BAC4A6F0076F222 /* PrivatConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivatConstants.swift; sourceTree = "<group>"; };
 		265DEB671BAC59190076F222 /* bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bridging-header.h"; sourceTree = "<group>"; };
 		2678A57A1B7E4BB4000CF85A /* BreakOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +163,7 @@
 				2678A5771B7E4BB4000CF85A /* Frameworks */,
 				2678A5781B7E4BB4000CF85A /* Resources */,
 				A39614A99CC9EF16419513BD /* Copy Pods Resources */,
+				2688FD0B1BAC5D7200D2E676 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -251,6 +252,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2688FD0B1BAC5D7200D2E676 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" 8251b9412f257f19bbc1ed54af4ce1b4f1f3d321 04cc2c378999b8ef6db6c266795a0a104f895b29022d3583e2b0346cf84af8c4";
+		};
 		A39614A99CC9EF16419513BD /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
