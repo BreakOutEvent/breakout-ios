@@ -12,3 +12,7 @@ If you are more interested in the Android or backend project, please visit https
 
 ## Which tools are used?
 For more Information about our Crash & Feedback Tools, visit our Wiki (https://github.com/BreakOutEvent/breakout-ios/wiki/Crash-&-Feedback-Tools)
+
+## Design Drafts
+![iPhone Design Drafts](/images/_PresentationPhone.png?raw=true "iPhone Design Drafts")
+![Tablet Design Drafts](/images/_PresentationTablet.png?raw=true "Tablet Design Drafts")
