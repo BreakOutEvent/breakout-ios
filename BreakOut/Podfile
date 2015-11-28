@@ -8,6 +8,10 @@ pod 'Fabric'
 pod 'Crashlytics'
 pod 'MagicalRecord'
 
+use_frameworks!
+
+pod 'netfox'
+
 end
 
 target 'BreakOutTests' do

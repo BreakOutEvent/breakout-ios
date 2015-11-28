@@ -13,7 +13,11 @@ import Fabric
 import Crashlytics
 
 // Database
+import MagicalRecord
 //import MagicalRecord
+
+// Network Debugging
+import netfox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //Instabug Setup
-        Instabug.startWithToken(PrivatConstants.instabugAPIToken, captureSource: IBGCaptureSourceUIKit, invocationEvent: IBGInvocationEventShake)
+        Instabug.startWithToken(PrivatConstants.instabugAPIToken, captureSource: IBGCaptureSourceUIKit, invocationEvent: IBGInvocationEventTwoFingersSwipeLeft)
         
         //Fabric Setup
         //Fabric.with([Crashlytics.self()])
@@ -35,6 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Database
         MagicalRecord.setupAutoMigratingCoreDataStack()
         MagicalRecord.setLoggingLevel(MagicalRecordLoggingLevel.All) //All Events are logged to the console
+        
+        // Network Debugging
+        #if DEBUG
+            NFX.sharedInstance().start()
+        #endif
 
         
         return true

@@ -8,6 +8,8 @@
 
 import Foundation
 
+import MagicalRecord
+
 @objc(BOPost)
 class BOPost: NSManagedObject {
     @NSManaged var uuid: String
