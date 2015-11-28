@@ -8,9 +8,12 @@
 
 import UIKit
 
+// Analytics
 import Fabric
 import Crashlytics
 
+// Database
+//import MagicalRecord
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Fabric Setup
         //Fabric.with([Crashlytics.self()])
         Fabric.with([Crashlytics.startWithAPIKey(PrivatConstants.crashlyticsAPIToken)])
+        
+        
+        // Database
+        MagicalRecord.setupAutoMigratingCoreDataStack()
+        MagicalRecord.setLoggingLevel(MagicalRecordLoggingLevel.All) //All Events are logged to the console
 
         
         return true
@@ -52,6 +60,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
+        // Database
+        MagicalRecord.cleanUp()
     }
 
 

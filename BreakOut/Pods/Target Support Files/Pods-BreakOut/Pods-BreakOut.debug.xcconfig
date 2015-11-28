@@ -1,8 +1,8 @@
 CLANG_CXX_LANGUAGE_STANDARD = c++11
 CLANG_CXX_LIBRARY = libc++
-FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/Instabug/" "$(PODS_ROOT)/Crashlytics" "$(PODS_ROOT)/Fabric" "$(PODS_ROOT)/Instabug/"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$(PODS_ROOT)/Instabug/" "${PODS_ROOT}/Crashlytics" "${PODS_ROOT}/Fabric"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/Crashlytics/Crashlytics" "${PODS_ROOT}/Headers/Public/Fabric" "${PODS_ROOT}/Headers/Public/Fabric/Fabric" "${PODS_ROOT}/Headers/Public/Instabug"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Crashlytics" -isystem "${PODS_ROOT}/Headers/Public/Crashlytics/Crashlytics" -isystem "${PODS_ROOT}/Headers/Public/Fabric" -isystem "${PODS_ROOT}/Headers/Public/Fabric/Fabric" -isystem "${PODS_ROOT}/Headers/Public/Instabug"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"z" -framework "AudioToolbox" -framework "CoreGraphics" -framework "CoreMotion" -framework "CoreTelephony" -framework "Crashlytics" -framework "Fabric" -framework "Foundation" -framework "GLKit" -framework "Instabug" -framework "MessageUI" -framework "OpenGLES" -framework "QuartzCore" -framework "Security" -framework "SystemConfiguration" -framework "UIKit"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Crashlytics" "${PODS_ROOT}/Headers/Public/Fabric" "${PODS_ROOT}/Headers/Public/Instabug" "${PODS_ROOT}/Headers/Public/MagicalRecord"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/Crashlytics" -isystem "${PODS_ROOT}/Headers/Public/Fabric" -isystem "${PODS_ROOT}/Headers/Public/Instabug" -isystem "${PODS_ROOT}/Headers/Public/MagicalRecord"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"MagicalRecord" -l"c++" -l"z" -framework "AudioToolbox" -framework "CoreData" -framework "CoreGraphics" -framework "CoreMotion" -framework "CoreTelephony" -framework "Crashlytics" -framework "Fabric" -framework "Foundation" -framework "GLKit" -framework "Instabug" -framework "MessageUI" -framework "OpenGLES" -framework "QuartzCore" -framework "Security" -framework "SystemConfiguration" -framework "UIKit"
 PODS_ROOT = ${SRCROOT}/Pods

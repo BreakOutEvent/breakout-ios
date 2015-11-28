@@ -17,6 +17,7 @@
 		2678A58C1B7E4BB4000CF85A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2678A58A1B7E4BB4000CF85A /* LaunchScreen.xib */; };
 		2678A5981B7E4BB4000CF85A /* BreakOutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */; };
 		2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2678A5A11B7F3B2D000CF85A /* MapKit.framework */; };
+		26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E621C0A41C600BF9EFD /* BOPost.swift */; };
 		ACE9769FEB92E0E355219AE4 /* libPods-BreakOut.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B5D74E5AF7B48C6E143801F /* libPods-BreakOut.a */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		2678A5961B7E4BB4000CF85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakOutTests.swift; sourceTree = "<group>"; };
 		2678A5A11B7F3B2D000CF85A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		26FD9E621C0A41C600BF9EFD /* BOPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPost.swift; path = Core/Database/BOPost.swift; sourceTree = "<group>"; };
 		42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
 		7B5D74E5AF7B48C6E143801F /* libPods-BreakOut.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BreakOut.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,11 +105,10 @@
 		2678A57C1B7E4BB4000CF85A /* BreakOut */ = {
 			isa = PBXGroup;
 			children = (
+				26FD9E641C0A453800BF9EFD /* Tests */,
 				26FD9E611C0A3D0200BF9EFD /* Screens */,
 				26FD9E601C0A3CF200BF9EFD /* Core */,
 				2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */,
-				2678A5811B7E4BB4000CF85A /* FirstViewController.swift */,
-				2678A5831B7E4BB4000CF85A /* SecondViewController.swift */,
 				2678A5851B7E4BB4000CF85A /* Main.storyboard */,
 				2678A5881B7E4BB4000CF85A /* Images.xcassets */,
 				2678A58A1B7E4BB4000CF85A /* LaunchScreen.xib */,
@@ -196,6 +197,7 @@
 		26FD9E5F1C0A3CD700BF9EFD /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				26FD9E621C0A41C600BF9EFD /* BOPost.swift */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -222,6 +224,15 @@
 			name = Screens;
 			sourceTree = "<group>";
 		};
+		26FD9E641C0A453800BF9EFD /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2678A5811B7E4BB4000CF85A /* FirstViewController.swift */,
+				2678A5831B7E4BB4000CF85A /* SecondViewController.swift */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
 		76316474C4E7DB2AC2746191 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +255,7 @@
 				2678A5781B7E4BB4000CF85A /* Resources */,
 				A39614A99CC9EF16419513BD /* Copy Pods Resources */,
 				2688FD0B1BAC5D7200D2E676 /* ShellScript */,
+				EF53DD49D18093E434D88434 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -375,6 +387,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		EF53DD49D18093E434D88434 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -382,6 +409,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* SecondViewController.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,

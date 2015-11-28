@@ -11,5 +11,8 @@
 #ifndef BreakOut_bridging_header_h
 #define BreakOut_bridging_header_h
 
+#define MR_SHORTHAND
+#import <MagicalRecord/MagicalRecord.h>
+
 
 #endif
