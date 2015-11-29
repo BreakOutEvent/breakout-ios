@@ -1,12 +1,34 @@
 PODS:
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
   - Fabric (1.6.1)
   - Instabug (4.1.8)
   - MagicalRecord (2.3.0)
-  - netfox (1.4.1)
+  - netfox (1.4.2)
 
 DEPENDENCIES:
+  - AFNetworking
   - Crashlytics
   - Fabric
   - Instabug
@@ -14,10 +36,11 @@ DEPENDENCIES:
   - netfox
 
 SPEC CHECKSUMS:
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   Instabug: 05e517626cdfb4a154d42111fbb620e1d0fcbada
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
-  netfox: 4a1ed8b94e82b0f5004aefff4f9e72b0f112e33e
+  netfox: 66d4af760c9ed1331f40174c219d4ae68cd05293
 
 COCOAPODS: 0.39.0

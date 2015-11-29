@@ -18,6 +18,7 @@
 		2678A5981B7E4BB4000CF85A /* BreakOutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */; };
 		2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2678A5A11B7F3B2D000CF85A /* MapKit.framework */; };
 		26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E621C0A41C600BF9EFD /* BOPost.swift */; };
+		26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */; };
 		8987C40C5B47F2165E0BA734 /* Pods_BreakOut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakOutTests.swift; sourceTree = "<group>"; };
 		2678A5A11B7F3B2D000CF85A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		26FD9E621C0A41C600BF9EFD /* BOPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPost.swift; path = Core/Database/BOPost.swift; sourceTree = "<group>"; };
+		26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BONetworkerTest.swift; path = Core/Network/BONetworkerTest.swift; sourceTree = "<group>"; };
 		42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
 		6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BreakOut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +192,7 @@
 		26FD9E5E1C0A3CCD00BF9EFD /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				2678A5841B7E4BB4000CF85A /* SecondViewController.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
+				26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */,
 				265DEB661BAC4A6F0076F222 /* PrivatConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
