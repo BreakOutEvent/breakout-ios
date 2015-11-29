@@ -23,6 +23,7 @@
 		26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */; };
 		26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */; };
 		26FD9E6F1C0B9E4500BF9EFD /* BODataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6E1C0B9E4500BF9EFD /* BODataController.swift */; };
+		26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */; };
 		8987C40C5B47F2165E0BA734 /* Pods_BreakOut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOSynchronizeController.swift; path = Core/Network/BOSynchronizeController.swift; sourceTree = "<group>"; };
 		26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImageController.swift; path = Core/BOImageController.swift; sourceTree = "<group>"; };
 		26FD9E6E1C0B9E4500BF9EFD /* BODataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BODataController.swift; path = Core/BODataController.swift; sourceTree = "<group>"; };
+		26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleInformation.swift; sourceTree = "<group>"; };
 		42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
 		6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BreakOut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 				2678A57E1B7E4BB4000CF85A /* Info.plist */,
 				265DEB651BAC4A6F0076F222 /* PrivatConstants.swift */,
 				265DEB671BAC59190076F222 /* bridging-header.h */,
+				26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				2678A5841B7E4BB4000CF85A /* SecondViewController.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */,
+				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */,
