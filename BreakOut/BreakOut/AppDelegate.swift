@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         // Database
-        MagicalRecord.setupAutoMigratingCoreDataStack()
+        MagicalRecord.setupCoreDataStackWithStoreNamed("BODataModel")
         MagicalRecord.setLoggingLevel(MagicalRecordLoggingLevel.All) //All Events are logged to the console
         
         // Network Debugging
@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NFX.sharedInstance().start()
         #endif
 
+        BONetworkerTest().postObjectFromJSON()
         
         return true
     }

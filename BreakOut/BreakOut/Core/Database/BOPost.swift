@@ -12,8 +12,8 @@ import MagicalRecord
 
 @objc(BOPost)
 class BOPost: NSManagedObject {
-    @NSManaged var uuid: String
-    @NSManaged var name: String
+    @NSManaged var uuid: String?
+    @NSManaged var name: String?
     
     class func create(uuid: NSString, name: NSString) {
         let res = BOPost.MR_createEntity() as BOPost
