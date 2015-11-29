@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         BONetworkerTest().postObjectFromJSON()
-        BOSynchronizeController().checkForInternetReachability()
+        BOSynchronizeController.sharedInstance.checkForInternetReachability()
         
         return true
     }
