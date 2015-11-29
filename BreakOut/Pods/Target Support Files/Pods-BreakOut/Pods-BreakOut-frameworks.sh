@@ -86,10 +86,12 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-BreakOut/AFNetworking.framework"
   install_framework "Pods-BreakOut/MagicalRecord.framework"
+  install_framework "Pods-BreakOut/ReachabilitySwift.framework"
   install_framework "Pods-BreakOut/netfox.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-BreakOut/AFNetworking.framework"
   install_framework "Pods-BreakOut/MagicalRecord.framework"
+  install_framework "Pods-BreakOut/ReachabilitySwift.framework"
   install_framework "Pods-BreakOut/netfox.framework"
 fi

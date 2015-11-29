@@ -26,6 +26,15 @@ class BONetworkerTest: NSObject {
 
     }*/
     
+    /**
+    Sends an API request to 4sq for venues around a given location with an optional text search
+    
+    :param: location    A CLLocation for the user's current location
+    :param: query       An optional search query
+    :param: completion  A closure which is called with venues, an array of FoursquareVenue objects
+    
+    :returns: No return value
+    */
     func postObjectFromJSON() {
         let jsonString: String = "{\"uuid\": \"123\", \"name\": \"tester\"}"
         let jsonData: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!

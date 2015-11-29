@@ -20,6 +20,9 @@
 		26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E621C0A41C600BF9EFD /* BOPost.swift */; };
 		26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */; };
 		26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E671C0B8F0400BF9EFD /* BODataModel.xcdatamodeld */; };
+		26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */; };
+		26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */; };
+		26FD9E6F1C0B9E4500BF9EFD /* BODataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6E1C0B9E4500BF9EFD /* BODataController.swift */; };
 		8987C40C5B47F2165E0BA734 /* Pods_BreakOut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +55,9 @@
 		26FD9E621C0A41C600BF9EFD /* BOPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPost.swift; path = Core/Database/BOPost.swift; sourceTree = "<group>"; };
 		26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BONetworkerTest.swift; path = Core/Network/BONetworkerTest.swift; sourceTree = "<group>"; };
 		26FD9E681C0B8F0400BF9EFD /* BODataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BODataModel.xcdatamodel; sourceTree = "<group>"; };
+		26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOSynchronizeController.swift; path = Core/Network/BOSynchronizeController.swift; sourceTree = "<group>"; };
+		26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImageController.swift; path = Core/BOImageController.swift; sourceTree = "<group>"; };
+		26FD9E6E1C0B9E4500BF9EFD /* BODataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BODataController.swift; path = Core/BODataController.swift; sourceTree = "<group>"; };
 		42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
 		6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BreakOut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */,
+				26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -213,6 +220,8 @@
 			children = (
 				26FD9E5F1C0A3CD700BF9EFD /* Database */,
 				26FD9E5E1C0A3CCD00BF9EFD /* Network */,
+				26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */,
+				26FD9E6E1C0B9E4500BF9EFD /* BODataController.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -416,8 +425,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */,
+				26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */,
+				26FD9E6F1C0B9E4500BF9EFD /* BODataController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* SecondViewController.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
+				26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */,

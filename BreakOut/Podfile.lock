@@ -26,6 +26,7 @@ PODS:
   - Instabug (4.1.8)
   - MagicalRecord (2.3.0)
   - netfox (1.4.2)
+  - ReachabilitySwift (2.3)
 
 DEPENDENCIES:
   - AFNetworking
@@ -34,6 +35,16 @@ DEPENDENCIES:
   - Instabug
   - MagicalRecord
   - netfox
+  - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`)
+
+EXTERNAL SOURCES:
+  ReachabilitySwift:
+    :git: https://github.com/ashleymills/Reachability.swift
+
+CHECKOUT OPTIONS:
+  ReachabilitySwift:
+    :commit: 8f1e60621a725a6b1e136ff2c862f4cf78bd9231
+    :git: https://github.com/ashleymills/Reachability.swift
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -42,5 +53,6 @@ SPEC CHECKSUMS:
   Instabug: 05e517626cdfb4a154d42111fbb620e1d0fcbada
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
   netfox: 66d4af760c9ed1331f40174c219d4ae68cd05293
+  ReachabilitySwift: 2ac9df18a443901f06caae38a9f5431219a4c36a
 
 COCOAPODS: 0.39.0
