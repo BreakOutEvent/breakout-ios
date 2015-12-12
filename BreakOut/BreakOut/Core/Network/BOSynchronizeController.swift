@@ -19,11 +19,21 @@ class BOSynchronizeController: NSObject {
     
     static let sharedInstance = BOSynchronizeController()
     
-    var reachability: Reachability?
-    var internetReachability: String = "unknown"
+    /**
+     Makes a total database synchronization of all tables. It starts all Requests for each Database table and stores all repsones. This should only be used at the first start of the app, when no data is in it. Also be carfeully with loading too much data over cellular
+    */
+    func totalDatabaseSynchronization() {
+        self.loadTotalTeamList();
+        // ... and all the other methods.
+    }
+
     
+// #############################################################################################
 // MARK: - HELPERS
 // MARK: Internet Reachability
+    
+    var reachability: Reachability?
+    var internetReachability: String = "unknown"
     
     /** 
     Checks wether the current internet reachability is known (if not, start the check) and returns the current status.
@@ -105,5 +115,37 @@ class BOSynchronizeController: NSObject {
         }
     }
     
+    
+// #############################################################################################
 // MARK: - REST-API Requests
+    
+// MARK: Team List
+    /**
+     Get total list of all teams and store response in Database.
+    */
+    func loadTotalTeamList() {
+        
+    }
+    
+    /**
+     Get only updates of the team list till specified date and store response in Database.
+    */
+    func loadUpdatesOfTeamList(date: NSDate) {
+        
+    }
+    
+    /**
+     calculates the last update of the team list and loads new team list updates since then. It uses the `loadUpdatesOfTeamList` Function.
+    */
+    func loadUpdatesOfTeamListSinceLastUpdate() {
+        
+    }
+    
+// MARK: Posts List    
+    // Similar to functions above ;)
+    
+// MARK: Likes & Comments
+    // Similar to functions above ;)
+    
+
 }
