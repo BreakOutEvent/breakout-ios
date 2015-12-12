@@ -14,8 +14,9 @@ import Foundation
  */
 class BODataController: NSObject {
     
-    func listOfAllPosts() -> Array<BOPost> {
-        return BOPost.MR_findAll()
-    }
+    /*func listOfAllPosts() -> Array<BOPost> {
+        //return BOPost.MR_findAll()
+        return Array.init()
+    }*/
 
 }
