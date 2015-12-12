@@ -26,7 +26,7 @@ class NFXHTTPModel: NSObject
     var responseHeaders: Dictionary<NSObject, AnyObject>?
     var responseBodyLength: Int?
     
-    var timeInterval: String?
+    var timeInterval: Float?
     
     var randomHash: NSString?
     
@@ -61,7 +61,7 @@ class NFXHTTPModel: NSObject
             self.shortType = getShortTypeFrom(self.responseType!).rawValue
         }
         
-        self.timeInterval = NSString(format: "%.2fs", Double(self.responseDate!.timeIntervalSinceDate(self.requestDate!))) as String
+        self.timeInterval = Float(self.responseDate!.timeIntervalSinceDate(self.requestDate!))
         
         saveResponseBodyData(data)
 
@@ -71,7 +71,7 @@ class NFXHTTPModel: NSObject
     func saveRequestBodyData(data: NSData)
     {
         let tempBodyString = NSString.init(data: data, encoding: NSUTF8StringEncoding)
-        self.requestBodyLength = tempBodyString?.length
+        self.requestBodyLength = data.length
         if (tempBodyString != nil) {
             saveData(tempBodyString!, toFile: getRequestBodyFilepath())
         }
@@ -91,7 +91,7 @@ class NFXHTTPModel: NSObject
         }
         
         if (bodyString != nil) {
-            self.responseBodyLength = bodyString!.length
+            self.responseBodyLength = data.length
             saveData(bodyString!, toFile: getResponseBodyFilepath())
         }
         
@@ -191,7 +191,7 @@ class NFXHTTPModel: NSObject
             return .JSON
         }
         
-        if contentType == "application/xml" {
+        if (contentType == "application/xml") || (contentType == "text/xml")  {
             return .XML
         }
         
@@ -211,7 +211,7 @@ class NFXHTTPModel: NSObject
         switch type {
         case .JSON:
             do {
-                let rawJsonData = try NSJSONSerialization.JSONObjectWithData(rawData, options: [.AllowFragments])
+                let rawJsonData = try NSJSONSerialization.JSONObjectWithData(rawData, options: [])
                 let prettyPrintedString = try NSJSONSerialization.dataWithJSONObject(rawJsonData, options: [.PrettyPrinted])
                 return NSString(data: prettyPrintedString, encoding: NSUTF8StringEncoding) as? String
             } catch {
@@ -221,6 +221,15 @@ class NFXHTTPModel: NSObject
         default:
             return nil
             
+        }
+    }
+    
+    func isSuccessful() -> Bool
+    {
+        if (self.responseStatus != nil) && (self.responseStatus < 400) {
+            return true
+        } else {
+            return false
         }
     }
 }

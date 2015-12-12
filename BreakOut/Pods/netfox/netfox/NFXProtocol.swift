@@ -15,6 +15,17 @@ public class NFXProtocol: NSURLProtocol
     
     override public class func canInitWithRequest(request: NSURLRequest) -> Bool
     {
+        return canServeRequest(request)
+    }
+    
+    override public class func canInitWithTask(task: NSURLSessionTask) -> Bool
+    {
+        guard let request = task.currentRequest else { return false }
+        return canServeRequest(request)
+    }
+    
+    private class func canServeRequest(request: NSURLRequest) -> Bool
+    {
         if !NFX.sharedInstance().isEnabled() {
             return false
         }
@@ -29,10 +40,11 @@ public class NFXProtocol: NSURLProtocol
                     return false
                 }
             }
+            
         } else {
             return false
         }
-
+        
         if NSURLProtocol.propertyForKey("NFXInternal", inRequest: request) != nil {
             return false
         }
@@ -95,7 +107,7 @@ public class NFXProtocol: NSURLProtocol
             NFXHTTPModelManager.sharedInstance.add(self.model!)
         }
         
-        NSNotificationCenter.defaultCenter().postNotificationName("NFXReloadTableData", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("NFXReloadData", object: nil)
     }
     
 }

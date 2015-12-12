@@ -34,6 +34,8 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
         self.extendedLayoutIncludesOpaqueBars = false
         self.automaticallyAdjustsScrollViewInsets = false
         
+        self.navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage.NFXStatistics(), style: .Plain, target: self, action: Selector("statisticsButtonPressed")), UIBarButtonItem(image: UIImage.NFXInfo(), style: .Plain, target: self, action: Selector("infoButtonPressed"))]
+
         self.tableView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - 60)
         self.tableView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         self.tableView.translatesAutoresizingMaskIntoConstraints = true
@@ -45,11 +47,9 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
         self.tableView.tableFooterView?.hidden = true
         self.view.addSubview(self.tableView)
         
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: NSStringFromClass(UITableViewCell))
-        
         var nfxVersionLabel: UILabel
         nfxVersionLabel = UILabel(frame: CGRectMake(10, CGRectGetHeight(self.view.frame) - 60, CGRectGetWidth(self.view.frame) - 2*10, 30))
-        nfxVersionLabel.autoresizingMask = [.FlexibleTopMargin]
+        nfxVersionLabel.autoresizingMask = [.FlexibleTopMargin, .FlexibleWidth]
         nfxVersionLabel.font = UIFont.NFXFont(14)
         nfxVersionLabel.textColor = UIColor.NFXOrangeColor()
         nfxVersionLabel.textAlignment = .Center
@@ -58,7 +58,7 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
         
         var nfxURLButton: UIButton
         nfxURLButton = UIButton(frame: CGRectMake(10, CGRectGetHeight(self.view.frame) - 40, CGRectGetWidth(self.view.frame) - 2*10, 30))
-        nfxURLButton.autoresizingMask = [.FlexibleTopMargin]
+        nfxURLButton.autoresizingMask = [.FlexibleTopMargin, .FlexibleWidth]
         nfxURLButton.titleLabel?.font = UIFont.NFXFont(12)
         nfxURLButton.setTitleColor(UIColor.NFXGray44Color(), forState: .Normal)
         nfxURLButton.titleLabel?.textAlignment = .Center
@@ -69,8 +69,8 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        
+    override func viewWillDisappear(animated: Bool)
+    {
         super.viewWillDisappear(animated)
         
         NFX.sharedInstance().cacheFilters(self.filters)
@@ -79,6 +79,20 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
     func nfxURLButtonPressed()
     {
         UIApplication.sharedApplication().openURL(NSURL(string: nfxURL)!)
+    }
+    
+    func infoButtonPressed()
+    {
+        var infoController: NFXInfoController
+        infoController = NFXInfoController()
+        self.navigationController?.pushViewController(infoController, animated: true)
+    }
+    
+    func statisticsButtonPressed()
+    {
+        var statisticsController: NFXStatisticsController
+        statisticsController = NFXStatisticsController()
+        self.navigationController?.pushViewController(statisticsController, animated: true)
     }
     
     // MARK: UITableViewDataSource
@@ -95,7 +109,7 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier(NSStringFromClass(UITableViewCell), forIndexPath: indexPath)
+        let cell = UITableViewCell()
         cell.textLabel?.font = UIFont.NFXFont(14)
         cell.tintColor = UIColor.NFXOrangeColor()
 
@@ -120,6 +134,8 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
             cell.textLabel?.textAlignment = .Center
             cell.textLabel?.text = "Clear data"
             cell.textLabel?.textColor = UIColor.NFXRedColor()
+            cell.textLabel?.font = UIFont.NFXFont(16)
+
             return cell
 
             
@@ -180,7 +196,7 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
             break
             
         case 2:
-            clearDataButtonPressed()
+            clearDataButtonPressedOnTableIndex(indexPath)
             break
             
         default: break
@@ -248,10 +264,12 @@ class NFXSettingsController: NFXGenericController, UITableViewDelegate, UITableV
         }
     }
     
-    func clearDataButtonPressed()
+    func clearDataButtonPressedOnTableIndex(index: NSIndexPath)
     {
         let actionSheetController: UIAlertController = UIAlertController(title: "Clear data?", message: "", preferredStyle: .ActionSheet)
-        
+        actionSheetController.popoverPresentationController?.sourceView = tableView
+        actionSheetController.popoverPresentationController?.sourceRect = tableView.rectForRowAtIndexPath(index)
+
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { action -> Void in
         }
         actionSheetController.addAction(cancelAction)

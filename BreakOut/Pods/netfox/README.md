@@ -1,18 +1,22 @@
 ![](https://raw.githubusercontent.com/kasketis/netfox/master/assets/netfox_logo.png)
 
+[![Version](https://img.shields.io/badge/version-1.7-green.svg?style=flat-square)]()
+[![Cocoapods Compatible](https://img.shields.io/cocoapods/v/netfox.svg?style=flat-square)](https://github.com/cocoapods/cocoapods)
+[![Carthage compatible](https://img.shields.io/badge/carthage-compatible-4BC51D.svg?style=flat-square)](https://github.com/Carthage/Carthage)
+[![Platform](https://img.shields.io/cocoapods/p/netfox.svg?style=flat-square)](http://cocoadocs.org/docsets/netfox)
+[![License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+
 A lightweight, one line setup, network debugging library that provides a quick look on all executed network requests performed by your app.
-It grabs all requests - of course yours, requests from 3rd party libraries (such as AFNetworking or else), UIWebViews, and more
+It grabs all requests - of course yours, requests from 3rd party libraries (such as AFNetworking, Alamofire or else), UIWebViews, and more
 
 Very useful and handy for network related issues and bugs
 
 Implemented in Swift 2.1 - bridged also for Objective-C
 
-Current version: 1.4.2
-
 Feel free to contribute :)
 
 ### Overview
-![](https://raw.githubusercontent.com/kasketis/netfox/master/assets/overview1_3.gif)
+![](https://raw.githubusercontent.com/kasketis/netfox/master/assets/overview1_5_3.gif)
 
 ## Installation
 
@@ -37,6 +41,26 @@ Then, run the following command:
 $ pod install
 </pre>
 
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+<pre>
+$ brew update
+$ brew install carthage
+</pre>
+
+To integrate netfox into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+<pre>
+github "kasketis/netfox"
+</pre>
+
+and follow [these](https://github.com/Carthage/Carthage#if-youre-building-for-ios) steps
+
+
 ### Manually
 
 If you prefer not to use dependency managers, you can integrate netfox into your project manually.
@@ -47,12 +71,12 @@ You can do it by copying the "netfox" folder in your project (make sure that "Cr
 
 To start netfox add the following line in didFinishLaunchingWithOptions: method of your AppDelegate
 
-Swift
+#### Swift
 <pre>
 NFX.sharedInstance().start()
 </pre>
 
-Objective-C
+#### Obj-C
 <pre>
 [[NFX sharedInstance] start];
 </pre>
@@ -72,7 +96,7 @@ You can add the DEBUG symbol with the -DDEBUG entry. Set it in the "Swift Compil
 ## Usage 
 
 Just shake your device and check what's going right or wrong! 
-Shake again and go back to your app! fact
+Shake again and go back to your app!
 ![](https://raw.githubusercontent.com/kasketis/netfox/master/assets/shake.png)
 
 ## Stop
@@ -122,12 +146,13 @@ Tip: You can use the url of the host (for example "https://www.github.com") to i
 - Filtering: Select what types of responses (JSON/XML/HTML/Image/Other) you want to see
 - Enable/disable logging within the app
 - Clear data within the app
+- Statistics: Check cool things like average response time, total response size and more for your selected types of responses
+- Info: Check your IP address, your app version and build number and other things within the app
 - More to come.. ;)
 
 ## Other
 
-- Alamofire users check [this](https://github.com/kasketis/netfox/blob/master/Workarounds.md#alamofire-workaround)
-- If you can't log request body check [this](https://github.com/kasketis/netfox/blob/master/Workarounds.md#no-http-body-for-requests)
+- If you experience any problems with request logging please check [this](https://github.com/kasketis/netfox/blob/master/Workarounds.md). If you don't get your answer please open an [issue](https://github.com/kasketis/netfox/issues)
 - Due to the large size of request/response bodies, the library provides disk storage for low memory overhead
 
 ## Licence
