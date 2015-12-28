@@ -17,6 +17,9 @@
 		2678A58C1B7E4BB4000CF85A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2678A58A1B7E4BB4000CF85A /* LaunchScreen.xib */; };
 		2678A5981B7E4BB4000CF85A /* BreakOutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */; };
 		2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2678A5A11B7F3B2D000CF85A /* MapKit.framework */; };
+		26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */; };
+		26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */; };
+		26DA0DA81C316317009AB1B7 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA71C316317009AB1B7 /* UserProfileViewController.swift */; };
 		26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E621C0A41C600BF9EFD /* BOPost.swift */; };
 		26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */; };
 		26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E671C0B8F0400BF9EFD /* BODataModel.xcdatamodeld */; };
@@ -53,6 +56,9 @@
 		2678A5961B7E4BB4000CF85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakOutTests.swift; sourceTree = "<group>"; };
 		2678A5A11B7F3B2D000CF85A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRegisterViewController.swift; path = Screens/LoginRegisterViewController.swift; sourceTree = "<group>"; };
+		26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalWebViewController.swift; path = Screens/InternalWebViewController.swift; sourceTree = "<group>"; };
+		26DA0DA71C316317009AB1B7 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileViewController.swift; path = Screens/UserProfileViewController.swift; sourceTree = "<group>"; };
 		26FD9E621C0A41C600BF9EFD /* BOPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPost.swift; path = Core/Database/BOPost.swift; sourceTree = "<group>"; };
 		26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BONetworkerTest.swift; path = Core/Network/BONetworkerTest.swift; sourceTree = "<group>"; };
 		26FD9E681C0B8F0400BF9EFD /* BODataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BODataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -238,6 +244,9 @@
 				26FD9E5A1C0A3C8800BF9EFD /* Posts */,
 				26FD9E591C0A3C7700BF9EFD /* Map */,
 				26FD9E581C0A3C7000BF9EFD /* Login */,
+				26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */,
+				26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */,
+				26DA0DA71C316317009AB1B7 /* UserProfileViewController.swift */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -430,10 +439,13 @@
 				26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */,
 				26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */,
 				26FD9E6F1C0B9E4500BF9EFD /* BODataController.swift in Sources */,
+				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
+				26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* SecondViewController.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */,
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
+				26DA0DA81C316317009AB1B7 /* UserProfileViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */,

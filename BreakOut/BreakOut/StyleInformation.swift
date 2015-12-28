@@ -10,7 +10,11 @@ import Foundation
 
 struct Style {
     
-    //TODO: @alexkaessner -> Update this information.
+    static let mainOrange: UIColor = UIColor(red:0.968, green:0.58, blue:0.117, alpha:1)
+    
+    static let lightTransparentWhite: UIColor = UIColor(red:1.0, green:1.0, blue:1.0, alpha:0.5) //For Placeholder Texts
+    
+    //TODO: @alexkaessner -> Update this information.    
     static let mainBackgroundColor: UIColor = UIColor(red:0.17, green:0.18, blue:0.23, alpha:1)
     static let lightBackgroundColor: UIColor = UIColor(red:0.24, green:0.24, blue:0.3, alpha:1)
     
