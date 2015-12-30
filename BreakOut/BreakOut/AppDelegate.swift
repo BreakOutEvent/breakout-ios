@@ -11,6 +11,7 @@ import UIKit
 // Analytics
 import Fabric
 import Crashlytics
+import Flurry_iOS_SDK
 
 // Database
 import MagicalRecord
@@ -29,11 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //Instabug Setup
-        Instabug.startWithToken(PrivatConstants.instabugAPIToken, captureSource: IBGCaptureSourceUIKit, invocationEvent: IBGInvocationEventTwoFingersSwipeLeft)
+        Instabug.startWithToken(PrivateConstants.instabugAPIToken, captureSource: IBGCaptureSourceUIKit, invocationEvent: IBGInvocationEventTwoFingersSwipeLeft)
         
         //Fabric Setup
         //Fabric.with([Crashlytics.self()])
-        Fabric.with([Crashlytics.startWithAPIKey(PrivatConstants.crashlyticsAPIToken)])
+        Fabric.with([Crashlytics.startWithAPIKey(PrivateConstants.crashlyticsAPIToken)])
+        
+        //Flurry Setup
+        Flurry.startSession(PrivateConstants.flurryAPIToken);
         
         
         // Database
