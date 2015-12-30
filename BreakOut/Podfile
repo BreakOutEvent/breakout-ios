@@ -3,9 +3,16 @@
 
 target 'BreakOut' do
 
+
 pod 'Instabug'
 pod 'Fabric'
 pod 'Crashlytics'
+
+# Flurry -> App Analytics (Funnel, ...)
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.4'
+pod 'Flurry-iOS-SDK/FlurrySDK'
+
 pod 'MagicalRecord'
 pod 'AFNetworking'
 
