@@ -7,18 +7,27 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Z8-oQ-mas">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
-                    <color key="barTintColor" red="0.94614475965499878" green="0.58410203456878662" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                </navigationBar>
-            </subviews>
-            <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="551" y="479"/>
-        </view>
+        <navigationController id="SaM-CT-Sa2">
+            <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="zE1-wn-kGV">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <color key="barTintColor" red="0.94614475965499878" green="0.58410203456878662" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            </navigationBar>
+            <viewControllers>
+                <viewController id="TR0-44-grl">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="i7W-PA-rG7"/>
+                        <viewControllerLayoutGuide type="bottom" id="fUu-Ug-cl2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9yw-X9-GnR">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uHa-S7-YQt"/>
+                </viewController>
+            </viewControllers>
+            <point key="canvasLocation" x="-17" y="315"/>
+        </navigationController>
     </objects>
 </document>

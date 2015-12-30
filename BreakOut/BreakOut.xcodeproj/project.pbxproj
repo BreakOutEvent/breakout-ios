@@ -94,6 +94,7 @@
 		1EB499C04979986967F64D58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2678A5A11B7F3B2D000CF85A /* MapKit.framework */,
 				6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */,
 			);
 			name = Frameworks;
@@ -102,7 +103,6 @@
 		2678A5711B7E4BB4000CF85A = {
 			isa = PBXGroup;
 			children = (
-				2678A5A11B7F3B2D000CF85A /* MapKit.framework */,
 				2678A57C1B7E4BB4000CF85A /* BreakOut */,
 				2678A5941B7E4BB4000CF85A /* BreakOutTests */,
 				2678A57B1B7E4BB4000CF85A /* Products */,
@@ -167,6 +167,7 @@
 		26FD9E581C0A3C7000BF9EFD /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -244,7 +245,6 @@
 				26FD9E5A1C0A3C8800BF9EFD /* Posts */,
 				26FD9E591C0A3C7700BF9EFD /* Map */,
 				26FD9E581C0A3C7000BF9EFD /* Login */,
-				26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */,
 				26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */,
 				26DA0DA71C316317009AB1B7 /* UserProfileViewController.swift */,
 			);
@@ -527,7 +527,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -566,7 +566,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -580,7 +580,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BreakOut/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-DDEBUG";
@@ -595,7 +594,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BreakOut/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";

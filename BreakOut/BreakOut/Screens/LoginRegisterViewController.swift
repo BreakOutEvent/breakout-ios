@@ -39,7 +39,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.registerButton.layer.cornerRadius = 25.0
         
         self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.passwordTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.passwordTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("password", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
     }
     
     override func didReceiveMemoryWarning() {
@@ -80,7 +80,6 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         let userInfo:NSDictionary = notification.userInfo!
         if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
             self.formContainerViewToBottomConstraint.constant = keyboardSize.height
-            self.formToLogoConstraint.constant = 20.0
         }
     }
     
@@ -94,7 +93,13 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func registerButtonPressed(sender: UIButton) {
         if (self.emailTextField.text == "" || self.passwordTextField.text == ""){
+            self.alertPopover.alpha = 0.0
             self.alertPopover.hidden = false
+            self.formToLogoConstraint.constant = -10.0 // constraint animation needs to be outside animateWithDuration
+            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                self.alertPopover.alpha = 1.0
+                self.view.layoutIfNeeded()
+                }, completion: nil)
         }
     }
     
