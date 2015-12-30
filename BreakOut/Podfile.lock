@@ -17,6 +17,7 @@ PODS:
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
   - Fabric (1.6.1)
+  - Flurry-iOS-SDK/FlurrySDK (7.3.0)
   - Instabug (4.1.10)
   - MagicalRecord (2.3.0)
   - netfox (1.7)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - AFNetworking
   - Crashlytics
   - Fabric
+  - Flurry-iOS-SDK/FlurrySDK
   - Instabug
   - MagicalRecord
   - netfox
@@ -48,6 +50,7 @@ SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
+  Flurry-iOS-SDK: 054befae0fa0244fb000985bfe757d70f87a9f60
   Instabug: 67d01dc94d780a3eb787563fc7a1c32ef5dd8a1f
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
   netfox: 4b7be664ab924b43eea93dacd56ace4c908a6c6c
