@@ -13,8 +13,16 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.4'
 pod 'Flurry-iOS-SDK/FlurrySDK'
 
+# Database
 pod 'MagicalRecord'
+
+# Networking
 pod 'AFNetworking'
+pod 'AFOAuth2Manager', git: 'https://github.com/AFNetworking/AFOAuth2Manager'
+
+# UI
+pod 'SpinKit', '~>1.2.0'
+pod 'MBProgressHUD'
 
 use_frameworks!
 

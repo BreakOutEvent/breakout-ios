@@ -7,7 +7,15 @@
 //
 
 import UIKit
+import Flurry_iOS_SDK
+
+// Networking
+import AFNetworking
+import AFOAuth2Manager
 //import Answers
+
+import MBProgressHUD
+import SpinKit
 
 
 class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
@@ -25,6 +33,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var formContainerViewToBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var formToLogoConstraint: NSLayoutConstraint!
+    
+    var loadingHUD: MBProgressHUD = MBProgressHUD()
 // MARK: - Screen Actions
     
     override func viewDidLoad() {
@@ -48,7 +58,13 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(animated: Bool) {
-        //
+        // Tracking
+        Flurry.logEvent("/login", withParameters: nil, timed: true)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        // Tracking
+        Flurry.endTimedEvent("/login", withParameters: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -91,6 +107,13 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
 // MARK: - Button Actions
     
+    /**
+    Checks wether both textfields (E-Mail & Password) are filled in with correct style. If this is ok, the keyboard will be hide and the registration request is started
+    
+    :param: sender      UIButton which triggers the function
+    
+    :returns: No return value
+    */
     @IBAction func registerButtonPressed(sender: UIButton) {
         if (self.emailTextField.text == "" || self.passwordTextField.text == ""){
             self.alertPopover.alpha = 0.0
@@ -100,12 +123,26 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 self.alertPopover.alpha = 1.0
                 self.view.layoutIfNeeded()
                 }, completion: nil)
+        }else{
+            // Hide Keyboard and start registration procedure
+            self.view.endEditing(true)
+            self.startRegistrationRequest()
         }
     }
     
+    
     @IBAction func loginButtonPressed(sender: UIButton) {
+        self.view.endEditing(true)
+        self.startLoginRequest()
     }
     
+    /**
+     Opens the internal WebView to show additional Information which isn't stored in the app.
+     
+     :param: sender     UIButton which triggers the function
+     
+     :returns: No return value
+     */
     @IBAction func whatIsBreakOutButtonPressed(sender: UIButton) {
         if let internalWebView = storyboard!.instantiateViewControllerWithIdentifier("internalWebViewController") as? InternalWebViewController {
             presentViewController(internalWebView, animated: true, completion: nil)
@@ -113,6 +150,92 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             
             // --> Tracking
             //Answers.logCustomEventWithName("Opened What-Is-BreakOut", customAttributes: [:])
+        }
+    }
+    
+// MARK: - Helper Functions
+    func setupLoadingHUD(localizedKey: String) {
+        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.StyleChasingDots, color: UIColor.whiteColor(), spinnerSize: 37.0)
+        self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        self.loadingHUD.square = true
+        self.loadingHUD.mode = MBProgressHUDMode.CustomView
+        self.loadingHUD.customView = spinner
+        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        spinner.startAnimating()
+    }
+    
+// MARK: - API Requests
+    
+    /**
+    Starts a registration request to the backend-API. It sends the E-Mail and password as a JSON-Body with a POST request tu the '/user/' endpoint of the REST-API.
+    If the request is successful, the login function is triggered. In case of an error, the error will be presented to the user in a popover.
+    
+    :param: No parameters
+    
+    :returns: No return value
+    */
+    func startRegistrationRequest() {
+        self.setupLoadingHUD("registrationLoading")
+        
+        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+        
+        let params: NSDictionary = ["email":self.emailTextField.text!, "password":self.passwordTextField.text!]
+        
+        requestManager.requestSerializer = AFJSONRequestSerializer()
+        
+        requestManager.POST("user/", parameters: params,
+            success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+                print("Registration Response: ")
+                print(response)
+                
+                // Tracking
+                Flurry.logEvent("/registration/completed_successful")
+                
+                // Try to Login with new account
+                self.startLoginRequest()
+            })
+            { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
+                print("Registration Error: ")
+                print(error)
+                
+                // TODO: Show detailed errors to the user
+                
+                // Tracking
+                Flurry.logEvent("/registration/completed_error")
+        }
+    }
+
+    
+    /**
+     Starts a login request to the backend-API through a OAuth Request. If it is successful, the credentials with accessToken will be send as response.
+     
+     :param: No parameters
+     
+     :returns: No return value
+     */
+    func startLoginRequest() {
+        self.setupLoadingHUD("loginLoading")
+        
+        let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: NSURL(string: PrivateConstants.backendURL), clientID: "breakout_app", secret: "123456789")
+        
+        oAuthManager.authenticateUsingOAuthWithURLString("/oauth/token", username: self.emailTextField.text, password: self.passwordTextField.text, scope: "read write",
+            success: { (credentials) -> Void in
+                print("LOGIN: OAuth Code: "+credentials.accessToken)
+                
+                // Empty Textinputs
+                self.emailTextField.text = ""
+                self.passwordTextField.text = ""
+                
+                self.loadingHUD.hide(true)
+                
+                // Tracking
+                Flurry.logEvent("/login/completed_successful")
+            }) { (error: NSError!) -> Void in
+                print("LOGIN: Error: ")
+                print(error)
+                
+                // Tracking
+                Flurry.logEvent("/login/completed_error")
         }
     }
     

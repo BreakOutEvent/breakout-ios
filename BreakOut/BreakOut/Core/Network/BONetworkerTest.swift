@@ -8,6 +8,7 @@
 
 import Foundation
 import AFNetworking
+import AFOAuth2Manager
 
 class BONetworkerTest: NSObject {
     
@@ -44,6 +45,18 @@ class BONetworkerTest: NSObject {
             print("Name attribute of new Post: "+newPost.name!)
         }catch{
             print(error)
+        }
+    }
+    
+    func exampleLogin() {
+        let baseURL: NSURL = NSURL(string: "http://breakout-development.herokuapp.com/")!
+        
+        let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: baseURL, clientID: "breakout_app", secret: "123456789")
+        
+        oAuthManager.authenticateUsingOAuthWithURLString("/oauth/token", username: "a@b.c", password: "fdsa", scope: "read write", success: { (credentials) -> Void in
+             print("OAuth Code: "+credentials.accessToken)
+            }) { (error) -> Void in
+                print(error)
         }
     }
 }

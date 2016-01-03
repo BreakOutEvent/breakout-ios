@@ -323,6 +323,7 @@
 				TargetAttributes = {
 					2678A5791B7E4BB4000CF85A = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = S9987XBGX5;
 					};
 					2678A5901B7E4BB4000CF85A = {
 						CreatedOnToolsVersion = 6.4;
@@ -579,12 +580,15 @@
 			baseConfigurationReference = 4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BreakOut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-DDEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
 			};
 			name = Debug;
@@ -594,10 +598,13 @@
 			baseConfigurationReference = 42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BreakOut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
 			};
 			name = Release;
