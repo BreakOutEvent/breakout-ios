@@ -11,6 +11,9 @@
 import Foundation
 import ReachabilitySwift
 
+// Tracking
+import Flurry_iOS_SDK
+
 /**
  The BOSynchronizeController communicates with the REST-API and stores the responses in the local Database.
  This will synchronize the online Backend with the local App-Backend.
@@ -146,6 +149,43 @@ class BOSynchronizeController: NSObject {
     
 // MARK: Likes & Comments
     // Similar to functions above ;)
+
     
+    func testPostUploads() {
+        let newPost: BOPost = BOPost.MR_createEntity()
+        
+        newPost.flagNeedsUpload = true
+        newPost.name = "test post"
+        
+        self.tryUploadAll()
+    }
+    
+
+// MARK: - Uploads
+    
+    func tryUploadAll() {
+        self.tryUploadPosts()
+        /*self.tryUploadLikes()
+        self.tryUploadComments()
+        self.tryUploadLocations()
+        self.tryUploadImages()
+        self.tryUploadChatMessanges()*/
+    }
+    
+// MARK: Upload Posts
+    
+    func tryUploadPosts() {
+        // Retrieve Array of all posts which are flagged as offline with need to upload
+        let arrayOfPostsToUpload: Array = BOPost.MR_findByAttribute("flagNeedsUpload", withValue: true) as! Array<BOPost>
+        
+        // Tracking
+        Flurry.logEvent("/posting/upload/start", withParameters: ["Number of Posts": arrayOfPostsToUpload.count])
+        
+        // Start upload process for all offline posts (TODO: Asynchronous)
+        for postToUpload: BOPost in arrayOfPostsToUpload {
+            // Start upload function for each BOPost
+            postToUpload.upload()
+        }
+    }
 
 }
