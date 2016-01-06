@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import Flurry_iOS_SDK
 
 
 class InternalWebViewController: UIViewController {
     
     @IBOutlet weak var internalWebView: UIWebView!
+    
+    var initialURL: String = "http://www.break-out.org"
     
 // MARK: - Screen Actions
     
@@ -26,10 +29,18 @@ class InternalWebViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        //
+        // Tracking
+        Flurry.logEvent("/internalWebView", withParameters: ["url":self.initialURL], timed: true)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        // Tracking
+        Flurry.endTimedEvent("/internalWebView", withParameters: nil)
     }
     
     func openWebpageWithUrl(urlString: String) {
+        self.initialURL = urlString
+        
         let url = NSURL (string: urlString)
         let requestObj = NSURLRequest(URL: url!)
         self.internalWebView.loadRequest(requestObj)
