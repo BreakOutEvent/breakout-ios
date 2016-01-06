@@ -34,6 +34,7 @@ PODS:
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
+  - SlideMenuControllerSwift (2.0.5)
   - SpinKit (1.2.0)
 
 DEPENDENCIES:
@@ -48,6 +49,7 @@ DEPENDENCIES:
   - netfox
   - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`)
   - SDWebImage (~> 3.7)
+  - SlideMenuControllerSwift
   - SpinKit (~> 1.2.0)
 
 EXTERNAL SOURCES:
@@ -76,6 +78,7 @@ SPEC CHECKSUMS:
   netfox: 4b7be664ab924b43eea93dacd56ace4c908a6c6c
   ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SlideMenuControllerSwift: 9dcae36265e14c4f42e729f212463beb60d2cf96
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
 
 COCOAPODS: 0.39.0
