@@ -60,6 +60,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(animated: Bool) {
         // Tracking
         Flurry.logEvent("/login", withParameters: nil, timed: true)
+        
+        self.emailTextField.enabled = true
+        self.passwordTextField.enabled = true
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -176,6 +179,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     */
     func startRegistrationRequest() {
         self.setupLoadingHUD("registrationLoading")
+        self.emailTextField.enabled = false
+        self.passwordTextField.enabled = false
         
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
@@ -215,12 +220,19 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      */
     func startLoginRequest() {
         self.setupLoadingHUD("loginLoading")
+        self.emailTextField.enabled = false
+        self.passwordTextField.enabled = false
         
         let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: NSURL(string: PrivateConstants.backendURL), clientID: "breakout_app", secret: "123456789")
         
         oAuthManager.authenticateUsingOAuthWithURLString("/oauth/token", username: self.emailTextField.text, password: self.passwordTextField.text, scope: "read write",
             success: { (credentials) -> Void in
                 print("LOGIN: OAuth Code: "+credentials.accessToken)
+                
+                //Write login data in UserDefaults
+                let defaults = NSUserDefaults.standardUserDefaults()
+                defaults.setObject(self.emailTextField.text, forKey: "userEMail")
+                defaults.setObject(credentials.accessToken, forKey: "userAccessToken")
                 
                 // Empty Textinputs
                 self.emailTextField.text = ""
@@ -230,6 +242,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 
                 // Tracking
                 Flurry.logEvent("/login/completed_successful")
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
             }) { (error: NSError!) -> Void in
                 print("LOGIN: Error: ")
                 print(error)
