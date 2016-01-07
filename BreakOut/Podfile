@@ -6,7 +6,7 @@ target 'BreakOut' do
 
 pod 'Instabug'
 pod 'Fabric'
-pod 'Crashlytics'
+pod 'Crashlytics', '~> 3.5.0'
 
 # Flurry -> App Analytics (Funnel, ...)
 source 'https://github.com/CocoaPods/Specs.git'

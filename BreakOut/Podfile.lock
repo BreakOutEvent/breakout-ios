@@ -22,9 +22,9 @@ PODS:
     - AFNetworking/NSURLSession
   - AFOAuth2Manager (2.2.1):
     - AFNetworking/NSURLConnection (~> 2.2)
-  - Crashlytics (3.4.1):
+  - Crashlytics (3.5.0):
     - Fabric (~> 1.6.0)
-  - Fabric (1.6.1)
+  - Fabric (1.6.2)
   - Flurry-iOS-SDK/FlurrySDK (7.3.0)
   - Instabug (4.1.10)
   - MagicalRecord (2.3.0)
@@ -40,7 +40,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - AFOAuth2Manager (from `https://github.com/AFNetworking/AFOAuth2Manager`)
-  - Crashlytics
+  - Crashlytics (~> 3.5.0)
   - Fabric
   - Flurry-iOS-SDK/FlurrySDK
   - Instabug
@@ -69,8 +69,8 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   AFOAuth2Manager: 18324b2fd9723677b3221dbf128f68aa0a35ea4c
-  Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
-  Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
+  Crashlytics: fabfd45d0e8b8dc936c682b97e302b9a49a1c827
+  Fabric: e8296d4a1abb3c5eed770cc86b311c862f51d340
   Flurry-iOS-SDK: 054befae0fa0244fb000985bfe757d70f87a9f60
   Instabug: 67d01dc94d780a3eb787563fc7a1c32ef5dd8a1f
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
