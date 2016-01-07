@@ -46,6 +46,17 @@ class BONetworkerTest: NSObject {
         }catch{
             print(error)
         }
+        
+        
+        
+        // The following code is the test for image caching with SDWebImage Framework
+        /*let block: SDWebImageCompletionBlock! = {(image: UIImage!, error: NSError!, cacheType: SDImageCacheType!, imageURL: NSURL!) -> Void in
+            //print("SDWebImageTest: "+self)
+            print(image)
+        }
+        let url = NSURL(string: "https://placehold.it/350x150")
+        self.testImageView.sd_setImageWithURL(url, completed: block)*/
+        // End of test code
     }
     
     func exampleLogin() {
