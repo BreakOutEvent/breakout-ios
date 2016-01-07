@@ -147,7 +147,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      :returns: No return value
      */
     @IBAction func whatIsBreakOutButtonPressed(sender: UIButton) {
-        if let internalWebView = storyboard!.instantiateViewControllerWithIdentifier("internalWebViewController") as? InternalWebViewController {
+        if let internalWebView = storyboard!.instantiateViewControllerWithIdentifier("InternalWebViewController") as? InternalWebViewController {
             presentViewController(internalWebView, animated: true, completion: nil)
             internalWebView.openWebpageWithUrl("http://break-out.org/worum-gehts/")
             
@@ -167,6 +167,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         spinner.startAnimating()
     }
     
+    func enableInputs(enabled: Bool) {
+        self.emailTextField.enabled = enabled
+        self.passwordTextField.enabled = enabled
+    }
+    
 // MARK: - API Requests
     
     /**
@@ -179,8 +184,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     */
     func startRegistrationRequest() {
         self.setupLoadingHUD("registrationLoading")
-        self.emailTextField.enabled = false
-        self.passwordTextField.enabled = false
+        self.enableInputs(false)
         
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
@@ -196,6 +200,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 // Tracking
                 Flurry.logEvent("/registration/completed_successful")
                 
+                self.loadingHUD.hide(true)
                 // Try to Login with new account
                 self.startLoginRequest()
             })
@@ -204,6 +209,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 print(error)
                 
                 // TODO: Show detailed errors to the user
+                
+                self.enableInputs(true)
+                self.loadingHUD.hide(true)
                 
                 // Tracking
                 Flurry.logEvent("/registration/completed_error")
@@ -220,8 +228,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      */
     func startLoginRequest() {
         self.setupLoadingHUD("loginLoading")
-        self.emailTextField.enabled = false
-        self.passwordTextField.enabled = false
+        self.enableInputs(false)
         
         let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: NSURL(string: PrivateConstants.backendURL), clientID: "breakout_app", secret: "123456789")
         
@@ -239,6 +246,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 self.passwordTextField.text = ""
                 
                 self.loadingHUD.hide(true)
+                self.enableInputs(true)
                 
                 // Tracking
                 Flurry.logEvent("/login/completed_successful")
@@ -247,6 +255,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             }) { (error: NSError!) -> Void in
                 print("LOGIN: Error: ")
                 print(error)
+                
+                self.enableInputs(true)
                 
                 // Tracking
                 Flurry.logEvent("/login/completed_error")
