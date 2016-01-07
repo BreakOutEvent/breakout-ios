@@ -10,11 +10,25 @@ import UIKit
 
 class SidebarMenuTableViewController: UITableViewController {
     
+    @IBOutlet weak var userPictureImageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var userDistanceRemainingTimeLabel: UILabel!
+    @IBOutlet weak var addUserpictureButton: UIButton!
+    
 // MARK: - Screen Actions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        self.addUserpictureButton.backgroundColor = UIColor.whiteColor()
+        self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
+        
+        if self.userPictureImageView.image == nil {
+            self.addUserpictureButton.hidden = false
+        }else{
+            self.addUserpictureButton.hidden = true
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -33,7 +47,7 @@ class SidebarMenuTableViewController: UITableViewController {
     }
     
     
-    
+// MARK: - TableView Delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell: UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
         
@@ -47,5 +61,9 @@ class SidebarMenuTableViewController: UITableViewController {
             }
         }
     }
+    
+// MARK: - Button Actions
 
+    @IBAction func addUserpictureButtonPressed(sender: UIButton) {
+    }
 }

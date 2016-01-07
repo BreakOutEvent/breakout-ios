@@ -447,9 +447,20 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Jx-gd-FaR">
+                                                    <rect key="frame" x="16" y="28" width="50" height="50"/>
+                                                    <state key="normal" title="+">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="addUserpictureButtonPressed:" destination="c7a-kY-cEx" eventType="touchUpInside" id="FwM-ym-LQ7"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="F9m-Ia-H5h" firstAttribute="leading" secondItem="DL6-y1-wxv" secondAttribute="leading" id="1j0-vt-0AL"/>
+                                                <constraint firstItem="6Jx-gd-FaR" firstAttribute="height" secondItem="DL6-y1-wxv" secondAttribute="height" id="1zr-Ff-3Ng"/>
+                                                <constraint firstItem="6Jx-gd-FaR" firstAttribute="centerY" secondItem="DL6-y1-wxv" secondAttribute="centerY" id="2WR-2s-cL0"/>
                                                 <constraint firstItem="QOW-Xf-H2Y" firstAttribute="leading" secondItem="Bf5-QW-coP" secondAttribute="leading" id="Ed7-mh-cUC"/>
                                                 <constraint firstItem="QOW-Xf-H2Y" firstAttribute="top" secondItem="Bf5-QW-coP" secondAttribute="top" id="LDS-o7-IsI"/>
                                                 <constraint firstAttribute="trailing" secondItem="QOW-Xf-H2Y" secondAttribute="trailing" id="MXF-4s-WiS"/>
@@ -458,7 +469,9 @@
                                                 <constraint firstItem="xu6-c6-ncK" firstAttribute="width" secondItem="F9m-Ia-H5h" secondAttribute="width" id="dLM-ES-8p5"/>
                                                 <constraint firstItem="DL6-y1-wxv" firstAttribute="top" secondItem="Bf5-QW-coP" secondAttribute="topMargin" constant="20" id="gLT-NW-Yda"/>
                                                 <constraint firstItem="F9m-Ia-H5h" firstAttribute="trailing" secondItem="Bf5-QW-coP" secondAttribute="trailing" constant="-16" id="gvQ-vP-0mZ"/>
+                                                <constraint firstItem="6Jx-gd-FaR" firstAttribute="centerX" secondItem="DL6-y1-wxv" secondAttribute="centerX" id="hSM-bB-6PU"/>
                                                 <constraint firstItem="xu6-c6-ncK" firstAttribute="top" secondItem="F9m-Ia-H5h" secondAttribute="bottom" constant="8" id="iqH-sx-ygn"/>
+                                                <constraint firstItem="6Jx-gd-FaR" firstAttribute="width" secondItem="DL6-y1-wxv" secondAttribute="width" id="nUa-Fy-2sQ"/>
                                                 <constraint firstAttribute="bottom" secondItem="QOW-Xf-H2Y" secondAttribute="bottom" id="qRW-SK-HeD"/>
                                                 <constraint firstItem="QOW-Xf-H2Y" firstAttribute="leading" secondItem="DL6-y1-wxv" secondAttribute="trailing" id="wSA-4y-0rK"/>
                                                 <constraint firstItem="F9m-Ia-H5h" firstAttribute="top" secondItem="DL6-y1-wxv" secondAttribute="bottom" constant="8" id="yBw-bA-t7Q"/>
@@ -548,6 +561,12 @@
                             <outlet property="delegate" destination="c7a-kY-cEx" id="nbC-eP-4XJ"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="addUserpictureButton" destination="6Jx-gd-FaR" id="kAM-y9-uWt"/>
+                        <outlet property="userDistanceRemainingTimeLabel" destination="xu6-c6-ncK" id="FU4-a8-sJU"/>
+                        <outlet property="userPictureImageView" destination="DL6-y1-wxv" id="9mN-fp-fFy"/>
+                        <outlet property="usernameLabel" destination="F9m-Ia-H5h" id="mRP-od-pNY"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4YM-pI-QYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
