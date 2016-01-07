@@ -18,6 +18,7 @@
 		2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2678A5A11B7F3B2D000CF85A /* MapKit.framework */; };
 		2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678B0431C39CBA800136507 /* ContainerViewController.swift */; };
 		267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B1DC81C3444710059C66C /* PrivateConstants.swift */; };
+		26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */; };
 		26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */; };
 		26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */; };
 		26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */; };
@@ -58,6 +59,7 @@
 		2678A5A11B7F3B2D000CF85A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2678B0431C39CBA800136507 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		267B1DC81C3444710059C66C /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
+		26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarMenuTableViewController.swift; path = Screens/SidebarMenuTableViewController.swift; sourceTree = "<group>"; };
 		26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRegisterViewController.swift; path = Screens/LoginRegisterViewController.swift; sourceTree = "<group>"; };
 		26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalWebViewController.swift; path = Screens/InternalWebViewController.swift; sourceTree = "<group>"; };
 		26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileTableViewController.swift; path = Screens/UserProfileTableViewController.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				26FD9E581C0A3C7000BF9EFD /* Login */,
 				26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */,
 				26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */,
+				26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				26FD9E6F1C0B9E4500BF9EFD /* BODataController.swift in Sources */,
 				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
 				26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */,
+				26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */,
