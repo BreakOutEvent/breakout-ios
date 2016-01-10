@@ -16,5 +16,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <AFOAuth2Manager/AFOAuth2Manager.h>
 
+#import <LECropPictureViewController/LECropPictureViewController.h>
+
 
 #endif

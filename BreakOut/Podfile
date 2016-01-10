@@ -24,6 +24,7 @@ pod 'AFOAuth2Manager', git: 'https://github.com/AFNetworking/AFOAuth2Manager'
 pod 'SpinKit', '~>1.2.0'
 pod 'MBProgressHUD'
 pod 'SlideMenuControllerSwift'
+pod 'LECropPictureViewController', '~> 0.1.2'
 
 use_frameworks!
 
