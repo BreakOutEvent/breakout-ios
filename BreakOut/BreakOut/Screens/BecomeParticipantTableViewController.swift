@@ -7,15 +7,23 @@
 //
 
 import UIKit
+import Flurry_iOS_SDK
 
 import MBProgressHUD
 import SpinKit
 
-class BecomeParticipantTableViewController: UITableViewController {
+class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var addUserpictureButton: UIButton!
+    @IBOutlet weak var userpictureImageView: UIImageView!
     @IBOutlet weak var firstNameTextfield: UITextField!
     @IBOutlet weak var secondNameTextfield: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var shirtSizeTextfield: UITextField!
+    @IBOutlet weak var startCityTextfield: UITextField!
+    @IBOutlet weak var phonenumberTextfield: UITextField!
+    @IBOutlet weak var emergencyNumberTextfield: UITextField!
     @IBOutlet weak var participateButton: UIButton!
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
@@ -38,6 +46,8 @@ class BecomeParticipantTableViewController: UITableViewController {
         
         // Set localized Button Texts
         self.participateButton.setTitle(NSLocalizedString("participateButton", comment: ""), forState: UIControlState.Normal)
+        
+        self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,15 +57,41 @@ class BecomeParticipantTableViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         // Tracking
-        //Flurry.logEvent("/user/profile", withParameters: nil, timed: true)
+        Flurry.logEvent("/becomeParticipant/user", withParameters: nil, timed: true)
     }
     
     override func viewDidDisappear(animated: Bool) {
         // Tracking
-        //Flurry.endTimedEvent("/user/profile", withParameters: nil)
+        Flurry.endTimedEvent("/becomeParticipant/user", withParameters: nil)
+    }
+    
+// MARK: - TextField Functions
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if textField == self.firstNameTextfield {
+            // Switch focus to other text field
+            self.secondNameTextfield.becomeFirstResponder()
+        }else if textField == self.secondNameTextfield{
+            self.emailTextField.becomeFirstResponder()
+        }else if textField == self.emailTextField{
+            self.shirtSizeTextfield.becomeFirstResponder()
+        }else if textField == self.shirtSizeTextfield{
+            self.startCityTextfield.becomeFirstResponder()
+        }else if textField == self.startCityTextfield{
+            self.phonenumberTextfield.becomeFirstResponder()
+        }else if textField == self.phonenumberTextfield{
+            self.emergencyNumberTextfield.becomeFirstResponder()
+        }else if textField == self.emergencyNumberTextfield{
+            self.view.endEditing(true)
+        }
+        
+        return true
     }
     
 // MARK: - Button functions
+    
+    @IBAction func addUserpictureButtonPressed(sender: UIButton) {
+    }
     
     @IBAction func participateButtonPressed(sender: UIButton) {
         // Send the participation request to the backend
