@@ -18,6 +18,7 @@
 		2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2678A5A11B7F3B2D000CF85A /* MapKit.framework */; };
 		2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678B0431C39CBA800136507 /* ContainerViewController.swift */; };
 		267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B1DC81C3444710059C66C /* PrivateConstants.swift */; };
+		26985F1A1C42974D00C5FA0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 26985F1C1C42974D00C5FA0C /* Localizable.strings */; };
 		26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */; };
 		26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */; };
 		26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */; };
@@ -58,6 +59,10 @@
 		2678A5A11B7F3B2D000CF85A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2678B0431C39CBA800136507 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		267B1DC81C3444710059C66C /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
+		26985F181C42973D00C5FA0C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		26985F191C42973D00C5FA0C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		26985F1E1C42975300C5FA0C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		26985F1F1C42976900C5FA0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRegisterViewController.swift; path = Screens/LoginRegisterViewController.swift; sourceTree = "<group>"; };
 		26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalWebViewController.swift; path = Screens/InternalWebViewController.swift; sourceTree = "<group>"; };
 		26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileTableViewController.swift; path = Screens/UserProfileTableViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +151,7 @@
 				2678A57E1B7E4BB4000CF85A /* Info.plist */,
 				265DEB671BAC59190076F222 /* bridging-header.h */,
 				26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */,
+				26985F1C1C42974D00C5FA0C /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -341,6 +347,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 2678A5711B7E4BB4000CF85A;
 			productRefGroup = 2678A57B1B7E4BB4000CF85A /* Products */;
@@ -358,6 +365,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26985F1A1C42974D00C5FA0C /* Localizable.strings in Resources */,
 				2678A5871B7E4BB4000CF85A /* Main.storyboard in Resources */,
 				2678A58C1B7E4BB4000CF85A /* LaunchScreen.xib in Resources */,
 				265DEB641BAC48B90076F222 /* Podfile in Resources */,
@@ -481,6 +489,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2678A5861B7E4BB4000CF85A /* Base */,
+				26985F181C42973D00C5FA0C /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -489,8 +498,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				2678A58B1B7E4BB4000CF85A /* Base */,
+				26985F191C42973D00C5FA0C /* de */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		26985F1C1C42974D00C5FA0C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				26985F1E1C42975300C5FA0C /* de */,
+				26985F1F1C42976900C5FA0C /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

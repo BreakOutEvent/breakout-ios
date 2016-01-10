@@ -50,6 +50,10 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.passwordTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("password", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        
+        // Set localized Button titles
+        self.loginButton.setTitle(NSLocalizedString("login", comment: ""), forState: UIControlState.Normal)
+        self.registerButton.setTitle(NSLocalizedString("register", comment: ""), forState: UIControlState.Normal)
     }
     
     override func didReceiveMemoryWarning() {

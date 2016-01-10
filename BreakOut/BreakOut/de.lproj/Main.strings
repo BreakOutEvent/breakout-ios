@@ -1,0 +1,54 @@
+
+/* Class = "UIButton"; normalTitle = "Was ist BreakOut?"; ObjectID = "0qN-5m-e3u"; */
+"0qN-5m-e3u.normalTitle" = "Was ist BreakOut?";
+
+/* Class = "UIViewController"; title = "Internal WebView"; ObjectID = "6bk-jV-jWM"; */
+"6bk-jV-jWM.title" = "Internal WebView";
+
+/* Class = "UIButton"; normalTitle = "EINLOGGEN"; ObjectID = "7Jz-hA-EMW"; */
+"7Jz-hA-EMW.normalTitle" = "EINLOGGEN";
+
+/* Class = "UIViewController"; title = "Information About BreakOut"; ObjectID = "8rJ-Kc-sve"; */
+"8rJ-Kc-sve.title" = "Information About BreakOut";
+
+/* Class = "UIViewController"; title = "Login"; ObjectID = "8s9-fy-0zo"; */
+"8s9-fy-0zo.title" = "Login";
+
+/* Class = "UITextField"; placeholder = "First Name"; ObjectID = "BYz-IQ-XY5"; */
+"BYz-IQ-XY5.placeholder" = "First Name";
+
+/* Class = "UITextField"; placeholder = "Family Name"; ObjectID = "HSR-Dq-yDL"; */
+"HSR-Dq-yDL.placeholder" = "Family Name";
+
+/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "HZO-7n-Qt8"; */
+"HZO-7n-Qt8.normalTitle" = "Close";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "Jgg-Wr-LJ1"; */
+"Jgg-Wr-LJ1.placeholder" = "Password";
+
+/* Class = "UIButton"; normalTitle = "ABMELDEN"; ObjectID = "KJV-HS-Urq"; */
+"KJV-HS-Urq.normalTitle" = "ABMELDEN";
+
+/* Class = "UILabel"; text = "Please enter your E-Mail and a password."; ObjectID = "RDb-ba-s1b"; */
+"RDb-ba-s1b.text" = "Please enter your E-Mail and a password.";
+
+/* Class = "UITabBarItem"; title = "First"; ObjectID = "acW-dT-cKf"; */
+"acW-dT-cKf.title" = "First";
+
+/* Class = "UITabBarItem"; title = "About BreakOut"; ObjectID = "cPa-gy-q4n"; */
+"cPa-gy-q4n.title" = "About BreakOut";
+
+/* Class = "UIButton"; normalTitle = "KOSTENLOS REGISTRIEREN"; ObjectID = "l3v-iv-v33"; */
+"l3v-iv-v33.normalTitle" = "KOSTENLOS REGISTRIEREN";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "mM1-JX-feO"; */
+"mM1-JX-feO.placeholder" = "Email";
+
+/* Class = "UITabBarItem"; title = "Profile"; ObjectID = "qdw-1W-c9G"; */
+"qdw-1W-c9G.title" = "Profile";
+
+/* Class = "UIButton"; normalTitle = "Jetzt Anmelden"; ObjectID = "rqC-wO-nP1"; */
+"rqC-wO-nP1.normalTitle" = "Jetzt Anmelden";
+
+/* Class = "UITableViewController"; title = "User Profile"; ObjectID = "ygp-vS-2vC"; */
+"ygp-vS-2vC.title" = "User Profile";

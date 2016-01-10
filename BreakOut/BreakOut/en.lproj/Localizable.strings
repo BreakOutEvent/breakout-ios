@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  BreakOut
+
+  Created by Leo Käßner on 10.01.16.
+  Copyright © 2016 BreakOut. All rights reserved.
+*/
+
+"email" = "E-Mail";
+"password" = "Password";
+"login" = "LOG IN";
+"register" = "REGISTER (for free)";
+
+// Loading Texts
+"registrationLoading" = "Please wait while we register you for BreakOut";
+"loginLoading" = "You are very close to get logged in";
