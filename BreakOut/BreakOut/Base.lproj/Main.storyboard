@@ -570,6 +570,7 @@
                     </tableView>
                     <connections>
                         <outlet property="emailTextField" destination="MTD-10-abx" id="j2o-AV-ug5"/>
+                        <outlet property="firstNameTextfield" destination="clX-O0-AjT" id="oRv-1Q-qIw"/>
                         <outlet property="participateButton" destination="CCY-jF-Ph3" id="F0b-Of-RCM"/>
                         <outlet property="secondNameTextfield" destination="FnM-Df-hke" id="w4U-mF-RF3"/>
                     </connections>
