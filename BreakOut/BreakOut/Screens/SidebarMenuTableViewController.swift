@@ -21,7 +21,9 @@ class SidebarMenuTableViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Styling the Button for adding a userpicture if non exists.
         self.addUserpictureButton.backgroundColor = UIColor.whiteColor()
+        self.addUserpictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
         
         if self.userPictureImageView.image == nil {
