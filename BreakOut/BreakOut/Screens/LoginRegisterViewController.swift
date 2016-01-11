@@ -193,6 +193,12 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 print("Registration Response: ")
                 print(response)
                 
+                let userID = response.valueForKey("id")
+                
+                CurrentUser.sharedInstance.userID = userID as? Int
+                CurrentUser.sharedInstance.email = self.emailTextField.text
+                CurrentUser.sharedInstance.storeInNSUserDefaults()
+                
                 // Tracking
                 Flurry.logEvent("/registration/completed_successful")
                 
@@ -230,9 +236,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 print("LOGIN: OAuth Code: "+credentials.accessToken)
                 
                 //Write login data in UserDefaults
-                let defaults = NSUserDefaults.standardUserDefaults()
-                defaults.setObject(self.emailTextField.text, forKey: "userEMail")
-                defaults.setObject(credentials.accessToken, forKey: "userAccessToken")
+                CurrentUser.sharedInstance.email = self.emailTextField.text
+                CurrentUser.sharedInstance.storeInNSUserDefaults()
+                AFOAuthCredential.storeCredential(credentials, withIdentifier: "apiCredentials")
                 
                 // Empty Textinputs
                 self.emailTextField.text = ""

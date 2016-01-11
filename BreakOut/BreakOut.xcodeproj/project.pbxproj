@@ -19,6 +19,7 @@
 		2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678B0431C39CBA800136507 /* ContainerViewController.swift */; };
 		267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B1DC81C3444710059C66C /* PrivateConstants.swift */; };
 		26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26985F141C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift */; };
+		26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26985F2C1C4301A600C5FA0C /* CurrentUser.swift */; };
 		26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */; };
 		26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */; };
 		26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */; };
@@ -60,6 +61,7 @@
 		2678B0431C39CBA800136507 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		267B1DC81C3444710059C66C /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
 		26985F141C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BecomeParticipantTableViewController.swift; path = Screens/BecomeParticipantTableViewController.swift; sourceTree = "<group>"; };
+		26985F2C1C4301A600C5FA0C /* CurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRegisterViewController.swift; path = Screens/LoginRegisterViewController.swift; sourceTree = "<group>"; };
 		26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalWebViewController.swift; path = Screens/InternalWebViewController.swift; sourceTree = "<group>"; };
 		26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileTableViewController.swift; path = Screens/UserProfileTableViewController.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				26FD9E5E1C0A3CCD00BF9EFD /* Network */,
 				26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */,
 				26FD9E6E1C0B9E4500BF9EFD /* BODataController.swift */,
+				26985F2C1C4301A600C5FA0C /* CurrentUser.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */,
 				26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */,
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
+				26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */,

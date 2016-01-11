@@ -31,7 +31,7 @@ class UserProfileTableViewController: UITableViewController {
         
         // Check UserDefaults for already logged in user
         let defaults = NSUserDefaults.standardUserDefaults()
-        if defaults.objectForKey("userAccessToken") == nil {
+        if defaults.objectForKey("userDictionary") == nil {
             self.presentLoginScreen()
         }
     }
@@ -55,8 +55,7 @@ class UserProfileTableViewController: UITableViewController {
     
     @IBAction func logoutButtonPressed(sender: UIButton) {
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(nil, forKey: "userEMail")
-        defaults.setObject(nil, forKey: "userAccessToken")
+        defaults.setObject(nil, forKey: "userDictionary")
         
         self.presentLoginScreen()
     }
