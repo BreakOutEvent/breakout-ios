@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ucC-l6-i0d">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eSS-2Z-G5I">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -357,7 +357,7 @@
         <!--Become Participant Table View Controller-->
         <scene sceneID="BOg-BQ-SQk">
             <objects>
-                <tableViewController id="ucC-l6-i0d" customClass="BecomeParticipantTableViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="BecomeParticipantTableViewController" id="ucC-l6-i0d" customClass="BecomeParticipantTableViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" id="tRV-nF-9JJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -633,7 +633,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Start City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sHw-g5-M9f">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Hometown" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sHw-g5-M9f">
                                                     <rect key="frame" x="66" y="10" width="518" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="esV-ZW-5jK"/>
@@ -814,11 +814,11 @@
                         <outlet property="emergencyNumberTextfield" destination="gPB-HG-382" id="6Vr-bg-VgU"/>
                         <outlet property="firstNameTextfield" destination="clX-O0-AjT" id="oRv-1Q-qIw"/>
                         <outlet property="genderSegmentedControl" destination="Bno-Na-A0i" id="GD6-gX-vnB"/>
+                        <outlet property="hometownTextfield" destination="sHw-g5-M9f" id="kJX-OQ-3RL"/>
+                        <outlet property="lastNameTextfield" destination="FnM-Df-hke" id="zNH-tl-Amf"/>
                         <outlet property="participateButton" destination="CCY-jF-Ph3" id="F0b-Of-RCM"/>
                         <outlet property="phonenumberTextfield" destination="fDr-Li-m8d" id="dLS-h6-ru6"/>
-                        <outlet property="secondNameTextfield" destination="FnM-Df-hke" id="w4U-mF-RF3"/>
                         <outlet property="shirtSizeTextfield" destination="Smz-2o-KQS" id="9gC-QL-Gex"/>
-                        <outlet property="startCityTextfield" destination="sHw-g5-M9f" id="Dt5-DB-YCl"/>
                         <outlet property="userpictureImageView" destination="Z5c-lr-2wb" id="aZx-L5-G2m"/>
                     </connections>
                 </tableViewController>

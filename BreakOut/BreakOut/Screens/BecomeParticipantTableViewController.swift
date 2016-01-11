@@ -14,22 +14,26 @@ import SpinKit
 
 import LECropPictureViewController
 
+import AFOAuth2Manager
+
 class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var addUserpictureButton: UIButton!
     @IBOutlet weak var userpictureImageView: UIImageView!
     @IBOutlet weak var firstNameTextfield: UITextField!
-    @IBOutlet weak var secondNameTextfield: UITextField!
+    @IBOutlet weak var lastNameTextfield: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
     @IBOutlet weak var shirtSizeTextfield: UITextField!
-    @IBOutlet weak var startCityTextfield: UITextField!
+    @IBOutlet weak var hometownTextfield: UITextField!
     @IBOutlet weak var phonenumberTextfield: UITextField!
     @IBOutlet weak var emergencyNumberTextfield: UITextField!
     @IBOutlet weak var participateButton: UIButton!
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
     var imagePicker: UIImagePickerController = UIImagePickerController()
+    
+//    let validator = Validator()
     
 // MARK: - Screen Actions
     
@@ -50,10 +54,10 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         // Set color for placeholder text
         self.firstNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("firstname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.secondNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("secondname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.lastNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("lastname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.shirtSizeTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("shirtSize", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.startCityTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("startCity", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.hometownTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("hometown", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.phonenumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phonenumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.emergencyNumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("emergencyNumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         
@@ -61,6 +65,8 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.participateButton.setTitle(NSLocalizedString("participateButton", comment: ""), forState: UIControlState.Normal)
         
         self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
+        
+        self.fillInputsWithCurrentUserInfo()
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,12 +76,20 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
     override func viewDidAppear(animated: Bool) {
         // Tracking
-        Flurry.logEvent("/becomeParticipant/user", withParameters: nil, timed: true)
+        Flurry.logEvent("/user/becomeParticipant", withParameters: nil, timed: true)
     }
     
     override func viewDidDisappear(animated: Bool) {
         // Tracking
-        Flurry.endTimedEvent("/becomeParticipant/user", withParameters: nil)
+        Flurry.endTimedEvent("/user/becomeParticipant", withParameters: nil)
+    }
+    
+// MARK: - Initial Input setup 
+    
+    func fillInputsWithCurrentUserInfo() {
+        self.firstNameTextfield.text = CurrentUser.sharedInstance.firstname
+        self.lastNameTextfield.text = CurrentUser.sharedInstance.lastname
+        self.emailTextField.text = CurrentUser.sharedInstance.email
     }
     
 // MARK: - TextField Functions
@@ -83,14 +97,14 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         textField.resignFirstResponder()
         if textField == self.firstNameTextfield {
             // Switch focus to other text field
-            self.secondNameTextfield.becomeFirstResponder()
-        }else if textField == self.secondNameTextfield{
+            self.lastNameTextfield.becomeFirstResponder()
+        }else if textField == self.lastNameTextfield{
             self.emailTextField.becomeFirstResponder()
         }else if textField == self.emailTextField{
             self.shirtSizeTextfield.becomeFirstResponder()
         }else if textField == self.shirtSizeTextfield{
-            self.startCityTextfield.becomeFirstResponder()
-        }else if textField == self.startCityTextfield{
+            self.hometownTextfield.becomeFirstResponder()
+        }else if textField == self.hometownTextfield{
             self.phonenumberTextfield.becomeFirstResponder()
         }else if textField == self.phonenumberTextfield{
             self.emergencyNumberTextfield.becomeFirstResponder()
@@ -147,6 +161,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         // Send the participation request to the backend
         self.setupLoadingHUD("loadingParticipant")
         self.loadingHUD.show(true)
+        self.startBecomeParticipantRequest()
     }
     
 // MARK: - Image Picker Delegate
@@ -191,4 +206,84 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
         spinner.startAnimating()
     }
+    
+    func setAllInputsToEnabled(enabled: Bool) {
+        self.firstNameTextfield.enabled = enabled
+        self.lastNameTextfield.enabled = enabled
+        self.emailTextField.enabled = enabled
+        self.genderSegmentedControl.enabled = enabled
+        self.shirtSizeTextfield.enabled = enabled
+        self.hometownTextfield.enabled = enabled
+        self.phonenumberTextfield.enabled = enabled
+        self.emergencyNumberTextfield.enabled = enabled
+    }
+    
+    
+// MARK: - API Requests
+    
+    /**
+    ???
+    
+    :param: No parameters
+    
+    :returns: No return value
+    */
+    func startBecomeParticipantRequest() {
+        self.setAllInputsToEnabled(false)
+        
+        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+        
+        let participantParams: NSDictionary = [
+            "emergencynumber": self.emergencyNumberTextfield.text!,
+            "hometown": self.hometownTextfield.text!,
+            "phonenumber": self.phonenumberTextfield.text!,
+            "tshirtsize": self.shirtSizeTextfield.text!
+        ]
+        let params: NSDictionary = [
+            "firstname":self.firstNameTextfield.text!,
+            "lastname":self.lastNameTextfield.text!,
+            "email":self.emailTextField.text!,
+            "gender":"unknown",
+            "participant": participantParams
+        ]
+        
+        requestManager.requestSerializer = AFJSONRequestSerializer()
+        
+        // Get user id from NSUserDefaults
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let userID: String = (defaults.objectForKey("userID") as! NSNumber).stringValue
+        
+        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
+        
+        requestManager.PUT(String(format: "user/%@/", userID), parameters: params,
+            success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+                print("Become Participant Response: ")
+                print(response)
+                
+                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                
+                // Tracking
+                Flurry.logEvent("/user/becomeParticipant/completed_successful")
+                
+                // Activate Inputs again
+                self.setAllInputsToEnabled(true)
+                
+                self.loadingHUD.hide(true)
+            })
+            { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
+                print("Registration Error: ")
+                print(error)
+                
+                // TODO: Show detailed errors to the user
+                
+                // Tracking
+                Flurry.logEvent("/user/becomeParticipant/completed_error")
+                
+                // Activate Inputs again
+                self.setAllInputsToEnabled(true)
+                
+                self.loadingHUD.hide(true)
+        }
+    }
+
 }
