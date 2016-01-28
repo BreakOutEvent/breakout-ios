@@ -34,3 +34,4 @@ Carthage/Build
 PrivatConstants.swift
 PrivateConstants.swift
 Screencasts
+*.pages
