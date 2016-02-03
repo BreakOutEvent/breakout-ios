@@ -1,8 +1,8 @@
 //
-//  BecomeParticipantTableViewController.swift
+//  JoinTeamTableViewController.swift
 //  BreakOut
 //
-//  Created by Leo Käßner on 10.01.16.
+//  Created by Leo Käßner on 25.01.16.
 //  Copyright © 2016 BreakOut. All rights reserved.
 //
 
@@ -16,24 +16,22 @@ import LECropPictureViewController
 
 import AFOAuth2Manager
 
-class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
-    @IBOutlet weak var addUserpictureButton: UIButton!
-    @IBOutlet weak var userpictureImageView: UIImageView!
-    @IBOutlet weak var firstNameTextfield: UITextField!
-    @IBOutlet weak var lastNameTextfield: UITextField!
+    @IBOutlet weak var addTeampictureButton: UIButton!
+    @IBOutlet weak var teampictureImageView: UIImageView!
+    @IBOutlet weak var teamNameTextfield: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var shirtSizeTextfield: UITextField!
-    @IBOutlet weak var hometownTextfield: UITextField!
-    @IBOutlet weak var phonenumberTextfield: UITextField!
-    @IBOutlet weak var emergencyNumberTextfield: UITextField!
-    @IBOutlet weak var participateButton: UIButton!
+    @IBOutlet weak var eventSelectionTextfield: UITextField!
+    @IBOutlet weak var createTeamButton: UIButton!
+    
+    var eventPicker: UIPickerView! = UIPickerView()
+    var eventDataSourceArray: NSArray = NSArray(objects: "Berlin 2016", "München 2016")
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
     var imagePicker: UIImagePickerController = UIImagePickerController()
     
-//    let validator = Validator()
+    //    let validator = Validator()
     
 // MARK: - Screen Actions
     
@@ -41,9 +39,9 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // Add the circle mask to the userpicture
-        self.userpictureImageView.layer.cornerRadius = self.userpictureImageView.frame.size.width / 2.0
-        self.userpictureImageView.clipsToBounds = true
+        // Add the circle mask to the teampictureImageView
+        self.teampictureImageView.layer.cornerRadius = self.teampictureImageView.frame.size.width / 2.0
+        self.teampictureImageView.clipsToBounds = true
         
         self.imagePicker.delegate = self
         
@@ -53,20 +51,33 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.tableView.backgroundView = backgroundImageView
         
         // Set color for placeholder text
-        self.firstNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("firstname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.lastNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("lastname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.teamNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("teamname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.shirtSizeTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("shirtSize", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.hometownTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("hometown", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.phonenumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phonenumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.emergencyNumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("emergencyNumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.eventSelectionTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("eventselection", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         
         // Set localized Button Texts
-        self.participateButton.setTitle(NSLocalizedString("participateButton", comment: ""), forState: UIControlState.Normal)
+        self.createTeamButton.setTitle(NSLocalizedString("createTeamButton", comment: ""), forState: UIControlState.Normal)
         
-        self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
+        self.addTeampictureButton.layer.cornerRadius = self.addTeampictureButton.frame.size.width / 2.0
         
-        self.fillInputsWithCurrentUserInfo()
+        // Set the Delegates for the EventPicker and connect Picker & Toolbar with the TextField
+        self.eventPicker.delegate = self
+        self.eventPicker.dataSource = self
+        self.eventSelectionTextfield.inputView = self.eventPicker
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = Style.mainOrange
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "pickerToolbarDoneButtonPressed")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "pickerToolbarCancelButtonPressed")
+        
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        self.eventSelectionTextfield.inputAccessoryView = toolBar
     }
     
     override func didReceiveMemoryWarning() {
@@ -76,39 +87,54 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
     override func viewDidAppear(animated: Bool) {
         // Tracking
-        Flurry.logEvent("/user/becomeParticipant", withParameters: nil, timed: true)
+        Flurry.logEvent("/user/joinTeam", withParameters: nil, timed: true)
     }
     
     override func viewDidDisappear(animated: Bool) {
         // Tracking
-        Flurry.endTimedEvent("/user/becomeParticipant", withParameters: nil)
+        Flurry.endTimedEvent("/user/joinTeam", withParameters: nil)
     }
     
-// MARK: - Initial Input setup 
-    
-    func fillInputsWithCurrentUserInfo() {
-        self.firstNameTextfield.text = CurrentUser.sharedInstance.firstname
-        self.lastNameTextfield.text = CurrentUser.sharedInstance.lastname
-        self.emailTextField.text = CurrentUser.sharedInstance.email
+// MARK: - Picker Toolbar Functions
+    func pickerToolbarDoneButtonPressed() {
+        self.eventSelectionTextfield.text = self.eventDataSourceArray[self.eventPicker.selectedRowInComponent(0)] as? String
+        self.eventSelectionTextfield.resignFirstResponder()
     }
+    
+    func pickerToolbarCancelButtonPressed() {
+        self.eventSelectionTextfield.resignFirstResponder()
+        
+        self.eventSelectionTextfield.text = ""
+    }
+    
+// MARK: - UIPicker DataSource 
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.eventDataSourceArray.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.eventDataSourceArray[row] as? String
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.eventSelectionTextfield.text = self.eventDataSourceArray[row] as? String
+    }
+    
+// MARK: - Initial Input setup
     
 // MARK: - TextField Functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        if textField == self.firstNameTextfield {
+        if textField == self.teamNameTextfield {
             // Switch focus to other text field
-            self.lastNameTextfield.becomeFirstResponder()
-        }else if textField == self.lastNameTextfield{
             self.emailTextField.becomeFirstResponder()
         }else if textField == self.emailTextField{
-            self.shirtSizeTextfield.becomeFirstResponder()
-        }else if textField == self.shirtSizeTextfield{
-            self.hometownTextfield.becomeFirstResponder()
-        }else if textField == self.hometownTextfield{
-            self.phonenumberTextfield.becomeFirstResponder()
-        }else if textField == self.phonenumberTextfield{
-            self.emergencyNumberTextfield.becomeFirstResponder()
-        }else if textField == self.emergencyNumberTextfield{
+            self.eventSelectionTextfield.becomeFirstResponder()
+        }else if textField == self.eventSelectionTextfield{
             self.view.endEditing(true)
         }
         
@@ -117,7 +143,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
 // MARK: - Button functions
     
-    @IBAction func addUserpictureButtonPressed(sender: UIButton) {
+    @IBAction func addTeampictureButtonPressed(sender: UIButton) {
         
         let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.ActionSheet)
         
@@ -157,11 +183,11 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.presentViewController(optionMenu, animated: true, completion: nil)
     }
     
-    @IBAction func participateButtonPressed(sender: UIButton) {
+    @IBAction func createTeamButtonPressed(sender: UIButton) {
         // Send the participation request to the backend
-        self.setupLoadingHUD("loadingParticipant")
+        self.setupLoadingHUD("loadingJoinTeam")
         self.loadingHUD.show(true)
-        self.startBecomeParticipantRequest()
+        //self.startBecomeParticipantRequest()
     }
     
 // MARK: - Image Picker Delegate
@@ -169,26 +195,11 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         let choosenImage: UIImage = image
         
-        self.userpictureImageView.image = choosenImage
+        self.teampictureImageView.image = choosenImage
         
         self.dismissViewControllerAnimated(true, completion: nil)
         
         return
-        
-        /*let cropPictureController = LECropPictureViewController.init(image: choosenImage, andCropPictureType: LECropPictureType.Rounded)
-        cropPictureController.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        
-        cropPictureController.borderWidth = 1.0
-        cropPictureController.acceptButtonItem?.tintColor = Style.mainOrange
-        cropPictureController.acceptButtonItem?.title = NSLocalizedString("accept", comment: "")
-        cropPictureController.cancelButtonItem?.tintColor = Style.mainOrange
-        cropPictureController.cancelButtonItem?.title = NSLocalizedString("cancel", comment: "")
-        
-        cropPictureController.photoAcceptedBlock = {(croppedImage: UIImage!) in
-            self.userpictureImageView.image = croppedImage
-        }
-        
-        self.presentViewController(cropPictureController, animated: false, completion: nil)*/
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -208,18 +219,13 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     func setAllInputsToEnabled(enabled: Bool) {
-        self.firstNameTextfield.enabled = enabled
-        self.lastNameTextfield.enabled = enabled
+        self.teamNameTextfield.enabled = enabled
         self.emailTextField.enabled = enabled
-        self.genderSegmentedControl.enabled = enabled
-        self.shirtSizeTextfield.enabled = enabled
-        self.hometownTextfield.enabled = enabled
-        self.phonenumberTextfield.enabled = enabled
-        self.emergencyNumberTextfield.enabled = enabled
+        self.eventSelectionTextfield.enabled = enabled
     }
     
     
-// MARK: - API Requests
+    // MARK: - API Requests
     
     /**
     ???
@@ -228,7 +234,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
     :returns: No return value
     */
-    func startBecomeParticipantRequest() {
+    /*func startBecomeParticipantRequest() {
         self.setAllInputsToEnabled(false)
         
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
@@ -249,12 +255,13 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         requestManager.requestSerializer = AFJSONRequestSerializer()
         
-        // Get user id from CurrentUser
-        let userID: Int = CurrentUser.sharedInstance.userid!
+        // Get user id from NSUserDefaults
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let userID: String = (defaults.objectForKey("userID") as! NSNumber).stringValue
         
         requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
         
-        requestManager.PUT(String(format: "user/%i/", userID), parameters: params,
+        requestManager.PUT(String(format: "user/%@/", userID), parameters: params,
             success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
                 print("Become Participant Response: ")
                 print(response)
@@ -268,8 +275,6 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)
-                
-                self.performSegueWithIdentifier("showJoinTeamTableViewController", sender: self)
             })
             { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                 print("Registration Error: ")
@@ -285,6 +290,6 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
                 
                 self.loadingHUD.hide(true)
         }
-    }
-
+    }*/
+    
 }
