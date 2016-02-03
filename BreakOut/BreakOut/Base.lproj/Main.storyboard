@@ -1003,7 +1003,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="JoinTeamTableViewController" id="klm-fS-vU7" customClass="JoinTeamTableViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" keyboardDismissMode="interactive" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" id="wKO-AO-wR1">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="scrollIndicatorInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
@@ -1265,6 +1265,144 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.50329919759999997" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="30" id="E9Y-ec-hts" userLabel="Placeholder Table View Cell">
+                                        <rect key="frame" x="0.0" y="550" width="600" height="30"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="E9Y-ec-hts" id="KPs-FF-Zq1">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Tm9-Zu-8lw" userLabel="Team Invitations Headline Table View Cell">
+                                        <rect key="frame" x="0.0" y="580" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tm9-Zu-8lw" id="OfH-vr-alS">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Einladungen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Sp-yc-N5Z">
+                                                    <rect key="frame" x="16" y="15" width="568" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="0Sp-yc-N5Z" firstAttribute="leading" secondItem="OfH-vr-alS" secondAttribute="leading" constant="16" id="Ggs-Aq-bps"/>
+                                                <constraint firstItem="0Sp-yc-N5Z" firstAttribute="centerY" secondItem="OfH-vr-alS" secondAttribute="centerY" id="Ohn-6c-DoM"/>
+                                                <constraint firstAttribute="trailing" secondItem="0Sp-yc-N5Z" secondAttribute="trailing" constant="16" id="eFg-8E-0yQ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="Egs-Bw-3rs" userLabel="Team Invitations Table View Cell">
+                                        <rect key="frame" x="0.0" y="630" width="600" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Egs-Bw-3rs" id="4DF-QL-7ti">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Du hast ?? Einladungen von Freunden erhalten. Trete doch einem der Teams bei!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9fN-yG-Ll7">
+                                                    <rect key="frame" x="16" y="8" width="568" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="9fN-yG-Ll7" secondAttribute="trailing" constant="16" id="Eqd-az-zL4"/>
+                                                <constraint firstItem="9fN-yG-Ll7" firstAttribute="leading" secondItem="4DF-QL-7ti" secondAttribute="leading" constant="16" id="JV3-nX-SMD"/>
+                                                <constraint firstAttribute="bottom" secondItem="9fN-yG-Ll7" secondAttribute="bottom" constant="8" id="iWj-Rw-YBz"/>
+                                                <constraint firstItem="9fN-yG-Ll7" firstAttribute="top" secondItem="4DF-QL-7ti" secondAttribute="top" constant="8" id="ohN-Mu-rDs"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.50329919759999997" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="QHg-XI-llX" userLabel="Select Invitation Table View Cell">
+                                        <rect key="frame" x="0.0" y="690" width="600" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QHg-XI-llX" id="xu3-eY-B9J">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Brp-wh-7Pz" userLabel="Underline">
+                                                    <rect key="frame" x="16" y="55" width="568" height="1"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="Q1r-u4-K2e"/>
+                                                    </constraints>
+                                                </view>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Team Einladungen" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="NhG-8U-Si4">
+                                                    <rect key="frame" x="66" y="25" width="518" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="Hwn-C5-mJH"/>
+                                                    </constraints>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="klm-fS-vU7" id="CWf-Zy-Qvw"/>
+                                                    </connections>
+                                                </textField>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="team_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="VHF-6U-XI3" userLabel="Icon Image View">
+                                                    <rect key="frame" x="16" y="25" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="VHF-6U-XI3" secondAttribute="height" multiplier="1:1" id="vJb-OJ-URf"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Brp-wh-7Pz" firstAttribute="trailing" secondItem="NhG-8U-Si4" secondAttribute="trailing" id="0NQ-QA-HjB"/>
+                                                <constraint firstAttribute="trailing" secondItem="NhG-8U-Si4" secondAttribute="trailing" constant="16" id="6pW-tX-xA8"/>
+                                                <constraint firstItem="NhG-8U-Si4" firstAttribute="leading" secondItem="VHF-6U-XI3" secondAttribute="trailing" constant="20" id="7ui-o6-W0t"/>
+                                                <constraint firstItem="Brp-wh-7Pz" firstAttribute="leading" secondItem="VHF-6U-XI3" secondAttribute="leading" id="Iur-qX-cux"/>
+                                                <constraint firstItem="Brp-wh-7Pz" firstAttribute="top" secondItem="NhG-8U-Si4" secondAttribute="bottom" id="QXZ-Fj-UdX"/>
+                                                <constraint firstItem="VHF-6U-XI3" firstAttribute="width" secondItem="VHF-6U-XI3" secondAttribute="height" multiplier="1:1" id="aZM-8W-JAi"/>
+                                                <constraint firstItem="NhG-8U-Si4" firstAttribute="height" secondItem="VHF-6U-XI3" secondAttribute="height" id="epB-J3-qpl"/>
+                                                <constraint firstItem="VHF-6U-XI3" firstAttribute="leading" secondItem="xu3-eY-B9J" secondAttribute="leading" constant="16" id="mf0-jw-vsN"/>
+                                                <constraint firstItem="VHF-6U-XI3" firstAttribute="centerY" secondItem="xu3-eY-B9J" secondAttribute="centerY" id="om5-aS-gwH"/>
+                                                <constraint firstItem="NhG-8U-Si4" firstAttribute="centerY" secondItem="xu3-eY-B9J" secondAttribute="centerY" id="ro3-be-QQ1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.50329919759999997" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="80" id="nzc-cF-KK4" userLabel="Join Team Button Table View Cell">
+                                        <rect key="frame" x="0.0" y="770" width="600" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nzc-cF-KK4" id="NDW-Cq-EoW">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="91d-Z8-ck7">
+                                                    <rect key="frame" x="16" y="15" width="568" height="50"/>
+                                                    <color key="backgroundColor" red="0.92156862750000001" green="0.51372549020000002" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="EnQ-3k-Q40"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="25"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="joinTeamButtonPressed:" destination="klm-fS-vU7" eventType="touchUpInside" id="lxR-2Y-yav"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="91d-Z8-ck7" firstAttribute="centerY" secondItem="NDW-Cq-EoW" secondAttribute="centerY" id="1Nh-Fv-28R"/>
+                                                <constraint firstItem="91d-Z8-ck7" firstAttribute="leading" secondItem="NDW-Cq-EoW" secondAttribute="leading" constant="16" id="cHW-Rt-AGJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="91d-Z8-ck7" secondAttribute="trailing" constant="16" id="s26-6P-XFy"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.50329919759999997" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1273,11 +1411,15 @@
                             <outlet property="delegate" destination="klm-fS-vU7" id="6HJ-4b-agw"/>
                         </connections>
                     </tableView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="800"/>
                     <connections>
                         <outlet property="addTeampictureButton" destination="Hof-mz-V8Q" id="pfX-7R-yeE"/>
                         <outlet property="createTeamButton" destination="DJ9-Tc-48u" id="vgZ-bH-y1Q"/>
                         <outlet property="emailTextField" destination="yQA-dC-ByA" id="FO4-Gv-MF6"/>
                         <outlet property="eventSelectionTextfield" destination="hxQ-Wv-YjS" id="Kcq-om-WND"/>
+                        <outlet property="joinTeamButton" destination="91d-Z8-ck7" id="ZQz-BW-s4b"/>
+                        <outlet property="teamInvitationSelectionTextfield" destination="NhG-8U-Si4" id="0Bh-6d-n9I"/>
                         <outlet property="teamNameTextfield" destination="Ktz-90-A0K" id="0li-rk-anh"/>
                         <outlet property="teampictureImageView" destination="qbS-2V-nTB" id="4pT-qp-K4p"/>
                     </connections>

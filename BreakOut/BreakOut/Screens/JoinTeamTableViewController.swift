@@ -25,8 +25,14 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
     @IBOutlet weak var eventSelectionTextfield: UITextField!
     @IBOutlet weak var createTeamButton: UIButton!
     
+    @IBOutlet weak var teamInvitationSelectionTextfield: UITextField!
+    @IBOutlet weak var joinTeamButton: UIButton!
+    
     var eventPicker: UIPickerView! = UIPickerView()
     var eventDataSourceArray: NSArray = NSArray(objects: "Berlin 2016", "München 2016")
+    
+    var invitationPicker: UIPickerView! = UIPickerView()
+    var invitationDataSourceArray: NSArray = NSArray(objects: "Ralle und die Power Ranger", "Fly by Team", "Null oder Null?")
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
     var imagePicker: UIImagePickerController = UIImagePickerController()
@@ -55,8 +61,12 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
         self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.eventSelectionTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("eventselection", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         
+        self.teamInvitationSelectionTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("teaminvitationselection", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        
         // Set localized Button Texts
         self.createTeamButton.setTitle(NSLocalizedString("createTeamButton", comment: ""), forState: UIControlState.Normal)
+ 
+        self.joinTeamButton.setTitle(NSLocalizedString("joinTeamButton", comment: ""), forState: UIControlState.Normal)
         
         self.addTeampictureButton.layer.cornerRadius = self.addTeampictureButton.frame.size.width / 2.0
         
@@ -70,14 +80,37 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
         toolBar.tintColor = Style.mainOrange
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "pickerToolbarDoneButtonPressed")
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "eventPickerToolbarDoneButtonPressed")
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "pickerToolbarCancelButtonPressed")
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "eventPickerToolbarCancelButtonPressed")
         
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.userInteractionEnabled = true
         
         self.eventSelectionTextfield.inputAccessoryView = toolBar
+        
+        self.setupInvitationPicker()
+    }
+    
+    func setupInvitationPicker() {
+        // Set the Delegates for the InvitationPicker and connect Picker & Toolbar with the TextField
+        self.invitationPicker.delegate = self
+        self.invitationPicker.dataSource = self
+        self.teamInvitationSelectionTextfield.inputView = self.invitationPicker
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = Style.mainOrange
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "invitationPickerToolbarDoneButtonPressed")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "invitationPickerToolbarCancelButtonPressed")
+        
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        self.teamInvitationSelectionTextfield.inputAccessoryView = toolBar
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,15 +129,26 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
     }
     
 // MARK: - Picker Toolbar Functions
-    func pickerToolbarDoneButtonPressed() {
+    func eventPickerToolbarDoneButtonPressed() {
         self.eventSelectionTextfield.text = self.eventDataSourceArray[self.eventPicker.selectedRowInComponent(0)] as? String
         self.eventSelectionTextfield.resignFirstResponder()
     }
     
-    func pickerToolbarCancelButtonPressed() {
+    func invitationPickerToolbarDoneButtonPressed() {
+        self.teamInvitationSelectionTextfield.text = self.invitationDataSourceArray[self.invitationPicker.selectedRowInComponent(0)] as? String
+        self.teamInvitationSelectionTextfield.resignFirstResponder()
+    }
+    
+    func eventPickerToolbarCancelButtonPressed() {
         self.eventSelectionTextfield.resignFirstResponder()
         
         self.eventSelectionTextfield.text = ""
+    }
+    
+    func invitationPickerToolbarCancelButtonPressed() {
+        self.teamInvitationSelectionTextfield.resignFirstResponder()
+        
+        self.teamInvitationSelectionTextfield.text = ""
     }
     
 // MARK: - UIPicker DataSource 
@@ -113,15 +157,27 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.eventDataSourceArray.count
+        if pickerView == self.eventPicker {
+            return self.eventDataSourceArray.count
+        }else{
+            return self.invitationDataSourceArray.count
+        }
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.eventDataSourceArray[row] as? String
+        if pickerView == self.eventPicker {
+            return self.eventDataSourceArray[row] as? String
+        }else{
+            return self.invitationDataSourceArray[row] as? String
+        }
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.eventSelectionTextfield.text = self.eventDataSourceArray[row] as? String
+        if pickerView == self.eventPicker {
+            self.eventSelectionTextfield.text = self.eventDataSourceArray[row] as? String
+        }else{
+            self.teamInvitationSelectionTextfield.text = self.invitationDataSourceArray[row] as? String
+        }
     }
     
 // MARK: - Initial Input setup
@@ -188,6 +244,9 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
         self.setupLoadingHUD("loadingJoinTeam")
         self.loadingHUD.show(true)
         //self.startBecomeParticipantRequest()
+    }
+    
+    @IBAction func joinTeamButtonPressed(sender: UIButton) {
     }
     
 // MARK: - Image Picker Delegate
