@@ -9,7 +9,7 @@
 import UIKit
 
 class CurrentUser: NSObject {
-    var userID: Int?
+    var userid: NSInteger?
     var firstname: String?
     var lastname: String?
     var email: String?
@@ -17,13 +17,22 @@ class CurrentUser: NSObject {
     
     static let sharedInstance = CurrentUser()
     
+    override init() {
+        super.init()
+        
+        self.retrieveFromNSUserDefaults()
+    }
+    
+    
+// MARK: - Storing & Retrieving
+    
     func storeInNSUserDefaults() {
         //Write login data in UserDefaults
         let defaults = NSUserDefaults.standardUserDefaults()
         
         let selfDictionary: NSMutableDictionary = NSMutableDictionary()
-        if self.userID != nil {
-            selfDictionary.setValue(self.userID, forKey: "userID")
+        if self.userid != nil {
+            selfDictionary.setObject(self.userid!, forKey: "userid")
         }
         if self.firstname != nil {
             selfDictionary.setValue(self.firstname, forKey: "firstname")
@@ -49,47 +58,29 @@ class CurrentUser: NSObject {
         if defaults.objectForKey("userDictionary") != nil {
             let selfDictionary:NSDictionary = defaults.objectForKey("userDictionary") as! NSDictionary
             self.setAttributesWithJSON(selfDictionary)
+            //self.setValuesForKeysWithDictionary(selfDictionary as! [String : AnyObject])
         }
-    }
-    
-    override init() {
-        super.init()
-        
-        self.retrieveFromNSUserDefaults()
-    }
-    
-    
-    func setAttributesWithJSONString(JSONString: String) {
-        
-        let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-        
-        var jsonDictionary: NSDictionary = NSDictionary()
-        do {
-            jsonDictionary = try NSJSONSerialization.JSONObjectWithData(JSONData!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
-        }catch let error as NSError{
-            print(error.localizedDescription)
-        }
-        
-        self.setAttributesWithJSON(jsonDictionary)
     }
     
     func setAttributesWithJSON(jsonDictionary: NSDictionary) {
-        // Loop
         for (key, value) in jsonDictionary {
             if value.isKindOfClass(NSNull) == false {
                 let keyName = key as! String
                 let keyValue = value
-            
+                
                 // If property exists
-                if (self.respondsToSelector(NSSelectorFromString(keyName))) {
-                    self.setValue(keyValue, forKey: keyName)
+                if keyName == "userid" {
+                    self.userid = keyValue as? NSInteger
+                }else if keyName == "firstname" {
+                    self.firstname = keyValue as? String
+                }else if keyName == "lastname" {
+                    self.lastname = keyValue as? String
+                }else if keyName == "email" {
+                    self.email = keyValue as? String
+                }else if keyName == "hometown" {
+                    self.hometown = keyValue as? String
                 }
             }
         }
-        
-        self.storeInNSUserDefaults()
-        // Or you can do it with using
-        // self.setValuesForKeysWithDictionary(JSONDictionary)
-        // instead of loop method above
     }
 }
