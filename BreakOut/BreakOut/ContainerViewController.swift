@@ -13,7 +13,7 @@ import SlideMenuControllerSwift
 class ContainerViewController: SlideMenuController {
     
     override func awakeFromNib() {
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("AboutBreakOutViewController") {
+        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeScreenViewController") {
             self.mainViewController = controller
         }
         if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileTableViewController") {

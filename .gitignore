@@ -34,3 +34,5 @@ Carthage/Build
 PrivatConstants.swift
 PrivateConstants.swift
 Screencasts
+*.pages
+iOS Developer gesucht.pdf
