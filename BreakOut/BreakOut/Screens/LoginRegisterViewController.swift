@@ -195,12 +195,14 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 
                 let userID = response.valueForKey("id")
                 
-                CurrentUser.sharedInstance.userID = userID as? Int
+                CurrentUser.sharedInstance.userid = userID as? Int
                 CurrentUser.sharedInstance.email = self.emailTextField.text
                 CurrentUser.sharedInstance.storeInNSUserDefaults()
                 
                 // Tracking
                 Flurry.logEvent("/registration/completed_successful")
+                
+                self.loadingHUD.hide(false)
                 
                 // Try to Login with new account
                 self.startLoginRequest()
