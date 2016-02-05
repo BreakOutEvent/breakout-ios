@@ -16,7 +16,7 @@ class ContainerViewController: SlideMenuController {
         if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeScreenViewController") {
             self.mainViewController = controller
         }
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfileTableViewController") {
+        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("SidebarMenuTableViewController") {
             self.leftViewController = controller
         }
         
