@@ -2,6 +2,13 @@
 
 This is the official github project for the _BreakOut_ iOS-App.
 
+[![Platform](http://img.shields.io/badge/platform-ios-blue.svg?style=flat
+)](https://developer.apple.com/iphone/index.action)
+[![Language](http://img.shields.io/badge/language-swift-brightgreen.svg?style=flat
+)](https://developer.apple.com/swift)
+[![License](https://img.shields.io/badge/License-GNU-blue.svg?style=flat
+)](http://www.gnu.org/licenses/)
+
 ## What is BreakOut?
 With BreakOut we challenge you, to travel as far away as possible in 36 hours without spending any money, starting from Munich. During this time each team collects money for the DAFI-program to give refugees the opportunity of higher education.
 
