@@ -63,6 +63,8 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         self.familynameTextfield.text = CurrentUser.sharedInstance.lastname
         
         self.emailTextfield.text = CurrentUser.sharedInstance.email
+        
+        self.profilePictureImageView.image = CurrentUser.sharedInstance.picture
     }
     
 
@@ -73,6 +75,9 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         let choosenImage: UIImage = image
         
         self.profilePictureImageView.image = choosenImage
+        
+        CurrentUser.sharedInstance.picture = choosenImage
+        CurrentUser.sharedInstance.storeInNSUserDefaults()
         
         self.dismissViewControllerAnimated(true, completion: nil)
         
