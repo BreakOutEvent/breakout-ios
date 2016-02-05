@@ -33,7 +33,7 @@ class WelcomeScreenViewController: UIViewController {
 // MARK: - Button Actions
     
     @IBAction func participateButtonPressed(sender: UIButton) {
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeScreenViewController") {
+        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") {
             self.slideMenuController()?.changeMainViewController(controller, close: true)
         }
     }
