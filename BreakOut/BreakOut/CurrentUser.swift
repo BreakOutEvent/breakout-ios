@@ -14,6 +14,7 @@ class CurrentUser: NSObject {
     var lastname: String?
     var email: String?
     var hometown: String?
+    var picture: UIImage?
     
     static let sharedInstance = CurrentUser()
     
@@ -45,6 +46,16 @@ class CurrentUser: NSObject {
         }
         if self.hometown != nil {
             selfDictionary.setValue(self.hometown, forKey: "hometown")
+        }
+        
+        //Store the user image
+        let imageData = UIImageJPEGRepresentation(self.picture!, 1)
+        let relativePath = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
+        let path = self.documentsPathForFileName(relativePath)
+        imageData!.writeToFile(path, atomically: true)
+        
+        if self.picture != nil {
+            selfDictionary.setValue(relativePath, forKey: "picture")
         }
         
         
@@ -79,8 +90,32 @@ class CurrentUser: NSObject {
                     self.email = keyValue as? String
                 }else if keyName == "hometown" {
                     self.hometown = keyValue as? String
+                }else if keyName == "picture" {
+                    let imageFullPath = self.documentsPathForFileName(keyValue as! String)
+                    let userImageData = NSData(contentsOfFile: imageFullPath)
+                    // here is your saved image:
+                    if userImageData != nil {
+                        self.picture = UIImage(data: userImageData!)
+                    }
                 }
             }
         }
+    }
+    
+    func getDocumentsURL() -> NSURL {
+        let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+        return documentsURL
+    }
+    
+    func fileInDocumentsDirectory(filename: String) -> String {
+        
+        let fileURL = getDocumentsURL().URLByAppendingPathComponent(filename)
+        return fileURL.path!
+        
+    }
+    
+    func documentsPathForFileName(name: String) -> String {
+        return fileInDocumentsDirectory(name)
+
     }
 }
