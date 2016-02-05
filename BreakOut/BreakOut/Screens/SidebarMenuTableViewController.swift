@@ -21,10 +21,16 @@ class SidebarMenuTableViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        // Add the circle mask to the userpicture
+        self.userPictureImageView.layer.cornerRadius = self.userPictureImageView.frame.size.width / 2.0
+        self.userPictureImageView.clipsToBounds = true
+        
         // Styling the Button for adding a userpicture if non exists.
         self.addUserpictureButton.backgroundColor = UIColor.whiteColor()
         self.addUserpictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
+        
+        self.fillInputsWithCurrentUserInfo()
         
         if self.userPictureImageView.image == nil {
             self.addUserpictureButton.hidden = false
@@ -38,6 +44,10 @@ class SidebarMenuTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.fillInputsWithCurrentUserInfo()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         // Tracking
         //Flurry.logEvent("/user/profile", withParameters: nil, timed: true)
@@ -46,6 +56,12 @@ class SidebarMenuTableViewController: UITableViewController {
     override func viewDidDisappear(animated: Bool) {
         // Tracking
         //Flurry.endTimedEvent("/user/profile", withParameters: nil)
+    }
+    
+    func fillInputsWithCurrentUserInfo() {
+        self.usernameLabel.text = CurrentUser.sharedInstance.username()
+        
+        self.userPictureImageView.image = CurrentUser.sharedInstance.picture
     }
     
     

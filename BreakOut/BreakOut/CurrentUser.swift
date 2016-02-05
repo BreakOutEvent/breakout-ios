@@ -102,6 +102,18 @@ class CurrentUser: NSObject {
         }
     }
     
+    func username() -> String {
+        var username = ""
+        if self.firstname != nil {
+            username.appendContentsOf(self.firstname!)
+        }
+        if self.lastname != nil {
+            username.appendContentsOf(self.lastname!)
+        }
+        
+        return username
+    }
+    
     func getDocumentsURL() -> NSURL {
         let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
         return documentsURL
