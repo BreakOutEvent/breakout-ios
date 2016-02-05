@@ -240,13 +240,15 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
     }
     
     @IBAction func createTeamButtonPressed(sender: UIButton) {
-        // Send the participation request to the backend
-        self.setupLoadingHUD("loadingJoinTeam")
+        // Send the create team and send invitation request to the backend
+        self.setupLoadingHUD("loadingCreateTeam")
         self.loadingHUD.show(true)
-        //self.startBecomeParticipantRequest()
+        self.startCreateTeamRequest()
     }
     
     @IBAction func joinTeamButtonPressed(sender: UIButton) {
+        self.setupLoadingHUD("loadingJoinTeam")
+        self.loadingHUD.show(true)
     }
     
 // MARK: - Image Picker Delegate
@@ -284,7 +286,7 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
     }
     
     
-    // MARK: - API Requests
+// MARK: - API Requests
     
     /**
     ???
@@ -293,12 +295,12 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
     
     :returns: No return value
     */
-    /*func startBecomeParticipantRequest() {
+    func startCreateTeamRequest() {
         self.setAllInputsToEnabled(false)
         
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
-        let participantParams: NSDictionary = [
+        /*let participantParams: NSDictionary = [
             "emergencynumber": self.emergencyNumberTextfield.text!,
             "hometown": self.hometownTextfield.text!,
             "phonenumber": self.phonenumberTextfield.text!,
@@ -348,7 +350,6 @@ class JoinTeamTableViewController: UITableViewController, UITextFieldDelegate, U
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)
-        }
-    }*/
-    
+        }*/
+    }
 }

@@ -1,0 +1,52 @@
+//
+//  WelcomeScreenViewController.swift
+//  BreakOut
+//
+//  Created by Leo Käßner on 05.02.16.
+//  Copyright © 2016 BreakOut. All rights reserved.
+//
+
+import UIKit
+
+class WelcomeScreenViewController: UIViewController {
+
+    @IBOutlet weak var headlineLabel: UILabel!
+    @IBOutlet weak var descriptionTextLabel: UILabel!
+    @IBOutlet weak var participateButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        
+        self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
+        self.descriptionTextLabel.text = NSLocalizedString("welcomeScreenDescriptionText", comment: "")
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+// MARK: - Button Actions
+    
+    @IBAction func participateButtonPressed(sender: UIButton) {
+        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeScreenViewController") {
+            self.slideMenuController()?.changeMainViewController(controller, close: true)
+        }
+    }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

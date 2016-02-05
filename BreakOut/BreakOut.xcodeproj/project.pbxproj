@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */; };
 		2646AB441C56BE680082CA71 /* JoinTeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2646AB431C56BE680082CA71 /* JoinTeamTableViewController.swift */; };
 		265DEB641BAC48B90076F222 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 265DEB631BAC48B90076F222 /* Podfile */; };
+		265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */; };
 		2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */; };
 		2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5811B7E4BB4000CF85A /* FirstViewController.swift */; };
 		2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5831B7E4BB4000CF85A /* AboutBreakOutViewController.swift */; };
@@ -45,9 +47,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamByInvitationTableViewController.swift; path = Screens/JoinTeamByInvitationTableViewController.swift; sourceTree = "<group>"; };
 		2646AB431C56BE680082CA71 /* JoinTeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamTableViewController.swift; path = Screens/JoinTeamTableViewController.swift; sourceTree = "<group>"; };
 		265DEB631BAC48B90076F222 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		265DEB671BAC59190076F222 /* bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bridging-header.h"; sourceTree = "<group>"; };
+		265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeScreenViewController.swift; path = Screens/WelcomeScreenViewController.swift; sourceTree = "<group>"; };
 		2678A57A1B7E4BB4000CF85A /* BreakOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2678A57E1B7E4BB4000CF85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -259,6 +263,8 @@
 				26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */,
 				26985F141C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift */,
 				2646AB431C56BE680082CA71 /* JoinTeamTableViewController.swift */,
+				263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */,
+				265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -462,10 +468,12 @@
 				26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */,
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
 				26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */,
+				265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
+				263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */,
 				26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
