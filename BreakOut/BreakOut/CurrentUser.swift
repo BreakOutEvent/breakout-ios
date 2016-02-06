@@ -13,8 +13,14 @@ class CurrentUser: NSObject {
     var firstname: String?
     var lastname: String?
     var email: String?
-    var hometown: String?
     var picture: UIImage?
+    
+    var gender: String? // "male"=0 or "female"=1
+    var birthday: NSDate?
+    var emergencyNumber: String?
+    var phoneNumber: String?
+    var shirtSize: String?
+    var hometown: String?
     
     static let sharedInstance = CurrentUser()
     
@@ -43,6 +49,23 @@ class CurrentUser: NSObject {
         }
         if self.email != nil {
             selfDictionary.setValue(self.email, forKey: "email")
+        }
+        
+        //Event Infos
+        if self.gender != nil {
+            selfDictionary.setValue(self.gender, forKey: "gender")
+        }
+        if self.birthday != nil {
+            selfDictionary.setValue(self.birthday, forKey: "birthday")
+        }
+        if self.phoneNumber != nil {
+            selfDictionary.setValue(self.phoneNumber, forKey: "phoneNumber")
+        }
+        if self.emergencyNumber != nil {
+            selfDictionary.setValue(self.emergencyNumber, forKey: "emergencyNumber")
+        }
+        if self.shirtSize != nil {
+            selfDictionary.setValue(self.shirtSize, forKey: "shirtSize")
         }
         if self.hometown != nil {
             selfDictionary.setValue(self.hometown, forKey: "hometown")
@@ -90,6 +113,16 @@ class CurrentUser: NSObject {
                     self.email = keyValue as? String
                 }else if keyName == "hometown" {
                     self.hometown = keyValue as? String
+                }else if keyName == "gender" {
+                    self.gender = keyValue as? String
+                }else if keyName == "birthday" {
+                    self.birthday = keyValue as? NSDate
+                }else if keyName == "shirtSize" {
+                    self.shirtSize = keyValue as? String
+                }else if keyName == "emergencyNumber" {
+                    self.emergencyNumber = keyValue as? String
+                }else if keyName == "phoneNumber" {
+                    self.phoneNumber = keyValue as? String
                 }else if keyName == "picture" {
                     let imageFullPath = self.documentsPathForFileName(keyValue as! String)
                     let userImageData = NSData(contentsOfFile: imageFullPath)
@@ -102,6 +135,8 @@ class CurrentUser: NSObject {
         }
     }
     
+// MARK: - Return Value Helpers
+    
     func username() -> String {
         var username = ""
         if self.firstname != nil {
@@ -113,6 +148,19 @@ class CurrentUser: NSObject {
         
         return username
     }
+    
+    func genderAsInt() -> Int {
+        if self.gender == "male" {
+            return 0
+        }else if self.gender == "female"{
+            return 1
+        }else{
+            return -1
+        }
+    }
+    
+
+// MARK: - Image Storing Helpers
     
     func getDocumentsURL() -> NSURL {
         let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
