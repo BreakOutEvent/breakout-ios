@@ -37,6 +37,7 @@ PODS:
   - SDWebImage/Core (3.7.3)
   - SlideMenuControllerSwift (2.0.5)
   - SpinKit (1.2.0)
+  - SwiftDate (3.0.1)
 
 DEPENDENCIES:
   - AFNetworking
@@ -53,6 +54,7 @@ DEPENDENCIES:
   - SDWebImage (~> 3.7)
   - SlideMenuControllerSwift
   - SpinKit (~> 1.2.0)
+  - SwiftDate (~> 3.0.1)
 
 EXTERNAL SOURCES:
   AFOAuth2Manager:
@@ -83,5 +85,6 @@ SPEC CHECKSUMS:
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SlideMenuControllerSwift: 9dcae36265e14c4f42e729f212463beb60d2cf96
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
+  SwiftDate: 0ffc7cdc4e4ddffe44cb9f4ee378e4d68eaba6e7
 
 COCOAPODS: 0.39.0
