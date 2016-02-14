@@ -38,6 +38,9 @@ class WelcomeScreenViewController: UIViewController {
         }
     }
     
+    @IBAction func menuButtonPressed(sender: UIButton) {
+        self.slideMenuController()?.toggleLeft()
+    }
 
     /*
     // MARK: - Navigation
