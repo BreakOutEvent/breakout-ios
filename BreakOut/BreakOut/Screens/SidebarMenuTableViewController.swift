@@ -71,7 +71,10 @@ class SidebarMenuTableViewController: UITableViewController {
         
         if let slideMenuController = self.slideMenuController() {
             let controller = self.storyboard?.instantiateViewControllerWithIdentifier(cell.reuseIdentifier!)
-            slideMenuController.changeMainViewController(controller!, close: true)
+            
+            let navigationController = UINavigationController(rootViewController: controller!)
+            
+            slideMenuController.changeMainViewController(navigationController, close: true)
             
             if cell.reuseIdentifier == "InternalWebViewController" {
                 let internalWebViewController = controller as! InternalWebViewController
