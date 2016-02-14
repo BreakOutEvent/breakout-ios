@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Flurry_iOS_SDK
 
 class WelcomeScreenViewController: UIViewController {
 
@@ -21,6 +22,16 @@ class WelcomeScreenViewController: UIViewController {
         
         self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
         self.descriptionTextLabel.text = NSLocalizedString("welcomeScreenDescriptionText", comment: "")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Tracking
+        Flurry.logEvent("/welcomeScreen", timed: true)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        // Tracking
+        Flurry.endTimedEvent("/welcomeScreen", withParameters: nil)
     }
 
     override func didReceiveMemoryWarning() {
