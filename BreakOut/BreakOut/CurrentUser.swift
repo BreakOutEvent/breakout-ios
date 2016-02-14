@@ -72,12 +72,12 @@ class CurrentUser: NSObject {
         }
         
         //Store the user image
-        let imageData = UIImageJPEGRepresentation(self.picture!, 1)
-        let relativePath = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
-        let path = self.documentsPathForFileName(relativePath)
-        imageData!.writeToFile(path, atomically: true)
-        
         if self.picture != nil {
+            let imageData = UIImageJPEGRepresentation(self.picture!, 1)
+            let relativePath = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
+            let path = self.documentsPathForFileName(relativePath)
+            imageData!.writeToFile(path, atomically: true)
+        
             selfDictionary.setValue(relativePath, forKey: "picture")
         }
         
