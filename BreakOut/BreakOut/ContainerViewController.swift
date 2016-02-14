@@ -24,5 +24,21 @@ class ContainerViewController: SlideMenuController {
         
         super.awakeFromNib()
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Check UserDefaults for already logged in user
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if defaults.objectForKey("userDictionary") == nil {
+            self.presentLoginScreen()
+        }
+    }
+    
+// MARK: - Helper Functions
+    func presentLoginScreen() {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewControllerWithIdentifier("LoginRegisterViewController") as! LoginRegisterViewController
+        
+        self.presentViewController(loginRegisterViewController, animated: true, completion: nil)
+    }
 
 }
