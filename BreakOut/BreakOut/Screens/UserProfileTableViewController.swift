@@ -9,7 +9,9 @@
 import UIKit
 import Flurry_iOS_SDK
 
-class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+import SwiftDate
+
+class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UINavigationBarDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
     @IBOutlet weak var participateButton: UIButton!
     @IBOutlet weak var firstnameTextfield: UITextField!
@@ -20,21 +22,55 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     @IBOutlet weak var emailTextfield: UITextField!
     @IBOutlet weak var newPasswordTextfield: UITextField!
     
+    @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var birthdayTextfield: UITextField!
+    
+    @IBOutlet weak var shirtSizeTextfield: UITextField!
+    var shirtSizePicker: UIPickerView! = UIPickerView()
+    var shirtSizeDataSourceArray: NSArray = NSArray(objects: "S", "M", "L")
+    
+    @IBOutlet weak var hometownTextfield: UITextField!
+    @IBOutlet weak var phonenumberTextfield: UITextField!
+    @IBOutlet weak var emergencyNumberTextfield: UITextField!
+    
     var imagePicker: UIImagePickerController = UIImagePickerController()
 
 // MARK: - Screen Actions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // Style the navigation bar
+        self.navigationController!.navigationBar.translucent = false
+        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
+        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        
+        self.title = NSLocalizedString("userProfileTitle", comment: "")
+        
+        // Create save button for navigation item
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: "saveChanges")
+        navigationItem.rightBarButtonItem = rightButton
+        
+        // Create menu buttons for navigation item
+        let barButtonImage = UIImage(named: "menu_Icon_white")
+        if barButtonImage != nil {
+            self.addLeftBarButtonWithImage(barButtonImage!)
+        }
         
         // Add the circle mask to the userpicture
         self.profilePictureImageView.layer.cornerRadius = self.profilePictureImageView.frame.size.width / 2.0
         self.profilePictureImageView.clipsToBounds = true
         
+        // Set the delegates
         self.imagePicker.delegate = self
         
+        // Fill the inputs with stored data
         self.fillInputsWithCurrentUserInfo()
+        
+        // Setup the textfields with different inputtypes instead of keyboard
+        self.setupShirtSizePicker()
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,6 +99,12 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         self.familynameTextfield.text = CurrentUser.sharedInstance.lastname
         
         self.emailTextfield.text = CurrentUser.sharedInstance.email
+        
+        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
+        //self.birthdayTextfield.text = CurrentUser.sharedInstance.birthday?.toString()
+        self.shirtSizeTextfield.text = CurrentUser.sharedInstance.shirtSize
+        //self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
+        //self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
         
         self.profilePictureImageView.image = CurrentUser.sharedInstance.picture
     }
@@ -98,7 +140,66 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         self.presentViewController(loginRegisterViewController, animated: true, completion: nil)
     }
     
+    func inputFieldsChanged() -> Bool {
+        // TODO: Do we really need such a function?
+        return true
+    }
+    
+    func setupShirtSizePicker() {
+        // Set the Delegates for the InvitationPicker and connect Picker & Toolbar with the TextField
+        self.shirtSizePicker.delegate = self
+        self.shirtSizePicker.dataSource = self
+        self.shirtSizeTextfield.inputView = self.shirtSizePicker
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = Style.mainOrange
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarDoneButtonPressed")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarCancelButtonPressed")
+        
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        self.shirtSizeTextfield.inputAccessoryView = toolBar
+    }
+    
+// MARK: - Picker Toolbar Functions
+    func shirtSizePickerToolbarDoneButtonPressed() {
+        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[self.shirtSizePicker.selectedRowInComponent(0)] as? String
+        self.shirtSizeTextfield.resignFirstResponder()
+    }
+    
+    func shirtSizePickerToolbarCancelButtonPressed() {
+        self.shirtSizeTextfield.resignFirstResponder()
+        
+        self.shirtSizeTextfield.text = ""
+    }
+    
+// MARK: - UIPicker DataSource
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.shirtSizeDataSourceArray.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.shirtSizeDataSourceArray[row] as? String
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[row] as? String
+    }
+    
 // MARK: - Button Actions
+    
+    func saveChanges() {
+        
+    }
     
     @IBAction func profilePictureButtonPressed(sender: UIButton) {
         let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.ActionSheet)
