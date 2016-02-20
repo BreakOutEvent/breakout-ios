@@ -198,7 +198,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
 // MARK: - Helper Functions
     func setupLoadingHUD(localizedKey: String) {
-        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.StyleChasingDots, color: UIColor.whiteColor(), spinnerSize: 37.0)
+        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.Style9CubeGrid, color: UIColor.whiteColor(), spinnerSize: 37.0)
         self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         self.loadingHUD.square = true
         self.loadingHUD.mode = MBProgressHUDMode.CustomView
