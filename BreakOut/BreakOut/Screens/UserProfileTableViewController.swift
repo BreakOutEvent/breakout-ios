@@ -24,6 +24,7 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
     @IBOutlet weak var birthdayTextfield: UITextField!
+    var birthdayDatePicker: UIDatePicker! = UIDatePicker()
     
     @IBOutlet weak var shirtSizeTextfield: UITextField!
     var shirtSizePicker: UIPickerView! = UIPickerView()
@@ -71,6 +72,7 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         
         // Setup the textfields with different inputtypes instead of keyboard
         self.setupShirtSizePicker()
+        self.setupBirthdayDatePicker()
     }
     
     override func didReceiveMemoryWarning() {
@@ -166,6 +168,24 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         self.shirtSizeTextfield.inputAccessoryView = toolBar
     }
     
+    func setupBirthdayDatePicker() {
+        self.birthdayDatePicker.datePickerMode = UIDatePickerMode.Date
+        self.birthdayTextfield.inputView = self.birthdayDatePicker
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = Style.mainOrange
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "birthdayDatePickerToolbarDoneButtonPressed")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        self.birthdayTextfield.inputAccessoryView = toolBar
+    }
+    
 // MARK: - Picker Toolbar Functions
     func shirtSizePickerToolbarDoneButtonPressed() {
         self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[self.shirtSizePicker.selectedRowInComponent(0)] as? String
@@ -176,6 +196,11 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         self.shirtSizeTextfield.resignFirstResponder()
         
         self.shirtSizeTextfield.text = ""
+    }
+    
+    func birthdayDatePickerToolbarDoneButtonPressed() {
+        self.birthdayTextfield.text = self.birthdayDatePicker.date.description
+        self.birthdayTextfield.resignFirstResponder()
     }
     
 // MARK: - UIPicker DataSource
