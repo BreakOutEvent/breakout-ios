@@ -172,7 +172,47 @@ class BOSynchronizeController: NSObject {
         self.tryUploadChatMessanges()*/
     }
     
-// MARK: Upload Posts
+    
+// MARK: - Postings
+// MARK: Download Postings
+    
+    func downloadAllPosts() {
+        // New request manager with our backend URL as baseURL
+        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+        
+        // Sets the serialization of parameters to JSON format
+        requestManager.requestSerializer = AFJSONRequestSerializer()
+        
+        /*requestManager.GET("post/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+                //TODO: handle successful retrival of all posts
+            #if DEBUG
+                print("----------------------------------------------")
+                print("Download all postings Response: ")
+                print(response)
+                print("----------------------------------------------")
+            #endif
+            
+            let arrayOfPosts: NSArray = response.valueForKey("posts")
+            for newPostJson in arrayOfPosts {
+                let newPostDictionary:NSDictionary = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
+                let newPost:BOPost = BOPost.MR_importFromObject(newPostDictionary)
+                print("New Post generated: "+newPost.name!)
+            }
+            
+            
+                // Tracking
+                Flurry.logEvent("/posting/download/completed_successful")
+            })
+            { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                //TODO: handle errors
+                print(error)
+                
+                // Tracking
+                Flurry.logEvent("/posting/upload/completed_error")
+        }*/
+    }
+    
+// MARK: Upload Postings
     
     func tryUploadPosts() {
         // Retrieve Array of all posts which are flagged as offline with need to upload
