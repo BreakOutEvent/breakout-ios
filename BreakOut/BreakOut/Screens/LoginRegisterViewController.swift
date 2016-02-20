@@ -17,6 +17,8 @@ import AFOAuth2Manager
 import MBProgressHUD
 import SpinKit
 
+import JLToast
+
 
 class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
@@ -35,8 +37,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var formToLogoConstraint: NSLayoutConstraint!
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
-// MARK: - Screen Actions
-    
+
+// MARK: - Screen Actions    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -162,7 +164,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
 // MARK: - Helper Functions
     func setupLoadingHUD(localizedKey: String) {
-        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.StyleChasingDots, color: UIColor.whiteColor(), spinnerSize: 37.0)
+        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.Style9CubeGrid, color: UIColor.whiteColor(), spinnerSize: 37.0)
         self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         self.loadingHUD.square = true
         self.loadingHUD.mode = MBProgressHUDMode.CustomView
@@ -200,6 +202,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
                 print("Registration Response: ")
                 print(response)
+                BOToast(text: "Registration response was successful")
                 
                 let userID = response.valueForKey("id")
                 
@@ -217,6 +220,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                 print("Registration Error: ")
                 print(error)
+                BOToast(text: "ERROR: During Registration")
                 
                 // TODO: Show detailed errors to the user
                 
@@ -244,6 +248,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         oAuthManager.authenticateUsingOAuthWithURLString("/oauth/token", username: self.emailTextField.text, password: self.passwordTextField.text, scope: "read write",
             success: { (credentials) -> Void in
+                BOToast(text: "Login was successful.")
                 print("LOGIN: OAuth Code: "+credentials.accessToken)
                 
                 //Write login data in UserDefaults
@@ -265,6 +270,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             }) { (error: NSError!) -> Void in
                 print("LOGIN: Error: ")
                 print(error)
+                BOToast(text: "ERROR: During Login")
                 
                 self.enableInputs(true)
                 

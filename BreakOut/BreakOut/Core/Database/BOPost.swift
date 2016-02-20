@@ -24,7 +24,7 @@ class BOPost: NSManagedObject {
     @NSManaged var flagNeedsUpload: Bool
     
     class func create(uuid: Int, text: NSString) {
-        let res = BOPost.MR_createEntity() as BOPost
+        let res = BOPost.MR_createEntity()! as BOPost
         
         res.uuid = uuid as NSInteger
         res.text = text as String
@@ -34,7 +34,7 @@ class BOPost: NSManagedObject {
     }
     
     class func createWithDictionary(dict: NSDictionary) -> BOPost {
-        let res = BOPost.MR_createEntity() as BOPost
+        let res = BOPost.MR_createEntity()! as BOPost
         
         res.uuid = dict.valueForKey("id") as! NSInteger
         res.text = dict.valueForKey("text") as? String

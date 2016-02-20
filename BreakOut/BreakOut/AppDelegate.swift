@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //Instabug Setup
-        Instabug.startWithToken(PrivateConstants.instabugAPIToken, captureSource: IBGCaptureSourceUIKit, invocationEvent: IBGInvocationEventTwoFingersSwipeLeft)
+        Instabug.startWithToken(PrivateConstants.instabugAPIToken, invocationEvent: IBGInvocationEventTwoFingersSwipeLeft)
         
         //Fabric Setup
         //Fabric.with([Crashlytics.self()])
@@ -51,6 +51,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         BONetworkerTest().postObjectFromJSON()
         BOSynchronizeController.sharedInstance.checkForInternetReachability()
+        
+        //TESTING persistence of not yet loaded postings IDs
+        //BOSynchronizeController.sharedInstance.downloadAllPostings()
+        //BOSynchronizeController.sharedInstance.downloadNotYetLoadedPostings()
+        BOSynchronizeController.sharedInstance.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
+        
+        FeatureFlagManager.sharedInstance.downloadCurrentFeatureFlagSetup()
         
         return true
     }

@@ -156,7 +156,7 @@ class BOSynchronizeController: NSObject {
 
     
     func testPostUploads() {
-        let newPost: BOPost = BOPost.MR_createEntity()
+        let newPost: BOPost = BOPost.MR_createEntity()!
         
         newPost.flagNeedsUpload = true
         newPost.text = "test post"
@@ -182,6 +182,7 @@ class BOSynchronizeController: NSObject {
     
     func downloadArrayOfNewPostingIDsSinceLastKnownPostingID() {
         if let lastKnownPostingID: Int = Pantry.unpack("lastKnownPostingID") {
+            BOToast(text: String(format: "Download Array if new posting ids since: %i", lastKnownPostingID))
             self.downloadArrayOfNewPostingIDsSince(lastKnownPostingID)
         }else{
             self.downloadArrayOfNewPostingIDsSince(0)
@@ -251,7 +252,7 @@ class BOSynchronizeController: NSObject {
                     self.removeIDsFromNotYetLoadedPostingsIDs(arrayOfIDsToLoad)
                     
                     // Tracking
-                    //Flurry.logEvent("/posting/upload/completed_successful")
+                    Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
                 })
                 { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                     print("ERROR: While DownloadNotYetLoadedPostings")
@@ -260,7 +261,7 @@ class BOSynchronizeController: NSObject {
                     // TODO: Show detailed errors to the user
                     
                     // Tracking
-                    //Flurry.logEvent("/posting/upload/completed_error")
+                    Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
             }
         }
     }
@@ -268,13 +269,13 @@ class BOSynchronizeController: NSObject {
     func downloadAllPostings() {
         
         //TESTING
-        if let restoredArrayOfNotYetDownloadedPostings: [Int] = Pantry.unpack("notYetLoadedPostings")! {
+        /*if let restoredArrayOfNotYetDownloadedPostings: [Int] = Pantry.unpack("notYetLoadedPostings")! {
             self.arrayOfNotYetDownloadedPostings = restoredArrayOfNotYetDownloadedPostings
             self.arrayOfNotYetDownloadedPostings = self.arrayOfNotYetDownloadedPostings + [3,4,5]
             Pantry.pack(self.arrayOfNotYetDownloadedPostings, key: "notYetLoadedPostings")
         }else {
             Pantry.pack([0], key: "notYetLoadedPostings")
-        }
+        }*/
         
         // New request manager with our backend URL as baseURL
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
@@ -282,7 +283,7 @@ class BOSynchronizeController: NSObject {
         // Sets the serialization of parameters to JSON format
         requestManager.requestSerializer = AFJSONRequestSerializer()
         
-        /*requestManager.GET("post/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+        requestManager.GET("posting/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
                 //TODO: handle successful retrival of all posts
             #if DEBUG
                 print("----------------------------------------------")
@@ -291,24 +292,25 @@ class BOSynchronizeController: NSObject {
                 print("----------------------------------------------")
             #endif
             
-            let arrayOfPosts: NSArray = response.valueForKey("posts")
-            for newPostJson in arrayOfPosts {
-                let newPostDictionary:NSDictionary = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
-                let newPost:BOPost = BOPost.MR_importFromObject(newPostDictionary)
-                print("New Post generated: "+newPost.name!)
+            var numberOfAddedPosts: Int = 0
+            // response is an Array of Posting Objects
+            for newPosting: NSDictionary in response as! Array {
+                let newPost: BOPost = BOPost.createWithDictionary(newPosting)
+                //newPost.printToLog()
+                numberOfAddedPosts++
             }
-            
+            BOToast(text: String(format: "Downloading all postings was successful (%i)", numberOfAddedPosts))
             
                 // Tracking
-                Flurry.logEvent("/posting/download/completed_successful")
+                Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
             })
             { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
                 //TODO: handle errors
                 print(error)
                 
                 // Tracking
-                Flurry.logEvent("/posting/upload/completed_error")
-        }*/
+                Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+        }
     }
     
 // MARK: Upload Postings
@@ -334,7 +336,18 @@ class BOSynchronizeController: NSObject {
             self.arrayOfNotYetDownloadedPostings = restoredArrayOfNotYetDownloadedPostings
             self.arrayOfNotYetDownloadedPostings = self.arrayOfNotYetDownloadedPostings + postingIDs
             Pantry.pack(self.arrayOfNotYetDownloadedPostings, key: "notYetLoadedPostings")
-            let maxPostID: Int = self.arrayOfNotYetDownloadedPostings.maxElement()!
+
+            var maxPostID: Int = 0
+            
+            if self.arrayOfNotYetDownloadedPostings.count > 0 {
+                if let restoredLastKnownPostingID: Int = Pantry.unpack("") {
+                    if restoredLastKnownPostingID < self.arrayOfNotYetDownloadedPostings.maxElement()! {
+                        maxPostID = self.arrayOfNotYetDownloadedPostings.maxElement()!
+                    }else{
+                        maxPostID = restoredLastKnownPostingID
+                    }
+                }
+            }
             Pantry.pack(maxPostID, key: "lastKnownPostingID")
             print("Stored the maximum PostID (", maxPostID, ")")
         }else {
