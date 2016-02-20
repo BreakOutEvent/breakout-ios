@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */; };
 		260121421C78F6F20041EAA8 /* BOToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121411C78F6F20041EAA8 /* BOToast.swift */; };
+		260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121431C78FD6C0041EAA8 /* Extensions.swift */; };
+		260121461C78FE650041EAA8 /* BOImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121451C78FE650041EAA8 /* BOImageView.swift */; };
 		263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */; };
 		2646AB441C56BE680082CA71 /* JoinTeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2646AB431C56BE680082CA71 /* JoinTeamTableViewController.swift */; };
 		2649F80B1C652AF4005AA763 /* TeamProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649F80A1C652AF4005AA763 /* TeamProfileViewController.swift */; };
@@ -55,6 +57,8 @@
 /* Begin PBXFileReference section */
 		2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeatureFlagManager.swift; path = Core/FeatureFlagManager.swift; sourceTree = "<group>"; };
 		260121411C78F6F20041EAA8 /* BOToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOToast.swift; path = Core/BOToast.swift; sourceTree = "<group>"; };
+		260121431C78FD6C0041EAA8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Core/Extensions.swift; sourceTree = "<group>"; };
+		260121451C78FE650041EAA8 /* BOImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImageView.swift; path = Core/BOImageView.swift; sourceTree = "<group>"; };
 		263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamByInvitationTableViewController.swift; path = Screens/JoinTeamByInvitationTableViewController.swift; sourceTree = "<group>"; };
 		2646AB431C56BE680082CA71 /* JoinTeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamTableViewController.swift; path = Screens/JoinTeamTableViewController.swift; sourceTree = "<group>"; };
 		2649F80A1C652AF4005AA763 /* TeamProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamProfileViewController.swift; path = Screens/Teams/TeamProfileViewController.swift; sourceTree = "<group>"; };
@@ -266,6 +270,8 @@
 				26985F2C1C4301A600C5FA0C /* CurrentUser.swift */,
 				2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */,
 				260121411C78F6F20041EAA8 /* BOToast.swift */,
+				260121431C78FD6C0041EAA8 /* Extensions.swift */,
+				260121451C78FE650041EAA8 /* BOImageView.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -492,6 +498,7 @@
 				2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */,
 				26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */,
 				260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */,
+				260121461C78FE650041EAA8 /* BOImageView.swift in Sources */,
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
 				2649F80B1C652AF4005AA763 /* TeamProfileViewController.swift in Sources */,
 				26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */,
@@ -499,6 +506,7 @@
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */,
+				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */,
 				263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */,
