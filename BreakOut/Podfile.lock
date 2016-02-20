@@ -44,17 +44,17 @@ PODS:
   - SwiftDate (3.0.2)
 
 DEPENDENCIES:
-  - AFNetworking
+  - AFNetworking (~> 2.6.3)
   - AFOAuth2Manager (from `https://github.com/AFNetworking/AFOAuth2Manager`)
   - Crashlytics (~> 3.5.0)
-  - Fabric
-  - Flurry-iOS-SDK/FlurrySDK
-  - Instabug
+  - Fabric (~> 1.6.6)
+  - Flurry-iOS-SDK/FlurrySDK (~> 7.5.0)
+  - Instabug (~> 5.1.0)
   - JLToast (~> 1.3)
   - LECropPictureViewController (~> 0.1.2)
-  - MagicalRecord
+  - MagicalRecord (~> 2.3.2)
   - MBProgressHUD
-  - netfox
+  - netfox (~> 1.7.2)
   - Pantry (~> 0.2.1)
   - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`)
   - SDWebImage (~> 3.7)
