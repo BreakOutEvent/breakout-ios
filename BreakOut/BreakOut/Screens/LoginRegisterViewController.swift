@@ -272,6 +272,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 print(error)
                 BOToast(text: "ERROR: During Login")
                 
+                self.loadingHUD.hide(true)
                 self.enableInputs(true)
                 
                 // Tracking
