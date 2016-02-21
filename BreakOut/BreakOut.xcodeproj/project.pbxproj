@@ -133,6 +133,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		260121491C79039E0041EAA8 /* Extensions and Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				260121431C78FD6C0041EAA8 /* Extensions.swift */,
+				260121451C78FE650041EAA8 /* BOImageView.swift */,
+				260121471C79008E0041EAA8 /* BOButton.swift */,
+			);
+			name = "Extensions and Subclasses";
+			sourceTree = "<group>";
+		};
 		2678A5711B7E4BB4000CF85A = {
 			isa = PBXGroup;
 			children = (
@@ -272,9 +282,7 @@
 				26985F2C1C4301A600C5FA0C /* CurrentUser.swift */,
 				2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */,
 				260121411C78F6F20041EAA8 /* BOToast.swift */,
-				260121431C78FD6C0041EAA8 /* Extensions.swift */,
-				260121451C78FE650041EAA8 /* BOImageView.swift */,
-				260121471C79008E0041EAA8 /* BOButton.swift */,
+				260121491C79039E0041EAA8 /* Extensions and Subclasses */,
 			);
 			name = Core;
 			sourceTree = "<group>";

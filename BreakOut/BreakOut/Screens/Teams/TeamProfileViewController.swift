@@ -10,7 +10,10 @@ import UIKit
 
 class TeamProfileViewController: UIViewController {
 
+    @IBOutlet weak var subMenuPostingsButton: UIButton!
+    @IBOutlet weak var subMenuMapButton: UIButton!
     @IBOutlet weak var subMenuView: UIView!
+    var subMenuSelectionBarView: UIView = UIView()
     @IBOutlet weak var postingsTableViewControllerContainer: UIView!
     
     override func viewDidLoad() {
@@ -39,6 +42,18 @@ class TeamProfileViewController: UIViewController {
         }
         
         self.navigationController?.navigationBar.alpha = 0.0
+        
+        self.subMenuSelectionBarView = UIView()
+        self.subMenuSelectionBarView.frame.origin.x = 0.0
+        self.subMenuSelectionBarView.frame.origin.y = self.subMenuPostingsButton.frame.size.height-2.0
+        self.subMenuSelectionBarView.frame.size.height = 2.0
+        self.subMenuSelectionBarView.backgroundColor = Style.mainOrange
+        self.subMenuView.addSubview(self.subMenuSelectionBarView)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        self.animateSubMenuSelectionBarViewToButton(self.subMenuPostingsButton)
+        self.subMenuPostingsButton.selected = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,7 +86,34 @@ class TeamProfileViewController: UIViewController {
                 self.subMenuView.frame.origin.y = (self.navigationController?.navigationBar.frame.size.height)!
         }
     }
+    
+// MARK: - SubMenu Button Functions
+    
+    @IBAction func subMenuPostingsButtonPressed(sender: UIButton) {
+        self.deselectAllSubMenuButtons()
+        sender.selected = true
+        self.animateSubMenuSelectionBarViewToButton(sender)
+    }
+    
+    @IBAction func subMenuMapButtonPressed(sender: UIButton) {
+        self.deselectAllSubMenuButtons()
+        sender.selected = true
+        self.animateSubMenuSelectionBarViewToButton(sender)
+    }
+    
+    func deselectAllSubMenuButtons() {
+        self.subMenuPostingsButton.selected = false
+        self.subMenuMapButton.selected = false
+    }
 
+    func animateSubMenuSelectionBarViewToButton(button: UIButton) {
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.subMenuSelectionBarView.frame.origin.x = button.frame.origin.x
+            self.subMenuSelectionBarView.frame.size.width = button.frame.size.width
+            }) { (finished: Bool) -> Void in
+                //
+        }
+    }
 // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
