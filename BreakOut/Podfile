@@ -6,12 +6,12 @@ target 'BreakOut' do
 
 pod 'Instabug', '~> 5.1.0'
 pod 'Fabric', '~> 1.6.6'
-pod 'Crashlytics', '~> 3.5.0'
+pod 'Crashlytics', '~> 3.7.0'
 
 # Flurry -> App Analytics (Funnel, ...)
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.4'
-pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.0'
+pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.1'
 
 # Database
 pod 'MagicalRecord', '~> 2.3.2'
@@ -23,8 +23,8 @@ pod 'AFOAuth2Manager', git: 'https://github.com/AFNetworking/AFOAuth2Manager'
 
 # UI
 pod 'SpinKit', '~>1.2.0'
-pod 'MBProgressHUD'
-pod 'SlideMenuControllerSwift'
+pod 'MBProgressHUD', '~> 0.9.2'
+pod 'SlideMenuControllerSwift', '~> 2.0.5'
 pod 'LECropPictureViewController', '~> 0.1.2'
 pod 'SwiftDate', '~> 3.0.1'
 
