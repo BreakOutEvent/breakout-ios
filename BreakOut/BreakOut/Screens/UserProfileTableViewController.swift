@@ -73,6 +73,9 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         // Setup the textfields with different inputtypes instead of keyboard
         self.setupShirtSizePicker()
         self.setupBirthdayDatePicker()
+        
+        // Add loadingBar to navigationBar
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -223,7 +226,19 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
 // MARK: - Button Actions
     
     func saveChanges() {
+        CurrentUser.sharedInstance.firstname = self.firstnameTextfield.text
+        CurrentUser.sharedInstance.lastname = self.familynameTextfield.text
         
+        CurrentUser.sharedInstance.email = self.emailTextfield.text
+        
+        CurrentUser.sharedInstance.setGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
+        CurrentUser.sharedInstance.hometown = self.hometownTextfield.text
+        CurrentUser.sharedInstance.phoneNumber = self.phonenumberTextfield.text
+        CurrentUser.sharedInstance.emergencyNumber = self.emergencyNumberTextfield.text
+        
+        CurrentUser.sharedInstance.storeInNSUserDefaults()
+        
+        BOToast(text: "Stored all Input Values to CurrentUser Object")
     }
     
     @IBAction func profilePictureButtonPressed(sender: UIButton) {
