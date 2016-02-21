@@ -40,8 +40,13 @@ class BOPost: NSManagedObject {
         res.text = dict.valueForKey("text") as? String
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         res.date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
-        res.longitude = dict.valueForKey("postingLocation")!.valueForKey("longitude") as! Double
-        res.longitude = dict.valueForKey("postingLocation")!.valueForKey("longitude") as! Double
+        if let longitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
+            res.longitude = longitude
+        }
+        if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
+            res.longitude = latitude
+        }
+
         
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         
