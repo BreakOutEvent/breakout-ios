@@ -250,23 +250,35 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             success: { (credentials) -> Void in
                 BOToast(text: "Login was successful.")
                 print("LOGIN: OAuth Code: "+credentials.accessToken)
-                
-                //Write login data in UserDefaults
-                CurrentUser.sharedInstance.email = self.emailTextField.text
-                CurrentUser.sharedInstance.storeInNSUserDefaults()
                 AFOAuthCredential.storeCredential(credentials, withIdentifier: "apiCredentials")
                 
-                // Empty Textinputs
-                self.emailTextField.text = ""
-                self.passwordTextField.text = ""
+                let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
                 
-                self.loadingHUD.hide(true)
-                self.enableInputs(true)
+                requestManager.requestSerializer = AFJSONRequestSerializer()
                 
-                // Tracking
-                Flurry.logEvent("/login/completed_successful")
+                requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+                    //
+                    CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                    CurrentUser.sharedInstance.storeInNSUserDefaults()
+                    
+                    // Empty Textinputs
+                    self.emailTextField.text = ""
+                    self.passwordTextField.text = ""
+                    
+                    self.loadingHUD.hide(true)
+                    self.enableInputs(true)
+                    
+                    // Tracking
+                    Flurry.logEvent("/login/completed_successful")
+                    
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    
+                    }, failure: { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                        print("LOGIN: Error: While retrieving own user info from GET: /me/")
+                        print(error)
+                })
             }) { (error: NSError!) -> Void in
                 print("LOGIN: Error: ")
                 print(error)
