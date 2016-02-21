@@ -8,6 +8,8 @@
 
 import UIKit
 
+import AFOAuth2Manager
+
 class CurrentUser: NSObject {
     var userid: NSInteger?
     var firstname: String?
@@ -30,13 +32,32 @@ class CurrentUser: NSObject {
         self.retrieveFromNSUserDefaults()
     }
     
+// MARK: - Sync with Backend
+    
+    func uploadUserDataToBackend() {
+        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+        
+        let params: NSDictionary = self.attributesAsDictionary()
+        
+        requestManager.requestSerializer = AFJSONRequestSerializer()
+        
+        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
+        
+        requestManager.PUT(String(format:"user/%i/",self.userid!), parameters: params, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+            // Successful
+            BOToast(text: "SUCCESSFUL: uploaded CurrentUser info")
+            }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                // Error
+                print("ERROR: During CurrentUser upload")
+                print(error)
+                BOToast(text: "ERROR: During CurrentUser upload")
+        }
+    }
+    
     
 // MARK: - Storing & Retrieving
     
-    func storeInNSUserDefaults() {
-        //Write login data in UserDefaults
-        let defaults = NSUserDefaults.standardUserDefaults()
-        
+    func attributesAsDictionary() -> NSMutableDictionary {
         let selfDictionary: NSMutableDictionary = NSMutableDictionary()
         if self.userid != nil {
             selfDictionary.setObject(self.userid!, forKey: "userid")
@@ -71,6 +92,15 @@ class CurrentUser: NSObject {
             selfDictionary.setValue(self.hometown, forKey: "hometown")
         }
         
+        return selfDictionary
+    }
+    
+    func storeInNSUserDefaults() {
+        //Write login data in UserDefaults
+        let defaults = NSUserDefaults.standardUserDefaults()
+        
+        let selfDictionary: NSMutableDictionary = self.attributesAsDictionary()
+        
         //Store the user image
         if self.picture != nil {
             let imageData = UIImageJPEGRepresentation(self.picture!, 1)
@@ -84,6 +114,8 @@ class CurrentUser: NSObject {
         
         defaults.setObject(selfDictionary, forKey: "userDictionary")
         defaults.synchronize()
+        
+        self.uploadUserDataToBackend()
     }
     
     func retrieveFromNSUserDefaults() {
@@ -103,7 +135,9 @@ class CurrentUser: NSObject {
                 let keyValue = value
                 
                 // If property exists
-                if keyName == "userid" {
+                if keyName == "id" {
+                    self.userid = keyValue as? NSInteger
+                }else if keyName == "userid" {
                     self.userid = keyValue as? NSInteger
                 }else if keyName == "firstname" {
                     self.firstname = keyValue as? String
@@ -156,6 +190,16 @@ class CurrentUser: NSObject {
             return 1
         }else{
             return -1
+        }
+    }
+    
+    func setGenderFromInt(int: Int) {
+        if int == 0 {
+            self.gender = "male"
+        }else if int == 1 {
+            self.gender = "female"
+        }else{
+            self.gender = "unknown"
         }
     }
     
