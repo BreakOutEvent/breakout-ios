@@ -11,7 +11,8 @@
 import Foundation
 import ReachabilitySwift
 
-import Pantry
+// Database
+import MagicalRecord
 
 // Tracking
 import Flurry_iOS_SDK
@@ -21,8 +22,6 @@ import Flurry_iOS_SDK
  This will synchronize the online Backend with the local App-Backend.
  */
 class BOSynchronizeController: NSObject {
-    
-    var arrayOfNotYetDownloadedPostings: [Int] = [Int]()
     
     static let sharedInstance = BOSynchronizeController()
     
@@ -181,9 +180,8 @@ class BOSynchronizeController: NSObject {
 // MARK: Download Postings
     
     func downloadArrayOfNewPostingIDsSinceLastKnownPostingID() {
-        if let lastKnownPostingID: Int = Pantry.unpack("lastKnownPostingID") {
-            BOToast(text: String(format: "Download Array if new posting ids since: %i", lastKnownPostingID))
-            self.downloadArrayOfNewPostingIDsSince(lastKnownPostingID)
+        if let lastKnownPosting: BOPost = BOPost.MR_findFirstOrderedByAttribute("uuid", ascending: false) {
+            self.downloadArrayOfNewPostingIDsSince(lastKnownPosting.uuid)
         }else{
             self.downloadArrayOfNewPostingIDsSince(0)
         }
@@ -202,7 +200,14 @@ class BOSynchronizeController: NSObject {
             print("DownloadArrayOfNewPostingIDsSince Response: ")
             print(response)
             
-            self.addIDsToNotYetLoadedPostingsIDs(response as! [Int])
+            // 'response' is an array of Int's
+            let arrayOfPostingIDs: [Int] = response as! [Int]
+            for newPostingID: Int in arrayOfPostingIDs {
+                let newPosting: BOPost = BOPost.create(newPostingID, flagNeedsDownload: true)
+                newPosting.printToLog()
+            }
+            
+            BOToast(text: String(format: "SUCCESSFUL: Downloaded Array (count: %i) of new posting ids since: %i", arrayOfPostingIDs.count,lastID))
             
             self.downloadNotYetLoadedPostings()
             
@@ -214,42 +219,41 @@ class BOSynchronizeController: NSObject {
     }
     
     func downloadNotYetLoadedPostings() {
-        // Restore the Array with all postingIDs, which aren't loaded yet, from Pantry
-        if let restoredArrayOfNotYetDownloadedPostings: [Int] = Pantry.unpack("notYetLoadedPostings")! {
-            self.arrayOfNotYetDownloadedPostings = restoredArrayOfNotYetDownloadedPostings
-            
-            print("IDs of not yet loaded Postings")
-            print(self.arrayOfNotYetDownloadedPostings.count)
-            
-            // New request manager with our backend URL as baseURL
-            let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-            
-            // Sets the serialization of parameters to JSON format
-            requestManager.requestSerializer = AFJSONRequestSerializer()
-            
+        let arrayOfNotYetLoadedPostings: Array = BOPost.MR_findByAttribute("flagNeedsDownload", withValue: true) as! Array<BOPost>
+        if arrayOfNotYetLoadedPostings.count > 0 {
             var arrayOfIDsToLoad: [Int] = [Int]()
-            var count:Int = 50
-            for postID in self.arrayOfNotYetDownloadedPostings {
-                arrayOfIDsToLoad += [postID]
+            var count:Int = 100
+            for notYetLoadedPosting:BOPost in arrayOfNotYetLoadedPostings {
+                arrayOfIDsToLoad += [notYetLoadedPosting.uuid]
                 count--
                 if count <= 0 {
                     break
                 }
             }
+            // New request manager with our backend URL as baseURL
+            let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
             
-            
+            // Sets the serialization of parameters to JSON format
+            requestManager.requestSerializer = AFJSONRequestSerializer()
+        
             // Send POST request to backend to receive all not yet loaded postings
             requestManager.POST("posting/get/ids", parameters: arrayOfIDsToLoad,
                 success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
                     print("DownloadNotYetLoadedPostings Response: ")
                     print(response)
-                    // response is an Array of Posting Objects
-                    for newPosting: NSDictionary in response as! Array {
-                        let newPost: BOPost = BOPost.createWithDictionary(newPosting)
-                        newPost.printToLog()
+                    
+                    // response is an Array of Posting Dictionaries
+                    let arrayOfPostingDictionaries: Array = response as! Array<NSDictionary>
+                    for newPostingDict: NSDictionary in arrayOfPostingDictionaries {
+                        let updatedPost: BOPost = BOPost.MR_findFirstByAttribute("flagNeedsDownload", withValue: true)!
+                        updatedPost.setAttributesWithDictionary(newPostingDict)
+                        updatedPost.flagNeedsDownload = false
+                        updatedPost.printToLog()
                     }
                     
-                    self.removeIDsFromNotYetLoadedPostingsIDs(arrayOfIDsToLoad)
+                    NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+                    
+                    BOToast(text: String(format:"Successfully downloaded and stored %i Postings", arrayOfPostingDictionaries.count))
                     
                     // Tracking
                     Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
@@ -257,8 +261,7 @@ class BOSynchronizeController: NSObject {
                 { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                     print("ERROR: While DownloadNotYetLoadedPostings")
                     print(error)
-                    
-                    // TODO: Show detailed errors to the user
+                    BOToast(text: String(format:"ERROR: While trying to load %i postings", arrayOfIDsToLoad.count))
                     
                     // Tracking
                     Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
@@ -331,7 +334,7 @@ class BOSynchronizeController: NSObject {
     
     
 // MARK: - HELPERS
-    func addIDsToNotYetLoadedPostingsIDs(postingIDs: [Int]) {
+    /*func addIDsToNotYetLoadedPostingsIDs(postingIDs: [Int]) {
         if let restoredArrayOfNotYetDownloadedPostings: [Int] = Pantry.unpack("notYetLoadedPostings") {
             self.arrayOfNotYetDownloadedPostings = restoredArrayOfNotYetDownloadedPostings
             self.arrayOfNotYetDownloadedPostings = self.arrayOfNotYetDownloadedPostings + postingIDs
@@ -376,5 +379,5 @@ class BOSynchronizeController: NSObject {
     func resetAllCachedIDs() {
         Pantry.expire("notYetLoadedPostings")
         Pantry.expire("lastKnownPostingID")
-    }
+    }*/
 }
