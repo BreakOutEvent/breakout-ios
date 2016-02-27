@@ -16,7 +16,7 @@ import LECropPictureViewController
 
 import AFOAuth2Manager
 
-class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var addUserpictureButton: UIButton!
     @IBOutlet weak var userpictureImageView: UIImageView!
@@ -24,14 +24,23 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     @IBOutlet weak var lastNameTextfield: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var genderSegmentedControl: UISegmentedControl!
+    
+    @IBOutlet weak var birthdayTextField: UITextField!
+    var birthdayDatePicker: UIDatePicker! = UIDatePicker()
+    
     @IBOutlet weak var shirtSizeTextfield: UITextField!
-    @IBOutlet weak var hometownTextfield: UITextField!
+    var shirtSizePicker: UIPickerView! = UIPickerView()
+    var shirtSizeDataSourceArray: NSArray = NSArray(objects: "S", "M", "L")
+    
     @IBOutlet weak var phonenumberTextfield: UITextField!
     @IBOutlet weak var emergencyNumberTextfield: UITextField!
     @IBOutlet weak var participateButton: UIButton!
+    @IBOutlet weak var participateCellContentView: UIView!
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
     var imagePicker: UIImagePickerController = UIImagePickerController()
+    
+    var currentTextFieldWithFirstResponder: UITextField?
     
 //    let validator = Validator()
     
@@ -57,7 +66,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.lastNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("lastname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.shirtSizeTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("shirtSize", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.hometownTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("hometown", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.birthdayTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("birthday", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.phonenumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phonenumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         self.emergencyNumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("emergencyNumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         
@@ -65,6 +74,13 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.participateButton.setTitle(NSLocalizedString("participateButton", comment: ""), forState: UIControlState.Normal)
         
         self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
+        
+        // Setup the PickerViews as Inputs for Birthday and T-Shirt size
+        self.setupBirthdayDatePicker()
+        self.setupShirtSizePicker()
+        
+        self.addSimpleDoneToolbarToTextField(self.phonenumberTextfield)
+        self.addSimpleDoneToolbarToTextField(self.emergencyNumberTextfield)
         
         self.fillInputsWithCurrentUserInfo()
     }
@@ -92,19 +108,114 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.emailTextField.text = CurrentUser.sharedInstance.email
     }
     
+// MARK: - Picker Setup & Button functions
+    
+    // MARK: Birthday Picker
+    
+    func setupBirthdayDatePicker() {
+        self.birthdayDatePicker.datePickerMode = UIDatePickerMode.Date
+        self.birthdayTextField.inputView = self.birthdayDatePicker
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = Style.mainOrange
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "birthdayDatePickerToolbarDoneButtonPressed")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        self.birthdayTextField.inputAccessoryView = toolBar
+    }
+    
+    func birthdayDatePickerToolbarDoneButtonPressed() {
+        self.birthdayTextField.text = self.birthdayDatePicker.date.description
+        self.birthdayTextField.resignFirstResponder()
+    }
+    
+    // MARK: T-Shirt size Picker
+    
+    func addSimpleDoneToolbarToTextField(textfield: UITextField) {
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = Style.mainOrange
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "textFieldToolbarDoneButtonPressed:")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        textfield.inputAccessoryView = toolBar
+    }
+    
+    func textFieldToolbarDoneButtonPressed(sender: UIBarButtonItem) {
+        if self.currentTextFieldWithFirstResponder != nil {
+            self.currentTextFieldWithFirstResponder?.resignFirstResponder()
+        }
+    }
+    
+    func setupShirtSizePicker() {
+        // Set the Delegates for the InvitationPicker and connect Picker & Toolbar with the TextField
+        self.shirtSizePicker.delegate = self
+        self.shirtSizePicker.dataSource = self
+        self.shirtSizeTextfield.inputView = self.shirtSizePicker
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = Style.mainOrange
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarDoneButtonPressed")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarCancelButtonPressed")
+        
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        self.shirtSizeTextfield.inputAccessoryView = toolBar
+    }
+    
+    func shirtSizePickerToolbarDoneButtonPressed() {
+        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[self.shirtSizePicker.selectedRowInComponent(0)] as? String
+        self.shirtSizeTextfield.resignFirstResponder()
+    }
+    
+    // MARK: T-Shirt size Picker DataSource
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.shirtSizeDataSourceArray.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return self.shirtSizeDataSourceArray[row] as? String
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[row] as? String
+    }
+    
 // MARK: - TextField Functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == self.firstNameTextfield {
             // Switch focus to other text field
+            self.getGenderByFirstname()
             self.lastNameTextfield.becomeFirstResponder()
         }else if textField == self.lastNameTextfield{
             self.emailTextField.becomeFirstResponder()
         }else if textField == self.emailTextField{
             self.shirtSizeTextfield.becomeFirstResponder()
         }else if textField == self.shirtSizeTextfield{
-            self.hometownTextfield.becomeFirstResponder()
-        }else if textField == self.hometownTextfield{
+            self.birthdayTextField.becomeFirstResponder()
+        }else if textField == self.birthdayTextField{
             self.phonenumberTextfield.becomeFirstResponder()
         }else if textField == self.phonenumberTextfield{
             self.emergencyNumberTextfield.becomeFirstResponder()
@@ -113,6 +224,10 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         }
         
         return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        self.currentTextFieldWithFirstResponder = textField
     }
     
 // MARK: - Button functions
@@ -158,10 +273,12 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     @IBAction func participateButtonPressed(sender: UIButton) {
-        // Send the participation request to the backend
-        self.setupLoadingHUD("loadingParticipant")
-        self.loadingHUD.show(true)
-        self.startBecomeParticipantRequest()
+        if self.allInputsAreFilled() {
+            // Send the participation request to the backend
+            self.setupLoadingHUD("loadingParticipant")
+            self.loadingHUD.show(true)
+            self.startBecomeParticipantRequest()
+        }
     }
     
 // MARK: - Image Picker Delegate
@@ -171,24 +288,11 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         self.userpictureImageView.image = choosenImage
         
+        self.addUserpictureButton.hidden = true
+        
         self.dismissViewControllerAnimated(true, completion: nil)
         
         return
-        
-        /*let cropPictureController = LECropPictureViewController.init(image: choosenImage, andCropPictureType: LECropPictureType.Rounded)
-        cropPictureController.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        
-        cropPictureController.borderWidth = 1.0
-        cropPictureController.acceptButtonItem?.tintColor = Style.mainOrange
-        cropPictureController.acceptButtonItem?.title = NSLocalizedString("accept", comment: "")
-        cropPictureController.cancelButtonItem?.tintColor = Style.mainOrange
-        cropPictureController.cancelButtonItem?.title = NSLocalizedString("cancel", comment: "")
-        
-        cropPictureController.photoAcceptedBlock = {(croppedImage: UIImage!) in
-            self.userpictureImageView.image = croppedImage
-        }
-        
-        self.presentViewController(cropPictureController, animated: false, completion: nil)*/
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -207,15 +311,98 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         spinner.startAnimating()
     }
     
+    func setupErrorHUD(localizedKey: String) {
+        self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        self.loadingHUD.square = false
+        self.loadingHUD.mode = MBProgressHUDMode.CustomView
+        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+    }
+    
     func setAllInputsToEnabled(enabled: Bool) {
         self.firstNameTextfield.enabled = enabled
         self.lastNameTextfield.enabled = enabled
         self.emailTextField.enabled = enabled
         self.genderSegmentedControl.enabled = enabled
         self.shirtSizeTextfield.enabled = enabled
-        self.hometownTextfield.enabled = enabled
+        self.birthdayTextField.enabled = enabled
         self.phonenumberTextfield.enabled = enabled
         self.emergencyNumberTextfield.enabled = enabled
+    }
+    
+    func allInputsAreFilled() -> Bool {
+        var allInputsAreFilled = true
+        
+        if self.firstNameTextfield.text == "" {
+            allInputsAreFilled = false
+        }
+        if self.lastNameTextfield.text == "" {
+            allInputsAreFilled = false
+        }
+        if self.emailTextField.text == "" {
+            allInputsAreFilled = false
+        }
+        if self.genderSegmentedControl.selectedSegmentIndex<0 {
+            allInputsAreFilled = false
+        }
+        if self.birthdayTextField.text == "" {
+            allInputsAreFilled = false
+        }
+        if self.shirtSizeTextfield.text == "" {
+            allInputsAreFilled = false
+        }
+        if self.phonenumberTextfield.text == "" {
+            allInputsAreFilled = false
+        }
+        if self.emergencyNumberTextfield.text == "" {
+            allInputsAreFilled = false
+        }
+        
+        if allInputsAreFilled == false {
+            /*if let alertPopover: BOPopoverViewController = self.storyboard?.instantiateViewControllerWithIdentifier("BOPopoverViewController") as? BOPopoverViewController {
+                self.participateCellContentView.addSubview(alertPopover.view)
+                alertPopover.messageLabel.text = "Bevor du Teilnehmer werden kannst müssen alle Eingabefelder ausgefüllt sein!"
+                
+                alertPopover.messageLabel.sizeToFit()
+                alertPopover.view.frame.origin.x = 20.0
+                alertPopover.view.frame.size.width = self.view.frame.size.width - 40.0
+                alertPopover.view.frame.size.height = alertPopover.messageLabel.frame.height + 20.0 + 30.0
+                alertPopover.view.frame.origin.y = self.participateButton.frame.origin.y - 10.0 - alertPopover.view.frame.size.height
+                
+                alertPopover.view.setNeedsLayout()
+                
+                
+                
+                //alertPopover.view.addConstraint(NSLayoutConstraint(item: alertPopover.view, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: self.participateButton, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 20.0))
+                //alertPopover.view.addConstraint(NSLayoutConstraint(item: alertPopover.view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Leading, multiplier: 1.0, constant: 20.0))
+                //alertPopover.view.addConstraint(NSLayoutConstraint(item: alertPopover.view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Trailing, multiplier: 1.0, constant: 20.0))
+                
+            }*/
+            self.setupErrorHUD("Alle Felder müssen ausgefüllt sein!")
+            self.loadingHUD.hide(true, afterDelay: 4.0)
+            return false
+        }
+        
+        return true
+    }
+    
+    func getGenderByFirstname() {
+        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: "https://api.genderize.io/"))
+        
+        let params: NSDictionary = ["name":self.firstNameTextfield.text!]
+        
+        requestManager.requestSerializer = AFJSONRequestSerializer()
+        
+        requestManager.GET("", parameters: params, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+                // Successful retrival of name attributes
+                let dict: NSDictionary = response as! NSDictionary
+                if dict.valueForKey("gender") as! String == "male" {
+                    self.genderSegmentedControl.selectedSegmentIndex = 0
+                }else{
+                    self.genderSegmentedControl.selectedSegmentIndex = 1
+                }
+            }) { (operation:AFHTTPRequestOperation?, error: NSError) -> Void in
+                BOToast(text: "ERROR: during genderize.io request")
+        }
     }
     
     
@@ -235,7 +422,8 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         let participantParams: NSDictionary = [
             "emergencynumber": self.emergencyNumberTextfield.text!,
-            "hometown": self.hometownTextfield.text!,
+            //"hometown": self.hometownTextfield.text!,
+            //TODO: Birthday an Backend übertragen
             "phonenumber": self.phonenumberTextfield.text!,
             "tshirtsize": self.shirtSizeTextfield.text!
         ]
