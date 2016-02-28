@@ -30,6 +30,8 @@ class ContainerViewController: SlideMenuController {
         let defaults = NSUserDefaults.standardUserDefaults()
         if defaults.objectForKey("userDictionary") == nil {
             self.presentLoginScreen()
+        }else{
+            CurrentUser.sharedInstance.downloadUserData()
         }
     }
     

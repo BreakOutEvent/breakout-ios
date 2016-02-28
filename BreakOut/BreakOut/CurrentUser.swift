@@ -22,7 +22,11 @@ class CurrentUser: NSObject {
     var emergencyNumber: String?
     var phoneNumber: String?
     var shirtSize: String?
+    
     var hometown: String?
+    
+    var flagBlocked: Bool = false
+    var flagParticipant: Bool = false
     
     static let sharedInstance = CurrentUser()
     
@@ -51,6 +55,42 @@ class CurrentUser: NSObject {
                 print("ERROR: During CurrentUser upload")
                 print(error)
                 BOToast(text: "ERROR: During CurrentUser upload")
+        }
+    }
+    
+    func downloadUserData() {
+        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+        
+        requestManager.requestSerializer = AFJSONRequestSerializer()
+        
+        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
+        
+        requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+                // Successful
+                BOToast(text: "SUCCESSFUL: downloaded CurrentUser info")
+                let basicUserDict: NSDictionary = response as! NSDictionary
+                self.setAttributesWithJSON(basicUserDict)
+            
+                // If the user is also an participant we should store the participants information
+                if (basicUserDict.objectForKey("participant") != nil) {
+                    if ((basicUserDict.valueForKey("participant")?.isEqual(NSNull)) == nil) {
+                        self.setAttributesWithJSON(basicUserDict.valueForKey("participant") as! NSDictionary)
+                        // Participant Information is connected to the user -> Mark him as Participant
+                        self.flagParticipant = true
+                    }else{
+                        // No participant Information is connected to the user -> Mark him as NO Participant
+                        self.flagParticipant = false
+                    }
+                }else{
+                    // No participant Information is connected to the user -> Mark him as NO Participant
+                    self.flagParticipant = false
+                }
+                self.storeInNSUserDefaults()
+            }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                // Error
+                print("ERROR: During CurrentUser download")
+                print(error)
+                BOToast(text: "ERROR: During CurrentUser download")
         }
     }
     
@@ -91,6 +131,9 @@ class CurrentUser: NSObject {
         if self.hometown != nil {
             selfDictionary.setValue(self.hometown, forKey: "hometown")
         }
+        
+        selfDictionary.setValue(self.flagParticipant, forKey: "flagParticipant")
+        selfDictionary.setValue(self.flagBlocked, forKey: "flagBlocked")
         
         return selfDictionary
     }
@@ -164,6 +207,10 @@ class CurrentUser: NSObject {
                     if userImageData != nil {
                         self.picture = UIImage(data: userImageData!)
                     }
+                }else if keyName == "flagBlocked" {
+                    self.flagBlocked = (keyValue as? Bool)!
+                }else if keyName == "flagParticipant" {
+                    self.flagParticipant = (keyValue as? Bool)!
                 }
             }
         }
