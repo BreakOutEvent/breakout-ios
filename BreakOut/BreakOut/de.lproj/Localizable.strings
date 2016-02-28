@@ -6,6 +6,15 @@
   Copyright © 2016 BreakOut. All rights reserved.
 */
 
+"email" = "E-Mail";
+"password" = "Password";
+"login" = "EINLOGGEN";
+"register" = "REGISTRIEREN (kostenlos)";
+
+// Loading Texts
+"registrationLoading" = "Hab etwas geduld während wir dich für BreakOut registrieren";
+"loginLoading" = "Gleich bist du eingelogged";
+
 // Welcome Screen
 "welcomeScreenHeadline" = "Bald geht es los!";
 "welcomeScreenDescriptionText" = "Wir arbeiten sehr hart daran, dir die beste App für das nächste BreakOut Event zur Hand zu geben. Ganz egal, ob du Teilnehmer, Sponsor, Familienmitglied oder einfach nur Fan bist. Sei gespannt auf weitere großartige Updates mit neuen Funktionen.";
