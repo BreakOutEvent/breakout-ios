@@ -13,6 +13,8 @@ import Fabric
 import Crashlytics
 import Flurry_iOS_SDK
 
+import TouchVisualizer
+
 // Database
 import MagicalRecord
 //import MagicalRecord
@@ -49,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NFX.sharedInstance().start()
         #endif
 
-        BONetworkerTest().postObjectFromJSON()
+        //BONetworkerTest().postObjectFromJSON()
         BOSynchronizeController.sharedInstance.checkForInternetReachability()
         
         //TESTING persistence of not yet loaded postings IDs
@@ -58,6 +60,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BOSynchronizeController.sharedInstance.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
         
         FeatureFlagManager.sharedInstance.downloadCurrentFeatureFlagSetup()
+        
+        Visualizer.start()
+        
         
         return true
     }
