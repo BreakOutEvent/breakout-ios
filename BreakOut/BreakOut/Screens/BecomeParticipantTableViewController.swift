@@ -106,6 +106,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.firstNameTextfield.text = CurrentUser.sharedInstance.firstname
         self.lastNameTextfield.text = CurrentUser.sharedInstance.lastname
         self.emailTextField.text = CurrentUser.sharedInstance.email
+        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
     }
     
 // MARK: - Picker Setup & Button functions
@@ -212,10 +213,10 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         }else if textField == self.lastNameTextfield{
             self.emailTextField.becomeFirstResponder()
         }else if textField == self.emailTextField{
-            self.shirtSizeTextfield.becomeFirstResponder()
-        }else if textField == self.shirtSizeTextfield{
             self.birthdayTextField.becomeFirstResponder()
         }else if textField == self.birthdayTextField{
+            self.shirtSizeTextfield.becomeFirstResponder()
+        }else if textField == self.shirtSizeTextfield{
             self.phonenumberTextfield.becomeFirstResponder()
         }else if textField == self.phonenumberTextfield{
             self.emergencyNumberTextfield.becomeFirstResponder()
@@ -273,6 +274,9 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     @IBAction func participateButtonPressed(sender: UIButton) {
+        self.performSegueWithIdentifier("showJoinTeamViewController", sender: self)
+        return
+        
         if self.allInputsAreFilled() {
             // Send the participation request to the backend
             self.setupLoadingHUD("loadingParticipant")
@@ -378,7 +382,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
                 
             }*/
             self.setupErrorHUD("Alle Felder müssen ausgefüllt sein!")
-            self.loadingHUD.hide(true, afterDelay: 4.0)
+            self.loadingHUD.hide(true, afterDelay: 3.0)
             return false
         }
         
@@ -457,7 +461,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
                 
                 self.loadingHUD.hide(true)
                 
-                self.performSegueWithIdentifier("showJoinTeamTableViewController", sender: self)
+                self.performSegueWithIdentifier("showJoinTeamViewController", sender: self)
             })
             { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                 print("Registration Error: ")

@@ -22,6 +22,8 @@ import JLToast
 
 class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var logoTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var logoBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var formContainerView: UIView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
@@ -105,12 +107,16 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         let userInfo:NSDictionary = notification.userInfo!
         if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
             self.formContainerViewToBottomConstraint.constant = keyboardSize.height
+            self.logoBottomConstraint.constant = 5.0
+            self.logoTopConstraint.constant = 5.0
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         //
         self.formContainerViewToBottomConstraint.constant = 0.0
+        self.logoBottomConstraint.constant = 55.0
+        self.logoTopConstraint.constant = 60.0
     }
     
     
@@ -124,15 +130,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     :returns: No return value
     */
     @IBAction func registerButtonPressed(sender: UIButton) {
-        if (self.emailTextField.text == "" || self.passwordTextField.text == ""){
-            self.alertPopover.alpha = 0.0
-            self.alertPopover.hidden = false
-            self.formToLogoConstraint.constant = -10.0 // constraint animation needs to be outside animateWithDuration
-            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-                self.alertPopover.alpha = 1.0
-                self.view.layoutIfNeeded()
-                }, completion: nil)
-        }else{
+        if self.allInputsAreFilledOut() {
             // Hide Keyboard and start registration procedure
             self.view.endEditing(true)
             self.startRegistrationRequest()
@@ -141,8 +139,10 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func loginButtonPressed(sender: UIButton) {
-        self.view.endEditing(true)
-        self.startLoginRequest()
+        if self.allInputsAreFilledOut() {
+            self.view.endEditing(true)
+            self.startLoginRequest()
+        }
     }
     
     /**
@@ -163,6 +163,21 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
 // MARK: - Helper Functions
+    func allInputsAreFilledOut() -> Bool {
+        if (self.emailTextField.text == "" || self.passwordTextField.text == ""){
+            self.alertPopover.alpha = 0.0
+            self.alertPopover.hidden = false
+            self.formToLogoConstraint.constant = -10.0 // constraint animation needs to be outside animateWithDuration
+            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                self.alertPopover.alpha = 1.0
+                self.view.layoutIfNeeded()
+                }, completion: nil)
+            return false
+        }
+        
+        return true
+    }
+        
     func setupLoadingHUD(localizedKey: String) {
         let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.Style9CubeGrid, color: UIColor.whiteColor(), spinnerSize: 37.0)
         self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
