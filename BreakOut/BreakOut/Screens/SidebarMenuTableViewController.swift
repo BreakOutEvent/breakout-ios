@@ -62,6 +62,9 @@ class SidebarMenuTableViewController: UITableViewController {
         self.usernameLabel.text = CurrentUser.sharedInstance.username()
         
         self.userPictureImageView.image = CurrentUser.sharedInstance.picture
+        if self.userPictureImageView.image != nil {
+            self.addUserpictureButton.hidden = true
+        }
     }
     
     
