@@ -15,12 +15,16 @@ class InternalWebViewController: UIViewController {
     @IBOutlet weak var internalWebView: UIWebView!
     
     var initialURL: String = "http://www.break-out.org"
+    var urlToOpenAfterViewDidLoad: String?
     
 // MARK: - Screen Actions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if self.urlToOpenAfterViewDidLoad != nil {
+            self.openWebpageWithUrl(urlToOpenAfterViewDidLoad!)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,7 +47,12 @@ class InternalWebViewController: UIViewController {
         
         let url = NSURL (string: urlString)
         let requestObj = NSURLRequest(URL: url!)
-        self.internalWebView.loadRequest(requestObj)
+        
+        if self.internalWebView != nil {
+            self.internalWebView.loadRequest(requestObj)
+        }else{
+            self.urlToOpenAfterViewDidLoad = urlString
+        }
     }
     
 // MARK: Button Actions
