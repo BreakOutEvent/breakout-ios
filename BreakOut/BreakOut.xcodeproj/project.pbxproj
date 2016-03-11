@@ -31,6 +31,7 @@
 		26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26985F141C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift */; };
 		26985F1A1C42974D00C5FA0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 26985F1C1C42974D00C5FA0C /* Localizable.strings */; };
 		26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26985F2C1C4301A600C5FA0C /* CurrentUser.swift */; };
+		269AADC61C936C2C0034F32C /* BONetworkIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AADC51C936C2C0034F32C /* BONetworkIndicator.swift */; };
 		26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */; };
 		26AA75251C8318A20023D009 /* CreateTeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */; };
 		26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */; };
@@ -90,6 +91,7 @@
 		26985F1E1C42975300C5FA0C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		26985F1F1C42976900C5FA0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		26985F2C1C4301A600C5FA0C /* CurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		269AADC51C936C2C0034F32C /* BONetworkIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BONetworkIndicator.swift; path = Core/BONetworkIndicator.swift; sourceTree = "<group>"; };
 		26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPopoverViewController.swift; path = Screens/BOPopoverViewController.swift; sourceTree = "<group>"; };
 		26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateTeamTableViewController.swift; path = Screens/CreateTeamTableViewController.swift; sourceTree = "<group>"; };
 		26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarMenuTableViewController.swift; path = Screens/SidebarMenuTableViewController.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */,
 				260121411C78F6F20041EAA8 /* BOToast.swift */,
 				260121491C79039E0041EAA8 /* Extensions and Subclasses */,
+				269AADC51C936C2C0034F32C /* BONetworkIndicator.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 				2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */,
 				263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */,
 				26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */,
+				269AADC61C936C2C0034F32C /* BONetworkIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
