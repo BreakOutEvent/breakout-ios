@@ -87,6 +87,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    
+    
 // MARK: - TextField Functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -265,46 +267,49 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             success: { (credentials) -> Void in
                 BOToast(text: "Login was successful.")
                 print("LOGIN: OAuth Code: "+credentials.accessToken)
-                AFOAuthCredential.storeCredential(credentials, withIdentifier: "apiCredentials")
-                
-                let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-                
-                requestManager.requestSerializer = AFJSONRequestSerializer()
-                
-                requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-                
-                requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                    //
-                    CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
-                    CurrentUser.sharedInstance.storeInNSUserDefaults()
+                if AFOAuthCredential.storeCredential(credentials, withIdentifier: "apiCredentials") {
+                    // Successfully stored the OAuth credentials
+                    let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
                     
-                    // Empty Textinputs
-                    self.emailTextField.text = ""
-                    self.passwordTextField.text = ""
+                    requestManager.requestSerializer = AFJSONRequestSerializer()
+                    
+                    requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
+                    
+                    requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+                        //
+                        CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                        CurrentUser.sharedInstance.storeInNSUserDefaults()
+                        
+                        // Empty Textinputs
+                        self.emailTextField.text = ""
+                        self.passwordTextField.text = ""
+                        
+                        self.loadingHUD.hide(true)
+                        self.enableInputs(true)
+                        
+                        // Tracking
+                        Flurry.logEvent("/login/completed_successful")
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        
+                        }, failure: { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                            print("LOGIN: Error: While retrieving own user info from GET: /me/")
+                            print(error)
+                    })
+                }else{
+                    BOToast(text: "ERROR: During storing the OAuth credentials.")
+                }
+                }) { (error: NSError!) -> Void in
+                    print("LOGIN: Error: ")
+                    print(error)
+                    BOToast(text: "ERROR: During Login")
                     
                     self.loadingHUD.hide(true)
                     self.enableInputs(true)
                     
                     // Tracking
-                    Flurry.logEvent("/login/completed_successful")
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                    
-                    }, failure: { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                        print("LOGIN: Error: While retrieving own user info from GET: /me/")
-                        print(error)
-                })
-            }) { (error: NSError!) -> Void in
-                print("LOGIN: Error: ")
-                print(error)
-                BOToast(text: "ERROR: During Login")
-                
-                self.loadingHUD.hide(true)
-                self.enableInputs(true)
-                
-                // Tracking
-                Flurry.logEvent("/login/completed_error")
-        }
+                    Flurry.logEvent("/login/completed_error")
+            }
     }
     
 }
