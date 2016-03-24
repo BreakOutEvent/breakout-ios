@@ -107,6 +107,10 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.lastNameTextfield.text = CurrentUser.sharedInstance.lastname
         self.emailTextField.text = CurrentUser.sharedInstance.email
         self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
+        
+        self.shirtSizeTextfield.text = CurrentUser.sharedInstance.shirtSize
+        self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
+        self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
     }
     
 // MARK: - Picker Setup & Button functions
@@ -274,15 +278,16 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     @IBAction func participateButtonPressed(sender: UIButton) {
-        self.performSegueWithIdentifier("showJoinTeamViewController", sender: self)
-        return
-        
         if self.allInputsAreFilled() {
             // Send the participation request to the backend
             self.setupLoadingHUD("loadingParticipant")
             self.loadingHUD.show(true)
             self.startBecomeParticipantRequest()
         }
+    }
+    
+    @IBAction func closeButtonPressed(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 // MARK: - Image Picker Delegate
@@ -409,6 +414,13 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         }
     }
     
+    func presentLoginScreenFromViewController() {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewControllerWithIdentifier("LoginRegisterViewController") as! LoginRegisterViewController
+        
+        self.presentViewController(loginRegisterViewController, animated: true, completion: nil)
+    }
+    
     
 // MARK: - API Requests
     
@@ -424,6 +436,8 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
+        let genderAsString = CurrentUser.sharedInstance.stringGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
+        
         let participantParams: NSDictionary = [
             "emergencynumber": self.emergencyNumberTextfield.text!,
             //"hometown": self.hometownTextfield.text!,
@@ -435,7 +449,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
             "firstname":self.firstNameTextfield.text!,
             "lastname":self.lastNameTextfield.text!,
             "email":self.emailTextField.text!,
-            "gender":"unknown",
+            "gender":genderAsString,
             "participant": participantParams
         ]
         
@@ -468,6 +482,9 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
                 print(error)
                 
                 // TODO: Show detailed errors to the user
+                if operation?.response?.statusCode == 401 {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                }
                 
                 // Tracking
                 Flurry.logEvent("/user/becomeParticipant/completed_error")
