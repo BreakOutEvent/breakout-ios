@@ -44,9 +44,10 @@ class WelcomeScreenViewController: UIViewController {
 // MARK: - Button Actions
     
     @IBAction func participateButtonPressed(sender: UIButton) {
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") {
-            self.slideMenuController()?.changeMainViewController(controller, close: true)
-        }
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
+        
+        self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {
