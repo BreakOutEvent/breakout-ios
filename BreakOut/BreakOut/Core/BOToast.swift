@@ -13,8 +13,26 @@ import JLToast
 class BOToast {
     
     init(text: String) {
+        var printText: String = ""
+        if text.containsString("SUCCESSFUL") {
+            printText = "✅"
+        }
+        if text.containsString("WARNING") {
+            printText = "⚠️"
+        }
+        if text.containsString("ERROR") {
+            printText = "❗️"
+        }
+        
+        printText += text
+        
+        
         if FeatureFlagManager.sharedInstance.isActivated(FeatureFlags.showDebuggingToasts){
-            JLToast.makeText(text, duration: JLToastLongDelay).show()
+            JLToast.makeText(printText, duration: JLToastLongDelay).show()
+            
+            #if DEBUG
+                print("BOToast: " + printText + "\r\n")
+            #endif
         }
     }
 
