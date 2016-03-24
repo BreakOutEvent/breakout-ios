@@ -12,15 +12,23 @@ import AFOAuth2Manager
 
 class CurrentUser: NSObject {
     var userid: NSInteger?
+    let KEY_USERID: String = "userid"
+    
     var firstname: String?
+    
     var lastname: String?
     var email: String?
     var picture: UIImage?
     
     var gender: String? // "male"=0 or "female"=1
     var birthday: NSDate?
+    
     var emergencyNumber: String?
+    let KEY_EMERGENCYNUMBER: String = "emergencynumber"
+    
     var phoneNumber: String?
+    let KEY_PHONENUMBER: String = "phonenumber"
+    
     var shirtSize: String?
     
     var hometown: String?
@@ -36,45 +44,73 @@ class CurrentUser: NSObject {
         self.retrieveFromNSUserDefaults()
     }
     
+    func presentLoginScreenFromViewController(fromView: UIViewController) {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewControllerWithIdentifier("LoginRegisterViewController") as! LoginRegisterViewController
+        
+        fromView.presentViewController(loginRegisterViewController, animated: true, completion: nil)
+    }
+    
 // MARK: - Sync with Backend
     
     func uploadUserDataToBackend() {
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
-        let params: NSDictionary = self.attributesAsDictionary()
+        let params: NSMutableDictionary = self.attributesAsDictionary()
+        
+        // Restructure the params Array
+        params.setValue(self.attributesAsDictionary(), forKey: "participant")
+        
         
         requestManager.requestSerializer = AFJSONRequestSerializer()
         
         requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
         
+        BONetworkIndicator.si.increaseLoading()
         requestManager.PUT(String(format:"user/%i/",self.userid!), parameters: params, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+            BONetworkIndicator.si.decreaseLoading()
             // Successful
             BOToast(text: "SUCCESSFUL: uploaded CurrentUser info")
             }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                BONetworkIndicator.si.decreaseLoading()
                 // Error
+                
+                if operation?.response?.statusCode == 401 {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                }
+                
                 print("ERROR: During CurrentUser upload")
                 print(error)
                 BOToast(text: "ERROR: During CurrentUser upload")
         }
     }
     
-    func downloadUserData() {
+    func downloadUserData() {        
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
         requestManager.requestSerializer = AFJSONRequestSerializer()
         
         requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
         
+        BONetworkIndicator.si.increaseLoading()
         requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
                 // Successful
+                BONetworkIndicator.si.decreaseLoading()
                 BOToast(text: "SUCCESSFUL: downloaded CurrentUser info")
+            
                 let basicUserDict: NSDictionary = response as! NSDictionary
+            
+                print("---------------------------------")
+                print("CurrentUser: ")
+                print(basicUserDict)
+                print("---------------------------------")
+            
                 self.setAttributesWithJSON(basicUserDict)
             
                 // If the user is also an participant we should store the participants information
                 if (basicUserDict.objectForKey("participant") != nil) {
-                    if ((basicUserDict.valueForKey("participant")?.isEqual(NSNull)) == nil) {
-                        self.setAttributesWithJSON(basicUserDict.valueForKey("participant") as! NSDictionary)
+                    if let participantDictionary: NSDictionary = basicUserDict.valueForKey("participant") as? NSDictionary {
+                        self.setAttributesWithJSON(participantDictionary)
                         // Participant Information is connected to the user -> Mark him as Participant
                         self.flagParticipant = true
                     }else{
@@ -87,7 +123,12 @@ class CurrentUser: NSObject {
                 }
                 self.storeInNSUserDefaults()
             }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+                BONetworkIndicator.si.decreaseLoading()
                 // Error
+                if operation?.response?.statusCode == 401 {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                }
+                
                 print("ERROR: During CurrentUser download")
                 print(error)
                 BOToast(text: "ERROR: During CurrentUser download")
@@ -100,7 +141,7 @@ class CurrentUser: NSObject {
     func attributesAsDictionary() -> NSMutableDictionary {
         let selfDictionary: NSMutableDictionary = NSMutableDictionary()
         if self.userid != nil {
-            selfDictionary.setObject(self.userid!, forKey: "userid")
+            selfDictionary.setObject(self.userid!, forKey: KEY_USERID)
         }
         if self.firstname != nil {
             selfDictionary.setValue(self.firstname, forKey: "firstname")
@@ -120,10 +161,10 @@ class CurrentUser: NSObject {
             selfDictionary.setValue(self.birthday, forKey: "birthday")
         }
         if self.phoneNumber != nil {
-            selfDictionary.setValue(self.phoneNumber, forKey: "phoneNumber")
+            selfDictionary.setValue(self.phoneNumber, forKey: KEY_PHONENUMBER)
         }
         if self.emergencyNumber != nil {
-            selfDictionary.setValue(self.emergencyNumber, forKey: "emergencyNumber")
+            selfDictionary.setValue(self.emergencyNumber, forKey: KEY_EMERGENCYNUMBER)
         }
         if self.shirtSize != nil {
             selfDictionary.setValue(self.shirtSize, forKey: "shirtSize")
@@ -180,7 +221,7 @@ class CurrentUser: NSObject {
                 // If property exists
                 if keyName == "id" {
                     self.userid = keyValue as? NSInteger
-                }else if keyName == "userid" {
+                }else if keyName == KEY_USERID {
                     self.userid = keyValue as? NSInteger
                 }else if keyName == "firstname" {
                     self.firstname = keyValue as? String
@@ -194,11 +235,11 @@ class CurrentUser: NSObject {
                     self.gender = keyValue as? String
                 }else if keyName == "birthday" {
                     self.birthday = keyValue as? NSDate
-                }else if keyName == "shirtSize" {
+                }else if keyName == "tshirtsize" {
                     self.shirtSize = keyValue as? String
-                }else if keyName == "emergencyNumber" {
+                }else if keyName == "emergencynumber" {
                     self.emergencyNumber = keyValue as? String
-                }else if keyName == "phoneNumber" {
+                }else if keyName == KEY_PHONENUMBER {
                     self.phoneNumber = keyValue as? String
                 }else if keyName == "picture" {
                     let imageFullPath = self.documentsPathForFileName(keyValue as! String)
@@ -214,6 +255,8 @@ class CurrentUser: NSObject {
                 }
             }
         }
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_CURRENT_USER_UPDATED, object: nil)
     }
     
 // MARK: - Return Value Helpers
@@ -222,9 +265,16 @@ class CurrentUser: NSObject {
         var username = ""
         if self.firstname != nil {
             username.appendContentsOf(self.firstname!)
+            username.appendContentsOf(" ")
         }
         if self.lastname != nil {
             username.appendContentsOf(self.lastname!)
+        }
+        
+        if username == "" || username == " " {
+            if self.email != nil {
+                username = (self.email?.componentsSeparatedByString("@")[0])!
+            }
         }
         
         return username
@@ -240,14 +290,18 @@ class CurrentUser: NSObject {
         }
     }
     
-    func setGenderFromInt(int: Int) {
+    func stringGenderFromInt(int: Int) -> String {
         if int == 0 {
-            self.gender = "male"
+            return "male"
         }else if int == 1 {
-            self.gender = "female"
+            return "female"
         }else{
-            self.gender = "unknown"
+            return "unknown"
         }
+    }
+    
+    func setGenderFromInt(int: Int) {
+        self.gender = stringGenderFromInt(int)
     }
     
 
