@@ -11,8 +11,11 @@ import Flurry_iOS_SDK
 
 import SwiftDate
 
-class UserProfileTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UINavigationBarDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+import StaticDataTableViewController
 
+class UserProfileTableViewController: StaticDataTableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UINavigationBarDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+
+    @IBOutlet weak var participateButtonTableViewCell: UITableViewCell!
     @IBOutlet weak var participateButton: UIButton!
     @IBOutlet weak var firstnameTextfield: UITextField!
     @IBOutlet weak var familynameTextfield: UITextField!
@@ -26,6 +29,8 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     @IBOutlet weak var birthdayTextfield: UITextField!
     var birthdayDatePicker: UIDatePicker! = UIDatePicker()
     
+    
+    @IBOutlet var eventInformationTableViewCellCollection: [UITableViewCell]!
     @IBOutlet weak var shirtSizeTextfield: UITextField!
     var shirtSizePicker: UIPickerView! = UIPickerView()
     var shirtSizeDataSourceArray: NSArray = NSArray(objects: "S", "M", "L")
@@ -40,6 +45,9 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        CurrentUser.sharedInstance.downloadUserData()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationCurrentUserUpdated", name: Constants.NOTIFICATION_CURRENT_USER_UPDATED, object: nil)
         
         // Style the navigation bar
         self.navigationController!.navigationBar.translucent = false
@@ -74,8 +82,11 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         self.setupShirtSizePicker()
         self.setupBirthdayDatePicker()
         
-        // Add loadingBar to navigationBar
-        
+        // Add loadingBar to navigationBar        
+    }
+    
+    func notificationCurrentUserUpdated() {
+        self.fillInputsWithCurrentUserInfo()
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,10 +119,23 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
         self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
         //self.birthdayTextfield.text = CurrentUser.sharedInstance.birthday?.toString()
         self.shirtSizeTextfield.text = CurrentUser.sharedInstance.shirtSize
-        //self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
-        //self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
+        self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
+        self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
         
         self.profilePictureImageView.image = CurrentUser.sharedInstance.picture
+        
+        // Check if current user is already participate
+        if CurrentUser.sharedInstance.flagParticipant == true {
+            self.cell(self.participateButtonTableViewCell, setHidden: true)
+            self.cells(self.eventInformationTableViewCellCollection, setHidden: false)
+        }else{
+            self.cell(self.participateButtonTableViewCell, setHidden: false)
+            self.cells(self.eventInformationTableViewCellCollection, setHidden: true)
+        }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
 
@@ -281,6 +305,13 @@ class UserProfileTableViewController: UITableViewController, UIImagePickerContro
     }
     
     @IBAction func participateButtonPressed(sender: UIButton) {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
+        
+        self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)
+        /*if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") {
+            self.slideMenuController()?.changeMainViewController(controller, close: true)
+        }*/
     }
     
     @IBAction func logoutButtonPressed(sender: UIButton) {

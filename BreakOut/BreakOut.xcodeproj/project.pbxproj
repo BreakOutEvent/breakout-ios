@@ -32,6 +32,7 @@
 		26985F1A1C42974D00C5FA0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 26985F1C1C42974D00C5FA0C /* Localizable.strings */; };
 		26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26985F2C1C4301A600C5FA0C /* CurrentUser.swift */; };
 		269AADC61C936C2C0034F32C /* BONetworkIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AADC51C936C2C0034F32C /* BONetworkIndicator.swift */; };
+		269AADC81C9483E10034F32C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AADC71C9483E10034F32C /* Constants.swift */; };
 		26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */; };
 		26AA75251C8318A20023D009 /* CreateTeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */; };
 		26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */; };
@@ -92,6 +93,7 @@
 		26985F1F1C42976900C5FA0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		26985F2C1C4301A600C5FA0C /* CurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		269AADC51C936C2C0034F32C /* BONetworkIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BONetworkIndicator.swift; path = Core/BONetworkIndicator.swift; sourceTree = "<group>"; };
+		269AADC71C9483E10034F32C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPopoverViewController.swift; path = Screens/BOPopoverViewController.swift; sourceTree = "<group>"; };
 		26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateTeamTableViewController.swift; path = Screens/CreateTeamTableViewController.swift; sourceTree = "<group>"; };
 		26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarMenuTableViewController.swift; path = Screens/SidebarMenuTableViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				265DEB671BAC59190076F222 /* bridging-header.h */,
 				26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */,
 				26985F1C1C42974D00C5FA0C /* Localizable.strings */,
+				269AADC71C9483E10034F32C /* Constants.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
 				26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */,
 				26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */,
+				269AADC81C9483E10034F32C /* Constants.swift in Sources */,
 				26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
 				26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */,

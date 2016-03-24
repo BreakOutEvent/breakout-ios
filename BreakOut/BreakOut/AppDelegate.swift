@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         //Instabug Setup
-        Instabug.startWithToken(PrivateConstants.instabugAPIToken, invocationEvent: IBGInvocationEventTwoFingersSwipeLeft)
+        Instabug.startWithToken(PrivateConstants.instabugAPIToken, invocationEvent: IBGInvocationEvent.TwoFingersSwipeLeft)
         
         //Fabric Setup
         //Fabric.with([Crashlytics.self()])
@@ -49,6 +49,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Network Debugging
         #if DEBUG
             NFX.sharedInstance().start()
+            Visualizer.start()
+            
+            NSNotificationCenter.defaultCenter().addObserverForName(nil,
+                object: nil,
+                queue: nil) {
+                    note in
+                    if note.name.containsString("BONotification_") {
+                        print("Notification: " + note.name + "\r\n")
+                    }
+            }
         #endif
 
         //BONetworkerTest().postObjectFromJSON()
@@ -61,11 +71,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FeatureFlagManager.sharedInstance.downloadCurrentFeatureFlagSetup()
         
-        Visualizer.start()
-        
-        
         return true
     }
+    
+    
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

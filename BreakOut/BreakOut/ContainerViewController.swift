@@ -25,6 +25,10 @@ class ContainerViewController: SlideMenuController {
         super.awakeFromNib()
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func viewDidAppear(animated: Bool) {
         // Check UserDefaults for already logged in user
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -33,6 +37,8 @@ class ContainerViewController: SlideMenuController {
         }else{
             CurrentUser.sharedInstance.downloadUserData()
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLoginScreen", name: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
     }
     
 // MARK: - Helper Functions
