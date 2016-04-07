@@ -267,8 +267,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
             
             self.setupEventPicker()
             
-            
-            BOToast(text: String(format: "SUCCESSFUL: Received Array of Events (Count:%i)", responseArray.count))
+            BOToast.log("Successfully received array of events (count: \(responseArray.count)")
             
             }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
                 //Error during receive of all Events
@@ -285,7 +284,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
                 // Tracking
                 //Flurry.logEvent("/user/becomeParticipant/completed_error")
                 
-                BOToast(text: "ERROR: During receiving list of Events")
+                BOToast.log("Error during receiving list of events", level: .Error)
         }
     }
     
@@ -330,7 +329,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
                 
                 self.loadingHUD.hide(true)
                 
-                BOToast(text: "SUCCESSFUL: Send invitation for new Team for that event!")
+                BOToast.log("SUCCESSFUL: Send invitation for new Team for that event!")
             })
             { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                 print("---------------------------------------")
@@ -348,7 +347,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
                 
                 self.loadingHUD.hide(true)
                 
-                BOToast(text: "ERROR: During invitation to new Team")
+                BOToast.log("ERROR: During invitation to new Team", level: .Error)
         }
     }
     
@@ -391,7 +390,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
                 // Try to send the invitation
                 self.sendInvitationRequest(2)
                 
-                BOToast(text: "SUCCESSFUL: Created a new Team for that event!")
+                BOToast.log("SUCCESSFUL: Created a new Team for that event!")
             })
             { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                 print("---------------------------------------")
@@ -409,7 +408,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         
                 self.loadingHUD.hide(true)
                 
-                BOToast(text: "ERROR: During creation of new Team")
+                BOToast.log("ERROR: During creation of new Team", level: .Error)
         }
     }
     

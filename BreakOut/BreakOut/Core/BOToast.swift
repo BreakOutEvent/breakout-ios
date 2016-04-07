@@ -12,28 +12,25 @@ import JLToast
 
 class BOToast {
     
-    init(text: String) {
-        var printText: String = ""
-        if text.containsString("SUCCESSFUL") {
-            printText = "✅"
-        }
-        if text.containsString("WARNING") {
-            printText = "⚠️"
-        }
-        if text.containsString("ERROR") {
-            printText = "❗️"
-        }
+    enum Level {
+        case Success, Warning, Error
+    }
+    
+    class func log(message: String, level: Level = Level.Success) {
         
-        printText += text
+        let toBePrinted: String = {
+            switch level {
+            case .Success: return "✅ \(message)"
+            case .Warning: return "⚠️ \(message)"
+            case .Error: return "❗️ \(message)"
+            }
+        }()
         
-        
-        if FeatureFlagManager.sharedInstance.isActivated(FeatureFlags.showDebuggingToasts){
-            JLToast.makeText(printText, duration: JLToastLongDelay).show()
-            
+        if FeatureFlagManager.sharedInstance.isActivated(FeatureFlags.showDebuggingToasts) {
+            JLToast.makeText(toBePrinted, duration: JLToastLongDelay).show()
             #if DEBUG
-                print("BOToast: " + printText + "\r\n")
+                print("BOToast: \(toBePrinted)")
             #endif
         }
     }
-
 }
