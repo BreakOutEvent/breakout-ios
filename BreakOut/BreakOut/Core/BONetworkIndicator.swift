@@ -15,12 +15,12 @@ class BONetworkIndicator: NSObject {
     static let si = BONetworkIndicator()
     
     func increaseLoading() {
-        self.loadingCount++
+        self.loadingCount += 1
         self.handleActivityIndicator()
     }
     
     func decreaseLoading() {
-        self.loadingCount--
+        self.loadingCount -= 1
         self.handleActivityIndicator()
     }
     

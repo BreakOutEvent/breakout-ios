@@ -225,7 +225,7 @@ class BOSynchronizeController: NSObject {
             var count:Int = 100
             for notYetLoadedPosting:BOPost in arrayOfNotYetLoadedPostings {
                 arrayOfIDsToLoad += [notYetLoadedPosting.uuid]
-                count--
+                count -= 1
                 if count <= 0 {
                     break
                 }
@@ -297,9 +297,9 @@ class BOSynchronizeController: NSObject {
             var numberOfAddedPosts: Int = 0
             // response is an Array of Posting Objects
             for newPosting: NSDictionary in response as! Array {
-                let newPost: BOPost = BOPost.createWithDictionary(newPosting)
+                BOPost.createWithDictionary(newPosting)
                 //newPost.printToLog()
-                numberOfAddedPosts++
+                numberOfAddedPosts += 1
             }
             BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             
