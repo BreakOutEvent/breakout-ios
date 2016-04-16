@@ -207,7 +207,7 @@ class BOSynchronizeController: NSObject {
                 newPosting.printToLog()
             }
             
-            BOToast(text: String(format: "SUCCESSFUL: Downloaded Array (count: %i) of new posting ids since: %i", arrayOfPostingIDs.count,lastID))
+            BOToast.log("SUCCESSFUL: Downloaded Array (count: \(arrayOfPostingIDs.count) of new posting ids since: \(lastID)")
             
             self.downloadNotYetLoadedPostings()
             
@@ -225,7 +225,7 @@ class BOSynchronizeController: NSObject {
             var count:Int = 100
             for notYetLoadedPosting:BOPost in arrayOfNotYetLoadedPostings {
                 arrayOfIDsToLoad += [notYetLoadedPosting.uuid]
-                count--
+                count -= 1
                 if count <= 0 {
                     break
                 }
@@ -253,7 +253,7 @@ class BOSynchronizeController: NSObject {
                     
                     NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
                     
-                    BOToast(text: String(format:"Successfully downloaded and stored %i Postings", arrayOfPostingDictionaries.count))
+                    BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
                     
                     // Tracking
                     Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
@@ -261,8 +261,7 @@ class BOSynchronizeController: NSObject {
                 { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                     print("ERROR: While DownloadNotYetLoadedPostings")
                     print(error)
-                    BOToast(text: String(format:"ERROR: While trying to load %i postings", arrayOfIDsToLoad.count))
-                    
+                    BOToast.log("Error while trying to load \(arrayOfIDsToLoad.count) postings", level: .Error)
                     // Tracking
                     Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
             }
@@ -298,11 +297,11 @@ class BOSynchronizeController: NSObject {
             var numberOfAddedPosts: Int = 0
             // response is an Array of Posting Objects
             for newPosting: NSDictionary in response as! Array {
-                let newPost: BOPost = BOPost.createWithDictionary(newPosting)
+                BOPost.createWithDictionary(newPosting)
                 //newPost.printToLog()
-                numberOfAddedPosts++
+                numberOfAddedPosts += 1
             }
-            BOToast(text: String(format: "Downloading all postings was successful (%i)", numberOfAddedPosts))
+            BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             
                 // Tracking
                 Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])

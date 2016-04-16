@@ -70,7 +70,7 @@ class CurrentUser: NSObject {
         requestManager.PUT(String(format:"user/%i/",self.userid!), parameters: params, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
             BONetworkIndicator.si.decreaseLoading()
             // Successful
-            BOToast(text: "SUCCESSFUL: uploaded CurrentUser info")
+            BOToast.log("Successfully uploaded currentUser info")
             }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
                 BONetworkIndicator.si.decreaseLoading()
                 // Error
@@ -81,7 +81,7 @@ class CurrentUser: NSObject {
                 
                 print("ERROR: During CurrentUser upload")
                 print(error)
-                BOToast(text: "ERROR: During CurrentUser upload")
+                BOToast.log("Error during CurrentUser upload", level: .Error)
         }
     }
     
@@ -96,7 +96,7 @@ class CurrentUser: NSObject {
         requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
                 // Successful
                 BONetworkIndicator.si.decreaseLoading()
-                BOToast(text: "SUCCESSFUL: downloaded CurrentUser info")
+                BOToast.log("SUCCESSFUL: downloaded CurrentUser info")
             
                 let basicUserDict: NSDictionary = response as! NSDictionary
             
@@ -131,7 +131,7 @@ class CurrentUser: NSObject {
                 
                 print("ERROR: During CurrentUser download")
                 print(error)
-                BOToast(text: "ERROR: During CurrentUser download")
+                BOToast.log("ERROR: During CurrentUser download", level: .Error)
         }
     }
     

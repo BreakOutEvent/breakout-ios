@@ -42,7 +42,7 @@ class FeatureFlagManager: NSObject {
             // GET Request was successful
             print("DownloadCurrentFeatureFlagSetup Response: ")
             print(response)
-            BOToast(text: "DownloadCurrentFeatureFlagSetup was successful")
+            BOToast.log("DownloadCurrentFeatureFlagSetup was successful")
             
             // response is an Array
             for featureFlagConfig: NSDictionary in response as! Array {
@@ -56,7 +56,7 @@ class FeatureFlagManager: NSObject {
                 //TODO: Handle the error
                 print("ERROR: While DownloadCurrentFeatureFlagSetup")
                 print(error)
-                BOToast(text: "ERROR: While DownloadCurrentFeatureFlagSetup")
+                BOToast.log("Error while DownloadCurrentFeatureFlagSetup", level: .Error)
                 
                 //Tracking
                 Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful":false])

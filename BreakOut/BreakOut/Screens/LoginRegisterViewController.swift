@@ -219,7 +219,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
                 print("Registration Response: ")
                 print(response)
-                BOToast(text: "Registration response was successful")
+                BOToast.log("Registration response was succesful")
                 
                 let userID = response.valueForKey("id")
                 
@@ -237,7 +237,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
                 print("Registration Error: ")
                 print(error)
-                BOToast(text: "ERROR: During Registration")
+                BOToast.log("Error during registration", level: .Error)
                 
                 // TODO: Show detailed errors to the user
                 
@@ -265,7 +265,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         oAuthManager.authenticateUsingOAuthWithURLString("/oauth/token", username: self.emailTextField.text, password: self.passwordTextField.text, scope: "read write",
             success: { (credentials) -> Void in
-                BOToast(text: "Login was successful.")
+                BOToast.log("Login was successful.")
                 print("LOGIN: OAuth Code: "+credentials.accessToken)
                 if AFOAuthCredential.storeCredential(credentials, withIdentifier: "apiCredentials") {
                     // Successfully stored the OAuth credentials
@@ -297,12 +297,12 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                             print(error)
                     })
                 }else{
-                    BOToast(text: "ERROR: During storing the OAuth credentials.")
+                    BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
                 }
                 }) { (error: NSError!) -> Void in
                     print("LOGIN: Error: ")
                     print(error)
-                    BOToast(text: "ERROR: During Login")
+                    BOToast.log("ERROR: During Login", level: .Error)
                     
                     self.loadingHUD.hide(true)
                     self.enableInputs(true)
