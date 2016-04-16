@@ -13,6 +13,7 @@
 		260121461C78FE650041EAA8 /* BOImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121451C78FE650041EAA8 /* BOImageView.swift */; };
 		260121481C79008E0041EAA8 /* BOButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121471C79008E0041EAA8 /* BOButton.swift */; };
 		263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */; };
+		2643F5F51CC2B94500031038 /* NewPostingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2643F5F41CC2B94500031038 /* NewPostingTableViewController.swift */; };
 		2646AB441C56BE680082CA71 /* JoinTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2646AB431C56BE680082CA71 /* JoinTeamViewController.swift */; };
 		2649F80B1C652AF4005AA763 /* TeamProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649F80A1C652AF4005AA763 /* TeamProfileViewController.swift */; };
 		2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649F80C1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift */; };
@@ -65,6 +66,7 @@
 		260121451C78FE650041EAA8 /* BOImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImageView.swift; path = Core/BOImageView.swift; sourceTree = "<group>"; };
 		260121471C79008E0041EAA8 /* BOButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOButton.swift; path = Core/BOButton.swift; sourceTree = "<group>"; };
 		263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamByInvitationTableViewController.swift; path = Screens/JoinTeamByInvitationTableViewController.swift; sourceTree = "<group>"; };
+		2643F5F41CC2B94500031038 /* NewPostingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewPostingTableViewController.swift; path = Screens/Posts/NewPostingTableViewController.swift; sourceTree = "<group>"; };
 		2646AB431C56BE680082CA71 /* JoinTeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamViewController.swift; path = Screens/JoinTeamViewController.swift; sourceTree = "<group>"; };
 		2649F80A1C652AF4005AA763 /* TeamProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamProfileViewController.swift; path = Screens/Teams/TeamProfileViewController.swift; sourceTree = "<group>"; };
 		2649F80C1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamProfilePostingsTableViewController.swift; path = Screens/Teams/TeamProfilePostingsTableViewController.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 		26FD9E5A1C0A3C8800BF9EFD /* Posts */ = {
 			isa = PBXGroup;
 			children = (
+				2643F5F41CC2B94500031038 /* NewPostingTableViewController.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
 				26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */,
 				260121421C78F6F20041EAA8 /* BOToast.swift in Sources */,
+				2643F5F51CC2B94500031038 /* NewPostingTableViewController.swift in Sources */,
 				260121481C79008E0041EAA8 /* BOButton.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */,
