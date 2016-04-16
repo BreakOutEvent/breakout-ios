@@ -38,7 +38,7 @@ class CurrentUser: NSObject {
     
     static let sharedInstance = CurrentUser()
     
-    override init() {
+    override private init() {
         super.init()
         
         self.retrieveFromNSUserDefaults()
