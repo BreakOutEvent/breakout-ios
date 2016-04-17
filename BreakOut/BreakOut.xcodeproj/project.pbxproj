@@ -19,6 +19,7 @@
 		2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649F80C1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift */; };
 		265DEB641BAC48B90076F222 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 265DEB631BAC48B90076F222 /* Podfile */; };
 		265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */; };
+		266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266BFF6D1CC400500004E220 /* BOLocation.swift */; };
 		2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */; };
 		2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5811B7E4BB4000CF85A /* FirstViewController.swift */; };
 		2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5831B7E4BB4000CF85A /* AboutBreakOutViewController.swift */; };
@@ -73,6 +74,7 @@
 		265DEB631BAC48B90076F222 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		265DEB671BAC59190076F222 /* bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bridging-header.h"; sourceTree = "<group>"; };
 		265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeScreenViewController.swift; path = Screens/WelcomeScreenViewController.swift; sourceTree = "<group>"; };
+		266BFF6D1CC400500004E220 /* BOLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOLocation.swift; path = Core/Database/BOLocation.swift; sourceTree = "<group>"; };
 		2678A57A1B7E4BB4000CF85A /* BreakOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2678A57E1B7E4BB4000CF85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				26FD9E621C0A41C600BF9EFD /* BOPost.swift */,
+				266BFF6D1CC400500004E220 /* BOLocation.swift */,
 				26FD9E671C0B8F0400BF9EFD /* BODataModel.xcdatamodeld */,
 			);
 			name = Database;
@@ -533,6 +536,7 @@
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */,
+				266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */,
 				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */,
