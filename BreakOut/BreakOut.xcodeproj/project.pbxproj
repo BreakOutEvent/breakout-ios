@@ -20,6 +20,7 @@
 		265DEB641BAC48B90076F222 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 265DEB631BAC48B90076F222 /* Podfile */; };
 		265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */; };
 		266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266BFF6D1CC400500004E220 /* BOLocation.swift */; };
+		266BFF731CC40AE80004E220 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 266BFF721CC40AE80004E220 /* CoreLocation.framework */; };
 		2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */; };
 		2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5811B7E4BB4000CF85A /* FirstViewController.swift */; };
 		2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5831B7E4BB4000CF85A /* AboutBreakOutViewController.swift */; };
@@ -75,6 +76,7 @@
 		265DEB671BAC59190076F222 /* bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bridging-header.h"; sourceTree = "<group>"; };
 		265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeScreenViewController.swift; path = Screens/WelcomeScreenViewController.swift; sourceTree = "<group>"; };
 		266BFF6D1CC400500004E220 /* BOLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOLocation.swift; path = Core/Database/BOLocation.swift; sourceTree = "<group>"; };
+		266BFF721CC40AE80004E220 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		2678A57A1B7E4BB4000CF85A /* BreakOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BreakOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2678A57E1B7E4BB4000CF85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				266BFF731CC40AE80004E220 /* CoreLocation.framework in Frameworks */,
 				2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */,
 				8987C40C5B47F2165E0BA734 /* Pods_BreakOut.framework in Frameworks */,
 			);
@@ -137,6 +140,7 @@
 		1EB499C04979986967F64D58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				266BFF721CC40AE80004E220 /* CoreLocation.framework */,
 				2678A5A11B7F3B2D000CF85A /* MapKit.framework */,
 				6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */,
 			);
