@@ -7,12 +7,24 @@
 //
 
 import UIKit
+import CoreLocation
 
-class NewPostingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+// Database
+import MagicalRecord
+
+// Tracking
+import Flurry_iOS_SDK
+
+class NewPostingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var postingPictureImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var messageTextView: UITextView!
     var imagePicker: UIImagePickerController = UIImagePickerController()
+    
+    let locationManager = CLLocationManager()
+    var newLongitude: Double = 0.0
+    var newLatitude: Double = 0.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +39,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.title = NSLocalizedString("newPostingTitle", comment: "")
         
         // Create save button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "sendPostingButtonPressed")
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: #selector(sendPostingButtonPressed))
         navigationItem.rightBarButtonItem = rightButton
         
         // Create menu buttons for navigation item
@@ -37,6 +49,19 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         }
 
         self.imagePicker.delegate = self
+        
+        
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,6 +72,15 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - Button Actions
     
     func sendPostingButtonPressed() {
+        let newPosting: BOPost = BOPost.MR_createEntity()! as BOPost
+        
+        newPosting.flagNeedsUpload = true
+        newPosting.text = self.messageTextView.text
+        newPosting.latitude = self.newLatitude
+        newPosting.longitude = self.newLongitude
+        
+        // Save
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         
     }
     
@@ -87,6 +121,40 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         //Now that the action sheet is set up, we present it.
         self.presentViewController(optionMenu, animated: true, completion: nil)
+    }
+    
+// MARK: - Location
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        if manager.location?.verticalAccuracy < 50 && manager.location?.horizontalAccuracy < 50.0 {
+            
+            // Start Reverse Geocoding to retrieve the cityname
+            self.retrieveCurrentCityName(manager.location!)
+            
+            // Stop further location updates as accuracy is enough
+            manager.stopUpdatingLocation()
+            
+            // Store the coordinates
+            self.newLongitude = (manager.location?.coordinate.longitude)!
+            self.newLatitude = (manager.location?.coordinate.latitude)!
+        }
+    }
+    
+    func retrieveCurrentCityName(location: CLLocation) {
+        CLGeocoder().reverseGeocodeLocation(location, completionHandler:
+            {(placemarks, error) in
+                if (error != nil) {
+                    BOToast.log("reverse geodcode fail: \(error!.localizedDescription)", level: BOToast.Level.Error )
+                }
+                
+                let pm = placemarks! as [CLPlacemark]
+                if pm.count > 0 {
+                    let placeMark: CLPlacemark = placemarks![0] as CLPlacemark
+                    BOToast.log("Retrieved City: \(placeMark.locality)", level: BOToast.Level.Success)
+                    self.locationLabel.text = placeMark.locality
+                }
+        })
     }
     
 // MARK: - Image Picker Delegate
