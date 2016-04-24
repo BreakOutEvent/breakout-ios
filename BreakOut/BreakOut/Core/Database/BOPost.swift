@@ -18,6 +18,7 @@ import Flurry_iOS_SDK
 class BOPost: NSManagedObject {
     @NSManaged var uuid: NSInteger
     @NSManaged var text: String?
+    @NSManaged var city: String?
     @NSManaged var date: NSDate
     @NSManaged var longitude: NSNumber
     @NSManaged var latitude: NSNumber
