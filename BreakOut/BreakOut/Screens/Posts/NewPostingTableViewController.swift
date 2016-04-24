@@ -79,6 +79,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         newPosting.latitude = self.newLatitude
         newPosting.longitude = self.newLongitude
         
+        newPosting.city = self.locationLabel.text
+        
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         
