@@ -32,7 +32,6 @@
 		2678A5981B7E4BB4000CF85A /* BreakOutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */; };
 		2678A5A21B7F3B2D000CF85A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2678A5A11B7F3B2D000CF85A /* MapKit.framework */; };
 		2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678B0431C39CBA800136507 /* ContainerViewController.swift */; };
-		267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B1DC81C3444710059C66C /* PrivateConstants.swift */; };
 		26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26985F141C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift */; };
 		26985F1A1C42974D00C5FA0C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 26985F1C1C42974D00C5FA0C /* Localizable.strings */; };
 		26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26985F2C1C4301A600C5FA0C /* CurrentUser.swift */; };
@@ -50,6 +49,9 @@
 		26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */; };
 		26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */; };
 		26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */; };
+		61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE791CD6B32A0069DAEC /* MapViewController.swift */; };
+		61D0BE7E1CD6B3D50069DAEC /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */; };
+		61D0BE801CD6BB670069DAEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE7F1CD6BB670069DAEC /* User.swift */; };
 		8987C40C5B47F2165E0BA734 /* Pods_BreakOut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */; };
 /* End PBXBuildFile section */
 
@@ -94,7 +96,6 @@
 		2678A5971B7E4BB4000CF85A /* BreakOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakOutTests.swift; sourceTree = "<group>"; };
 		2678A5A11B7F3B2D000CF85A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		2678B0431C39CBA800136507 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
-		267B1DC81C3444710059C66C /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
 		26985F141C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BecomeParticipantTableViewController.swift; path = Screens/BecomeParticipantTableViewController.swift; sourceTree = "<group>"; };
 		26985F181C42973D00C5FA0C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		26985F191C42973D00C5FA0C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -117,6 +118,9 @@
 		26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleInformation.swift; sourceTree = "<group>"; };
 		42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
+		61D0BE791CD6B32A0069DAEC /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Screens/MapViewController.swift; sourceTree = "<group>"; };
+		61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
+		61D0BE7F1CD6BB670069DAEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6D0FBFAAF7E6D140E4B864B4 /* Pods_BreakOut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BreakOut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -200,9 +204,9 @@
 		2678A57D1B7E4BB4000CF85A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				267B1DC81C3444710059C66C /* PrivateConstants.swift */,
 				265DEB631BAC48B90076F222 /* Podfile */,
 				2678A57E1B7E4BB4000CF85A /* Info.plist */,
+				61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */,
 				265DEB671BAC59190076F222 /* bridging-header.h */,
 				26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */,
 				26985F1C1C42974D00C5FA0C /* Localizable.strings */,
@@ -239,6 +243,8 @@
 		26FD9E591C0A3C7700BF9EFD /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				61D0BE791CD6B32A0069DAEC /* MapViewController.swift */,
+				61D0BE7F1CD6BB670069DAEC /* User.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -521,6 +527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */,
+				61D0BE7E1CD6B3D50069DAEC /* PrivateConstants.swift in Sources */,
 				26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */,
 				2646AB441C56BE680082CA71 /* JoinTeamViewController.swift in Sources */,
 				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
@@ -542,15 +549,16 @@
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
 				262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */,
 				262FA8FB1CCD1BF70094B810 /* AllPostingsTableViewController.swift in Sources */,
+				61D0BE801CD6BB670069DAEC /* User.swift in Sources */,
 				2649F80B1C652AF4005AA763 /* TeamProfileViewController.swift in Sources */,
 				26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */,
 				265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
-				267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */,
 				266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */,
 				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
+				61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */,
 				2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */,
 				263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */,
 				26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */,

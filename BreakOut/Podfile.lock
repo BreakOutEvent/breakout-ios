@@ -36,11 +36,6 @@ PODS:
   - netfox (1.7.2)
   - Pantry (0.2.1)
   - ReachabilitySwift (2.3.3)
-  - Realm (0.98.4):
-    - Realm/Headers (= 0.98.4)
-  - Realm/Headers (0.98.4)
-  - RealmSwift (0.98.4):
-    - Realm (= 0.98.4)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -64,7 +59,6 @@ DEPENDENCIES:
   - netfox (~> 1.7.2)
   - Pantry (~> 0.2.1)
   - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`)
-  - RealmSwift
   - SDWebImage (~> 3.7)
   - SlideMenuControllerSwift (~> 2.0.5)
   - SpinKit (~> 1.2.0)
@@ -100,8 +94,6 @@ SPEC CHECKSUMS:
   netfox: ab995a8327995b847a7b7c1d83c574e0d4aacb25
   Pantry: 433931c8f545dd3426ca7d09a4edd5afa89c6e01
   ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
-  Realm: 7745674cb1b7cb2a84a655bfd420b86efdaad36e
-  RealmSwift: 18742f4f13f98117aeec53b92058918ac93bf38f
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlideMenuControllerSwift: 9dcae36265e14c4f42e729f212463beb60d2cf96
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
