@@ -340,10 +340,10 @@
             </objects>
             <point key="canvasLocation" x="11" y="-1472"/>
         </scene>
-        <!--First-->
+        <!--Map View Controller-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="MapViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapViewController" id="9pv-A4-QxB" customClass="MapViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -358,14 +358,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
+                    <navigationItem key="navigationItem" id="2RT-Cg-eA9"/>
                     <connections>
                         <outlet property="mapView" destination="7Ul-51-2i5" id="UOg-Xn-STm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2514" y="-384"/>
+            <point key="canvasLocation" x="2509" y="-455"/>
         </scene>
         <!--Container View Controller-->
         <scene sceneID="69l-h2-kKo">
@@ -1255,7 +1255,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MapTabController" id="49e-Tb-3d3" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -1268,7 +1268,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764" y="-64"/>
+            <point key="canvasLocation" x="1708" y="296"/>
         </scene>
         <!--Sidebar Navigation-->
         <scene sceneID="hNg-qO-2oN">
@@ -1503,21 +1503,21 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="52u-fI-UZc">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MapViewController" id="52u-fI-UZc">
                                         <rect key="frame" x="0.0" y="341" width="600" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="52u-fI-UZc" id="dhu-El-Exa">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="4oG-xs-PjK">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="4oG-xs-PjK">
                                                     <rect key="frame" x="16" y="12" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="4oG-xs-PjK" secondAttribute="height" multiplier="1:1" id="MOn-tE-KX3"/>
                                                         <constraint firstAttribute="width" constant="24" id="deX-dF-lVk"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTR-Cd-beJ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTR-Cd-beJ">
                                                     <rect key="frame" x="72" y="15" width="512" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -3552,7 +3552,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
         <image name="camera-button_Icon" width="28" height="28"/>
         <image name="cancel_Icon" width="24" height="24"/>
         <image name="city_Icon" width="24" height="24"/>
-        <image name="first" width="30" height="30"/>
         <image name="help-login_Icon" width="24" height="24"/>
         <image name="help_Icon" width="24" height="24"/>
         <image name="mail_Icon" width="24" height="24"/>

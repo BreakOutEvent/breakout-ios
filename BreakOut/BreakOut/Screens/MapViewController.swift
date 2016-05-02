@@ -15,7 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // TODO: 
     // > fetch user location from backend
     // > delete dummy user.swift
-    // > activate delegation from sidebarTableViewController
+    // > add sideView in annotations
     
     let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
     let regionRadius : CLLocationDistance = 5000
@@ -37,7 +37,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func createUserArray(){
         let David = User(name: "David", locationName: "München", coordinate: CLLocationCoordinate2D(latitude: 48.099656, longitude: 11.531533))
-        let Florian = User(name: "Florian", locationName: "Madrid", coordinate: CLLocationCoordinate2D(latitude: 40.416775, longitude: -3.70379))
+        let Florian = User(name: "Florian", locationName: "Dresden", coordinate: CLLocationCoordinate2D(latitude: 51.050409, longitude: 13.737262))
         users.append(David)
         users.append(Florian)
     }
