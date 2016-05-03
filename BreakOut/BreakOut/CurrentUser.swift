@@ -63,38 +63,12 @@ class CurrentUser: NSObject {
         
         BONetworkManager.doJSONRequestPUT(.UserData, arguments: [self.userid!], parameters: params, auth: true, success: { (response) in
             BONetworkIndicator.si.decreaseLoading()
-        }, error: nil)
-        
-        
-//        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-//        
-//        let params: NSMutableDictionary = self.attributesAsDictionary()
-//        
-//        // Restructure the params Array
-//        params.setValue(self.attributesAsDictionary(), forKey: "participant")
-//        
-//        
-//        requestManager.requestSerializer = AFJSONRequestSerializer()
-//        
-//        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-//        
-//        BONetworkIndicator.si.increaseLoading()
-//        requestManager.PUT(String(format:"user/%i/",self.userid!), parameters: params, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-//            BONetworkIndicator.si.decreaseLoading()
-//            // Successful
-//            BOToast.log("Successfully uploaded currentUser info")
-//            }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-//                BONetworkIndicator.si.decreaseLoading()
-//                // Error
-//                
-//                if operation?.response?.statusCode == 401 {
-//                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
-//                }
-//                
-//                print("ERROR: During CurrentUser upload")
-//                print(error)
-//                BOToast.log("Error during CurrentUser upload", level: .Error)
-//        }
+        }) { (error, response) in
+            BONetworkIndicator.si.decreaseLoading()
+            if response?.statusCode == 401 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+            }
+        }
     }
     
     func downloadUserData() {
@@ -129,7 +103,12 @@ class CurrentUser: NSObject {
                 self.flagParticipant = false
             }
             self.storeInNSUserDefaults()
-        }, error: nil)
+        }) { (error, response) in
+            BONetworkIndicator.si.decreaseLoading()
+            if response?.statusCode == 401 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+            }
+        }
     }
     
     

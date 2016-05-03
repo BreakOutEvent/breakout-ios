@@ -194,7 +194,7 @@ class BOSynchronizeController: NSObject {
                 let newPosting: BOPost = BOPost.create(newPostingID, flagNeedsDownload: true)
                 newPosting.printToLog()
             }
-        }, error: nil)
+        })
     }
     
     func downloadNotYetLoadedPostings() {
@@ -223,7 +223,9 @@ class BOSynchronizeController: NSObject {
                 BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
                 // Tracking
                 Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
-            }, error: nil)
+            }) { (error, response) in
+                Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
+            }
         }
     }
     
@@ -250,7 +252,10 @@ class BOSynchronizeController: NSObject {
             BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             // Tracking
             Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
-        }, error: nil)
+        }) { (error, response) in
+            // TODO: Handle Errors
+            Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+        }
     }
     
 // MARK: Upload Postings
