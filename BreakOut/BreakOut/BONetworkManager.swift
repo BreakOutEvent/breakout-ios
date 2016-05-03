@@ -8,8 +8,13 @@
 
 import Foundation
 import AFOAuth2Manager
+import Flurry_iOS_SDK
 
 class BONetworkManager {
+    
+    private static let loginSecret = "123456789"
+    
+    private static let loginStorage = "apiCredentials"
     
     private enum HTTPMethod {
         case GET, PUT, POST, DELETE
@@ -31,7 +36,7 @@ class BONetworkManager {
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         requestManager.requestSerializer = AFJSONRequestSerializer()
         if auth {
-            let credentials = AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials")
+            let credentials = AFOAuthCredential.retrieveCredentialWithIdentifier(loginStorage)
             requestManager.requestSerializer
                 .setAuthorizationHeaderFieldWithCredential(credentials)
         }
@@ -83,6 +88,28 @@ class BONetworkManager {
     
     static func doJSONRequestDELETE(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> (), error: ((NSError, NSHTTPURLResponse?) -> ())?) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .DELETE)
+    }
+    
+    static func loginRequest(user: String, pass: String, success: () -> (), error: () -> ()) {
+        let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: NSURL(string: PrivateConstants.backendURL),
+                                                                 clientID: "breakout_app", secret: loginSecret)
+        oAuthManager
+            .authenticateUsingOAuthWithURLString("/oauth/token", username: user, password: pass, scope: "read write", success: { (credentials) -> Void in
+                BOToast.log("Login was successful.")
+                print("LOGIN: OAuth Code: "+credentials.accessToken)
+                if AFOAuthCredential.storeCredential(credentials, withIdentifier: loginStorage) {
+                   success()
+                } else {
+                   BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
+                }
+        }) { (error: NSError!) -> Void in
+            print("LOGIN: Error: ")
+            print(error)
+            BOToast.log("ERROR: During Login", level: .Error)
+            // Tracking
+            Flurry.logEvent("/login/completed_error")
+        }
+
     }
     
 }

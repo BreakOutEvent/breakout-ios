@@ -209,43 +209,29 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.setupLoadingHUD("registrationLoading")
         self.enableInputs(false)
         
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-        
         let params: NSDictionary = ["email":self.emailTextField.text!, "password":self.passwordTextField.text!]
         
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.POST("user/", parameters: params,
-            success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                print("Registration Response: ")
-                print(response)
-                BOToast.log("Registration response was succesful")
-                
-                let userID = response.valueForKey("id")
-                
-                CurrentUser.sharedInstance.userid = userID as? Int
-                CurrentUser.sharedInstance.email = self.emailTextField.text
-                CurrentUser.sharedInstance.storeInNSUserDefaults()
-                
-                // Tracking
-                Flurry.logEvent("/registration/completed_successful")
-                
-                self.loadingHUD.hide(true)
-                // Try to Login with new account
-                self.startLoginRequest()
-            })
-            { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
-                print("Registration Error: ")
-                print(error)
-                BOToast.log("Error during registration", level: .Error)
-                
-                // TODO: Show detailed errors to the user
-                
-                self.enableInputs(true)
-                self.loadingHUD.hide(true)
-                
-                // Tracking
-                Flurry.logEvent("/registration/completed_error")
+        BONetworkManager.doJSONRequestPOST(.User, arguments: [], parameters: params, auth: false, success: { (response) in
+            let userID = response.valueForKey("id")
+            CurrentUser.sharedInstance.userid = userID as? Int
+            CurrentUser.sharedInstance.email = self.emailTextField.text
+            CurrentUser.sharedInstance.storeInNSUserDefaults()
+            
+            // Tracking
+            Flurry.logEvent("/registration/completed_successful")
+            
+            self.loadingHUD.hide(true)
+            // Try to Login with new account
+            self.startLoginRequest()
+
+        }) { (error, response) in
+            // TODO: Show detailed errors to the user
+            
+            self.enableInputs(true)
+            self.loadingHUD.hide(true)
+            
+            // Tracking
+            Flurry.logEvent("/registration/completed_error")
         }
     }
 
@@ -261,55 +247,30 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.setupLoadingHUD("loginLoading")
         self.enableInputs(false)
         
-        let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: NSURL(string: PrivateConstants.backendURL), clientID: "breakout_app", secret: "123456789")
+        BONetworkManager.loginRequest(emailTextField.text!, pass: passwordTextField.text!, success: { () in
+            
+            BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
+                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                CurrentUser.sharedInstance.storeInNSUserDefaults()
+                
+                // Empty Textinputs
+                self.emailTextField.text = ""
+                self.passwordTextField.text = ""
+                
+                self.loadingHUD.hide(true)
+                self.enableInputs(true)
+                
+                // Tracking
+                Flurry.logEvent("/login/completed_successful")
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+            })
+            
+        }) { () in
+            self.loadingHUD.hide(true)
+            self.enableInputs(true)
+        }
         
-        oAuthManager.authenticateUsingOAuthWithURLString("/oauth/token", username: self.emailTextField.text, password: self.passwordTextField.text, scope: "read write",
-            success: { (credentials) -> Void in
-                BOToast.log("Login was successful.")
-                print("LOGIN: OAuth Code: "+credentials.accessToken)
-                if AFOAuthCredential.storeCredential(credentials, withIdentifier: "apiCredentials") {
-                    // Successfully stored the OAuth credentials
-                    let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-                    
-                    requestManager.requestSerializer = AFJSONRequestSerializer()
-                    
-                    requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-                    
-                    requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                        //
-                        CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
-                        CurrentUser.sharedInstance.storeInNSUserDefaults()
-                        
-                        // Empty Textinputs
-                        self.emailTextField.text = ""
-                        self.passwordTextField.text = ""
-                        
-                        self.loadingHUD.hide(true)
-                        self.enableInputs(true)
-                        
-                        // Tracking
-                        Flurry.logEvent("/login/completed_successful")
-                        
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                        
-                        }, failure: { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                            print("LOGIN: Error: While retrieving own user info from GET: /me/")
-                            print(error)
-                    })
-                }else{
-                    BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
-                }
-                }) { (error: NSError!) -> Void in
-                    print("LOGIN: Error: ")
-                    print(error)
-                    BOToast.log("ERROR: During Login", level: .Error)
-                    
-                    self.loadingHUD.hide(true)
-                    self.enableInputs(true)
-                    
-                    // Tracking
-                    Flurry.logEvent("/login/completed_error")
-            }
     }
     
 }

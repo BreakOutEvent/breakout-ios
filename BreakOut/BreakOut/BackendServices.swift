@@ -8,6 +8,7 @@
 
 import Foundation
 enum BackendServices: String {
+    case User = "user/"
     case UserData = "user/%i/"
     case CurrentUser = "me/"
     case PostingsSince = "posting/get/since/%i/"
