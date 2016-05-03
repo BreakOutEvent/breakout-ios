@@ -31,19 +31,22 @@ class BONetworkManager {
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         requestManager.requestSerializer = AFJSONRequestSerializer()
         if auth {
+            let credentials = AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials")
             requestManager.requestSerializer
-                .setAuthorizationHeaderFieldWithCredential(AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
+                .setAuthorizationHeaderFieldWithCredential(credentials)
         }
-        method.requestType(requestManager)(String(format: service.rawValue, arguments: arguments), parameters: parameters, success: {
+        let requestString = String(format: service.rawValue, arguments: arguments)
+        method.requestType(requestManager)(requestString, parameters: parameters, success: {
             (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-            print("\(service.rawValue) Response: ")
+            print("\(requestString) Response: ")
             print(response)
+            
             handler(response)
-            BOToast.log("SUCCESSFUL: \(service.rawValue) Download! w. Args \(arguments)")
+            BOToast.log("SUCCESSFUL: \(requestString) Download! w. Parms \(parameters)")
         }) { (operation: AFHTTPRequestOperation?, err: NSError) -> Void in
-            print("ERROR: while \(service.rawValue) w. Args \(arguments)")
+            print("ERROR: while \(requestString) w. Parms \(parameters)")
             print(err)
-            BOToast.log("ERROR: during \(service.rawValue)", level: .Error)
+            BOToast.log("ERROR: during \(requestString)", level: .Error)
             if let errHandler = error {
                 errHandler(err, operation?.response)
             }
