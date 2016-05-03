@@ -246,6 +246,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
     }
     
+// TODO: Move these to the either The SynchronizationController or the NetworkManager
 // MARK: - API Calls
     
     func getAllEventsRequest() {
