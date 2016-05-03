@@ -147,6 +147,99 @@ class BOSynchronizeController: NSObject {
         
     }
     
+// MARK: Events
+    
+    func sendInvitationToTeam(teamID: Int, name: String, eventID: Int, handler: () -> ()) {
+        
+        //TODO: Which parameter need to be passed to the API-Endpoint?
+        let params: NSDictionary = [
+            "event": eventID,
+            "name": name
+        ]
+        
+        BONetworkManager.doJSONRequestPOST(.EventInvitation, arguments: [eventID, teamID], parameters: params, auth: true, success: { (response) in
+            CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+            handler()
+        }) { (_,_) in
+            handler()
+        }
+    }
+    
+    func getAllEvents(success: ([BOEvent]) -> ()) {
+        BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: true, success: { (response) in
+            if let responseArray: Array = response as? Array<NSDictionary> {
+                var res = [BOEvent]()
+                for eventDictionary: NSDictionary in responseArray {
+                    let newEvent: BOEvent = BOEvent(id: (eventDictionary["id"] as? Int)!, title: (eventDictionary["title"] as? String)!, dateUnixTimestamp: (eventDictionary["date"] as? Int)!, city:(eventDictionary["city"] as? String)!)
+                    res.append(newEvent)
+                }
+                success(res)
+            } else {
+                success([])
+            }
+        }) { (error, response) in
+            if response?.statusCode == 401 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+            }
+        }
+    }
+    
+    func createTeam(name: String, eventID: Int, success: () -> (), error: () -> ()) {
+        let params: NSDictionary = [
+            "event": eventID,
+            "name": name
+        ]
+        BONetworkManager.doJSONRequestPOST(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
+            
+            // TODO: Do something with the response
+            success()
+        }) { (err, response) in
+            // TODO: Maybe show something more to the user
+            error()
+        }
+    }
+    
+    
+// MARK: Participant
+    
+    func becomeParticipant(firstName: String, lastname: String, gender: String, email: String, emergencyNumber: String, phone: String, shirtSize: String, success: () -> (), error: () -> ()) {
+        
+        if let userID = CurrentUser.sharedInstance.userid {
+            
+            let participantParams: NSDictionary = [
+                "emergencynumber": emergencyNumber,
+                //"hometown": self.hometownTextfield.text!,
+                //TODO: Birthday an Backend übertragen
+                "phonenumber": phone,
+                "tshirtsize": shirtSize
+            ]
+            let params: NSDictionary = [
+                "firstname": firstName,
+                "lastname": lastname,
+                "email": email,
+                "gender": gender,
+                "participant": participantParams
+            ]
+            
+            BONetworkManager.doJSONRequestPUT(.UserData, arguments: [userID], parameters: params, auth: true, success: { (response) in
+                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                
+                // Tracking
+                Flurry.logEvent("/user/becomeParticipant/completed_successful")
+                success()
+            }) { (err, response) in
+                
+                // TODO: Show detailed errors to the user
+                if response?.statusCode == 401 {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                }
+                error()
+                
+            }
+        }
+        
+    }
+    
 // MARK: Posts List    
     // Similar to functions above ;)
     

@@ -244,31 +244,36 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      :returns: No return value
      */
     func startLoginRequest() {
-        self.setupLoadingHUD("loginLoading")
-        self.enableInputs(false)
         
-        BONetworkManager.loginRequest(emailTextField.text!, pass: passwordTextField.text!, success: { () in
+        if let email = emailTextField.text, pass = passwordTextField.text {
+            self.setupLoadingHUD("loginLoading")
+            self.enableInputs(false)
             
-            BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
-                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
-                CurrentUser.sharedInstance.storeInNSUserDefaults()
+            BONetworkManager.loginRequest(email, pass: pass, success: { () in
                 
-                // Empty Textinputs
-                self.emailTextField.text = ""
-                self.passwordTextField.text = ""
+                BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
+                    CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                    CurrentUser.sharedInstance.storeInNSUserDefaults()
+                    
+                    // Empty Textinputs
+                    self.emailTextField.text = ""
+                    self.passwordTextField.text = ""
+                    
+                    self.loadingHUD.hide(true)
+                    self.enableInputs(true)
+                    
+                    // Tracking
+                    Flurry.logEvent("/login/completed_successful")
+                    
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
                 
+            }) { () in
                 self.loadingHUD.hide(true)
                 self.enableInputs(true)
-                
-                // Tracking
-                Flurry.logEvent("/login/completed_successful")
-                
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
-            
-        }) { () in
-            self.loadingHUD.hide(true)
-            self.enableInputs(true)
+            }
+        } else {
+            //TODO: Handle no text entered
         }
         
     }
