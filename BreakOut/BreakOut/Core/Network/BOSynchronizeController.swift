@@ -188,13 +188,13 @@ class BOSynchronizeController: NSObject {
     }
     
     func downloadArrayOfNewPostingIDsSince(lastID: Int) {
-        BONetworkManager.doJSONRequestGET(.PostingsSince, arguments: [lastID], parameters: nil, auth: false) { (response) in
+        BONetworkManager.doJSONRequestGET(.PostingsSince, arguments: [lastID], parameters: nil, auth: false, success: { (response) in
             let arrayOfPostingIDs: [Int] = response as! [Int]
             for newPostingID: Int in arrayOfPostingIDs {
                 let newPosting: BOPost = BOPost.create(newPostingID, flagNeedsDownload: true)
                 newPosting.printToLog()
             }
-        }
+        }, error: nil)
     }
     
     func downloadNotYetLoadedPostings() {
@@ -210,7 +210,7 @@ class BOSynchronizeController: NSObject {
                 }
             }
             
-            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIDsToLoad, auth: false) { (response) in
+            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIDsToLoad, auth: false, success: { (response) in
                 // response is an Array of Posting Dictionaries
                 let arrayOfPostingDictionaries: Array = response as! Array<NSDictionary>
                 for newPostingDict: NSDictionary in arrayOfPostingDictionaries {
@@ -223,7 +223,7 @@ class BOSynchronizeController: NSObject {
                 BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
                 // Tracking
                 Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
-            }
+            }, error: nil)
         }
     }
     
@@ -239,7 +239,7 @@ class BOSynchronizeController: NSObject {
         }*/
         
         
-        BONetworkManager.doJSONRequestGET(.Postings, arguments: [], parameters: nil, auth: false) { (response) in
+        BONetworkManager.doJSONRequestGET(.Postings, arguments: [], parameters: nil, auth: false, success: { (response) in
             var numberOfAddedPosts: Int = 0
             // response is an Array of Posting Objects
             for newPosting: NSDictionary in response as! Array {
@@ -250,7 +250,7 @@ class BOSynchronizeController: NSObject {
             BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             // Tracking
             Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
-        }
+        }, error: nil)
     }
     
 // MARK: Upload Postings

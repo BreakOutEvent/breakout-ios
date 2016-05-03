@@ -61,9 +61,9 @@ class CurrentUser: NSObject {
         
         BONetworkIndicator.si.increaseLoading()
         
-        BONetworkManager.doJSONRequestPUT(.UserData, arguments: [self.userid!], parameters: params, auth: true) { (response) in
+        BONetworkManager.doJSONRequestPUT(.UserData, arguments: [self.userid!], parameters: params, auth: true, success: { (response) in
             BONetworkIndicator.si.decreaseLoading()
-        }
+        }, error: nil)
         
         
 //        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
@@ -101,7 +101,7 @@ class CurrentUser: NSObject {
         
         BONetworkIndicator.si.increaseLoading()
         
-        BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true) { (response) in
+        BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
             // Successful
             BONetworkIndicator.si.decreaseLoading()
 
@@ -129,7 +129,7 @@ class CurrentUser: NSObject {
                 self.flagParticipant = false
             }
             self.storeInNSUserDefaults()
-        }
+        }, error: nil)
     }
     
     

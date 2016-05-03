@@ -27,7 +27,7 @@ class BONetworkManager {
         }
     }
     
-    private static func doJSONRequest(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> (), method: HTTPMethod) {
+    private static func doJSONRequest(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> (), error: ((NSError) -> ())?, method: HTTPMethod) {
         let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         requestManager.requestSerializer = AFJSONRequestSerializer()
         if auth {
@@ -40,26 +40,45 @@ class BONetworkManager {
             print(response)
             handler(response)
             BOToast.log("SUCCESSFUL: \(service.rawValue) Download! w. Args \(arguments)")
-        }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
+        }) { (operation: AFHTTPRequestOperation?, err: NSError) -> Void in
             print("ERROR: while \(service.rawValue) w. Args \(arguments)")
-            print(error)
+            print(err)
+            if let errHandler = error {
+                errHandler(err)
+            }
         }
     }
     
-    static func doJSONRequestGET(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> ()) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: handler, method: .GET)
+    static func doJSONRequestGET(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> ()) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .GET)
     }
     
-    static func doJSONRequestPUT(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> ()) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: handler, method: .PUT)
+    static func doJSONRequestPOST(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> ()) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .POST)
     }
     
-    static func doJSONRequestPOST(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> ()) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: handler, method: .POST)
+    static func doJSONRequestPUT(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> ()) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .PUT)
     }
     
-    static func doJSONRequestDELETE(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> ()) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: handler, method: .DELETE)
+    static func doJSONRequestDELETE(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> ()) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .DELETE)
+    }
+    
+    static func doJSONRequestGET(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> (), error: ((NSError) -> ())?) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .GET)
+    }
+    
+    static func doJSONRequestPUT(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> (), error: ((NSError) -> ())?) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .PUT)
+    }
+    
+    static func doJSONRequestPOST(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> (), error: ((NSError) -> ())?) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .POST)
+    }
+    
+    static func doJSONRequestDELETE(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, success: (AnyObject) -> (), error: ((NSError) -> ())?) {
+        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .DELETE)
     }
     
 }
