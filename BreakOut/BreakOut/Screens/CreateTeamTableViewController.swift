@@ -246,113 +246,39 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
     }
     
+// TODO: Move these to the either The SynchronizationController or the NetworkManager
 // MARK: - API Calls
     
     func getAllEventsRequest() {
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-        
-        requestManager.GET("/event/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-            //response is Array of Events
-            let responseArray: Array = response as! Array<NSDictionary>
-
-            for eventDictionary: NSDictionary in responseArray {
-                let newEvent: BOEvent = BOEvent(id: (eventDictionary["id"] as? Int)!, title: (eventDictionary["title"] as? String)!, dateUnixTimestamp: (eventDictionary["date"] as? Int)!, city:(eventDictionary["city"] as? String)!)
-                
-                self.eventDataSourceArray.append(newEvent)
-            }
-            
+        BOSynchronizeController.sharedInstance.getAllEvents() { (result) in
+            self.eventDataSourceArray = result
             self.setupEventPicker()
-            
-            BOToast.log("Successfully received array of events (count: \(responseArray.count)")
-            
-            }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                //Error during receive of all Events
-                print("---------------------------------------")
-                print("Registration Error: ")
-                print(error)
-                print("---------------------------------------")
-                
-                // TODO: Show detailed errors to the user
-                if operation?.response?.statusCode == 401 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
-                }
-                
-                // Tracking
-                //Flurry.logEvent("/user/becomeParticipant/completed_error")
-                
-                BOToast.log("Error during receiving list of events", level: .Error)
         }
+        
     }
     
     func sendInvitationRequest(teamID: Int) {
+        
         if self.emailTextField.text == "" {
             return
         }
         
         self.setAllInputsToEnabled(false)
         
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-        
-        // Get event id
-        let eventID: Int = self.eventDataSourceArray[eventCurrentlySelected!].id
-        
-        //TODO: Which parameter need to be passed to the API-Endpoint?
-        let params: NSDictionary = [
-            "event": eventID,
-            "name":self.teamNameTextfield.text!
-        ]
-        
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        
-        
-        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-        
-        requestManager.POST(String(format: "event/%i/team/%i/invitation", eventID, teamID), parameters: params,
-            success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                print("---------------------------------------")
-                print("Invitation to Team Response: ")
-                print(response)
-                print("---------------------------------------")
-                
-                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
-                
-                // Tracking
-                //Flurry.logEvent("/user/becomeParticipant/completed_successful")
-                
-                // Activate Inputs again
+        if let name = teamNameTextfield.text, currentEvent = eventCurrentlySelected {
+            let eventID: Int = self.eventDataSourceArray[currentEvent].id
+            BOSynchronizeController.sharedInstance.sendInvitationToTeam(teamID, name: name, eventID: eventID) { () in
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)
-                
-                BOToast.log("SUCCESSFUL: Send invitation for new Team for that event!")
-            })
-            { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
-                print("---------------------------------------")
-                print("Invitation to Team Error: ")
-                print(error)
-                print("---------------------------------------")
-                
-                // TODO: Show detailed errors to the user
-                
-                // Tracking
-                //Flurry.logEvent("/user/becomeParticipant/completed_error")
-                
-                // Activate Inputs again
-                self.setAllInputsToEnabled(true)
-                
-                self.loadingHUD.hide(true)
-                
-                BOToast.log("ERROR: During invitation to new Team", level: .Error)
+
+            }
         }
     }
     
     func startCreateTeamRequest() {
-        if self.allInputsAreFilled()==false {
+        if !self.allInputsAreFilled() {
             return
         }
         
@@ -361,54 +287,18 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD.show(true)
         self.setAllInputsToEnabled(false)
         
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-        
-        // Get event id
-        let eventID: Int = self.eventDataSourceArray[eventCurrentlySelected!].id
-        
-        let params: NSDictionary = [
-            "event": eventID,
-            "name":self.teamNameTextfield.text!
-        ]
-        
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        
-        
-        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-        
-        requestManager.POST(String(format: "event/%i/team/", eventID), parameters: params,
-            success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                print("---------------------------------------")
-                print("Create Team Response: ")
-                print(response)
-                print("---------------------------------------")
-        
-                // Tracking
-                //Flurry.logEvent("/user/becomeParticipant/completed_successful")
-        
-                // Try to send the invitation
+        if let name = teamNameTextfield.text, currentEvent = eventCurrentlySelected {
+            let eventID: Int = self.eventDataSourceArray[currentEvent].id
+            BOSynchronizeController.sharedInstance.createTeam(name, eventID: eventID, success: { () in
                 self.sendInvitationRequest(2)
-                
-                BOToast.log("SUCCESSFUL: Created a new Team for that event!")
-            })
-            { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
-                print("---------------------------------------")
-                print("Create Team Error: ")
-                print(error)
-                print("---------------------------------------")
-        
-                // TODO: Show detailed errors to the user
-        
-                // Tracking
-                //Flurry.logEvent("/user/becomeParticipant/completed_error")
-        
-                // Activate Inputs again
                 self.setAllInputsToEnabled(true)
-        
-                self.loadingHUD.hide(true)
                 
-                BOToast.log("ERROR: During creation of new Team", level: .Error)
+                self.loadingHUD.hide(true)
+            }) { () in
+                self.setAllInputsToEnabled(true)
+                
+                self.loadingHUD.hide(true)
+            }
         }
     }
     

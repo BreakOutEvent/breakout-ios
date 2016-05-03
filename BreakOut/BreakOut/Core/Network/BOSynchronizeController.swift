@@ -147,6 +147,99 @@ class BOSynchronizeController: NSObject {
         
     }
     
+// MARK: Events
+    
+    func sendInvitationToTeam(teamID: Int, name: String, eventID: Int, handler: () -> ()) {
+        
+        //TODO: Which parameter need to be passed to the API-Endpoint?
+        let params: NSDictionary = [
+            "event": eventID,
+            "name": name
+        ]
+        
+        BONetworkManager.doJSONRequestPOST(.EventInvitation, arguments: [eventID, teamID], parameters: params, auth: true, success: { (response) in
+            CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+            handler()
+        }) { (_,_) in
+            handler()
+        }
+    }
+    
+    func getAllEvents(success: ([BOEvent]) -> ()) {
+        BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: true, success: { (response) in
+            if let responseArray: Array = response as? Array<NSDictionary> {
+                var res = [BOEvent]()
+                for eventDictionary: NSDictionary in responseArray {
+                    let newEvent: BOEvent = BOEvent(id: (eventDictionary["id"] as? Int)!, title: (eventDictionary["title"] as? String)!, dateUnixTimestamp: (eventDictionary["date"] as? Int)!, city:(eventDictionary["city"] as? String)!)
+                    res.append(newEvent)
+                }
+                success(res)
+            } else {
+                success([])
+            }
+        }) { (error, response) in
+            if response?.statusCode == 401 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+            }
+        }
+    }
+    
+    func createTeam(name: String, eventID: Int, success: () -> (), error: () -> ()) {
+        let params: NSDictionary = [
+            "event": eventID,
+            "name": name
+        ]
+        BONetworkManager.doJSONRequestPOST(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
+            
+            // TODO: Do something with the response
+            success()
+        }) { (err, response) in
+            // TODO: Maybe show something more to the user
+            error()
+        }
+    }
+    
+    
+// MARK: Participant
+    
+    func becomeParticipant(firstName: String, lastname: String, gender: String, email: String, emergencyNumber: String, phone: String, shirtSize: String, success: () -> (), error: () -> ()) {
+        
+        if let userID = CurrentUser.sharedInstance.userid {
+            
+            let participantParams: NSDictionary = [
+                "emergencynumber": emergencyNumber,
+                //"hometown": self.hometownTextfield.text!,
+                //TODO: Birthday an Backend übertragen
+                "phonenumber": phone,
+                "tshirtsize": shirtSize
+            ]
+            let params: NSDictionary = [
+                "firstname": firstName,
+                "lastname": lastname,
+                "email": email,
+                "gender": gender,
+                "participant": participantParams
+            ]
+            
+            BONetworkManager.doJSONRequestPUT(.UserData, arguments: [userID], parameters: params, auth: true, success: { (response) in
+                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                
+                // Tracking
+                Flurry.logEvent("/user/becomeParticipant/completed_successful")
+                success()
+            }) { (err, response) in
+                
+                // TODO: Show detailed errors to the user
+                if response?.statusCode == 401 {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                }
+                error()
+                
+            }
+        }
+        
+    }
+    
 // MARK: Posts List    
     // Similar to functions above ;)
     
@@ -188,34 +281,13 @@ class BOSynchronizeController: NSObject {
     }
     
     func downloadArrayOfNewPostingIDsSince(lastID: Int) {
-        // New request manager with our backend URL as baseURL
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-        
-        // Sets the serialization of parameters to JSON format
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.GET(String(format: "posting/get/since/%i/", lastID), parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-            // GET Request was successful 
-            print("DownloadArrayOfNewPostingIDsSince Response: ")
-            print(response)
-            
-            // 'response' is an array of Int's
+        BONetworkManager.doJSONRequestGET(.PostingsSince, arguments: [lastID], parameters: nil, auth: false, success: { (response) in
             let arrayOfPostingIDs: [Int] = response as! [Int]
             for newPostingID: Int in arrayOfPostingIDs {
                 let newPosting: BOPost = BOPost.create(newPostingID, flagNeedsDownload: true)
                 newPosting.printToLog()
             }
-            
-            BOToast.log("SUCCESSFUL: Downloaded Array (count: \(arrayOfPostingIDs.count) of new posting ids since: \(lastID)")
-            
-            self.downloadNotYetLoadedPostings()
-            
-            }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                //TODO: Handle the error
-                print("ERROR: While DownloadArrayOfNewPostingIDsSince")
-                print(error)
-        }
+        })
     }
     
     func downloadNotYetLoadedPostings() {
@@ -230,40 +302,22 @@ class BOSynchronizeController: NSObject {
                     break
                 }
             }
-            // New request manager with our backend URL as baseURL
-            let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
             
-            // Sets the serialization of parameters to JSON format
-            requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-            // Send POST request to backend to receive all not yet loaded postings
-            requestManager.POST("posting/get/ids", parameters: arrayOfIDsToLoad,
-                success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                    print("DownloadNotYetLoadedPostings Response: ")
-                    print(response)
-                    
-                    // response is an Array of Posting Dictionaries
-                    let arrayOfPostingDictionaries: Array = response as! Array<NSDictionary>
-                    for newPostingDict: NSDictionary in arrayOfPostingDictionaries {
-                        let updatedPost: BOPost = BOPost.MR_findFirstByAttribute("flagNeedsDownload", withValue: true)!
-                        updatedPost.setAttributesWithDictionary(newPostingDict)
-                        updatedPost.flagNeedsDownload = false
-                        updatedPost.printToLog()
-                    }
-                    
-                    NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
-                    
-                    BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
-                    
-                    // Tracking
-                    Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
-                })
-                { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
-                    print("ERROR: While DownloadNotYetLoadedPostings")
-                    print(error)
-                    BOToast.log("Error while trying to load \(arrayOfIDsToLoad.count) postings", level: .Error)
-                    // Tracking
-                    Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
+            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIDsToLoad, auth: false, success: { (response) in
+                // response is an Array of Posting Dictionaries
+                let arrayOfPostingDictionaries: Array = response as! Array<NSDictionary>
+                for newPostingDict: NSDictionary in arrayOfPostingDictionaries {
+                    let updatedPost: BOPost = BOPost.MR_findFirstByAttribute("flagNeedsDownload", withValue: true)!
+                    updatedPost.setAttributesWithDictionary(newPostingDict)
+                    updatedPost.flagNeedsDownload = false
+                    updatedPost.printToLog()
+                }
+                NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+                BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
+                // Tracking
+                Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
+            }) { (error, response) in
+                Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
             }
         }
     }
@@ -279,21 +333,8 @@ class BOSynchronizeController: NSObject {
             Pantry.pack([0], key: "notYetLoadedPostings")
         }*/
         
-        // New request manager with our backend URL as baseURL
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
-        // Sets the serialization of parameters to JSON format
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.GET("posting/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                //TODO: handle successful retrival of all posts
-            #if DEBUG
-                print("----------------------------------------------")
-                print("Download all postings Response: ")
-                print(response)
-                print("----------------------------------------------")
-            #endif
-            
+        BONetworkManager.doJSONRequestGET(.Postings, arguments: [], parameters: nil, auth: false, success: { (response) in
             var numberOfAddedPosts: Int = 0
             // response is an Array of Posting Objects
             for newPosting: NSDictionary in response as! Array {
@@ -302,16 +343,11 @@ class BOSynchronizeController: NSObject {
                 numberOfAddedPosts += 1
             }
             BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
-            
-                // Tracking
-                Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
-            })
-            { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                //TODO: handle errors
-                print(error)
-                
-                // Tracking
-                Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+            // Tracking
+            Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+        }) { (error, response) in
+            // TODO: Handle Errors
+            Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
         }
     }
     
