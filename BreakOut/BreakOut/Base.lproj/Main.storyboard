@@ -615,11 +615,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-<<<<<<< HEAD
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Was machst du gerade?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4wS-ff-bfU">
-=======
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Was Machst du Gerade" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4wS-ff-bfU">
->>>>>>> 51f49110e99b5a70ffcf9026c756febcd2f158b9
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" text="Was Machst du Gerade" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4wS-ff-bfU">
                                                     <rect key="frame" x="8" y="37" width="584" height="155"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
