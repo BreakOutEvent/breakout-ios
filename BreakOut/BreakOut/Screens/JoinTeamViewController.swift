@@ -165,7 +165,8 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
         spinner.startAnimating()
     }
     
-    
+   
+// TODO: Move these to the Synchronizer
 // MARK: - API Requests
     
     /**
