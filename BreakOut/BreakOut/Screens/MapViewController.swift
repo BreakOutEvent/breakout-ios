@@ -60,10 +60,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     let blc = BasicLocationController()
-    let annotation = MKAnnotation()
     
-    private func fetchLocations(){
-        print("button pressed")
+    func fetchLocations(){
         blc.getAllLocations { (locations, error) in
             if error != nil{
                 self.drawLocationsOnMap(locations!)
@@ -74,7 +72,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     private func drawLocationsOnMap(location:[BOLocation]){
         for places in location{
-            mapView.addAnnotation(MKAnnotation)
+            mapView.addAnnotation(places)
         }
     }
 }
