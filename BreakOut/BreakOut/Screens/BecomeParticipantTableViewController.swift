@@ -432,68 +432,27 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     :returns: No return value
     */
     func startBecomeParticipantRequest() {
+        
         self.setAllInputsToEnabled(false)
         
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-        
         let genderAsString = CurrentUser.sharedInstance.stringGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
-        
-        let participantParams: NSDictionary = [
-            "emergencynumber": self.emergencyNumberTextfield.text!,
-            //"hometown": self.hometownTextfield.text!,
-            //TODO: Birthday an Backend übertragen
-            "phonenumber": self.phonenumberTextfield.text!,
-            "tshirtsize": self.shirtSizeTextfield.text!
-        ]
-        let params: NSDictionary = [
-            "firstname":self.firstNameTextfield.text!,
-            "lastname":self.lastNameTextfield.text!,
-            "email":self.emailTextField.text!,
-            "gender":genderAsString,
-            "participant": participantParams
-        ]
-        
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        // Get user id from CurrentUser
-        let userID: Int = CurrentUser.sharedInstance.userid!
-        
-        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-        
-        requestManager.PUT(String(format: "user/%i/", userID), parameters: params,
-            success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                print("Become Participant Response: ")
-                print(response)
-                
-                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
-                
-                // Tracking
-                Flurry.logEvent("/user/becomeParticipant/completed_successful")
-                
-                // Activate Inputs again
+
+        if let emergency = emergencyNumberTextfield.text, phone = phonenumberTextfield.text, shirt = shirtSizeTextfield.text, first = firstNameTextfield.text, last = lastNameTextfield.text, email = emailTextField.text {
+            
+            BOSynchronizeController.sharedInstance.becomeParticipant(first, lastname: last, gender: genderAsString, email: email, emergencyNumber: emergency, phone: phone, shirtSize: shirt, success: { () in
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)
-                
                 self.performSegueWithIdentifier("showJoinTeamViewController", sender: self)
-            })
-            { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
-                print("Registration Error: ")
-                print(error)
-                
-                // TODO: Show detailed errors to the user
-                if operation?.response?.statusCode == 401 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
-                }
-                
-                // Tracking
-                Flurry.logEvent("/user/becomeParticipant/completed_error")
+            }) { () in
                 
                 // Activate Inputs again
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)
+            }
         }
+        
     }
 
 }

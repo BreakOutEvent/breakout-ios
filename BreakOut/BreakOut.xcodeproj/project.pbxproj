@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EB81A381CD8AF8F00AEBA8C /* BONetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB81A371CD8AF8F00AEBA8C /* BONetworkManager.swift */; };
+		0EB81A3A1CD8AFE400AEBA8C /* BackendServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB81A391CD8AFE400AEBA8C /* BackendServices.swift */; };
 		260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */; };
 		260121421C78F6F20041EAA8 /* BOToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121411C78F6F20041EAA8 /* BOToast.swift */; };
 		260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121431C78FD6C0041EAA8 /* Extensions.swift */; };
@@ -67,6 +69,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0EB81A371CD8AF8F00AEBA8C /* BONetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BONetworkManager.swift; sourceTree = "<group>"; };
+		0EB81A391CD8AFE400AEBA8C /* BackendServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendServices.swift; sourceTree = "<group>"; };
 		2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeatureFlagManager.swift; path = Core/FeatureFlagManager.swift; sourceTree = "<group>"; };
 		260121411C78F6F20041EAA8 /* BOToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOToast.swift; path = Core/BOToast.swift; sourceTree = "<group>"; };
 		260121431C78FD6C0041EAA8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Core/Extensions.swift; sourceTree = "<group>"; };
@@ -287,8 +291,10 @@
 		26FD9E5E1C0A3CCD00BF9EFD /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				0EB81A371CD8AF8F00AEBA8C /* BONetworkManager.swift */,
 				26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */,
 				26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */,
+				0EB81A391CD8AFE400AEBA8C /* BackendServices.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -538,8 +544,10 @@
 				26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */,
 				6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */,
 				269AADC81C9483E10034F32C /* Constants.swift in Sources */,
+				0EB81A3A1CD8AFE400AEBA8C /* BackendServices.swift in Sources */,
 				26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
+				0EB81A381CD8AF8F00AEBA8C /* BONetworkManager.swift in Sources */,
 				26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */,
 				260121421C78F6F20041EAA8 /* BOToast.swift in Sources */,
 				2643F5F51CC2B94500031038 /* NewPostingTableViewController.swift in Sources */,

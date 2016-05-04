@@ -54,84 +54,60 @@ class CurrentUser: NSObject {
 // MARK: - Sync with Backend
     
     func uploadUserDataToBackend() {
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
         let params: NSMutableDictionary = self.attributesAsDictionary()
         
-        // Restructure the params Array
         params.setValue(self.attributesAsDictionary(), forKey: "participant")
         
-        
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
-        
         BONetworkIndicator.si.increaseLoading()
-        requestManager.PUT(String(format:"user/%i/",self.userid!), parameters: params, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+        
+        BONetworkManager.doJSONRequestPUT(.UserData, arguments: [self.userid!], parameters: params, auth: true, success: { (response) in
             BONetworkIndicator.si.decreaseLoading()
-            // Successful
-            BOToast.log("Successfully uploaded currentUser info")
-            }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                BONetworkIndicator.si.decreaseLoading()
-                // Error
-                
-                if operation?.response?.statusCode == 401 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
-                }
-                
-                print("ERROR: During CurrentUser upload")
-                print(error)
-                BOToast.log("Error during CurrentUser upload", level: .Error)
+        }) { (error, response) in
+            BONetworkIndicator.si.decreaseLoading()
+            if response?.statusCode == 401 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+            }
         }
     }
     
-    func downloadUserData() {        
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
-        
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.requestSerializer.setAuthorizationHeaderFieldWithCredential( AFOAuthCredential.retrieveCredentialWithIdentifier("apiCredentials") )
+    func downloadUserData() {
         
         BONetworkIndicator.si.increaseLoading()
-        requestManager.GET("me/", parameters: nil, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                // Successful
-                BONetworkIndicator.si.decreaseLoading()
-                BOToast.log("SUCCESSFUL: downloaded CurrentUser info")
+        
+        BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
+            // Successful
+            BONetworkIndicator.si.decreaseLoading()
+
+            let basicUserDict: NSDictionary = response as! NSDictionary
             
-                let basicUserDict: NSDictionary = response as! NSDictionary
+            print("---------------------------------")
+            print("CurrentUser: ")
+            print(basicUserDict)
+            print("---------------------------------")
             
-                print("---------------------------------")
-                print("CurrentUser: ")
-                print(basicUserDict)
-                print("---------------------------------")
+            self.setAttributesWithJSON(basicUserDict)
             
-                self.setAttributesWithJSON(basicUserDict)
-            
-                // If the user is also an participant we should store the participants information
-                if (basicUserDict.objectForKey("participant") != nil) {
-                    if let participantDictionary: NSDictionary = basicUserDict.valueForKey("participant") as? NSDictionary {
-                        self.setAttributesWithJSON(participantDictionary)
-                        // Participant Information is connected to the user -> Mark him as Participant
-                        self.flagParticipant = true
-                    }else{
-                        // No participant Information is connected to the user -> Mark him as NO Participant
-                        self.flagParticipant = false
-                    }
+            // If the user is also an participant we should store the participants information
+            if (basicUserDict.objectForKey("participant") != nil) {
+                if let participantDictionary: NSDictionary = basicUserDict.valueForKey("participant") as? NSDictionary {
+                    self.setAttributesWithJSON(participantDictionary)
+                    // Participant Information is connected to the user -> Mark him as Participant
+                    self.flagParticipant = true
                 }else{
                     // No participant Information is connected to the user -> Mark him as NO Participant
                     self.flagParticipant = false
                 }
-                self.storeInNSUserDefaults()
-            }) { (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-                BONetworkIndicator.si.decreaseLoading()
-                // Error
-                if operation?.response?.statusCode == 401 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
-                }
-                
-                print("ERROR: During CurrentUser download")
-                print(error)
-                BOToast.log("ERROR: During CurrentUser download", level: .Error)
+            }else{
+                // No participant Information is connected to the user -> Mark him as NO Participant
+                self.flagParticipant = false
+            }
+            self.storeInNSUserDefaults()
+        }) { (error, response) in
+            BONetworkIndicator.si.decreaseLoading()
+            if response?.statusCode == 401 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+            }
         }
     }
     
