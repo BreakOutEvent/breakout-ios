@@ -14,17 +14,20 @@ import MagicalRecord
 // Tracking
 import Flurry_iOS_SDK
 
+// MapKit
+import MapKit
+
 @objc(BOLocation)
-class BOLocation: NSManagedObject {
+class BOLocation: NSManagedObject, MKAnnotation {
     @NSManaged var uid: NSInteger
     @NSManaged var timestamp: NSDate
     @NSManaged var longitude: NSNumber
     @NSManaged var latitude: NSNumber
     @NSManaged var flagNeedsUpload: Bool
+    @NSManaged var coordinate: CLLocationCoordinate2D
     
     class func create(uid: Int, flagNeedsUpload: Bool) -> BOLocation {
         let res = BOLocation.MR_createEntity()! as BOLocation
-        
         res.uid = uid as NSInteger
         res.flagNeedsUpload = flagNeedsUpload
         // Save
@@ -46,6 +49,7 @@ class BOLocation: NSManagedObject {
         self.uid = dict.valueForKey("id") as! NSInteger
         let unixTimestamp = dict.valueForKey("timestamp") as! NSNumber
         self.timestamp = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
+        self.coordinate = CLLocationCoordinate2D(latitude: self.latitude as CLLocationDegrees, longitude: self.longitude as CLLocationDegrees)
         /*if let longitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
             self.longitude = longitude
         }
