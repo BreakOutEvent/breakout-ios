@@ -49,6 +49,8 @@
 		26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */; };
 		26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */; };
 		26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */; };
+		6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6153CCB81CD7FA1900E9CAE6 /* BasicLocationController.swift */; };
+		6153CCBB1CD8077300E9CAE6 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6153CCBA1CD8077300E9CAE6 /* Locations.swift */; };
 		61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE791CD6B32A0069DAEC /* MapViewController.swift */; };
 		61D0BE7E1CD6B3D50069DAEC /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */; };
 		61D0BE801CD6BB670069DAEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE7F1CD6BB670069DAEC /* User.swift */; };
@@ -118,6 +120,8 @@
 		26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleInformation.swift; sourceTree = "<group>"; };
 		42DAB43C4603EB933FF4AF78 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		4E3266C7A82395971EE92DD3 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
+		6153CCB81CD7FA1900E9CAE6 /* BasicLocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicLocationController.swift; sourceTree = "<group>"; };
+		6153CCBA1CD8077300E9CAE6 /* Locations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		61D0BE791CD6B32A0069DAEC /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Screens/MapViewController.swift; sourceTree = "<group>"; };
 		61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
 		61D0BE7F1CD6BB670069DAEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 			children = (
 				61D0BE791CD6B32A0069DAEC /* MapViewController.swift */,
 				61D0BE7F1CD6BB670069DAEC /* User.swift */,
+				6153CCBA1CD8077300E9CAE6 /* Locations.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 				260121411C78F6F20041EAA8 /* BOToast.swift */,
 				260121491C79039E0041EAA8 /* Extensions and Subclasses */,
 				269AADC51C936C2C0034F32C /* BONetworkIndicator.swift */,
+				6153CCB81CD7FA1900E9CAE6 /* BasicLocationController.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
 				26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */,
 				26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */,
+				6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */,
 				269AADC81C9483E10034F32C /* Constants.swift in Sources */,
 				26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
@@ -555,6 +562,7 @@
 				265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
+				6153CCBB1CD8077300E9CAE6 /* Locations.swift in Sources */,
 				266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */,
 				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
