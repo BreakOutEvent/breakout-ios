@@ -18,3 +18,6 @@
 // Welcome Screen
 "welcomeScreenHeadline" = "Bald geht es los!";
 "welcomeScreenDescriptionText" = "Wir arbeiten sehr hart daran, dir die beste App für das nächste BreakOut Event zur Hand zu geben. Ganz egal, ob du Teilnehmer, Sponsor, Familienmitglied oder einfach nur Fan bist. Sei gespannt auf weitere großartige Updates mit neuen Funktionen.";
+
+// Screen Titles
+"allPostingsTitle" = "Alle Posts"
