@@ -115,12 +115,14 @@ class BONetworkManager {
                     BOToast.log("ERROR: During Login", level: .Error)
                     // Tracking
                     Flurry.logEvent("/login/completed_error")
-                    
                     error()
             }
         }
-        
 
+    }
+    
+    static func uploadMedia(id: Int, token: String, file: String, success: () -> (), error: () -> ()) {
+        
     }
     
 }

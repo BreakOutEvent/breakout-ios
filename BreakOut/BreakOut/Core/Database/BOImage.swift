@@ -91,6 +91,18 @@ class BOImage: NSManagedObject {
     func getModelString() -> String {
         return "image"
     }
+    
+    func uploadWithToken(id: Int, token: String) {
+        
+        // TODO: Possible compression later.
+        
+        BONetworkManager.uploadMedia(id, token: token, file: filepath as String, success: { () in
+            print("Upload Succesful")
+            self.flagNeedsUpload = false
+        }) { () in
+            print("Upload Not Succesful")
+        }
+    }
 
     // MARK: -
     

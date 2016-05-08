@@ -94,6 +94,17 @@ class BOPost: NSManagedObject {
         dict["uploadMediaTypes"] = images.map() { $0.getModelString() }
 
         BONetworkManager.doJSONRequestPOST(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
+            
+            if let responseDict = response as? NSDictionary, mediaArray = responseDict["media"] as? Array<NSDictionary> {
+                for i in 0...(mediaArray.count-1) {
+                    let respondedMediaItem = mediaArray[i]
+                    let mediaItem = self.images[i]
+                    if let id = respondedMediaItem["id"] as? Int, token = respondedMediaItem["uploadToken"] as? String {
+                        mediaItem.uploadWithToken(id, token: token)
+                    }
+                 }
+            }
+            
             // Tracking
             self.flagNeedsUpload = false
             Flurry.logEvent("/posting/upload/completed_successful")
