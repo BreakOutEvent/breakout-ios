@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Xcode 7.0">
-    <entity name="BOImage" syncable="YES">
+    <entity name="BOImage" representedClassName="BOImage" syncable="YES">
         <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="flagNeedsUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="uploadToken" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BOLocation" syncable="YES">
@@ -26,8 +27,8 @@
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
     </entity>
     <elements>
+        <element name="BOImage" positionX="54" positionY="-27" width="128" height="135"/>
         <element name="BOLocation" positionX="151" positionY="-178" width="128" height="118"/>
         <element name="BOPost" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="BOImage" positionX="54" positionY="-27" width="128" height="120"/>
     </elements>
 </model>

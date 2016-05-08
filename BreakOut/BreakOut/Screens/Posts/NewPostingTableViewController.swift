@@ -15,6 +15,8 @@ import MagicalRecord
 // Tracking
 import Flurry_iOS_SDK
 
+import MBProgressHUD
+
 class NewPostingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var postingPictureImageView: UIImageView!
@@ -25,6 +27,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     let locationManager = CLLocationManager()
     var newLongitude: Double = 0.0
     var newLatitude: Double = 0.0
+    
+    var loadingHUD: MBProgressHUD = MBProgressHUD()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +73,19 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         // Dispose of any resources that can be recreated.
     }
     
+    func resetAllInputs() {
+        self.postingPictureImageView.image = UIImage()
+        self.messageTextView.text = ""
+        
+    }
+    
+    func setupLoadingHUD(localizedKey: String) {
+        self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        self.loadingHUD.square = true
+        self.loadingHUD.mode = MBProgressHUDMode.CustomView
+        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+    }
+    
 // MARK: - Button Actions
     
     func sendPostingButtonPressed() {
@@ -78,16 +95,21 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         newPosting.text = self.messageTextView.text
         newPosting.latitude = self.newLatitude
         newPosting.longitude = self.newLongitude
+        newPosting.date = NSDate()
         
         newPosting.city = self.locationLabel.text
         
-        let newImage:BOImage = BOImage.createWithImage(self.postingPictureImageView.image!)
+        let newImage = BOImage.createWithImage(self.postingPictureImageView.image!)
         
-        //newPosting.s
+        newPosting.images = NSMutableSet(array: [newImage])
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         
+        // After Saving throw User message and reset inputs
+        self.setupLoadingHUD("New Posting saved!")
+        self.loadingHUD.hide(true, afterDelay: 3.0)
+        self.resetAllInputs()
     }
     
     @IBAction func addAttachementButtonPressed(sender: UIButton) {

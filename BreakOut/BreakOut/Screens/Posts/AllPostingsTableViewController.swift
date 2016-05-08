@@ -47,8 +47,8 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         self.title = NSLocalizedString("allPostingsTitle", comment: "")
         
         // Create save button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: #selector(filterButtonPressed))
-        navigationItem.rightBarButtonItem = rightButton
+        //let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Compose, target: self, action: #selector(filterButtonPressed))
+        //navigationItem.rightBarButtonItem = rightButton
         
         // Create menu buttons for navigation item
         let barButtonImage = UIImage(named: "menu_Icon_white")
@@ -109,12 +109,14 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
             cell.locationLabel?.text = posting.longitude.stringValue + posting.latitude.stringValue
         }
         
-        let imagesMutableSet:NSMutableSet = posting.images
-        var imagesArray = imagesMutableSet.allObjects
+
+        var imagesArray = posting.images.allObjects
         
         if imagesArray.count>0 {
             let image: BOImage = imagesArray[0] as! BOImage
             cell.teamPictureImageView.image = image.getImage()
+        }else{
+            cell.teamPictureImageView.image = UIImage()
         }
         
         cell.setNeedsUpdateConstraints()

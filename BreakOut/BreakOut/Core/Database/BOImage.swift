@@ -28,8 +28,9 @@ func fileInDocumentsDirectory(filename: String) -> String {
 
 @objc(BOImage)
 class BOImage: NSManagedObject {
+    @NSManaged var uploadToken: NSString
     @NSManaged var uid: NSInteger
-    @NSManaged var type: NSNumber
+    @NSManaged var type: NSString
     @NSManaged var url: NSString
     @NSManaged var filepath: NSString
     @NSManaged var flagNeedsUpload: Bool
@@ -38,6 +39,7 @@ class BOImage: NSManagedObject {
         let res = BOImage.MR_createEntity()! as BOImage
         
         res.uid = uid as NSInteger
+        res.type = "image"
         res.flagNeedsUpload = flagNeedsUpload
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -61,8 +63,13 @@ class BOImage: NSManagedObject {
         let imageData = UIImageJPEGRepresentation(image, 1)
         let relativePath:String = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
         let path:String = fileInDocumentsDirectory(relativePath)
-        imageData!.writeToFile(path, atomically: true)
+        if imageData!.writeToFile(path, atomically: true) {
+            BOToast.log("Storing image file was successful", level: BOToast.Level.Success)
+        }else{
+            BOToast.log("Error during storing of image file", level: BOToast.Level.Error)
+        }
         
+        res.type = "image"
         res.filepath = relativePath
         
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -71,7 +78,7 @@ class BOImage: NSManagedObject {
     }
 
     func getImage() -> UIImage {
-        let imageFullPath: String = filepath as String
+        let imageFullPath: String = fileInDocumentsDirectory(filepath as String)
         let userImageData = NSData(contentsOfFile: imageFullPath)
         // here is your saved image:
         if userImageData != nil {
