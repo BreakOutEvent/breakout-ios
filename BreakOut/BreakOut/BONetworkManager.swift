@@ -102,12 +102,14 @@ class BONetworkManager {
                 } else {
                    BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
                 }
-        }) { (error: NSError!) -> Void in
+        }) { (nserror: NSError!) -> Void in
             print("LOGIN: Error: ")
-            print(error)
+            print(nserror)
             BOToast.log("ERROR: During Login", level: .Error)
             // Tracking
             Flurry.logEvent("/login/completed_error")
+            
+            error()
         }
 
     }
