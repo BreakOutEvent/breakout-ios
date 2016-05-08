@@ -12,7 +12,7 @@ enum BackendServices: String {
     case UserData = "user/%i/"
     case CurrentUser = "me/"
     case PostingsSince = "posting/get/since/%i/"
-    case Postings = "posting"
+    case Postings = "posting/"
     case NotLoadedPostings = "posting/get/ids"
     case EventInvitation = "event/%i/team/%i/invitation"
     case EventTeam = "event/%i/team/"

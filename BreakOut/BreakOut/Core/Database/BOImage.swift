@@ -87,6 +87,10 @@ class BOImage: NSManagedObject {
         
         return UIImage()
     }
+    
+    func getModelString() -> String {
+        return "image"
+    }
 
     // MARK: -
     
