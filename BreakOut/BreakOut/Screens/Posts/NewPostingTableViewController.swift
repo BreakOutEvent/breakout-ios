@@ -17,7 +17,7 @@ import Flurry_iOS_SDK
 
 import MBProgressHUD
 
-class NewPostingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
+class NewPostingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var postingPictureImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
@@ -54,6 +54,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 
         self.imagePicker.delegate = self
         
+        self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
+        self.styleMessageInput(true)
+        
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
@@ -85,6 +88,32 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD.mode = MBProgressHUDMode.CustomView
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
     }
+    
+    func styleMessageInput(placeholder: Bool) {
+        if placeholder {
+            self.messageTextView.textColor = UIColor.lightGrayColor()
+        }else{
+            self.messageTextView.textColor = UIColor.blackColor()
+        }
+    }
+
+    
+// MARK: - UITextViewDelegate
+    func textViewDidChange(textView: UITextView) {
+        if textView.text == NSLocalizedString("newPostingEmptyMessage", comment: "Empty") {
+            self.styleMessageInput(true)
+        }else{
+            self.styleMessageInput(false)
+        }
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if textView.text == NSLocalizedString("newPostingEmptyMessage", comment: "Empty") {
+            textView.text = ""
+        }
+    }
+    
+    
     
 // MARK: - Button Actions
     
