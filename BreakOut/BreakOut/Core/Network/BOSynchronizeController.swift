@@ -75,6 +75,7 @@ class BOSynchronizeController: NSObject {
             dispatch_async(dispatch_get_main_queue()) {
                 if reachability.isReachableViaWiFi() {
                     self.internetReachability = "wifi"
+                    self.tryUploadAll()
                     print("Reachable via WiFi")
                 } else {
                     self.internetReachability = "cellular"
