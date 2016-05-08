@@ -18,7 +18,7 @@ class BONetworkManager {
     
     private enum HTTPMethod {
         case GET, PUT, POST, DELETE
-        func requestType(requestManager: AFHTTPRequestOperationManager ) -> (String, parameters: AnyObject?, success: ((AFHTTPRequestOperation, AnyObject) -> Void)?, failure: ((AFHTTPRequestOperation?, NSError) -> Void)?) -> AFHTTPRequestOperation? {
+        func requestType(requestManager: AFHTTPSessionManager) -> (String, parameters: AnyObject?, success: ((NSURLSessionDataTask, AnyObject?) -> Void)?, failure: ((NSURLSessionDataTask?, NSError) -> Void)?) -> NSURLSessionDataTask? {
             switch self {
             case .GET:
                 return requestManager.GET
@@ -33,7 +33,8 @@ class BONetworkManager {
     }
     
     private static func doJSONRequest(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> (), error: ((NSError, NSHTTPURLResponse?) -> ())?, method: HTTPMethod) {
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+        
+        let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         requestManager.requestSerializer = AFJSONRequestSerializer()
         if auth {
             let credentials = AFOAuthCredential.retrieveCredentialWithIdentifier(loginStorage)
@@ -42,18 +43,23 @@ class BONetworkManager {
         }
         let requestString = String(format: service.rawValue, arguments: arguments)
         method.requestType(requestManager)(requestString, parameters: parameters, success: {
-            (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+            (operation, response) -> Void in
             print("\(requestString) Response: ")
             print(response)
-            
-            handler(response)
+            if let unwrappedResponse = response {
+                 handler(unwrappedResponse)
+            }
             BOToast.log("SUCCESSFUL: \(requestString) Download! w. Parms \(parameters)")
-        }) { (operation: AFHTTPRequestOperation?, err: NSError) -> Void in
+        }) { (operation, err) -> Void in
             print("ERROR: while \(requestString) w. Parms \(parameters)")
             print(err)
             BOToast.log("ERROR: during \(requestString)", level: .Error)
             if let errHandler = error {
-                errHandler(err, operation?.response)
+                if let response = operation?.response as? NSHTTPURLResponse {
+                    errHandler(err, response)
+                } else {
+                    errHandler(err, nil)
+                }
             }
         }
     }
@@ -91,26 +97,29 @@ class BONetworkManager {
     }
     
     static func loginRequest(user: String, pass: String, success: () -> (), error: () -> ()) {
-        let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: NSURL(string: PrivateConstants.backendURL),
-                                                                 clientID: "breakout_app", secret: loginSecret)
-        oAuthManager
-            .authenticateUsingOAuthWithURLString("/oauth/token", username: user, password: pass, scope: "read write", success: { (credentials) -> Void in
-                BOToast.log("Login was successful.")
-                print("LOGIN: OAuth Code: "+credentials.accessToken)
-                if AFOAuthCredential.storeCredential(credentials, withIdentifier: loginStorage) {
-                   success()
-                } else {
-                   BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
-                }
-        }) { (nserror: NSError!) -> Void in
-            print("LOGIN: Error: ")
-            print(nserror)
-            BOToast.log("ERROR: During Login", level: .Error)
-            // Tracking
-            Flurry.logEvent("/login/completed_error")
-            
-            error()
+        if let url = NSURL(string: PrivateConstants.backendURL) {
+            let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: url,
+                                                                     clientID: "breakout_app", secret: loginSecret)
+            oAuthManager
+                .authenticateUsingOAuthWithURLString("/oauth/token", username: user, password: pass, scope: "read write", success: { (credentials) -> Void in
+                    BOToast.log("Login was successful.")
+                    print("LOGIN: OAuth Code: "+credentials.accessToken)
+                    if AFOAuthCredential.storeCredential(credentials, withIdentifier: loginStorage) {
+                        success()
+                    } else {
+                        BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
+                    }
+                }) { (nserror: NSError!) -> Void in
+                    print("LOGIN: Error: ")
+                    print(nserror)
+                    BOToast.log("ERROR: During Login", level: .Error)
+                    // Tracking
+                    Flurry.logEvent("/login/completed_error")
+                    
+                    error()
+            }
         }
+        
 
     }
     

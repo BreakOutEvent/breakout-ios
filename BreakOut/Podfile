@@ -18,8 +18,8 @@ pod 'MagicalRecord', '~> 2.3.2'
 pod 'Pantry', '~> 0.2.1'
 
 # Networking
-pod 'AFNetworking', '~> 2.6.3'
-pod 'AFOAuth2Manager', git: 'https://github.com/AFNetworking/AFOAuth2Manager', :commit => '150e57f3a03b764617b88746e32f6f4c79961124'
+pod 'AFNetworking', '~> 3.0'
+pod 'AFOAuth2Manager', '~> 3.0'
 
 # UI
 pod 'SpinKit', '~>1.2.0'
@@ -47,4 +47,3 @@ end
 target 'BreakOutTests' do
 
 end
-

@@ -130,7 +130,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         let newImage = BOImage.createWithImage(self.postingPictureImageView.image!)
         
-        newPosting.images = NSMutableSet(array: [newImage])
+        newPosting.images.append(newImage)
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()

@@ -109,11 +109,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
             cell.locationLabel?.text = posting.longitude.stringValue + posting.latitude.stringValue
         }
         
-
-        var imagesArray = posting.images.allObjects
-        
-        if imagesArray.count>0 {
-            let image: BOImage = imagesArray[0] as! BOImage
+        if let image = posting.images.first {
             cell.teamPictureImageView.image = image.getImage()
         }else{
             cell.teamPictureImageView.image = UIImage()
