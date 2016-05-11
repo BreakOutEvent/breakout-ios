@@ -122,7 +122,7 @@ class BONetworkManager {
     }
     
     static func uploadMedia(id: Int, token: String, file: String, success: () -> (), error: () -> ()) {
-        
+        // TODO: Actually Upload Something
     }
     
 }

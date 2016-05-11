@@ -25,7 +25,7 @@ class BOPost: NSManagedObject {
     @NSManaged var latitude: NSNumber
     @NSManaged var flagNeedsUpload: Bool
     @NSManaged var flagNeedsDownload: Bool
-    @NSManaged var images: [BOImage]
+    @NSManaged var images: NSMutableSet
     
     class func create(uuid: Int, flagNeedsDownload: Bool) -> BOPost {
         let res = BOPost.MR_createEntity()! as BOPost
@@ -33,6 +33,7 @@ class BOPost: NSManagedObject {
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
         res.date = NSDate()
+        res.images = NSMutableSet()
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -91,18 +92,24 @@ class BOPost: NSManagedObject {
         
         dict["postingLocation"] = postingLocation
         
-        dict["uploadMediaTypes"] = images.map() { $0.getModelString() }
+        let img = images.allObjects.map() { $0 as? BOImage }
+        
+        dict["uploadMediaTypes"] = img.map() { $0?.type ?? "" }
 
         BONetworkManager.doJSONRequestPOST(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
             
-            if let responseDict = response as? NSDictionary, mediaArray = responseDict["media"] as? Array<NSDictionary> {
-                for i in 0...(mediaArray.count-1) {
-                    let respondedMediaItem = mediaArray[i]
-                    let mediaItem = self.images[i]
-                    if let id = respondedMediaItem["id"] as? Int, token = respondedMediaItem["uploadToken"] as? String {
-                        mediaItem.uploadWithToken(id, token: token)
+            if let responseDict = response as? NSDictionary, id = responseDict["id"] as? Int, mediaArray = responseDict["media"] as? [NSDictionary] {
+                self.uuid = id
+                if !mediaArray.isEmpty {
+                    for i in 0...(mediaArray.count-1) {
+                        let respondedMediaItem = mediaArray[i]
+                        let mediaItem = img[i]
+                        if let id = respondedMediaItem["id"] as? Int, token = respondedMediaItem["uploadToken"] as? String {
+                            mediaItem?.uploadWithToken(id, token: token)
+                        }
                     }
-                 }
+                }
+                self.save()
             }
             
             // Tracking

@@ -128,12 +128,18 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         newPosting.city = self.locationLabel.text
         
-        let newImage = BOImage.createWithImage(self.postingPictureImageView.image!)
+        if let image = postingPictureImageView.image {
+            let newImage = BOImage.createWithImage(image)
+            newPosting.images.addObject(newImage)
+        }
         
-        newPosting.images.append(newImage)
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        
+        if BOSynchronizeController.sharedInstance.internetReachabilityStatus() == "wifi" {
+            newPosting.upload()
+        }
         
         // After Saving throw User message and reset inputs
         self.setupLoadingHUD("New Posting saved!")

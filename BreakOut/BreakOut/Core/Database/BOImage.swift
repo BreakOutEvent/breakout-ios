@@ -88,11 +88,9 @@ class BOImage: NSManagedObject {
         return UIImage()
     }
     
-    func getModelString() -> String {
-        return "image"
-    }
-    
     func uploadWithToken(id: Int, token: String) {
+        uploadToken = token
+        uid = id
         
         // TODO: Possible compression later.
         
