@@ -94,7 +94,7 @@ class BOImage: NSManagedObject {
         
         // TODO: Possible compression later.
         
-        BONetworkManager.uploadMedia(id, token: token, file: filepath as String, success: { () in
+        BONetworkManager.uploadMedia(id, token: token, data: uploadData(id), success: { () in
             print("Upload Succesful")
             self.flagNeedsUpload = false
         }) { () in
@@ -122,4 +122,56 @@ class BOImage: NSManagedObject {
         print("flagNeedsUpload: ", self.flagNeedsUpload)
         print("----------- ------ -----------")
     }
+    
+    func uploadData(id: Int) -> NSData {
+        
+        if let data = UIImageJPEGRepresentation(getImage(), 1.0) {
+            let boundary = "randomBoundary"
+            
+            let fullData = NSMutableData()
+            
+            let lineOne = "--" + boundary + "\r\n"
+            fullData.appendData(lineOne.dataUsingEncoding(
+                NSUTF8StringEncoding,
+                allowLossyConversion: false)!)
+            
+            let lineTwo = "Content-Disposition: form-data; name=\"file\"; filename=\"" + (filepath as String) + "\"\r\n"
+            fullData.appendData(lineTwo.dataUsingEncoding(
+                NSUTF8StringEncoding,
+                allowLossyConversion: false)!)
+            
+            let lineThree = "Content-Type: image/jpg\r\n\r\n"
+            fullData.appendData(lineThree.dataUsingEncoding(
+                NSUTF8StringEncoding,
+                allowLossyConversion: false)!)
+            
+            fullData.appendData(data)
+            
+            let lineFive = "\r\n"
+            fullData.appendData(lineFive.dataUsingEncoding(
+                NSUTF8StringEncoding,
+                allowLossyConversion: false)!)
+            
+            let lineSix = "--" + boundary + "--\r\n"
+            fullData.appendData(lineSix.dataUsingEncoding(
+                NSUTF8StringEncoding,
+                allowLossyConversion: false)!)
+            
+            let lineForID = "--\(boundary)\r\nContent-Disposition: form-data; name=\"id\";\r\nContent-Type: text/plain\r\n\(id)\r\n"
+            fullData.appendData(lineForID.dataUsingEncoding(
+                NSUTF8StringEncoding,
+                allowLossyConversion: false)!)
+            
+            fullData.appendData(lineSix.dataUsingEncoding(
+                NSUTF8StringEncoding,
+                allowLossyConversion: false)!)
+            
+            
+            
+            return fullData
+        }
+        return NSData()
+        
+    }
+    
 }
