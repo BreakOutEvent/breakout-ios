@@ -42,8 +42,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         self.title = NSLocalizedString("newPostingTitle", comment: "")
         
-        // Create save button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: #selector(sendPostingButtonPressed))
+        // Create posting button for navigation item
+        let rightButton = UIBarButtonItem(image: UIImage(named: "post_Icon"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(sendPostingButtonPressed))
         navigationItem.rightBarButtonItem = rightButton
         
         // Create menu buttons for navigation item
@@ -78,14 +78,19 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     func resetAllInputs() {
         self.postingPictureImageView.image = UIImage()
-        self.messageTextView.text = ""
         
+        self.messageTextView.resignFirstResponder()
+        self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
+        self.styleMessageInput(true)
     }
     
     func setupLoadingHUD(localizedKey: String) {
         self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         self.loadingHUD.square = true
         self.loadingHUD.mode = MBProgressHUDMode.CustomView
+        
+        //TODO: Add Done image
+        
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
     }
     
@@ -128,9 +133,12 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         newPosting.city = self.locationLabel.text
         
-        let newImage:BOImage = BOImage.createWithImage(self.postingPictureImageView.image!)
+        if self.postingPictureImageView.image != nil {
+            // User selected Image for this post
+            let newImage:BOImage = BOImage.createWithImage(self.postingPictureImageView.image!)
         
-        newPosting.images.insert(newImage)
+            newPosting.images.insert(newImage)
+        }
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
