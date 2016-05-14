@@ -101,6 +101,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     func configureCell(cell: PostingTableViewCell, atIndexPath indexPath: NSIndexPath) {
         // Configure cell with the BOPost model
         let posting = fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost
+        
         cell.messageLabel?.text = posting.text
         cell.timestampLabel?.text = posting.date.toNaturalString(NSDate())
         if posting.city != nil  {
@@ -109,14 +110,56 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
             cell.locationLabel?.text = posting.longitude.stringValue + posting.latitude.stringValue
         }
         
-        if let image = posting.images.first {
-            cell.teamPictureImageView.image = image.getImage()
+        // Check if Posting has an attached media file
+        if let image:BOImage = posting.images.first {
+            let uiimage: UIImage = image.getImage()
+            if uiimage.hasContent() == true {
+                cell.postingPictureImageView.image = image.getImage()
+                cell.postingPictureImageViewHeightConstraint.constant = 120.0                
+            }else{
+                cell.postingPictureImageViewHeightConstraint.constant = 0.0
+            }
         }else{
-            cell.teamPictureImageView.image = UIImage()
+            cell.postingPictureImageView.image = UIImage()
+            cell.postingPictureImageViewHeightConstraint.constant = 0.0
         }
+        
+        // Set the team image
+        cell.teamPictureImageView.image = UIImage(named: "team_Icon")
+        
+        
+        // Check if Posting has an attached challenge
+        if indexPath.row == 2 {
+            // Challenge is attached -> Show the challenge box
+            cell.challengeLabel.text = "was geht denn nun hier ab? Man kann sich echt nie sicher sein welche Idioten sich hier an den Beispieltexten vergreifen. Aber lustig ist es schon ;)"
+            cell.challengeLabelHeightConstraint.constant = 34.0
+            cell.challengeView.hidden = false
+        }else{
+            cell.challengeLabel.text = ""
+            cell.challengeLabelHeightConstraint.constant = 0.0
+            cell.challengeViewHeightConstraint.constant = 0.0
+            cell.challengeView.hidden = true
+        }
+        
+        if posting.flagNeedsUpload == true {
+            cell.statusLabel.text = "Wartet auf Upload zum Server."
+        }else{
+            cell.statusLabel.text = ""
+        }
+        
         
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewControllerWithIdentifier("PostingDetailsTableViewController") as! PostingDetailsTableViewController
+        
+        postingDetailsTableViewController.posting = (fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost)
+        
+        self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
     }
 
     /*

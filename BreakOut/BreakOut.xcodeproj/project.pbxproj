@@ -14,6 +14,9 @@
 		260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121431C78FD6C0041EAA8 /* Extensions.swift */; };
 		260121461C78FE650041EAA8 /* BOImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121451C78FE650041EAA8 /* BOImageView.swift */; };
 		260121481C79008E0041EAA8 /* BOButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121471C79008E0041EAA8 /* BOButton.swift */; };
+		262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955A91CE7898B004D3213 /* PostingDetailsTableViewController.swift */; };
+		262955AC1CE789B4004D3213 /* PostingCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955AB1CE789B4004D3213 /* PostingCommentTableViewCell.swift */; };
+		262955AE1CE79656004D3213 /* PostingCommentInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955AD1CE79656004D3213 /* PostingCommentInputTableViewCell.swift */; };
 		262FA8FB1CCD1BF70094B810 /* AllPostingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */; };
 		262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */; };
 		262FA8FF1CCD5ADA0094B810 /* BOImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FE1CCD5ADA0094B810 /* BOImage.swift */; };
@@ -74,6 +77,9 @@
 		260121431C78FD6C0041EAA8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Core/Extensions.swift; sourceTree = "<group>"; };
 		260121451C78FE650041EAA8 /* BOImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImageView.swift; path = Core/BOImageView.swift; sourceTree = "<group>"; };
 		260121471C79008E0041EAA8 /* BOButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOButton.swift; path = Core/BOButton.swift; sourceTree = "<group>"; };
+		262955A91CE7898B004D3213 /* PostingDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingDetailsTableViewController.swift; path = Screens/Posts/PostingDetailsTableViewController.swift; sourceTree = "<group>"; };
+		262955AB1CE789B4004D3213 /* PostingCommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingCommentTableViewCell.swift; path = Screens/Posts/PostingCommentTableViewCell.swift; sourceTree = "<group>"; };
+		262955AD1CE79656004D3213 /* PostingCommentInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingCommentInputTableViewCell.swift; path = Screens/Posts/PostingCommentInputTableViewCell.swift; sourceTree = "<group>"; };
 		262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllPostingsTableViewController.swift; path = Screens/Posts/AllPostingsTableViewController.swift; sourceTree = "<group>"; };
 		262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingTableViewCell.swift; path = Screens/Posts/PostingTableViewCell.swift; sourceTree = "<group>"; };
 		262FA8FE1CCD5ADA0094B810 /* BOImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImage.swift; path = Core/Database/BOImage.swift; sourceTree = "<group>"; };
@@ -255,6 +261,9 @@
 				2643F5F41CC2B94500031038 /* NewPostingTableViewController.swift */,
 				262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */,
 				262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */,
+				262955A91CE7898B004D3213 /* PostingDetailsTableViewController.swift */,
+				262955AB1CE789B4004D3213 /* PostingCommentTableViewCell.swift */,
+				262955AD1CE79656004D3213 /* PostingCommentInputTableViewCell.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -531,6 +540,7 @@
 			files = (
 				26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */,
 				26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */,
+				262955AE1CE79656004D3213 /* PostingCommentInputTableViewCell.swift in Sources */,
 				2646AB441C56BE680082CA71 /* JoinTeamViewController.swift in Sources */,
 				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
 				262FA8FF1CCD5ADA0094B810 /* BOImage.swift in Sources */,
@@ -559,9 +569,11 @@
 				265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
+				262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */,
 				267B1DC91C3444710059C66C /* PrivateConstants.swift in Sources */,
 				266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */,
 				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
+				262955AC1CE789B4004D3213 /* PostingCommentTableViewCell.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */,
 				263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */,
