@@ -64,13 +64,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func fetchLocations(){
         blc.getAllLocations { (locations, error) in
             if error != nil{
+                print("An error occured")
+                print(error)
+            }
+            else{
+                print("got here")
                 self.drawLocationsOnMap(locations!)
+                
             }
         }
             
         }
     
-    private func drawLocationsOnMap(location:[BOLocation]){
+    private func drawLocationsOnMap(location:[MapLocation]){
         for places in location{
             mapView.addAnnotation(places)
         }

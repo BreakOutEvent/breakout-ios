@@ -7,44 +7,51 @@
 //
 
 import Foundation
+import MapKit
 
 protocol LocationController {
-    func getAllLocations(onComplete: (locations: Array<BOLocation>?, error: NSError?) -> Void)
+    func getAllLocations(onComplete: (locations: Array<MapLocation>?, error: NSError?) -> Void)
 }
 
 class BasicLocationController : LocationController {
     
-    func getAllLocations(onComplete: (locations:Array<BOLocation>?, error:NSError?) -> Void) {
-        
+    func getAllLocations(onComplete: (locations:Array<MapLocation>?, error:NSError?) -> Void) {
         let url = NSURL(string: PrivateConstants.backendURL)
-        let path = "event/1/location/"
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: url)
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.GET(path, parameters: nil, success: {
-            (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+        //let path = "event/1/location/"
+        let sessionManager: AFHTTPSessionManager = AFHTTPSessionManager.init(baseURL: url)
+    
+        sessionManager.requestSerializer = AFJSONRequestSerializer()
+        sessionManager.GET("http://breakout-development.herokuapp.com/event/1/location/", parameters: nil, progress: nil, success: {task, response in
             let response = response as! Array<NSDictionary>
-            let locations = self.convertNSDictionaryToBOLocation(response)
+            print(response)
+            let locations = self.convertNSDictionaryToMapLocation(response)
             onComplete(locations: locations, error: nil)
-        }) {
-            (operation: AFHTTPRequestOperation?, error: NSError) -> Void in
-            onComplete(locations: nil, error: error)
+            
+            }) { task, error in
+                print(error)
         }
+//        sessionManager.GET(path, parameters: nil, success: {
+//            (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+//            let response = response as! Array<NSDictionary>
+//            let locations = self.convertNSDictionaryToBOLocation(response)
+//            onComplete(locations: locations, error: nil)
+//        }) {
+//            (task: NSURLSessionDataTask?, error: NSError) -> Void in
+//            onComplete(locations: nil, error: error)
+//        }
     }
     
-    private func convertNSDictionaryToBOLocation(dicts: Array<NSDictionary>) -> Array<BOLocation> {
+    private func convertNSDictionaryToMapLocation(dicts: Array<NSDictionary>) -> Array<MapLocation> {
         return dicts.map({ dict in convertToLocation(dict) }).flatMap({ dict in dict })
         
     }
     
-    private func convertToLocation(dict: NSDictionary) -> BOLocation? {
-        let location = BOLocation()
-        if let latitude = dict.objectForKey("latitude") as? NSNumber{
-            location.latitude = latitude
-        }
-        if let longitude = dict.objectForKey("longitude") as? NSNumber{
-            location.longitude = longitude
-        }
+    private func convertToLocation(dict: NSDictionary) -> MapLocation? {
+        let longitude = dict.valueForKey("longitude") as! CLLocationDegrees
+        let latitude = dict.valueForKey("latitude") as! CLLocationDegrees
+        let coordiante = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let location = MapLocation(coordinate: coordiante, title: dict.valueForKey("team") as? String, subtitle: dict.valueForKey("distance") as? String)
+        
         return location
     }
 }
