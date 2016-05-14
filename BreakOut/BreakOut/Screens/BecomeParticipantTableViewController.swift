@@ -395,13 +395,13 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     func getGenderByFirstname() {
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: "https://api.genderize.io/"))
+        let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: "https://api.genderize.io/"))
         
         let params: NSDictionary = ["name":self.firstNameTextfield.text!]
         
         requestManager.requestSerializer = AFJSONRequestSerializer()
         
-        requestManager.GET("", parameters: params, success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
+        requestManager.GET("", parameters: params, success: { (operation, response) -> Void in
                 // Successful retrival of name attributes
                 let dict: NSDictionary = response as! NSDictionary
                 if dict.valueForKey("gender") as! String == "male" {
@@ -409,7 +409,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
                 }else{
                     self.genderSegmentedControl.selectedSegmentIndex = 1
                 }
-            }) { (operation:AFHTTPRequestOperation?, error: NSError) -> Void in
+            }) { (operation, error) -> Void in
                 BOToast.log("Error during genderize.io request", level: .Error)
         }
     }

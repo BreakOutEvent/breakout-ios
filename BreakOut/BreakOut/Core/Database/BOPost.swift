@@ -16,6 +16,7 @@ import Flurry_iOS_SDK
 
 @objc(BOPost)
 class BOPost: NSManagedObject {
+    
     @NSManaged var uuid: NSInteger
     @NSManaged var text: String?
     @NSManaged var city: String?
@@ -24,12 +25,15 @@ class BOPost: NSManagedObject {
     @NSManaged var latitude: NSNumber
     @NSManaged var flagNeedsUpload: Bool
     @NSManaged var flagNeedsDownload: Bool
+    @NSManaged var images: [BOImage]
     
     class func create(uuid: Int, flagNeedsDownload: Bool) -> BOPost {
         let res = BOPost.MR_createEntity()! as BOPost
         
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
+        res.date = NSDate()
+        
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         return res;
@@ -75,32 +79,28 @@ class BOPost: NSManagedObject {
     }
     
     func upload() {
-        // New request manager with our backend URL as baseURL
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
-        // Sets the serialization of parameters to JSON format
-        requestManager.requestSerializer = AFJSONRequestSerializer()
+        var dict = [String:AnyObject]()
         
-        // Get the Dictionary representation of the Post-Object (self)
-        let selfDictionary: Dictionary = self.dictionaryWithValuesForKeys(["uuid","name","flagNeedsUpload"])
+        dict["text"] = text;
+        dict["date"] = date.timeIntervalSince1970
+
+        var postingLocation = [String:AnyObject]()
+        postingLocation["latitude"] = latitude
+        postingLocation["longitude"] = latitude
         
-        // Send POST request to backend and set the 'flagNeedsUpload' attribute to false if successful
-        requestManager.POST("user/", parameters: selfDictionary,
-            success: { (operation: AFHTTPRequestOperation, response: AnyObject) -> Void in
-                print("Upload Post Response: ")
-                print(response)
-                
-                // Tracking
-                Flurry.logEvent("/posting/upload/completed_successful")
-            })
-            { (operation: AFHTTPRequestOperation?, error:NSError) -> Void in
-                print("ERROR: While uploading Post")
-                print(error)
-                
-                // TODO: Show detailed errors to the user
-                
-                // Tracking
-                Flurry.logEvent("/posting/upload/completed_error")
+        dict["postingLocation"] = postingLocation
+        
+        dict["uploadMediaTypes"] = images.map() { $0.getModelString() }
+
+        BONetworkManager.doJSONRequestPOST(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
+            // Tracking
+            self.flagNeedsUpload = false
+            Flurry.logEvent("/posting/upload/completed_successful")
+        }) { (error, response) in
+            // Tracking
+            Flurry.logEvent("/posting/upload/completed_error")
         }
+        
     }
 }

@@ -268,10 +268,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })
                 
-            }) { () in
+            }, error:
+            { () in
                 self.loadingHUD.hide(true)
                 self.enableInputs(true)
-            }
+            })
         } else {
             //TODO: Handle no text entered
         }

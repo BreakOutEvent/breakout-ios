@@ -179,7 +179,7 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
     func startCreateTeamRequest() {
         //self.setAllInputsToEnabled(false)
         
-        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+//        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
         
         /*let participantParams: NSDictionary = [
             "emergencynumber": self.emergencyNumberTextfield.text!,
