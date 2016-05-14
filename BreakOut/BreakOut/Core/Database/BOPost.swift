@@ -109,11 +109,10 @@ class BOPost: NSManagedObject {
                         }
                     }
                 }
-                self.save()
             }
-            
             // Tracking
             self.flagNeedsUpload = false
+            self.save()
             Flurry.logEvent("/posting/upload/completed_successful")
         }) { (error, response) in
             // Tracking

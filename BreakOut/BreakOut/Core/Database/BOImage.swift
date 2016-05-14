@@ -125,6 +125,8 @@ class BOImage: NSManagedObject {
     
     func uploadData(id: Int) -> NSData {
         
+        print(filepath)
+        
         if let data = UIImageJPEGRepresentation(getImage(), 1.0) {
             let boundary = "randomBoundary"
             
@@ -135,7 +137,7 @@ class BOImage: NSManagedObject {
                 NSUTF8StringEncoding,
                 allowLossyConversion: false)!)
             
-            let lineTwo = "Content-Disposition: form-data; name=\"file\"; filename=\"" + (filepath as String) + "\"\r\n"
+            let lineTwo = "Content-Disposition: form-data; name=\"file\"; filename=\"" + (filepath as String) + "\"; originalname=\"\(filepath as String)\"\r\n"
             fullData.appendData(lineTwo.dataUsingEncoding(
                 NSUTF8StringEncoding,
                 allowLossyConversion: false)!)
