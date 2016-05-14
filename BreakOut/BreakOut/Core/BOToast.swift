@@ -16,21 +16,21 @@ class BOToast {
         case Success, Warning, Error
     }
     
-    class func log(message: String, level: Level = Level.Success) {
-        
-        let toBePrinted: String = {
-            switch level {
-            case .Success: return "✅ \(message)"
-            case .Warning: return "⚠️ \(message)"
-            case .Error: return "❗️ \(message)"
-            }
-        }()
-        
-        if FeatureFlagManager.sharedInstance.isActivated(FeatureFlags.showDebuggingToasts) {
-            JLToast.makeText(toBePrinted, duration: JLToastLongDelay).show()
-            #if DEBUG
-                print("BOToast: \(toBePrinted)")
-            #endif
-        }
-    }
+//    class func log(message: String, level: Level = Level.Success) {
+//        
+//        let toBePrinted: String = {
+//            switch level {
+//            case .Success: return "✅ \(message)"
+//            case .Warning: return "⚠️ \(message)"
+//            case .Error: return "❗️ \(message)"
+//            }
+//        }()
+//        
+//        if FeatureFlagManager.sharedInstance.isActivated(FeatureFlags.showDebuggingToasts) {
+//            JLToast.makeText(toBePrinted, duration: JLToastLongDelay).show()
+//            #if DEBUG
+//                print("BOToast: \(toBePrinted)")
+//            #endif
+//        }
+//    }
 }

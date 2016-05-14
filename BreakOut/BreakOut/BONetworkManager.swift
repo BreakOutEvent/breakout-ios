@@ -49,11 +49,11 @@ class BONetworkManager {
             if let unwrappedResponse = response {
                  handler(unwrappedResponse)
             }
-            BOToast.log("SUCCESSFUL: \(requestString) Download! w. Parms \(parameters)")
+            //BOToast.log("SUCCESSFUL: \(requestString) Download! w. Parms \(parameters)")
         }) { (operation, err) -> Void in
             print("ERROR: while \(requestString) w. Parms \(parameters)")
             print(err)
-            BOToast.log("ERROR: during \(requestString)", level: .Error)
+            //BOToast.log("ERROR: during \(requestString)", level: .Error)
             if let errHandler = error {
                 if let response = operation?.response as? NSHTTPURLResponse {
                     errHandler(err, response)
@@ -102,17 +102,17 @@ class BONetworkManager {
                                                                      clientID: "breakout_app", secret: loginSecret)
             oAuthManager
                 .authenticateUsingOAuthWithURLString("/oauth/token", username: user, password: pass, scope: "read write", success: { (credentials) -> Void in
-                    BOToast.log("Login was successful.")
+                    //BOToast.log("Login was successful.")
                     print("LOGIN: OAuth Code: "+credentials.accessToken)
                     if AFOAuthCredential.storeCredential(credentials, withIdentifier: loginStorage) {
                         success()
                     } else {
-                        BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
+                        //BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
                     }
                 }) { (nserror: NSError!) -> Void in
                     print("LOGIN: Error: ")
                     print(nserror)
-                    BOToast.log("ERROR: During Login", level: .Error)
+                    //BOToast.log("ERROR: During Login", level: .Error)
                     // Tracking
                     Flurry.logEvent("/login/completed_error")
                     

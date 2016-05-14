@@ -262,7 +262,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         
         CurrentUser.sharedInstance.storeInNSUserDefaults()
         
-        BOToast.log("Stored all Input Values to CurrentUser Object")
+        //BOToast.log("Stored all Input Values to CurrentUser Object")
     }
     
     @IBAction func profilePictureButtonPressed(sender: UIButton) {

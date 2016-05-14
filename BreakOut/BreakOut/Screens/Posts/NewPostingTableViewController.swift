@@ -202,13 +202,13 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         CLGeocoder().reverseGeocodeLocation(location, completionHandler:
             {(placemarks, error) in
                 if (error != nil) {
-                    BOToast.log("reverse geodcode fail: \(error!.localizedDescription)", level: BOToast.Level.Error )
+                    //BOToast.log("reverse geodcode fail: \(error!.localizedDescription)", level: BOToast.Level.Error )
                 }
                 
                 let pm = placemarks! as [CLPlacemark]
                 if pm.count > 0 {
                     let placeMark: CLPlacemark = placemarks![0] as CLPlacemark
-                    BOToast.log("Retrieved City: \(placeMark.locality)", level: BOToast.Level.Success)
+                    //BOToast.log("Retrieved City: \(placeMark.locality)", level: BOToast.Level.Success)
                     self.locationLabel.text = placeMark.locality
                 }
         })
