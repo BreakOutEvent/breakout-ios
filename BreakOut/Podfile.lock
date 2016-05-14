@@ -30,9 +30,9 @@ PODS:
   - netfox (1.7.2)
   - Pantry (0.2.1)
   - ReachabilitySwift (2.3.3)
-  - SDWebImage (3.7.5):
-    - SDWebImage/Core (= 3.7.5)
-  - SDWebImage/Core (3.7.5)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
   - SlideMenuControllerSwift (2.0.6)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
@@ -83,7 +83,7 @@ SPEC CHECKSUMS:
   netfox: ab995a8327995b847a7b7c1d83c574e0d4aacb25
   Pantry: 433931c8f545dd3426ca7d09a4edd5afa89c6e01
   ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
-  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SlideMenuControllerSwift: 143343f05b79aef3e2bb4dc72a1dc373ffa66d6c
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
