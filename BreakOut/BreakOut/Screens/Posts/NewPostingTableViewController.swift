@@ -128,9 +128,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         newPosting.city = self.locationLabel.text
         
-        let newImage = BOImage.createWithImage(self.postingPictureImageView.image!)
+        let newImage:BOImage = BOImage.createWithImage(self.postingPictureImageView.image!)
         
-        newPosting.images.append(newImage)
+        newPosting.images.insert(newImage)
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
