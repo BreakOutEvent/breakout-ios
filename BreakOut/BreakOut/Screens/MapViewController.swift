@@ -11,13 +11,14 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
-    // dummy Data
-    // TODO: 
+    
+    // TODO
     // > fetch user location from backend
     // > delete dummy user.swift
     // > add sideView in annotations
     // > set alpha of navigationbar background
     
+    //MARK: Properties and Outlets
     let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
     let regionRadius : CLLocationDistance = 5000
     var users = [User]()
@@ -35,7 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    
+    // MARK: Dummy Data.
     func createUserArray(){
         let David = User(name: "David", locationName: "München", coordinate: CLLocationCoordinate2D(latitude: 48.099656, longitude: 11.531533))
         let Florian = User(name: "Florian", locationName: "Dresden", coordinate: CLLocationCoordinate2D(latitude: 51.050409, longitude: 13.737262))
@@ -43,6 +44,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         users.append(Florian)
     }
     
+    // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Style the navigation bar
@@ -59,8 +61,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         navigationItem.rightBarButtonItem = rightButton
     }
     
+    // MARK: selector functions
     let blc = BasicLocationController()
     
+    /**
+     Function gets called as selector of UIBarButtonItem.
+     Fetches locations by invoking getAllLocations-method of BasicLocationController-class
+     If now error occures, drawLocationsOnMap
+     */
     func fetchLocations(){
         blc.getAllLocations { (locations, error) in
             if error != nil{
@@ -75,7 +83,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
             
         }
-    
+    /**
+     loops through all locations in location-Array and add them to MapView as Annotation.
+     - parameter location: Array of MapLocation
+     */
     private func drawLocationsOnMap(location:[MapLocation]){
         for places in location{
             mapView.addAnnotation(places)

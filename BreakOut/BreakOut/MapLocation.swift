@@ -9,6 +9,18 @@
 import Foundation
 import MapKit
 
+/**
+ simple class conforming to MKAnnotation in order for instances of MapLocation to be displayed on the MapView.
+ 
+ coordiante is required
+ 
+ title is optional
+ 
+ subtitle is optional
+ 
+ TODO: add image to Annotation and maybe other accessory views
+ 
+*/
 class MapLocation: NSObject, MKAnnotation{
     
     var coordinate: CLLocationCoordinate2D
