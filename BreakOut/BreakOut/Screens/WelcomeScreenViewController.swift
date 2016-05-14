@@ -22,6 +22,8 @@ class WelcomeScreenViewController: UIViewController {
         
         self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
         self.descriptionTextLabel.text = NSLocalizedString("welcomeScreenDescriptionText", comment: "")
+        
+        self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButton", comment: ""), forState: UIControlState.Normal)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -44,10 +46,18 @@ class WelcomeScreenViewController: UIViewController {
 // MARK: - Button Actions
     
     @IBAction func participateButtonPressed(sender: UIButton) {
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        /*let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
         
-        self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)
+        self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)*/
+        
+        if let slideMenuController = self.slideMenuController() {
+            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("NewPostingTableViewController")
+            
+            let navigationController = UINavigationController(rootViewController: controller!)
+            
+            slideMenuController.changeMainViewController(navigationController, close: true)
+        }
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {
