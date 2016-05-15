@@ -8,8 +8,9 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     
     // TODO
@@ -22,6 +23,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
     let regionRadius : CLLocationDistance = 5000
     var users = [User]()
+    let locationManager = CLLocationManager()
     
     
     
