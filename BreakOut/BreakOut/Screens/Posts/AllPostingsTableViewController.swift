@@ -13,7 +13,7 @@ import MagicalRecord
 
 import SwiftDate
 
-class AllPostingsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UIViewControllerPreviewingDelegate {
+class AllPostingsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "BOPost")
