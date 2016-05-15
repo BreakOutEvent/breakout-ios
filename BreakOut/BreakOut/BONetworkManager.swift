@@ -120,7 +120,7 @@ class BONetworkManager {
                     BOToast.log("ERROR: During Login", level: .Error)
                     // Tracking
                     Flurry.logEvent("/login/completed_error")
-                    Answers.logCustomEventWithName("/login/completed_error", customAttributes: [:])
+                    Answers.logLoginWithMethod("e-mail", success: false, customAttributes: [:])
                     
                     error()
             }
