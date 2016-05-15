@@ -61,7 +61,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         // Create refresh button for navigation item
         let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(fetchLocations))
+        let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(showSideBar))
         navigationItem.rightBarButtonItem = rightButton
+        navigationItem.leftBarButtonItem = leftButton
         
         // set delegate
         locationManager.delegate = self
@@ -138,5 +140,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    func showSideBar(){
+        print("MenuButton pressed")
+        self.slideMenuController()?.toggleLeft()
+    }
     
 }
