@@ -14,6 +14,7 @@ import MagicalRecord
 
 // Tracking
 import Flurry_iOS_SDK
+import Crashlytics
 
 import MBProgressHUD
 
@@ -69,6 +70,17 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Tracking
+        Flurry.logEvent("/newPostingTableViewController", timed: true)
+        Answers.logCustomEventWithName("/newPostingTableViewController", customAttributes: [:])
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        // Tracking
+        Flurry.endTimedEvent("/newPostingTableViewController", withParameters: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -133,11 +145,14 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         newPosting.city = self.locationLabel.text
         
+        var withImage:Bool = false
         if self.postingPictureImageView.image != nil {
             // User selected Image for this post
             let newImage:BOImage = BOImage.createWithImage(self.postingPictureImageView.image!)
         
             newPosting.images.insert(newImage)
+            
+            withImage = true
         }
         
         // Save
@@ -147,6 +162,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.setupLoadingHUD("New Posting saved!")
         self.loadingHUD.hide(true, afterDelay: 3.0)
         self.resetAllInputs()
+        
+        // Tracking
+        Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage":withImage])
+        Answers.logCustomEventWithName("/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage])
     }
     
     @IBAction func addAttachementButtonPressed(sender: UIButton) {

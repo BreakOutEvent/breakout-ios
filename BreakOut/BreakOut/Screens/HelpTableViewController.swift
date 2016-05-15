@@ -10,6 +10,9 @@ import UIKit
 
 import StaticDataTableViewController
 
+import Flurry_iOS_SDK
+import Crashlytics
+
 class HelpTableViewController: StaticDataTableViewController {
 
     override func viewDidLoad() {
@@ -32,6 +35,17 @@ class HelpTableViewController: StaticDataTableViewController {
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Tracking
+        Flurry.logEvent("/helpView", timed: true)
+        Answers.logCustomEventWithName("/helpView", customAttributes: [:])
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        // Tracking
+        Flurry.endTimedEvent("/helpView", withParameters: nil)
     }
 
     override func didReceiveMemoryWarning() {

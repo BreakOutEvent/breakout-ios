@@ -8,6 +8,7 @@
 
 import UIKit
 import Flurry_iOS_SDK
+import Crashlytics
 
 // Networking
 import AFNetworking
@@ -264,6 +265,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     
                     // Tracking
                     Flurry.logEvent("/login/completed_successful")
+                    Answers.logCustomEventWithName("/login/completed_successful", customAttributes: [:])
                     
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })

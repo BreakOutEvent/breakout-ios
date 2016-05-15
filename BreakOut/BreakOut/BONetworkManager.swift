@@ -9,6 +9,7 @@
 import Foundation
 import AFOAuth2Manager
 import Flurry_iOS_SDK
+import Crashlytics
 
 class BONetworkManager {
     
@@ -108,6 +109,10 @@ class BONetworkManager {
                         success()
                     } else {
                         BOToast.log("ERROR: During storing the OAuth credentials.", level: .Error)
+                        
+                        //Tracking
+                        Flurry.logEvent("/login/storeCredentials_error")
+                        Answers.logCustomEventWithName("/login/storeCredentials_error", customAttributes: [:])
                     }
                 }) { (nserror: NSError!) -> Void in
                     print("LOGIN: Error: ")
@@ -115,6 +120,7 @@ class BONetworkManager {
                     BOToast.log("ERROR: During Login", level: .Error)
                     // Tracking
                     Flurry.logEvent("/login/completed_error")
+                    Answers.logCustomEventWithName("/login/completed_error", customAttributes: [:])
                     
                     error()
             }
