@@ -17,6 +17,7 @@
 		262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955A91CE7898B004D3213 /* PostingDetailsTableViewController.swift */; };
 		262955AC1CE789B4004D3213 /* PostingCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955AB1CE789B4004D3213 /* PostingCommentTableViewCell.swift */; };
 		262955AE1CE79656004D3213 /* PostingCommentInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955AD1CE79656004D3213 /* PostingCommentInputTableViewCell.swift */; };
+		262955B01CE8FABD004D3213 /* HelpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955AF1CE8FABD004D3213 /* HelpTableViewController.swift */; };
 		262FA8FB1CCD1BF70094B810 /* AllPostingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */; };
 		262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */; };
 		262FA8FF1CCD5ADA0094B810 /* BOImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FE1CCD5ADA0094B810 /* BOImage.swift */; };
@@ -80,6 +81,7 @@
 		262955A91CE7898B004D3213 /* PostingDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingDetailsTableViewController.swift; path = Screens/Posts/PostingDetailsTableViewController.swift; sourceTree = "<group>"; };
 		262955AB1CE789B4004D3213 /* PostingCommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingCommentTableViewCell.swift; path = Screens/Posts/PostingCommentTableViewCell.swift; sourceTree = "<group>"; };
 		262955AD1CE79656004D3213 /* PostingCommentInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingCommentInputTableViewCell.swift; path = Screens/Posts/PostingCommentInputTableViewCell.swift; sourceTree = "<group>"; };
+		262955AF1CE8FABD004D3213 /* HelpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpTableViewController.swift; path = Screens/HelpTableViewController.swift; sourceTree = "<group>"; };
 		262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllPostingsTableViewController.swift; path = Screens/Posts/AllPostingsTableViewController.swift; sourceTree = "<group>"; };
 		262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingTableViewCell.swift; path = Screens/Posts/PostingTableViewCell.swift; sourceTree = "<group>"; };
 		262FA8FE1CCD5ADA0094B810 /* BOImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImage.swift; path = Core/Database/BOImage.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 				26FD9E581C0A3C7000BF9EFD /* Login */,
 				26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */,
 				26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */,
+				262955AF1CE8FABD004D3213 /* HelpTableViewController.swift */,
 				26985F141C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift */,
 				2646AB431C56BE680082CA71 /* JoinTeamViewController.swift */,
 				26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */,
@@ -546,6 +549,7 @@
 				262FA8FF1CCD5ADA0094B810 /* BOImage.swift in Sources */,
 				26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */,
 				26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */,
+				262955B01CE8FABD004D3213 /* HelpTableViewController.swift in Sources */,
 				269AADC81C9483E10034F32C /* Constants.swift in Sources */,
 				0EB81A3A1CD8AFE400AEBA8C /* BackendServices.swift in Sources */,
 				26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */,
