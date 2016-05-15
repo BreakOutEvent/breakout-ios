@@ -13,7 +13,7 @@ import MagicalRecord
 
 import SwiftDate
 
-class AllPostingsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class AllPostingsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, UIViewControllerPreviewingDelegate {
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "BOPost")
@@ -31,8 +31,6 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         frc.delegate = self
         return frc
     }()
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +93,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("PostingTableViewCell", forIndexPath: indexPath) as! PostingTableViewCell
         configureCell(cell, atIndexPath: indexPath)
+        cell.parentTableViewController = self
         return cell
     }
     

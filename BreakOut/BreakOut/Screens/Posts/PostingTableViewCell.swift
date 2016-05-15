@@ -8,7 +8,11 @@
 
 import UIKit
 
+import GGFullscreenImageViewController
+
 class PostingTableViewCell: UITableViewCell {
+    
+    weak var parentTableViewController: UITableViewController?
 
     @IBOutlet weak var postingPictureImageView: UIImageView!
     @IBOutlet weak var postingPictureImageViewHeightConstraint: NSLayoutConstraint!
@@ -52,6 +56,12 @@ class PostingTableViewCell: UITableViewCell {
         self.teamPictureImageView.layer.cornerRadius = self.teamPictureImageView.frame.size.width/2.0
     }
     
+    @IBAction func postingImageButtonPressed(sender: UIButton) {
+        let fullscreenImageViewController:GGFullscreenImageViewController = GGFullscreenImageViewController()
+        fullscreenImageViewController.liftedImageView = postingPictureImageView
+        //fullscreenImageViewController.liftedImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        self.parentTableViewController?.presentViewController(fullscreenImageViewController, animated: true, completion: nil)
+    }
     
     @IBAction func likesButtonPressed(sender: UIButton) {
     }

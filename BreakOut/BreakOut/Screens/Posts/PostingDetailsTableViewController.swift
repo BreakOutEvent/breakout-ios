@@ -92,6 +92,8 @@ class PostingDetailsTableViewController: UITableViewController {
             cell.challengeViewHeightConstraint.constant = 0.0
         }
         
+        cell.parentTableViewController = self
+        
         
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()

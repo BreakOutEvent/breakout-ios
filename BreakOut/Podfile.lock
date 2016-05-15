@@ -20,6 +20,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - Flurry-iOS-SDK/FlurrySDK (7.5.2)
+  - GGFullscreenImageViewController (1.0.0)
   - Instabug (5.1.2)
   - JLToast (1.4.0)
   - LECropPictureViewController (0.1.2)
@@ -30,9 +31,9 @@ PODS:
   - netfox (1.7.2)
   - Pantry (0.2.1)
   - ReachabilitySwift (2.3.3)
-  - SDWebImage (3.7.5):
-    - SDWebImage/Core (= 3.7.5)
-  - SDWebImage/Core (3.7.5)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
   - SlideMenuControllerSwift (2.0.6)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
@@ -45,6 +46,7 @@ DEPENDENCIES:
   - Crashlytics (~> 3.7.0)
   - Fabric (~> 1.6.7)
   - Flurry-iOS-SDK/FlurrySDK (~> 7.5.2)
+  - GGFullscreenImageViewController (~> 1.0)
   - Instabug (~> 5.1.2)
   - JLToast (~> 1.4.0)
   - LECropPictureViewController (~> 0.1.2)
@@ -75,6 +77,7 @@ SPEC CHECKSUMS:
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Flurry-iOS-SDK: 8c87c4eab6008184ad9f63afabd79ec0d109c82e
+  GGFullscreenImageViewController: 17935922bc80806eba3c9a0c22a22ecedc260510
   Instabug: c315abe1a1c4cbd3ea1cc6ec8f9954d6c5371c39
   JLToast: 1599854ade65dddce01dca5bbe61d6119479ff7e
   LECropPictureViewController: d64cd991d94d7804c0971f97adae6d1bc216a7b8
@@ -83,7 +86,7 @@ SPEC CHECKSUMS:
   netfox: ab995a8327995b847a7b7c1d83c574e0d4aacb25
   Pantry: 433931c8f545dd3426ca7d09a4edd5afa89c6e01
   ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
-  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SlideMenuControllerSwift: 143343f05b79aef3e2bb4dc72a1dc373ffa66d6c
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
