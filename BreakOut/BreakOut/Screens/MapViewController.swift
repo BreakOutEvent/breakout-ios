@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import MagicalRecord
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
@@ -50,13 +51,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // MARK: Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Fetch locations
+        fetchLocations()
+        
         // Style the navigation bar
         self.navigationController!.navigationBar.translucent = true
         self.navigationController!.navigationBar.barTintColor = Style.mainOrange
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-
         self.title = "MapView"
         
         // Create refresh button for navigation item
@@ -76,9 +80,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         // start monitoring
         if CLLocationManager.locationServicesEnabled(){
-            print("location Services are enabled")
+            print("location Services are enabled. Start Updating Locations ...")
             locationManager.startUpdatingLocation()
         }
+
     }
     // MARK: CLLocation delegate methods
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -87,9 +92,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         if let coordiante = locations.last?.coordinate{
             print(coordiante)
             // send to local Database with flag needsUpload
+            let locationPost: BOLocation = BOLocation.MR_createEntity()! as BOLocation
+            locationPost.flagNeedsUpload = true
+            locationPost.latitude = coordiante.latitude as NSNumber
+            locationPost.longitude = coordiante.longitude as NSNumber
+            // Save
+            NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         }
-        // stop updating locations
-        locationManager.stopUpdatingLocation()
+        // stop updating locations. Optional.
+        // locationManager.stopUpdatingLocation()
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -118,11 +129,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.startUpdatingLocation()
         blc.getAllLocations { (locations, error) in
             if error != nil{
-                print("An error occured")
+                print("An error occured while fetching locations")
                 print(error)
             }
             else{
-                print("got here. Location:")
+                print("Received new locations from server:")
                 print(locations?.last!.coordinate)
                 self.drawLocationsOnMap(locations!)
                 
@@ -140,8 +151,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    func showSideBar(){
-        print("MenuButton pressed")
+     func showSideBar(){
         self.slideMenuController()?.toggleLeft()
     }
     
