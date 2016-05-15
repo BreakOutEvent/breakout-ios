@@ -14,10 +14,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
     
     // TODO
-    // > fetch user location from backend
+    // > fetch user location from backend -> should work
     // > delete dummy user.swift
     // > add sideView in annotations
     // > set alpha of navigationbar background
+    // > send locations to databse
     
     //MARK: Properties and Outlets
     let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
@@ -58,11 +59,51 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
         self.title = "MapView"
         
-        // Create save button for navigation item
+        // Create refresh button for navigation item
         let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(fetchLocations))
         navigationItem.rightBarButtonItem = rightButton
+        
+        // set delegate
+        locationManager.delegate = self
+        
+        // aks user for permission
+        locationManager.requestAlwaysAuthorization()
+        
+        // set accuracy
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        
+        // start monitoring
+        if CLLocationManager.locationServicesEnabled(){
+            print("location Services are enabled")
+            locationManager.startUpdatingLocation()
+        }
+    }
+    // MARK: CLLocation delegate methods
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Update Locations")
+        // only use last location
+        if let coordiante = locations.last?.coordinate{
+            print(coordiante)
+            // send to local Database with flag needsUpload
+        }
+        // stop updating locations
+        locationManager.stopUpdatingLocation()
     }
     
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        switch status{
+        case .AuthorizedAlways:
+            print("location tracking status always")
+            mapView.showsUserLocation = true;
+        case .Denied:
+            print("location tracking status denied")
+            locationManager.stopUpdatingLocation()
+        case .NotDetermined:print("location tracking status not determined")
+        case .Restricted:print("location tracking status restricted")
+        default:break
+        }
+        
+    }
     // MARK: selector functions
     let blc = BasicLocationController()
     
@@ -72,13 +113,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      If now error occures, drawLocationsOnMap
      */
     func fetchLocations(){
+        locationManager.startUpdatingLocation()
         blc.getAllLocations { (locations, error) in
             if error != nil{
                 print("An error occured")
                 print(error)
             }
             else{
-                print("got here")
+                print("got here. Location:")
+                print(locations?.last!.coordinate)
                 self.drawLocationsOnMap(locations!)
                 
             }
@@ -94,4 +137,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             mapView.addAnnotation(places)
         }
     }
+    
+    
 }
