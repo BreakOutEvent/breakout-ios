@@ -80,7 +80,6 @@ class BOPost: NSManagedObject {
     }
     
     func upload() {
-    /*
         var dict = [String:AnyObject]()
         
         dict["text"] = text;
@@ -118,6 +117,5 @@ class BOPost: NSManagedObject {
             // Tracking
             Flurry.logEvent("/posting/upload/completed_error")
         }
-       */
     }
 }
