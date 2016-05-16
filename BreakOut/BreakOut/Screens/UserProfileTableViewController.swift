@@ -7,7 +7,10 @@
 //
 
 import UIKit
+
+// Tracking
 import Flurry_iOS_SDK
+import Crashlytics
 
 import SwiftDate
 
@@ -317,6 +320,9 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     @IBAction func logoutButtonPressed(sender: UIButton) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(nil, forKey: "userDictionary")
+        
+        // Tracking
+        Answers.logCustomEventWithName("/logoutButtonPressed", customAttributes: [:])
         
         self.presentLoginScreen()
     }

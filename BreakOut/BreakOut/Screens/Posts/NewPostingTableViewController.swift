@@ -14,6 +14,7 @@ import MagicalRecord
 
 // Tracking
 import Flurry_iOS_SDK
+import Crashlytics
 
 import MBProgressHUD
 
@@ -42,8 +43,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         self.title = NSLocalizedString("newPostingTitle", comment: "")
         
-        // Create save button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: #selector(sendPostingButtonPressed))
+        // Create posting button for navigation item
+        let rightButton = UIBarButtonItem(image: UIImage(named: "post_Icon"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(sendPostingButtonPressed))
         navigationItem.rightBarButtonItem = rightButton
         
         // Create menu buttons for navigation item
@@ -70,6 +71,17 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             locationManager.startUpdatingLocation()
         }
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Tracking
+        Flurry.logEvent("/newPostingTableViewController", timed: true)
+        Answers.logCustomEventWithName("/newPostingTableViewController", customAttributes: [:])
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        // Tracking
+        Flurry.endTimedEvent("/newPostingTableViewController", withParameters: nil)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -78,14 +90,19 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     func resetAllInputs() {
         self.postingPictureImageView.image = UIImage()
-        self.messageTextView.text = ""
         
+        self.messageTextView.resignFirstResponder()
+        self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
+        self.styleMessageInput(true)
     }
     
     func setupLoadingHUD(localizedKey: String) {
         self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         self.loadingHUD.square = true
         self.loadingHUD.mode = MBProgressHUDMode.CustomView
+        
+        //TODO: Add Done image
+        
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
     }
     
@@ -127,12 +144,16 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         newPosting.date = NSDate()
         
         newPosting.city = self.locationLabel.text
-        
+
+        var withImage:Bool = false
         if let image = postingPictureImageView.image {
-            let newImage = BOImage.createWithImage(image)
-            newPosting.images.addObject(newImage)
-        }
+            // User selected Image for this post
+            let newImage:BOImage = BOImage.createWithImage(image)
         
+            newPosting.images.insert(newImage)
+            
+            withImage = true
+        }
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -145,6 +166,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.setupLoadingHUD("New Posting saved!")
         self.loadingHUD.hide(true, afterDelay: 3.0)
         self.resetAllInputs()
+        
+        // Tracking
+        Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage":withImage])
+        Answers.logCustomEventWithName("/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage])
     }
     
     @IBAction func addAttachementButtonPressed(sender: UIButton) {

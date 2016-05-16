@@ -25,7 +25,7 @@ class BOPost: NSManagedObject {
     @NSManaged var latitude: NSNumber
     @NSManaged var flagNeedsUpload: Bool
     @NSManaged var flagNeedsDownload: Bool
-    @NSManaged var images: NSMutableSet
+    @NSManaged var images: Set<BOImage>
     
     class func create(uuid: Int, flagNeedsDownload: Bool) -> BOPost {
         let res = BOPost.MR_createEntity()! as BOPost
@@ -80,7 +80,7 @@ class BOPost: NSManagedObject {
     }
     
     func upload() {
-        
+    /*
         var dict = [String:AnyObject]()
         
         dict["text"] = text;
@@ -118,6 +118,6 @@ class BOPost: NSManagedObject {
             // Tracking
             Flurry.logEvent("/posting/upload/completed_error")
         }
-        
+       */
     }
 }

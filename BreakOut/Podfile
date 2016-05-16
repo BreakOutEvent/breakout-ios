@@ -28,6 +28,7 @@ pod 'SlideMenuControllerSwift', '~> 2.0.5'
 pod 'LECropPictureViewController', '~> 0.1.2'
 pod 'SwiftDate', '~> 3.0.1'
 pod 'StaticDataTableViewController', '~> 2.0'
+pod 'GGFullscreenImageViewController', '~> 1.0'
 
 pod 'TouchVisualizer', '~> 1.3'
 
@@ -37,7 +38,7 @@ pod 'JLToast', '~> 1.4.0'
 
 pod 'netfox', '~> 1.7.2'
 
-pod 'ReachabilitySwift', git: 'https://github.com/ashleymills/Reachability.swift'
+pod 'ReachabilitySwift'
 
 # Image Caching
 pod 'SDWebImage', '~>3.7'

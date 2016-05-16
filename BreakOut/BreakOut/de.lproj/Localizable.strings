@@ -11,6 +11,8 @@
 "login" = "EINLOGGEN";
 "register" = "REGISTRIEREN (kostenlos)";
 
+"cancel" = "Abbrechen";
+
 // Loading Texts
 "registrationLoading" = "Hab etwas geduld während wir dich für BreakOut registrieren";
 "loginLoading" = "Gleich bist du eingelogged";
@@ -18,10 +20,35 @@
 // Welcome Screen
 "welcomeScreenHeadline" = "Bald geht es los!";
 "welcomeScreenDescriptionText" = "Wir arbeiten sehr hart daran, dir die beste App für das nächste BreakOut Event zur Hand zu geben. Ganz egal, ob du Teilnehmer, Sponsor, Familienmitglied oder einfach nur Fan bist. Sei gespannt auf weitere großartige Updates mit neuen Funktionen.";
+"welcomeScreenParticipateButton" = "Teile deinen Ort";
 
 // Screen Titles
+"newPostingTitle" = "Neuer Post";
 "allPostingsTitle" = "Alle Posts";
+"postingDetailsTitle" = "Kommentare";
+"webView" = "Browser";
+"helpViewTitle" = "Hilfe";
 
 // New Posting
 "newPostingEmptyMessage" = "Was erlebst du gerade?";
 
+// UIImagePicker
+"sourceOfImage" = "Wähle ein Bild für deinen Post";
+"photoLibrary" = "Fotoarchiv";
+"takeAPhoto" = "Foto aufnehmen";
+
+// Help Screen
+"helpMedicalEmergencyTitle" = "Medizinischer Notfall";
+"helpMedicalEmergency" = "Ruhe bewahren! \n\n• Euronotruf informieren unter 112 \n• Der Euronotruf kann auch Englisch \n• Erste Hilfe leisten \n• BreakOut Informieren unter +49 (0) 89 8986 0579 \n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpPoliceEmergencyTitle" = "Polizeilicher Notfall";
+"helpPoliceEmergency" = "Ruhe bewahren!\n\n• Euronotruf informieren unter 112\n• Der Euronotruf kann auch Englisch\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpDiplomaticEmergencyTitle" = "Dipolomatischer Notfall im Ausland";
+"helpDiplomaticEmergency" = "Ruhe bewahren!\n\n• Notdienst des Auswertigen Amtes informieren +49 (0) 30 1817 0\n • Der Notdienst spricht natürlich Deutsch und Englisch\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpTeampartnerEmergencyTitle" = "Teampartner verloren";
+"helpTeampartnerEmergency" = "Ruhe bewahren!\n\n• Zurück gehen zu dem letzten Ort an dem Ihr gemeinsam wart\n• Teampartner versuchen an zu rufen\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpOtherEmergencyTitle" = "Alle anderen Notfälle oder Probleme";
+"helpOtherEmergency" = "Ruhe bewahren!\n\nIhr könnt während den 36 Stunden rund um die Uhr BreakOut unter +49 (0) 89 8986 0579 erreichen. Wir sind zwar nicht vor Ort aber mit schnellem Internet, viel Tramp & Reise Erfahrung und diplomatischem Geschick ausgestattet und können euch so bestimmt unterstützen.";

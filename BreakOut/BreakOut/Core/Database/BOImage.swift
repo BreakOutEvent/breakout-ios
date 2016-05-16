@@ -26,6 +26,18 @@ func fileInDocumentsDirectory(filename: String) -> String {
     
 }
 
+public extension UIImage {
+    public func hasContent() -> Bool {
+        let cgref = self.CGImage
+        let cim = self.CIImage
+        if cgref == nil && cim == nil {
+            return false
+        }else{
+            return true
+        }
+    }
+}
+
 @objc(BOImage)
 class BOImage: NSManagedObject {
     @NSManaged var uploadToken: NSString

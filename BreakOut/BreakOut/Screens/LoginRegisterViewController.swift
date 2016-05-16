@@ -8,6 +8,7 @@
 
 import UIKit
 import Flurry_iOS_SDK
+import Crashlytics
 
 // Networking
 import AFNetworking
@@ -219,6 +220,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             
             // Tracking
             Flurry.logEvent("/registration/completed_successful")
+            Answers.logSignUpWithMethod("e-mail",
+                success: true,
+                customAttributes: [:])
             
             self.loadingHUD.hide(true)
             // Try to Login with new account
@@ -232,6 +236,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             
             // Tracking
             Flurry.logEvent("/registration/completed_error")
+            Answers.logSignUpWithMethod("e-mail",
+                                        success: false,
+                                        customAttributes: [:])
         }
     }
 
@@ -264,6 +271,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     
                     // Tracking
                     Flurry.logEvent("/login/completed_successful")
+                    Answers.logLoginWithMethod("e-mail", success: true, customAttributes: [:])
                     
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })

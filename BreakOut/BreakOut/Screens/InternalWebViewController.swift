@@ -25,6 +25,25 @@ class InternalWebViewController: UIViewController {
         if self.urlToOpenAfterViewDidLoad != nil {
             self.openWebpageWithUrl(urlToOpenAfterViewDidLoad!)
         }
+        
+        // Style the navigation bar
+        self.navigationController!.navigationBar.translucent = false
+        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
+        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        
+        self.title = NSLocalizedString("webView", comment: "")
+        
+        // Create posting button for navigation item
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(reloadWebView))
+        navigationItem.rightBarButtonItem = rightButton
+        
+        // Create menu buttons for navigation item
+        let barButtonImage = UIImage(named: "menu_Icon_white")
+        if barButtonImage != nil {
+            self.addLeftBarButtonWithImage(barButtonImage!)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,6 +59,10 @@ class InternalWebViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/internalWebView", withParameters: nil)
+    }
+    
+    func reloadWebView() {
+        self.internalWebView.reload()
     }
     
     func openWebpageWithUrl(urlString: String) {

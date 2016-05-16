@@ -8,6 +8,25 @@
 
 import Foundation
 
+extension UILabel {
+    
+    @IBInspectable var localizedText: String {
+        get { return "" }
+        set {
+            self.text = NSLocalizedString(newValue, comment: "")
+        }
+    }
+}
+
+extension UITextView {
+    
+    @IBInspectable var localizedText: String {
+        get { return "" }
+        set {
+            self.text = NSLocalizedString(newValue, comment: "")
+        }
+    }
+}
 
 extension UIImageView {
     @IBInspectable var cornerRadius: CGFloat {
