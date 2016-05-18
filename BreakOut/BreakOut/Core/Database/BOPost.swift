@@ -33,7 +33,7 @@ class BOPost: NSManagedObject {
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
         res.date = NSDate()
-        res.images = NSMutableSet()
+        res.images = Set<BOImage>()
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -91,9 +91,9 @@ class BOPost: NSManagedObject {
         
         dict["postingLocation"] = postingLocation
         
-        let img = images.allObjects.map() { $0 as? BOImage }
+        let img = images.map() { $0 as BOImage }
         
-        dict["uploadMediaTypes"] = img.map() { $0?.type ?? "" }
+        dict["uploadMediaTypes"] = img.map() { $0.type }
 
         BONetworkManager.doJSONRequestPOST(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
             
@@ -104,7 +104,7 @@ class BOPost: NSManagedObject {
                         let respondedMediaItem = mediaArray[i]
                         let mediaItem = img[i]
                         if let id = respondedMediaItem["id"] as? Int, token = respondedMediaItem["uploadToken"] as? String {
-                            mediaItem?.uploadWithToken(id, token: token)
+                            mediaItem.uploadWithToken(id, token: token)
                         }
                     }
                 }

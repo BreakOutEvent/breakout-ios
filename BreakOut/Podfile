@@ -38,7 +38,7 @@ pod 'JLToast', '~> 1.4.0'
 
 pod 'netfox', '~> 1.7.2'
 
-pod 'ReachabilitySwift'
+pod 'ReachabilitySwift', git: 'https://github.com/ashleymills/Reachability.swift',  :tag => 'v2.3.3'
 
 # Image Caching
 pod 'SDWebImage', '~>3.7'

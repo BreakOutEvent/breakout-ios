@@ -137,7 +137,7 @@ class BOImage: NSManagedObject {
     
     func uploadData(id: Int) -> NSData {
         
-        print(filepath)
+        // TODO: Perfect this to less lines.
         
         if let data = UIImageJPEGRepresentation(getImage(), 1.0) {
             let boundary = "randomBoundary"
@@ -150,6 +150,7 @@ class BOImage: NSManagedObject {
                 allowLossyConversion: false)!)
             
             let lineTwo = "Content-Disposition: form-data; name=\"file\"; filename=\"" + (filepath as String) + "\"; originalname=\"\(filepath as String)\"\r\n"
+            print("Line with Content-Disposition: " + lineTwo)
             fullData.appendData(lineTwo.dataUsingEncoding(
                 NSUTF8StringEncoding,
                 allowLossyConversion: false)!)
@@ -179,8 +180,6 @@ class BOImage: NSManagedObject {
             fullData.appendData(lineSix.dataUsingEncoding(
                 NSUTF8StringEncoding,
                 allowLossyConversion: false)!)
-            
-            
             
             return fullData
         }
