@@ -108,7 +108,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         }else{
             cell.locationLabel?.text = posting.longitude.stringValue + posting.latitude.stringValue
         }
-        
+
         // Check if Posting has an attached media file
         if let image:BOImage = posting.images.first {
             let uiimage: UIImage = image.getImage()

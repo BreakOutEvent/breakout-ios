@@ -8,6 +8,7 @@
 
 import Foundation
 import AFOAuth2Manager
+import Alamofire
 import Flurry_iOS_SDK
 import Crashlytics
 
@@ -121,12 +122,38 @@ class BONetworkManager {
                     // Tracking
                     Flurry.logEvent("/login/completed_error")
                     Answers.logLoginWithMethod("e-mail", success: false, customAttributes: [:])
-                    
                     error()
             }
         }
-        
 
+    }
+    
+    static func uploadMedia(id: Int, token: String, data: NSData, filename: String, success: () -> (), error: () -> ()) {
+        
+        Alamofire.upload(.POST, "http://breakout-media.westeurope.cloudapp.azure.com:3001/", headers: ["X-UPLOAD-TOKEN": token], multipartFormData: { multipartFormData in
+            multipartFormData.appendBodyPart(data: data, name: "file", fileName: filename, mimeType: "image/jpg")
+                if let data = id.description.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    multipartFormData.appendBodyPart(data: data, name: "id")
+                }
+            }, encodingMemoryThreshold: 10*1024*1024) { encodingResult in
+                switch encodingResult {
+                case .Success(let upload, _, _):
+                    upload.responseString() { (response) in
+                        if response.result.error != nil {
+                            print(response.result.error)
+                            error()
+                        } else {
+                            success()
+                            BOToast.log("SUCCESSFUL: Media Upload")
+                        }
+                    }
+                case .Failure(let encodingError):
+                    print(encodingError)
+                    error()
+                }
+        }
+        
+        
     }
     
 }

@@ -20,6 +20,7 @@ pod 'Pantry', '~> 0.2.1'
 # Networking
 pod 'AFNetworking', '~> 3.0'
 pod 'AFOAuth2Manager', '~> 3.0'
+pod 'Alamofire'
 
 # UI
 pod 'SpinKit', '~>1.2.0'
@@ -38,7 +39,7 @@ pod 'JLToast', '~> 1.4.0'
 
 pod 'netfox', '~> 1.7.2'
 
-pod 'ReachabilitySwift', git: 'https://github.com/ashleymills/Reachability.swift'
+pod 'ReachabilitySwift', git: 'https://github.com/ashleymills/Reachability.swift',  :tag => 'v2.3.3'
 
 # Image Caching
 pod 'SDWebImage', '~>3.7'

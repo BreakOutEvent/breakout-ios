@@ -16,6 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - AFOAuth2Manager (3.0.0):
     - AFNetworking/NSURLSession (~> 3.0)
+  - Alamofire (3.4.0)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
@@ -43,6 +44,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - AFOAuth2Manager (~> 3.0)
+  - Alamofire
   - Crashlytics (~> 3.7.0)
   - Fabric (~> 1.6.7)
   - Flurry-iOS-SDK/FlurrySDK (~> 7.5.2)
@@ -54,7 +56,8 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.2)
   - netfox (~> 1.7.2)
   - Pantry (~> 0.2.1)
-  - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`)
+  - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`, tag
+    `v2.3.3`)
   - SDWebImage (~> 3.7)
   - SlideMenuControllerSwift (~> 2.0.5)
   - SpinKit (~> 1.2.0)
@@ -65,15 +68,17 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   ReachabilitySwift:
     :git: https://github.com/ashleymills/Reachability.swift
+    :tag: v2.3.3
 
 CHECKOUT OPTIONS:
   ReachabilitySwift:
-    :commit: fa90df50c04f5743fbdf643cbe8d10562d75673d
     :git: https://github.com/ashleymills/Reachability.swift
+    :tag: v2.3.3
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AFOAuth2Manager: 0566da1be64883e339813d411229fdc9a84dab7c
+  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Flurry-iOS-SDK: 8c87c4eab6008184ad9f63afabd79ec0d109c82e

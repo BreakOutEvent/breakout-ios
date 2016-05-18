@@ -33,6 +33,7 @@ class BOPost: NSManagedObject {
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
         res.date = NSDate()
+        res.images = Set<BOImage>()
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -79,7 +80,6 @@ class BOPost: NSManagedObject {
     }
     
     func upload() {
-    /*
         var dict = [String:AnyObject]()
         
         dict["text"] = text;
@@ -91,16 +91,31 @@ class BOPost: NSManagedObject {
         
         dict["postingLocation"] = postingLocation
         
-        dict["uploadMediaTypes"] = images.map() { $0.getModelString() }
+        let img = images.map() { $0 as BOImage }
+        
+        dict["uploadMediaTypes"] = img.map() { $0.type }
 
         BONetworkManager.doJSONRequestPOST(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
+            
+            if let responseDict = response as? NSDictionary, id = responseDict["id"] as? Int, mediaArray = responseDict["media"] as? [NSDictionary] {
+                self.uuid = id
+                if !mediaArray.isEmpty {
+                    for i in 0...(mediaArray.count-1) {
+                        let respondedMediaItem = mediaArray[i]
+                        let mediaItem = img[i]
+                        if let id = respondedMediaItem["id"] as? Int, token = respondedMediaItem["uploadToken"] as? String {
+                            mediaItem.uploadWithToken(id, token: token)
+                        }
+                    }
+                }
+            }
             // Tracking
             self.flagNeedsUpload = false
+            self.save()
             Flurry.logEvent("/posting/upload/completed_successful")
         }) { (error, response) in
             // Tracking
             Flurry.logEvent("/posting/upload/completed_error")
         }
-       */
     }
 }

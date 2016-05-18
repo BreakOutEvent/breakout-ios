@@ -27,10 +27,10 @@ class BOToast {
         }()
         
         if FeatureFlagManager.sharedInstance.isActivated(FeatureFlags.showDebuggingToasts) {
-            JLToast.makeText(toBePrinted, duration: JLToastLongDelay).show()
-            #if DEBUG
-                print("BOToast: \(toBePrinted)")
-            #endif
+//            JLToast.makeText(toBePrinted, duration: JLToastLongDelay).show()
+//            #if DEBUG
+//                print("BOToast: \(toBePrinted)")
+//            #endif
         }
     }
 }
