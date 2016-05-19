@@ -426,6 +426,11 @@
 					2678A5791B7E4BB4000CF85A = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = S9987XBGX5;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					2678A5901B7E4BB4000CF85A = {
 						CreatedOnToolsVersion = 6.4;
