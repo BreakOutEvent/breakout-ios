@@ -30,6 +30,8 @@ class BOSynchronizeController: NSObject {
     */
     func totalDatabaseSynchronization() {
         self.loadTotalTeamList();
+        self.tryUploadAll()
+        self.downloadAllPostings()
         // ... and all the other methods.
     }
 
@@ -112,6 +114,7 @@ class BOSynchronizeController: NSObject {
             if reachability.isReachableViaWiFi() {
                 self.internetReachability = "wifi"
                 print("Reachable via WiFi")
+                totalDatabaseSynchronization()
             } else {
                 self.internetReachability = "cellular"
                 print("Reachable via Cellular")
