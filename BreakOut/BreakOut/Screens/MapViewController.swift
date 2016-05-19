@@ -63,10 +63,26 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.delegate = self
         
         // aks user for permission
-        locationManager.requestAlwaysAuthorization()
+        let status = CLLocationManager.authorizationStatus()
+        if status == .Denied || status == .NotDetermined || status == .AuthorizedWhenInUse || status == .Restricted{
+            locationManager.requestAlwaysAuthorization()
+        }
         
         // set accuracy
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        
+        // set distance filter in meters
+        locationManager.distanceFilter = 1000
+        
+        // allow backgroudn updates
+        if #available(iOS 9.0, *) {
+            locationManager.allowsBackgroundLocationUpdates = true
+        } else {
+            print("iOS Version not capable of background location updates!")
+        }
+        
+        // set properties for battery life time enhencement
+        locationManager.pausesLocationUpdatesAutomatically = true
         
         // start monitoring
         if CLLocationManager.locationServicesEnabled(){
@@ -136,6 +152,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      */
     private func drawLocationsOnMap(location:[MapLocation]){
         for places in location{
+            print(places)
             mapView.addAnnotation(places)
         }
     }
