@@ -4,7 +4,8 @@
 //
 //  Created by David Symhoven on 01.05.16.
 //  Copyright © 2016 David Symhoven. All rights reserved.
-//
+//  
+//  DUMMY CLASS
 
 import MapKit
 

@@ -33,20 +33,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         didSet{
             mapView.mapType = .Standard
             mapView.delegate = self
-            createUserArray()
-            for name in users{
-                mapView.addAnnotation(name)
-            }
         }
     }
     
-    // MARK: Dummy Data.
-    func createUserArray(){
-        let David = User(name: "David", locationName: "München", coordinate: CLLocationCoordinate2D(latitude: 48.099656, longitude: 11.531533))
-        let Florian = User(name: "Florian", locationName: "Dresden", coordinate: CLLocationCoordinate2D(latitude: 51.050409, longitude: 13.737262))
-        users.append(David)
-        users.append(Florian)
-    }
+
     
     // MARK: Life Cycle
     override func viewDidLoad() {
@@ -97,7 +87,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             locationPost.latitude = coordiante.latitude as NSNumber
             locationPost.longitude = coordiante.longitude as NSNumber
             // Save
-            NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+            locationPost.save()
         }
         // stop updating locations. Optional.
         // locationManager.stopUpdatingLocation()
@@ -134,7 +124,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             else{
                 print("Received new locations from server:")
-                print(locations?.last!.coordinate)
                 self.drawLocationsOnMap(locations!)
                 
             }
