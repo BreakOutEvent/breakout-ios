@@ -66,10 +66,12 @@ class BOPost: NSManagedObject {
                 if let sizes = item.valueForKey("sizes") as? [NSDictionary], last = sizes.last, url = last.valueForKey("url") as? String {
                     BOImageDownloadManager.sharedInstance.getImage(url) { (image) in
                         self.images.insert(image)
+                        self.save()
                     }
                 }
             }
         }
+        self.save()
     }
     
     func save() {
