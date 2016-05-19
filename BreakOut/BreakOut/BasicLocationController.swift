@@ -57,8 +57,11 @@ class BasicLocationController : LocationController {
     private func extractLocation(dict: NSDictionary) -> MapLocation? {
         let longitude = dict.valueForKey("longitude") as! CLLocationDegrees
         let latitude = dict.valueForKey("latitude") as! CLLocationDegrees
+        let title = dict.valueForKey("team") as! String
+        let subtitle = dict.valueForKey("distance") as! NSNumber
         let coordiante = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let location = MapLocation(coordinate: coordiante, title: dict.valueForKey("team") as? String, subtitle: dict.valueForKey("distance") as? String)
+        let location = MapLocation(coordinate: coordiante, title: title, subtitle: "distance: \(subtitle)")
+
         return location
     }
 }
