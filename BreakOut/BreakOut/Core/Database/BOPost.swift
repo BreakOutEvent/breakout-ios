@@ -61,6 +61,15 @@ class BOPost: NSManagedObject {
         if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
             self.longitude = latitude
         }
+        if let mediaArray = dict.valueForKey("media") as? [NSDictionary] {
+            for item in mediaArray {
+                if let sizes = item.valueForKey("sizes") as? [NSDictionary], last = sizes.last, url = last.valueForKey("url") as? String {
+                    BOImageDownloadManager.sharedInstance.getImage(url) { (image) in
+                        self.images.insert(image)
+                    }
+                }
+            }
+        }
     }
     
     func save() {
