@@ -3524,14 +3524,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.20000000000000001" alpha="0.50288529829999995" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="G9J-ts-otE" userLabel="Second Name Table View Cell">
-                                        <rect key="frame" x="0.0" y="325" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="54" id="G9J-ts-otE" userLabel="Second Name Table View Cell">
+                                        <rect key="frame" x="0.0" y="325" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G9J-ts-otE" id="9Rg-vS-Wil">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Team Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="HPg-gF-8yW">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Team Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="HPg-gF-8yW">
                                                     <rect key="frame" x="78" y="15" width="484" height="24"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -3544,13 +3544,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                                         <outlet property="delegate" destination="276-uY-Doq" id="mF9-Ml-BhJ"/>
                                                     </connections>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="name_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="1mJ-FN-qi1" userLabel="Icon Image View">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="name_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="1mJ-FN-qi1" userLabel="Icon Image View">
                                                     <rect key="frame" x="38" y="15" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="1mJ-FN-qi1" secondAttribute="height" multiplier="1:1" id="ZKi-Nd-RiO"/>
                                                     </constraints>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fjg-z3-46I" userLabel="Underline">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fjg-z3-46I" userLabel="Underline">
                                                     <rect key="frame" x="38" y="45" width="524" height="1"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -3572,14 +3572,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.20000000000000001" alpha="0.50288529829999995" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="XyH-Kg-ub1" userLabel="E-Mail Table View Cell">
-                                        <rect key="frame" x="0.0" y="369" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="54" id="XyH-Kg-ub1" userLabel="E-Mail Table View Cell">
+                                        <rect key="frame" x="0.0" y="379" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XyH-Kg-ub1" id="fCp-0I-3yT">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-Mail" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cEe-3n-frK">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-Mail" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cEe-3n-frK">
                                                     <rect key="frame" x="78" y="15" width="484" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="rs7-3H-Xcc"/>
@@ -3591,13 +3591,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                                         <outlet property="delegate" destination="276-uY-Doq" id="W78-oJ-PT9"/>
                                                     </connections>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="mail_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="795-5B-Xr8" userLabel="Icon Image View">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mail_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="795-5B-Xr8" userLabel="Icon Image View">
                                                     <rect key="frame" x="38" y="15" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="795-5B-Xr8" secondAttribute="height" multiplier="1:1" id="4Wc-nG-fyS"/>
                                                     </constraints>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KBg-UM-rOE" userLabel="Underline">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KBg-UM-rOE" userLabel="Underline">
                                                     <rect key="frame" x="38" y="45" width="524" height="1"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -3619,14 +3619,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.20000000000000001" alpha="0.50288529829999995" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fkV-K1-mTb" userLabel="Event Selection Table View Cell">
-                                        <rect key="frame" x="0.0" y="413" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="54" id="fkV-K1-mTb" userLabel="Event Selection Table View Cell">
+                                        <rect key="frame" x="0.0" y="433" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fkV-K1-mTb" id="Fq6-L1-hXo">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="At which Event will you participate?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eKe-v6-2oP">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="At which Event will you participate?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eKe-v6-2oP">
                                                     <rect key="frame" x="78" y="15" width="444" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="gkh-2U-RDf"/>
@@ -3638,20 +3638,20 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                                         <outlet property="delegate" destination="276-uY-Doq" id="oVs-ep-ybx"/>
                                                     </connections>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="city_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="naO-Xz-azD" userLabel="Icon Image View">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="city_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="naO-Xz-azD" userLabel="Icon Image View">
                                                     <rect key="frame" x="38" y="15" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="naO-Xz-azD" secondAttribute="height" multiplier="1:1" id="mLo-S5-o7F"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iRc-dB-ccX">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iRc-dB-ccX">
                                                     <rect key="frame" x="538" y="15" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="iRc-dB-ccX" secondAttribute="height" multiplier="1:1" id="E2v-s7-RIc"/>
                                                     </constraints>
                                                     <state key="normal" image="help-login_Icon"/>
                                                 </button>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="go1-wS-EnE" userLabel="Underline">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="go1-wS-EnE" userLabel="Underline">
                                                     <rect key="frame" x="38" y="45" width="524" height="1"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -3686,7 +3686,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                         <color key="backgroundColor" white="0.20000000000000001" alpha="0.50288529829999995" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="110" id="IYU-cg-sTn" userLabel="Create Team Button Table View Cell">
-                                        <rect key="frame" x="0.0" y="457" width="600" height="110"/>
+                                        <rect key="frame" x="0.0" y="487" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IYU-cg-sTn" id="dVd-7r-eXe">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
@@ -3774,21 +3774,21 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                         <color key="backgroundColor" white="0.20000000000000001" alpha="0.50288529829999995" colorSpace="calibratedWhite"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="EmP-iy-OoJ" userLabel="Select Invitation Table View Cell">
-                                        <rect key="frame" x="0.0" y="60" width="600" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="54" id="EmP-iy-OoJ" userLabel="Select Invitation Table View Cell">
+                                        <rect key="frame" x="0.0" y="60" width="600" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EmP-iy-OoJ" id="Z5D-Xk-BB2">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwM-9N-hOt" userLabel="Underline">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dwM-9N-hOt" userLabel="Underline">
                                                     <rect key="frame" x="38" y="45" width="524" height="1"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="oTk-dF-sTs"/>
                                                     </constraints>
                                                 </view>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Team Einladungen" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aXF-BF-hEK">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Team Einladungen" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aXF-BF-hEK">
                                                     <rect key="frame" x="78" y="15" width="484" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="Frd-Yr-NaB"/>
@@ -3797,7 +3797,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                 </textField>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="name_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="OPa-e6-QHH" userLabel="Icon Image View">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="name_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="OPa-e6-QHH" userLabel="Icon Image View">
                                                     <rect key="frame" x="38" y="15" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="OPa-e6-QHH" secondAttribute="height" multiplier="1:1" id="7j3-AD-5Vc"/>
@@ -3821,7 +3821,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="110" id="SoK-da-u7f" userLabel="Join Team Button Table View Cell">
-                                        <rect key="frame" x="0.0" y="104" width="600" height="110"/>
+                                        <rect key="frame" x="0.0" y="114" width="600" height="110"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SoK-da-u7f" id="vvS-L7-e2F">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="110"/>
