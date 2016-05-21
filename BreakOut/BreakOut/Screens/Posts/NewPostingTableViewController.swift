@@ -44,10 +44,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.title = NSLocalizedString("newPostingTitle", comment: "")
         
         // Create posting button for navigation item
-        let rightButton = UIBarButtonItem(image: UIImage(named: "post_Icon"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(sendPostingButtonPressed))
+        let rightButton = UIBarButtonItem(image: UIImage(named: "checkmark_Icon"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(sendPostingButtonPressed))
         navigationItem.rightBarButtonItem = rightButton
         
-        let cancelButton = UIBarButtonItem(title: NSLocalizedString("cancel", comment: "cancel"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(closeView))
+        let cancelButton = UIBarButtonItem(image: UIImage(named: "cancel_Icon"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(closeView))
         navigationItem.leftBarButtonItem = cancelButton
         
         // Create menu buttons for navigation item
