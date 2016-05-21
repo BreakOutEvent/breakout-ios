@@ -361,6 +361,35 @@ class BOSynchronizeController: NSObject {
         }
     }
     
+    func downloadIdsOfAllEvents() {
+        BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
+            for newEvent: NSDictionary in response as! Array {
+                self.downloadAllTeamsForEvent(newEvent.valueForKey("id")as! Int)
+            }
+        }) { (error, response) in
+        }
+    }
+    
+    func downloadAllTeamsForEvent(eventId: Int) {
+        
+        
+        BONetworkManager.doJSONRequestGET(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
+            var numberOfAddedTeams: Int = 0
+            // response is an Array of Team Objects
+            for newTeam: NSDictionary in response as! Array {
+                BOTeam.createWithDictionary(newTeam)
+                //newPost.printToLog()
+                numberOfAddedTeams += 1
+            }
+            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
+            // Tracking
+            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+        }) { (error, response) in
+            // TODO: Handle Errors
+            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+        }
+    }
+    
 // MARK: Upload Postings
     
     func tryUploadPosts() {

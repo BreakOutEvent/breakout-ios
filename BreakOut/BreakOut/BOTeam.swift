@@ -24,6 +24,11 @@ class BOTeam: NSManagedObject {
     @NSManaged var profilePic: BOImage?
     
     class func create(uuid: Int, flagNeedsDownload: Bool) -> BOTeam {
+        if let origTeamArray = BOPost.MR_findByAttribute("uuid", withValue: uuid) as? Array<BOTeam>, team = origTeamArray.first {
+            team.flagNeedsDownload = false
+            return team
+        }
+        
         let res = BOTeam.MR_createEntity()! as BOTeam
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
@@ -34,7 +39,14 @@ class BOTeam: NSManagedObject {
     }
     
     class func createWithDictionary(dict: NSDictionary) -> BOTeam {
-        let res = BOTeam.MR_createEntity()! as BOTeam
+        let res: BOTeam
+        if let id = dict["id"] as? NSInteger,
+            origTeamArray = BOTeam.MR_findByAttribute("uuid", withValue: id) as? Array<BOTeam>,
+            team = origTeamArray.first {
+            res = team
+        } else {
+            res = BOTeam.MR_createEntity()!
+        }
         
         res.setAttributesWithDictionary(dict)
         
