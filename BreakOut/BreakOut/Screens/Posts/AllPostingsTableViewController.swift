@@ -99,10 +99,12 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     
     func configureCell(cell: PostingTableViewCell, atIndexPath indexPath: NSIndexPath) {
         // Configure cell with the BOPost model
-        let posting = fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost
+        let posting:BOPost = fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost
         
         cell.messageLabel?.text = posting.text
+        
         cell.timestampLabel?.text = posting.date.toNaturalString(NSDate())
+        
         if (posting.city != nil && posting.city != "") {
             cell.locationLabel?.text = posting.city
         }else if (posting.latitude.intValue != 0 && posting.longitude.intValue != 0){
@@ -125,8 +127,11 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
             cell.postingPictureImageViewHeightConstraint.constant = 0.0
         }
         
-        // Set the team image
-        cell.teamPictureImageView.image = UIImage(named: "team_Icon")
+        // Set the team image & name
+        if posting.team != nil {
+            cell.teamNameLabel.text = posting.team?.name
+        }
+        cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
         
         
         // Check if Posting has an attached challenge

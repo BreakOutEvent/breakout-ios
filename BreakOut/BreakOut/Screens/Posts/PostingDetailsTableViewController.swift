@@ -55,7 +55,11 @@ class PostingDetailsTableViewController: UITableViewController {
     
     func configureCommentCell(cell: PostingCommentTableViewCell, indexPath: NSIndexPath) {
         let comments = posting?.comments.map({ $0 as BOComment })
+        cell.teamNameLabel.text = comments?[indexPath.row].name ?? ""
+        cell.timestampLabel.text = comments?[indexPath.row].date.toNaturalString(NSDate()) ?? ""
         cell.commentMessageLabel.text = comments?[indexPath.row].text ?? ""
+        cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
+        
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
@@ -87,8 +91,11 @@ class PostingDetailsTableViewController: UITableViewController {
             cell.postingPictureImageViewHeightConstraint.constant = 0.0
         }
         
-        // Set the team image
-        cell.teamPictureImageView.image = UIImage(named: "team_Icon")
+        // Set the team image & name
+        if posting!.team != nil {
+            cell.teamNameLabel.text = posting!.team?.name
+        }
+        cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
         
         
         // Check if Posting has an attached challenge
