@@ -34,14 +34,20 @@ class CurrentUser: NSObject {
     var hometown: String?
     
     var flagBlocked: Bool = false
-    var flagParticipant: Bool = false
     
-    static let sharedInstance = CurrentUser()
+    var flagParticipant: Bool = false
+    var teamid: NSInteger?
+    
+    static var sharedInstance = CurrentUser()
     
     override private init() {
         super.init()
         
         self.retrieveFromNSUserDefaults()
+    }
+    
+    static func resetUser() {
+        self.sharedInstance = CurrentUser()
     }
     
     func presentLoginScreenFromViewController(fromView: UIViewController) {
@@ -148,6 +154,9 @@ class CurrentUser: NSObject {
         if self.hometown != nil {
             selfDictionary.setValue(self.hometown, forKey: "hometown")
         }
+        if self.teamid != nil {
+            selfDictionary.setValue(self.teamid, forKey: "teamId")
+        }
         
         selfDictionary.setValue(self.flagParticipant, forKey: "flagParticipant")
         selfDictionary.setValue(self.flagBlocked, forKey: "flagBlocked")
@@ -228,6 +237,8 @@ class CurrentUser: NSObject {
                     self.flagBlocked = (keyValue as? Bool)!
                 }else if keyName == "flagParticipant" {
                     self.flagParticipant = (keyValue as? Bool)!
+                }else if keyName == "teamId" {
+                    self.teamid = (keyValue as? NSInteger)!
                 }
             }
         }
@@ -278,6 +289,14 @@ class CurrentUser: NSObject {
     
     func setGenderFromInt(int: Int) {
         self.gender = stringGenderFromInt(int)
+    }
+    
+    func currentTeamId() -> Int {
+        if self.teamid != nil {
+            return self.teamid!
+        }else{
+            return -1
+        }
     }
     
 
