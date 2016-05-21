@@ -14,6 +14,8 @@
 
 "cancel" = "Abbrechen";
 
+"comments" = "Kommentare";
+
 // Loading Texts
 "registrationLoading" = "Hab etwas geduld während wir dich für BreakOut registrieren";
 "loginLoading" = "Gleich bist du eingelogged";

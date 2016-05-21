@@ -60,10 +60,13 @@ class PostingDetailsTableViewController: UITableViewController {
         // Configure cell with the BOPost model
         cell.messageLabel?.text = self.posting!.text
         cell.timestampLabel?.text = self.posting!.date.toNaturalString(NSDate())
-        if posting!.city != nil  {
+        
+        if (posting!.city != nil && posting!.city != "") {
             cell.locationLabel?.text = posting!.city
+        }else if (posting!.latitude.intValue != 0 && posting!.longitude.intValue != 0){
+            cell.locationLabel?.text = posting!.longitude.stringValue + "  " + posting!.latitude.stringValue
         }else{
-            cell.locationLabel?.text = posting!.longitude.stringValue + posting!.latitude.stringValue
+            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }
         
         // Check if Posting has an attached media file
