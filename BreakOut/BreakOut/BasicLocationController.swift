@@ -20,7 +20,7 @@ class BasicLocationController : LocationController {
      - returns: Array of locations as MapLocation conforming to MKAnnotation protocol
      */
     func getAllLocations(onComplete: (locations:Array<MapLocation>?, error:NSError?) -> Void) {
-        let locations = self.convertBOLocationsToMapLocation()
+        let locations = self.convertBOPostingToMapLocation()
         onComplete(locations: locations, error: nil)
         
         /*let url = NSURL(string: PrivateConstants().backendURL())
@@ -57,6 +57,18 @@ class BasicLocationController : LocationController {
         
         for locationObject:BOLocation in locationArray {
             let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: "test", subtitle: "distance")
+            mutableArray.append(location)
+        }
+        
+        return mutableArray
+    }
+    
+    private func convertBOPostingToMapLocation() -> Array<MapLocation> {
+        var mutableArray: Array<MapLocation> = Array()
+        let postingArray = BOPost.MR_findAll() as! [BOPost]
+        
+        for postingObject:BOPost in postingArray {
+            let location = MapLocation(coordinate: CLLocationCoordinate2DMake(postingObject.latitude.doubleValue, postingObject.longitude.doubleValue), title: postingObject.team?.name, subtitle: postingObject.text)
             mutableArray.append(location)
         }
         
