@@ -90,6 +90,22 @@ class BOPost: NSManagedObject {
                 comments.insert(BOComment.createWithDictionary(item))
             }
         }
+        
+        if let userDictionary = dict.valueForKey("user") as? NSDictionary {
+            if let participantDictionary = userDictionary.valueForKey("participant") as? NSDictionary {
+                let teamid = participantDictionary.valueForKey("teamId")
+                
+                if let teamArray = BOTeam.MR_findByAttribute("uuid", withValue: teamid!) as? Array<BOTeam>,
+                    origTeam = teamArray.first {
+                    team = origTeam
+                } else {
+                    //res = BOPost.MR_createEntity()!
+                }
+            }
+        }
+        
+        
+        
         self.save()
     }
     

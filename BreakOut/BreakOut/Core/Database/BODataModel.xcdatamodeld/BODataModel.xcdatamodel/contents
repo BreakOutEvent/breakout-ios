@@ -35,6 +35,7 @@
         <attribute name="uuid" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BOComment" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
+        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BOTeam" syncable="YES"/>
     </entity>
     <entity name="BOTeam" representedClassName="BOTeam" syncable="YES">
         <attribute name="flagNeedsDownload" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -44,10 +45,10 @@
         <relationship name="profilePic" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
     </entity>
     <elements>
+        <element name="BOComment" positionX="-137" positionY="-135" width="128" height="148"/>
         <element name="BOImage" positionX="43" positionY="9" width="128" height="135"/>
         <element name="BOLocation" positionX="151" positionY="-178" width="128" height="118"/>
-        <element name="BOPost" positionX="-351" positionY="-127" width="110" height="193"/>
+        <element name="BOPost" positionX="-351" positionY="-127" width="110" height="210"/>
         <element name="BOTeam" positionX="-128" positionY="153" width="128" height="118"/>
-        <element name="BOComment" positionX="-137" positionY="-135" width="128" height="148"/>
     </elements>
 </model>
