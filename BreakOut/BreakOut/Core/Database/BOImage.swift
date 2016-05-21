@@ -76,9 +76,9 @@ class BOImage: NSManagedObject {
         let relativePath:String = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
         let path:String = fileInDocumentsDirectory(relativePath)
         if imageData!.writeToFile(path, atomically: true) {
-            BOToast.log("Storing image file was successful", level: BOToast.Level.Success)
+            //BOToast.log("Storing image file was successful", level: BOToast.Level.Success)
         }else{
-            BOToast.log("Error during storing of image file", level: BOToast.Level.Error)
+            //BOToast.log("Error during storing of image file", level: BOToast.Level.Error)
         }
         
         res.type = "image"

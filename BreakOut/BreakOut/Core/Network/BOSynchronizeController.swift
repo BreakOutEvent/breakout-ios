@@ -317,7 +317,7 @@ class BOSynchronizeController: NSObject {
                     updatedPost.printToLog()
                 }
                 NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
-                BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
+                //BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
                 // Tracking
                 Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
             }) { (error, response) in
@@ -346,7 +346,7 @@ class BOSynchronizeController: NSObject {
                 //newPost.printToLog()
                 numberOfAddedPosts += 1
             }
-            BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
+            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             // Tracking
             Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
         }) { (error, response) in

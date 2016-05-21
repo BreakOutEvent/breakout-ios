@@ -410,7 +410,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
                     self.genderSegmentedControl.selectedSegmentIndex = 1
                 }
             }) { (operation, error) -> Void in
-                BOToast.log("Error during genderize.io request", level: .Error)
+                //BOToast.log("Error during genderize.io request", level: .Error)
         }
     }
     
