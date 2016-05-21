@@ -33,8 +33,8 @@ class BOTeam: NSManagedObject {
         return res;
     }
     
-    class func createWithDictionary(dict: NSDictionary) -> BOPost {
-        let res = BOPost.MR_createEntity()! as BOPost
+    class func createWithDictionary(dict: NSDictionary) -> BOTeam {
+        let res = BOTeam.MR_createEntity()! as BOTeam
         
         res.setAttributesWithDictionary(dict)
         
