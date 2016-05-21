@@ -88,6 +88,14 @@ class BOImage: NSManagedObject {
         
         return res
     }
+    
+    class func createFromDictionary(item: NSDictionary, success: (BOImage) -> ()) {
+        if let sizes = item.valueForKey("sizes") as? [NSDictionary], last = sizes.last, url = last.valueForKey("url") as? String {
+            BOImageDownloadManager.sharedInstance.getImage(url) { (image) in
+                success(image)
+            }
+        }
+    }
 
     func getImage() -> UIImage {
         let imageFullPath: String = fileInDocumentsDirectory(filepath as String)

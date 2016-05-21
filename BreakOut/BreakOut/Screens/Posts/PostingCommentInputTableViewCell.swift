@@ -13,6 +13,9 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var commentInputTextField: UITextField!
     
+    var post: BOPost?
+    var reloadHandler: (() -> ())?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -39,5 +42,12 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
 // MARK: - Button Actions
 
     @IBAction func postButtonPressed(sender: UIButton) {
+        let comment = BOComment.create(0, text: commentInputTextField.text ?? "", postID: post?.uuid ?? 0)
+        post?.comments.insert(comment)
+        post?.save()
+        commentInputTextField.text = ""
+        if let handler = reloadHandler {
+            handler()
+        }
     }
 }

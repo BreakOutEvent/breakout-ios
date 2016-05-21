@@ -25,15 +25,24 @@ class BOPost: NSManagedObject {
     @NSManaged var latitude: NSNumber
     @NSManaged var flagNeedsUpload: Bool
     @NSManaged var flagNeedsDownload: Bool
+    @NSManaged var team: BOTeam?
     @NSManaged var images: Set<BOImage>
+    @NSManaged var comments: Set<BOComment>
     
     class func create(uuid: Int, flagNeedsDownload: Bool) -> BOPost {
+        
+        if let origPostArray = BOPost.MR_findByAttribute("uuid", withValue: uuid) as? Array<BOPost>, post = origPostArray.first {
+            post.flagNeedsDownload = false
+            return post
+        }
+        
         let res = BOPost.MR_createEntity()! as BOPost
         
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
         res.date = NSDate()
         res.images = Set<BOImage>()
+        res.comments = Set<BOComment>()
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -63,12 +72,15 @@ class BOPost: NSManagedObject {
         }
         if let mediaArray = dict.valueForKey("media") as? [NSDictionary] {
             for item in mediaArray {
-                if let sizes = item.valueForKey("sizes") as? [NSDictionary], last = sizes.last, url = last.valueForKey("url") as? String {
-                    BOImageDownloadManager.sharedInstance.getImage(url) { (image) in
-                        self.images.insert(image)
-                        self.save()
-                    }
+                BOImage.createFromDictionary(item) { (image) in
+                    self.images.insert(image)
+                    self.save()
                 }
+            }
+        }
+        if let commentsArray = dict.valueForKey("comments") as? [NSDictionary] {
+            for item in commentsArray {
+                comments.insert(BOComment.createWithDictionary(item))
             }
         }
         self.save()

@@ -41,7 +41,7 @@ class PostingDetailsTableViewController: UITableViewController {
         case 0:
             return 1
         case 1:
-            return 3
+            return posting?.comments.count ?? 0
         case 2:
             return 1
         default:
@@ -49,9 +49,9 @@ class PostingDetailsTableViewController: UITableViewController {
         }
     }
     
-    func configureCommentCell(cell: PostingCommentTableViewCell, indexPath: NSIndexPath){
-        cell.commentMessageLabel.text = "Nu wie geil ist das denn"
-        
+    func configureCommentCell(cell: PostingCommentTableViewCell, indexPath: NSIndexPath) {
+        let comments = posting?.comments.map({ $0 as BOComment })
+        cell.commentMessageLabel.text = comments?[indexPath.row].text ?? ""
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
@@ -111,6 +111,10 @@ class PostingDetailsTableViewController: UITableViewController {
             return cell
         }else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("PostingCommentInputTableViewCell", forIndexPath: indexPath)
+            if let c = cell as? PostingCommentInputTableViewCell {
+                c.post = posting
+                c.reloadHandler = tableView.reloadData
+            }
             return cell
         }else{
             let cell = UITableViewCell()
