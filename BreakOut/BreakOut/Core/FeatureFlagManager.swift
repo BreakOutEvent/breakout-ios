@@ -49,4 +49,5 @@ struct FeatureFlags {
     static let backendURL = "http://breakout-featureflags.herokuapp.com/"
     
     static let showDebuggingToasts: String = "show_debuggingToasts"
+    static let useDevelopBackend: String = "use_developBackend"
 }

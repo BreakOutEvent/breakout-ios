@@ -36,7 +36,7 @@ class BONetworkManager {
     
     private static func doJSONRequest(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> (), error: ((NSError, NSHTTPURLResponse?) -> ())?, method: HTTPMethod) {
         
-        let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))
+        let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: PrivateConstants().backendURL()))
         requestManager.requestSerializer = AFJSONRequestSerializer()
         if auth {
             let credentials = AFOAuthCredential.retrieveCredentialWithIdentifier(loginStorage)
@@ -46,14 +46,14 @@ class BONetworkManager {
         let requestString = String(format: service.rawValue, arguments: arguments)
         method.requestType(requestManager)(requestString, parameters: parameters, success: {
             (operation, response) -> Void in
-            print("\(requestString) Response: ")
+            print("✅Successful: : \n Request: \(requestString) \n methode: \(method) \n with Parms: \(parameters) \n \(requestString) Response: ")
             print(response)
             if let unwrappedResponse = response {
                  handler(unwrappedResponse)
             }
-            BOToast.log("SUCCESSFUL: \(requestString) Download! w. Parms \(parameters)")
+            BOToast.log("SUCCESSFUL (): \(requestString) Download! w. Parms \(parameters)")
         }) { (operation, err) -> Void in
-            print("ERROR: while \(requestString) w. Parms \(parameters)")
+            print("❗️ERROR: \n Request: \(requestString) \n methode: \(method) \n with Parms: \(parameters)")
             print(err)
             BOToast.log("ERROR: during \(requestString)", level: .Error)
             if let errHandler = error {
@@ -99,9 +99,9 @@ class BONetworkManager {
     }
     
     static func loginRequest(user: String, pass: String, success: () -> (), error: () -> ()) {
-        if let url = NSURL(string: PrivateConstants.backendURL) {
+        if let url = NSURL(string: PrivateConstants().backendURL()) {
             let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: url,
-                                                                     clientID: "breakout_app", secret: loginSecret)
+                                                                     clientID: "breakout_app", secret: PrivateConstants().oAuthSecret())
             oAuthManager
                 .authenticateUsingOAuthWithURLString("/oauth/token", username: user, password: pass, scope: "read write", success: { (credentials) -> Void in
                     BOToast.log("Login was successful.")
