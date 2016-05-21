@@ -106,7 +106,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         if (posting.city != nil && posting.city != "") {
             cell.locationLabel?.text = posting.city
         }else if (posting.latitude.intValue != 0 && posting.longitude.intValue != 0){
-            cell.locationLabel?.text = posting.longitude.stringValue + posting.latitude.stringValue
+            cell.locationLabel?.text = posting.longitude.stringValue + "  " + posting.latitude.stringValue
         }else{
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }
@@ -147,6 +147,9 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         }else{
             cell.statusLabel.text = ""
         }
+        
+        // Add count for comments
+        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
         
         
         cell.setNeedsUpdateConstraints()

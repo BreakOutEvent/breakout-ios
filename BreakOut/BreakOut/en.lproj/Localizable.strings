@@ -14,6 +14,8 @@
 
 "cancel" = "Cancel";
 
+"comments" = "Comments";
+
 // Loading Texts
 "registrationLoading" = "Please wait while we register you for BreakOut";
 "loginLoading" = "You are very close to get logged in";
