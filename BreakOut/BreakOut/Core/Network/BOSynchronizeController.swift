@@ -95,7 +95,7 @@ class BOSynchronizeController: NSObject {
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self,
-            selector: "reachabilityChanged:",
+            selector: #selector(BOSynchronizeController.reachabilityChanged(_:)),
             name: ReachabilityChangedNotification,
             object: reachability)
         
@@ -108,10 +108,10 @@ class BOSynchronizeController: NSObject {
     
     func reachabilityChanged(note: NSNotification) {
         
-        let reachability = note.object as! Reachability
+        let reachability = note.object as? Reachability
         
-        if reachability.isReachable() {
-            if reachability.isReachableViaWiFi() {
+        if reachability?.isReachable() ?? false {
+            if reachability?.isReachableViaWiFi() ?? false {
                 self.internetReachability = "wifi"
                 print("Reachable via WiFi")
                 totalDatabaseSynchronization()
@@ -265,8 +265,8 @@ class BOSynchronizeController: NSObject {
     
     func tryUploadAll() {
         self.tryUploadPosts()
-        /*self.tryUploadLikes()
         self.tryUploadComments()
+        /*self.tryUploadLikes()
         self.tryUploadLocations()
         self.tryUploadImages()
         self.tryUploadChatMessanges()*/
@@ -368,6 +368,16 @@ class BOSynchronizeController: NSObject {
         for postToUpload: BOPost in arrayOfPostsToUpload {
             // Start upload function for each BOPost
             postToUpload.upload()
+        }
+    }
+    
+// MARK: Upload Comments
+    
+    func tryUploadComments() {
+        if let commentsToUpload = BOComment.MR_findByAttribute("flagNeedsUpload", withValue: true) as? Array<BOComment> {
+            for comment in commentsToUpload {
+                comment.upload()
+            }
         }
     }
     

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Xcode 7.0">
+    <entity name="BOComment" representedClassName="BOComment" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="flagNeedsUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="profilePic" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
+    </entity>
     <entity name="BOImage" representedClassName="BOImage" syncable="YES">
         <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="flagNeedsUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -24,11 +33,21 @@
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuid" attributeType="Integer 64" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BOComment" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
     </entity>
+    <entity name="BOTeam" representedClassName="BOTeam" syncable="YES">
+        <attribute name="flagNeedsDownload" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="profilePic" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="BOImage" positionX="54" positionY="-27" width="128" height="135"/>
+        <element name="BOImage" positionX="43" positionY="9" width="128" height="135"/>
         <element name="BOLocation" positionX="151" positionY="-178" width="128" height="118"/>
-        <element name="BOPost" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="BOPost" positionX="-351" positionY="-127" width="110" height="193"/>
+        <element name="BOTeam" positionX="-128" positionY="153" width="128" height="118"/>
+        <element name="BOComment" positionX="-137" positionY="-135" width="128" height="148"/>
     </elements>
 </model>
