@@ -393,6 +393,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostingTableViewCell" id="hBm-2i-H0S" customClass="PostingTableViewCell" customModule="BreakOut" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="361"/>
@@ -1590,7 +1591,7 @@ line two</string>
         <scene sceneID="Re0-3e-l5s">
             <objects>
                 <tableViewController storyboardIdentifier="PostingDetailsTableViewController" title="PostingDetailsTableViewController" id="hWB-AK-A3U" customClass="PostingDetailsTableViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="361" sectionHeaderHeight="28" sectionFooterHeight="28" id="kCB-9b-rvE">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="361" sectionHeaderHeight="28" sectionFooterHeight="28" id="kCB-9b-rvE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1745,6 +1746,7 @@ line two</string>
                                         <constraint firstItem="slz-dQ-aZ7" firstAttribute="top" secondItem="7jg-zz-pLc" secondAttribute="bottom" constant="10" id="ztF-ZY-YNh"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="challengeLabel" destination="yn4-ZX-NJe" id="ndx-pT-btN"/>
                                     <outlet property="challengeView" destination="slz-dQ-aZ7" id="mhw-JI-e0e"/>
@@ -1856,6 +1858,7 @@ line two</string>
                                         <constraint firstAttribute="bottom" secondItem="h8d-1P-DWY" secondAttribute="bottom" constant="8" id="fSx-ym-T19"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <connections>
                                     <outlet property="commentInputTextField" destination="h8d-1P-DWY" id="Utu-Ni-5Yb"/>
                                     <outlet property="postButton" destination="N7z-NZ-W87" id="eIB-ec-oEh"/>
