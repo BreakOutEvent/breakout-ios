@@ -259,6 +259,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             BONetworkManager.loginRequest(email, pass: pass, success: { () in
                 
                 BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
+                    CurrentUser.resetUser()
                     CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
                     CurrentUser.sharedInstance.storeInNSUserDefaults()
                     

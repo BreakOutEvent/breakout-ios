@@ -48,6 +48,7 @@ class SidebarMenuTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.fillInputsWithCurrentUserInfo()
+        tableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -83,6 +84,21 @@ class SidebarMenuTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+            return false
+        }
+        
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+            cell.alpha = 0.5
+        }else{
+            cell.alpha = 1.0
+        }
+    }
     
 // MARK: - TableView Delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

@@ -319,7 +319,8 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     
     @IBAction func logoutButtonPressed(sender: UIButton) {
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(nil, forKey: "userDictionary")
+        defaults.removeObjectForKey("userDictionary")
+        defaults.synchronize()
         
         // Tracking
         Answers.logCustomEventWithName("/logoutButtonPressed", customAttributes: [:])
