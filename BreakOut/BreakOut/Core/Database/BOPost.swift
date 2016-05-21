@@ -67,8 +67,8 @@ class BOPost: NSManagedObject {
         if let longitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
             self.longitude = longitude
         }
-        if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
-            self.longitude = latitude
+        if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("latitude") as? NSNumber {
+            self.latitude = latitude
         }
         if let mediaArray = dict.valueForKey("media") as? [NSDictionary] {
             for item in mediaArray {
