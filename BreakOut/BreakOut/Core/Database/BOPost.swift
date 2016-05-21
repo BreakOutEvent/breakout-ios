@@ -110,7 +110,7 @@ class BOPost: NSManagedObject {
 
         var postingLocation = [String:AnyObject]()
         postingLocation["latitude"] = latitude
-        postingLocation["longitude"] = latitude
+        postingLocation["longitude"] = longitude
         
         dict["postingLocation"] = postingLocation
         
