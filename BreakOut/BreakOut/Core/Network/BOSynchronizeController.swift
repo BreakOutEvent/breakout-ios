@@ -31,7 +31,7 @@ class BOSynchronizeController: NSObject {
     func totalDatabaseSynchronization() {
         self.loadTotalTeamList();
         self.tryUploadAll()
-        self.downloadAllPostings()
+        self.downloadNotYetLoadedPostings()
         // ... and all the other methods.
     }
 
@@ -270,6 +270,12 @@ class BOSynchronizeController: NSObject {
         self.tryUploadLocations()
         self.tryUploadImages()
         self.tryUploadChatMessanges()*/
+    }
+    
+    func triggerUpload() {
+        if internetReachability == "wifi" {
+            tryUploadAll()
+        }
     }
     
     

@@ -109,6 +109,19 @@ class BOPost: NSManagedObject {
         print("----------- ------ -----------")
     }
     
+    func reload(handler: (() -> ())? = nil) {
+        if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
+            BONetworkManager.doJSONRequestGET(BackendServices.PostingByID, arguments: [uuid], parameters: nil, auth: false) { (response) in
+                if let dict = response as? NSDictionary {
+                    self.setAttributesWithDictionary(dict)
+                    if let f = handler {
+                        f()
+                    }
+                }
+            }
+        }
+    }
+    
     func upload() {
         var dict = [String:AnyObject]()
         

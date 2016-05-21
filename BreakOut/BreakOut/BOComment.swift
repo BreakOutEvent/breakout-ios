@@ -34,8 +34,9 @@ class BOComment: NSManagedObject {
         res.postID = postID
         res.flagNeedsUpload = true
         if let first = CurrentUser.sharedInstance.firstname, last = CurrentUser.sharedInstance.lastname {
-         res.name = first + " " + last
+            res.name = first + " " + last
         }
+        BOSynchronizeController.sharedInstance.triggerUpload()
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
