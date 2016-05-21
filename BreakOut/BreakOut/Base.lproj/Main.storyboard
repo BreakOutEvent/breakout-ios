@@ -339,13 +339,23 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ul-51-2i5">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dwq-vv-S6c">
+                                <rect key="frame" x="524" y="524" width="62" height="62"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="62" id="TSK-t2-cXM"/>
+                                    <constraint firstAttribute="height" constant="62" id="wvu-sn-4JP"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="current-location_Button"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="7Ul-51-2i5" secondAttribute="trailing" id="1hX-St-dAF"/>
                             <constraint firstItem="7Ul-51-2i5" firstAttribute="bottom" secondItem="4ug-Mw-9AY" secondAttribute="top" id="Ahs-zh-nIz"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Dwq-vv-S6c" secondAttribute="bottom" constant="14" id="UC0-cR-JJS"/>
                             <constraint firstItem="7Ul-51-2i5" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" id="ocR-F7-UDH"/>
                             <constraint firstItem="7Ul-51-2i5" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="qX6-PS-MlB"/>
+                            <constraint firstAttribute="trailing" secondItem="Dwq-vv-S6c" secondAttribute="trailing" constant="14" id="uuZ-Jb-Lzn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2RT-Cg-eA9"/>
@@ -4188,6 +4198,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget 
         <image name="camera-button_Icon" width="28" height="28"/>
         <image name="cancel_Icon" width="24" height="24"/>
         <image name="city_Icon" width="24" height="24"/>
+        <image name="current-location_Button" width="61" height="62"/>
         <image name="help-login_Icon" width="24" height="24"/>
         <image name="help_Icon" width="24" height="24"/>
         <image name="mail_Icon" width="24" height="24"/>
