@@ -20,20 +20,24 @@ class BasicLocationController : LocationController {
      - returns: Array of locations as MapLocation conforming to MKAnnotation protocol
      */
     func getAllLocations(onComplete: (locations:Array<MapLocation>?, error:NSError?) -> Void) {
-        let url = NSURL(string: PrivateConstants().backendURL())
+        let locations = self.convertBOLocationsToMapLocation()
+        onComplete(locations: locations, error: nil)
+        
+        /*let url = NSURL(string: PrivateConstants().backendURL())
         //let path = "event/1/location/"
         let sessionManager: AFHTTPSessionManager = AFHTTPSessionManager.init(baseURL: url)
     
         sessionManager.requestSerializer = AFJSONRequestSerializer()
         sessionManager.GET("http://breakout-development.herokuapp.com/event/1/location/", parameters: nil, progress: nil, success: {task, response in
             let response = response as! Array<NSDictionary>
-            //print(response)
-            let locations = self.convertNSDictionaryToMapLocation(response)
+            print(response)
+            //let locations = self.convertNSDictionaryToMapLocation(response)
+            let locations = self.convertBOLocationsToMapLocation()
             onComplete(locations: locations, error: nil)
             
             }) { task, error in
                 print(error)
-        }
+        }*/
     }
     
     /**
@@ -45,6 +49,18 @@ class BasicLocationController : LocationController {
     private func convertNSDictionaryToMapLocation(dicts: Array<NSDictionary>) -> Array<MapLocation> {
         return dicts.map({ dict in extractLocation(dict) }).flatMap({ dict in dict })
         
+    }
+    
+    private func convertBOLocationsToMapLocation() -> Array<MapLocation> {
+        var mutableArray: Array<MapLocation> = Array()
+        let locationArray = BOLocation.MR_findAll() as! [BOLocation]
+        
+        for locationObject:BOLocation in locationArray {
+            let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: "test", subtitle: "distance")
+            mutableArray.append(location)
+        }
+        
+        return mutableArray
     }
     
 
