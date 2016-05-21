@@ -12,7 +12,11 @@ class PostingDetailsTableViewController: UITableViewController {
     
     var postingID: Int = Int()
     
-    var posting: BOPost?
+    var posting: BOPost? {
+        didSet {
+            posting?.reload(tableView.reloadData)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

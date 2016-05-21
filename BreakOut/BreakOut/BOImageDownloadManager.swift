@@ -13,16 +13,13 @@ class BOImageDownloadManager {
     
     static let sharedInstance = BOImageDownloadManager()
     
-    var cache = [String:BOImage]()
-    
-    func getImage(url: String, handler: (BOImage) -> ()) {
-        if let image = cache[url] {
+    func getImage(id: Int, url: String, handler: (BOImage) -> ()) {
+        if let arrayOfImages = BOImage.MR_findByAttribute("uid", withValue: id) as? Array<BOImage>, image = arrayOfImages.first {
             handler(image)
         } else {
             Alamofire.request(.GET, url).responseData() { (response) in
                 if let data = response.data, image = UIImage(data: data) {
                     let instance = BOImage.createWithImage(image)
-                    self.cache[url] = instance
                     handler(instance)
                 }
             }

@@ -180,9 +180,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         
-        if BOSynchronizeController.sharedInstance.internetReachabilityStatus() == "wifi" {
-            newPosting.upload()
-        }
+        BOSynchronizeController.sharedInstance.triggerUpload()
         
         // After Saving throw User message and reset inputs
         self.setupLoadingHUD("New Posting saved!")

@@ -90,8 +90,8 @@ class BOImage: NSManagedObject {
     }
     
     class func createFromDictionary(item: NSDictionary, success: (BOImage) -> ()) {
-        if let sizes = item.valueForKey("sizes") as? [NSDictionary], last = sizes.last, url = last.valueForKey("url") as? String {
-            BOImageDownloadManager.sharedInstance.getImage(url) { (image) in
+        if let id = item.valueForKey("id") as? Int, sizes = item.valueForKey("sizes") as? [NSDictionary], last = sizes.last, url = last.valueForKey("url") as? String {
+            BOImageDownloadManager.sharedInstance.getImage(id, url: url) { (image) in
                 success(image)
             }
         }
