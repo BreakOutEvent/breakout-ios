@@ -47,11 +47,15 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         let rightButton = UIBarButtonItem(image: UIImage(named: "post_Icon"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(sendPostingButtonPressed))
         navigationItem.rightBarButtonItem = rightButton
         
+        let cancelButton = UIBarButtonItem(title: NSLocalizedString("cancel", comment: "cancel"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(closeView))
+        navigationItem.leftBarButtonItem = cancelButton
+        
         // Create menu buttons for navigation item
-        let barButtonImage = UIImage(named: "menu_Icon_white")
+        /*let barButtonImage = UIImage(named: "menu_Icon_white")
         if barButtonImage != nil {
             self.addLeftBarButtonWithImage(barButtonImage!)
-        }
+        }*/
+        
 
         self.imagePicker.delegate = self
         
@@ -70,6 +74,18 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
+        }
+    }
+    
+    /*func closeView() {
+        self.closeView(false)
+    }*/
+    
+    func closeView(showAllPostingsList:Bool = false) {
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        
+        if showAllPostingsList {
+            NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
         }
     }
     
@@ -176,6 +192,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         // Tracking
         Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage":withImage])
         Answers.logCustomEventWithName("/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage])
+        
+        self.closeView(true)
     }
     
     @IBAction func addAttachementButtonPressed(sender: UIButton) {

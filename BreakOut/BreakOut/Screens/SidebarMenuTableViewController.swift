@@ -37,6 +37,8 @@ class SidebarMenuTableViewController: UITableViewController {
         }else{
             self.addUserpictureButton.hidden = true
         }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showAllPostingsTVC), name: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,12 +60,26 @@ class SidebarMenuTableViewController: UITableViewController {
         //Flurry.endTimedEvent("/user/profile", withParameters: nil)
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
+    }
+    
     func fillInputsWithCurrentUserInfo() {
         self.usernameLabel.text = CurrentUser.sharedInstance.username()
         
         self.userPictureImageView.image = CurrentUser.sharedInstance.picture
         if self.userPictureImageView.image != nil {
             self.addUserpictureButton.hidden = true
+        }
+    }
+    
+    func showAllPostingsTVC() {
+        if let slideMenuController = self.slideMenuController() {
+            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("AllPostingsTableViewController")
+        
+            let navigationController = UINavigationController(rootViewController: controller!)
+        
+            slideMenuController.changeMainViewController(navigationController, close: true)
         }
     }
     
@@ -76,6 +92,11 @@ class SidebarMenuTableViewController: UITableViewController {
             let controller = self.storyboard?.instantiateViewControllerWithIdentifier(cell.reuseIdentifier!)
             
             let navigationController = UINavigationController(rootViewController: controller!)
+            
+            if cell.reuseIdentifier == "NewPostingTableViewController" {
+                slideMenuController.mainViewController?.presentViewController(navigationController, animated: true, completion: nil)
+                return
+            }
             
             slideMenuController.changeMainViewController(navigationController, close: true)
             
