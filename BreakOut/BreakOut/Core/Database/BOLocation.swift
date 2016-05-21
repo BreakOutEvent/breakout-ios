@@ -22,6 +22,8 @@ class BOLocation: NSManagedObject{
     @NSManaged var longitude: NSNumber
     @NSManaged var latitude: NSNumber
     @NSManaged var flagNeedsUpload: Bool
+    @NSManaged var teamId: NSInteger
+    @NSManaged var teamName: String
 
     
     class func create(uid: Int, flagNeedsUpload: Bool) -> BOLocation {

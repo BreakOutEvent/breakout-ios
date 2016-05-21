@@ -100,8 +100,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             // send to local Database with flag needsUpload
             let locationPost: BOLocation = BOLocation.MR_createEntity()! as BOLocation
             locationPost.flagNeedsUpload = true
+            locationPost.timestamp = NSDate()
             locationPost.latitude = coordiante.latitude as NSNumber
             locationPost.longitude = coordiante.longitude as NSNumber
+            if CurrentUser.sharedInstance.currentTeamId() > -1 {
+                locationPost.teamId = CurrentUser.sharedInstance.currentTeamId()
+            }else{
+                locationPost.teamId = -1
+            }
             // Save
             locationPost.save()
         }

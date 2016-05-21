@@ -20,7 +20,7 @@ class BasicLocationController : LocationController {
      - returns: Array of locations as MapLocation conforming to MKAnnotation protocol
      */
     func getAllLocations(onComplete: (locations:Array<MapLocation>?, error:NSError?) -> Void) {
-        let locations = self.convertBOPostingToMapLocation()
+        let locations = self.convertBOLocationsToMapLocation()
         onComplete(locations: locations, error: nil)
         
         /*let url = NSURL(string: PrivateConstants().backendURL())
@@ -53,11 +53,20 @@ class BasicLocationController : LocationController {
     
     private func convertBOLocationsToMapLocation() -> Array<MapLocation> {
         var mutableArray: Array<MapLocation> = Array()
-        let locationArray = BOLocation.MR_findAll() as! [BOLocation]
         
-        for locationObject:BOLocation in locationArray {
-            let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: "test", subtitle: "distance")
-            mutableArray.append(location)
+        let teamArray: [BOTeam] = BOTeam.MR_findAll() as! [BOTeam]
+        
+        for team: BOTeam in teamArray {
+            let teamId = team.uuid
+            if let locationArray: [BOLocation] = BOLocation.MR_findByAttribute("teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
+                
+                if locationArray.count>0{
+                    let locationObject: BOLocation = locationArray.first!
+            
+                    let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: teamId.description, subtitle: "distance")
+                    mutableArray.append(location)
+                }
+            }
         }
         
         return mutableArray

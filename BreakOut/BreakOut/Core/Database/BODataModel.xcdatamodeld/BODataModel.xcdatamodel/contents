@@ -21,6 +21,8 @@
         <attribute name="flagNeedsUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="teamId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="teamName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
@@ -47,7 +49,7 @@
     <elements>
         <element name="BOComment" positionX="-137" positionY="-135" width="128" height="148"/>
         <element name="BOImage" positionX="43" positionY="9" width="128" height="135"/>
-        <element name="BOLocation" positionX="151" positionY="-178" width="128" height="118"/>
+        <element name="BOLocation" positionX="151" positionY="-178" width="128" height="150"/>
         <element name="BOPost" positionX="-351" positionY="-127" width="110" height="210"/>
         <element name="BOTeam" positionX="-128" positionY="153" width="128" height="118"/>
     </elements>
