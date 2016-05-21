@@ -50,14 +50,14 @@ class BOPost: NSManagedObject {
     }
     
     class func createWithDictionary(dict: NSDictionary) -> BOPost {
-    
+        let res: BOPost
         if let id = dict["id"] as? NSInteger,
                 origPostArray = BOPost.MR_findByAttribute("uuid", withValue: id) as? Array<BOPost>,
                 post = origPostArray.first {
-            return post
+            res = post
+        } else {
+            res = BOPost.MR_createEntity()!
         }
-        
-        let res = BOPost.MR_createEntity()! as BOPost
         
         res.setAttributesWithDictionary(dict)
         
