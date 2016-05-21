@@ -58,6 +58,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
         self.styleMessageInput(true)
         
+        self.locationLabel.text = NSLocalizedString("retrievingCurrentLocation", comment: "Empty Location")
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
@@ -143,7 +144,12 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         newPosting.longitude = self.newLongitude
         newPosting.date = NSDate()
         
-        newPosting.city = self.locationLabel.text
+        if self.locationLabel.text == NSLocalizedString("retrievingCurrentLocation", comment: "Empty Location") {
+            newPosting.city = nil
+        }else{
+            newPosting.city = self.locationLabel.text
+        }
+        
 
         var withImage:Bool = false
         if let image = postingPictureImageView.image {

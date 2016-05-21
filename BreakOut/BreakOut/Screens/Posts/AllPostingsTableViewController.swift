@@ -103,10 +103,12 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         
         cell.messageLabel?.text = posting.text
         cell.timestampLabel?.text = posting.date.toNaturalString(NSDate())
-        if posting.city != nil  {
+        if (posting.city != nil && posting.city != "") {
             cell.locationLabel?.text = posting.city
-        }else{
+        }else if (posting.latitude.intValue != 0 && posting.longitude.intValue != 0){
             cell.locationLabel?.text = posting.longitude.stringValue + posting.latitude.stringValue
+        }else{
+            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }
 
         // Check if Posting has an attached media file

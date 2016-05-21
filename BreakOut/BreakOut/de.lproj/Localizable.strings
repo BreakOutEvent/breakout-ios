@@ -10,6 +10,7 @@
 "password" = "Password";
 "login" = "EINLOGGEN";
 "register" = "KOSTENLOS REGISTRIEREN";
+"unknownLocation" = "Unbekannter Ort";
 
 "cancel" = "Abbrechen";
 
@@ -31,6 +32,7 @@
 
 // New Posting
 "newPostingEmptyMessage" = "Was erlebst du gerade?";
+"retrievingCurrentLocation" = "Aktueller Ort wird ermittelt...";
 
 // UIImagePicker
 "sourceOfImage" = "Wähle ein Bild für deinen Post";

@@ -10,6 +10,7 @@
 "password" = "Password";
 "login" = "LOG IN";
 "register" = "REGISTER FOR FREE";
+"unknownLocation" = "Unknown location";
 
 "cancel" = "Cancel";
 
@@ -30,7 +31,8 @@
 "helpViewTitle" = "Help";
 
 // New Posting
-"newPostingEmptyMessage" = "Was erlebst du gerade?";
+"newPostingEmptyMessage" = "What is currently going on?";
+"retrievingCurrentLocation" = "Retrieving current location...";
 
 // UIImagePicker
 "sourceOfImage" = "Choose a photo for your post";
