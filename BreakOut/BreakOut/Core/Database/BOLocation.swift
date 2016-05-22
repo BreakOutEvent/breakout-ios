@@ -49,7 +49,9 @@ class BOLocation: NSManagedObject{
         
     }
     func setAttributesWithDictionary(dict: NSDictionary) {
-        //self.uid = dict.valueForKey("id") as! NSInteger
+        self.uid = dict.valueForKey("id") as! NSInteger
+        self.teamId = dict.valueForKey("teamId") as! NSInteger
+        self.teamName = dict.valueForKey("team") as! String
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         self.timestamp = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
         self.latitude = (dict.valueForKey("latitude") as? NSNumber)!
@@ -63,6 +65,8 @@ class BOLocation: NSManagedObject{
     func printToLog() {
         print("----------- BOPost -----------")
         print("ID: ", self.uid)
+        print("TeamID: ", self.teamId)
+        print("TeamName: ", self.teamName)
         print("Timestamp: ", self.timestamp.description)
         print("longitude: ", self.longitude)
         print("latitude: ", self.latitude)
