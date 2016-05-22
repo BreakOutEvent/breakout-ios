@@ -32,6 +32,8 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
     @IBOutlet weak var eventSelectionTextfield: UITextField!
     @IBOutlet weak var createTeamButton: UIButton!
     
+    
+    var chosenImage: UIImage?
     var eventPicker: UIPickerView! = UIPickerView()
     var eventDataSourceArray: Array<BOEvent> = Array()
     var eventCurrentlySelected: Int?
@@ -182,6 +184,8 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         
         self.teampictureImageView.image = choosenImage
         
+        self.chosenImage = choosenImage
+        
         self.addTeampictureButton.hidden = true
         
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -289,11 +293,11 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         
         if let name = teamNameTextfield.text, currentEvent = eventCurrentlySelected {
             let eventID: Int = self.eventDataSourceArray[currentEvent].id
-            BOSynchronizeController.sharedInstance.createTeam(name, eventID: eventID, success: { () in
+            BOSynchronizeController.sharedInstance.createTeam(name, eventID: eventID, image: chosenImage, success: { () in
                 self.sendInvitationRequest(2)
                 self.setAllInputsToEnabled(true)
-                
                 self.loadingHUD.hide(true)
+                self.dismissViewControllerAnimated(true, completion: nil)
             }) { () in
                 self.setAllInputsToEnabled(true)
                 

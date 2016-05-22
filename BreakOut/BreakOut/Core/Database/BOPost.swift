@@ -70,7 +70,8 @@ class BOPost: NSManagedObject {
     func setAttributesWithDictionary(dict: NSDictionary) {
         self.uuid = dict.valueForKey("id") as! NSInteger
         self.text = dict.valueForKey("text") as? String
-        
+        self.images = Set<BOImage>()
+        self.comments = Set<BOComment>()
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         self.date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
         
@@ -98,7 +99,7 @@ class BOPost: NSManagedObject {
         if let userDictionary = dict.valueForKey("user") as? NSDictionary {
             if let participantDictionary = userDictionary.valueForKey("participant") as? NSDictionary {
                 let teamid = participantDictionary.valueForKey("teamId")
-                self.addTeamWithId(teamid as! Int)
+                self.addTeamWithId(teamid as? Int ?? -1)
             }
         }
         

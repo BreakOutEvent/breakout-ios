@@ -62,8 +62,7 @@ class PostingDetailsTableViewController: UITableViewController {
         cell.teamNameLabel.text = comments?[indexPath.row].name ?? ""
         cell.timestampLabel.text = comments?[indexPath.row].date.toNaturalString(NSDate()) ?? ""
         cell.commentMessageLabel.text = comments?[indexPath.row].text ?? ""
-        cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
-        
+        cell.teamPictureImageView.image = comments?[indexPath.row].profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
@@ -106,7 +105,7 @@ class PostingDetailsTableViewController: UITableViewController {
         if true == true {
             // Challenge is attached -> Show the challenge box
             cell.challengeLabel.text = "was geht denn nun hier ab? Man kann sich echt nie sicher sein welche Idioten sich hier an den Beispieltexten vergreifen. Aber lustig ist es schon ;)"
-            cell.challengeLabelHeightConstraint.constant = 34.0
+//            cell.challengeLabelHeightConstraint.constant = 34.0
             cell.challengeView.hidden = false
         }else{
             cell.challengeLabel.text = ""

@@ -56,12 +56,13 @@ class BOComment: NSManagedObject {
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
         if let user = dict.valueForKey("user") as? NSDictionary, first = user.valueForKey("firstname") as? String,
-                last = user.valueForKey("lastname") as? String,
-                profilePicDict = user.valueForKey("profilePic") as? NSDictionary {
+                last = user.valueForKey("lastname") as? String {
             name = first + " " + last
-            BOImage.createFromDictionary(profilePicDict) { (image) in
-                self.profilePic = image
-                self.save()
+            if let profilePicDict = user.valueForKey("profilePic") as? NSDictionary {
+                BOImage.createFromDictionary(profilePicDict) { (image) in
+                    self.profilePic = image
+                    self.save()
+                }
             }
         }
         flagNeedsUpload = false
