@@ -101,9 +101,12 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         // Configure cell with the BOPost model
         let posting:BOPost = fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost
         
+        posting.printToLog()
+        
         cell.messageLabel?.text = posting.text
         
-        cell.timestampLabel?.text = posting.date.toNaturalString(NSDate())
+        let date = posting.date
+        cell.timestampLabel?.text = date.toNaturalString(NSDate())
         
         if (posting.city != nil && posting.city != "") {
             cell.locationLabel?.text = posting.city
@@ -135,9 +138,9 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         
         
         // Check if Posting has an attached challenge
-        if indexPath.row == 2 {
+        if posting.challenge != nil {
             // Challenge is attached -> Show the challenge box
-            cell.challengeLabel.text = "was geht denn nun hier ab? Man kann sich echt nie sicher sein welche Idioten sich hier an den Beispieltexten vergreifen. Aber lustig ist es schon ;)"
+            cell.challengeLabel.text = posting.challenge?.text
             cell.challengeLabelHeightConstraint.constant = 34.0
             cell.challengeView.hidden = false
         }else{

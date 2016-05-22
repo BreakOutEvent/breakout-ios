@@ -18,12 +18,14 @@ import Flurry_iOS_SDK
 class BOChallenge: NSManagedObject {
     
     @NSManaged var uuid: NSInteger
+    @NSManaged var postingId: NSInteger
     @NSManaged var eventId: NSInteger
     @NSManaged var teamId: NSInteger
     @NSManaged var teamName: String?
     @NSManaged var text: String?
     @NSManaged var status: String?
     @NSManaged var amount: NSNumber?
+    @NSManaged var flagNeedsUpload: Bool
     
     class func create(uuid: Int) -> BOChallenge {
         
@@ -81,42 +83,27 @@ class BOChallenge: NSManagedObject {
         print("ID: ", self.uuid)
         print("Description: ", self.text)
         print("Amount: ", self.amount)
+        print("PostingId: ", self.postingId)
         print("TeamId: ", self.teamId)
         print("TeamName: ", self.teamName)
         print("EventId: ", self.eventId)
         print("Status: ", self.status)
+        print("flagNeedsUpload: ", self.flagNeedsUpload)
         print("----------- ------ -----------")
     }
     
     func upload() {
-        /*var dict = [String:AnyObject]()
+        var dict = [String:AnyObject]()
         
-        dict["text"] = text;
-        dict["date"] = date.timeIntervalSince1970
+        dict["status"] = self.status;
+        dict["postingId"] = self.postingId
         
-        var postingLocation = [String:AnyObject]()
-        postingLocation["latitude"] = latitude
-        postingLocation["longitude"] = longitude
-        
-        dict["postingLocation"] = postingLocation
-        
-        let img = images.map() { $0 as BOImage }
-        
-        dict["uploadMediaTypes"] = img.map() { $0.type }
-        
-        BONetworkManager.doJSONRequestPOST(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
+        BONetworkManager.doJSONRequestPUT(.ChallengeStatus, arguments: [self.eventId, self.teamId, self.uuid], parameters: dict, auth: true, success: { (response) in
             
-            if let responseDict = response as? NSDictionary, id = responseDict["id"] as? Int, mediaArray = responseDict["media"] as? [NSDictionary] {
+            if let responseDict = response as? NSDictionary, id = responseDict["id"] as? Int, status = responseDict["status"] as? String {
                 self.uuid = id
-                if !mediaArray.isEmpty {
-                    for i in 0...(mediaArray.count-1) {
-                        let respondedMediaItem = mediaArray[i]
-                        let mediaItem = img[i]
-                        if let id = respondedMediaItem["id"] as? Int, token = respondedMediaItem["uploadToken"] as? String {
-                            mediaItem.uploadWithToken(id, token: token)
-                        }
-                    }
-                }
+                self.status = status
+                self.flagNeedsUpload = false
             }
 
             self.save()
@@ -124,6 +111,6 @@ class BOChallenge: NSManagedObject {
         }) { (error, response) in
             // Tracking
             //Flurry.logEvent("/posting/upload/completed_error")
-        }*/
+        }
     }
 }

@@ -596,7 +596,62 @@ line two</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="grq-T3-uLr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="685" y="-1"/>
+            <point key="canvasLocation" x="0.0" y="675"/>
+        </scene>
+        <!--Challenges Table View Controller-->
+        <scene sceneID="ked-S6-uOl">
+            <objects>
+                <tableViewController storyboardIdentifier="ChallengesTableViewController" id="L0C-PW-gJm" customClass="ChallengesTableViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="WnV-Hf-A6a">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChallengeTableViewCell" id="vdS-ah-eoN" customClass="ChallengeTableViewCell" customModule="BreakOut" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="600" height="80"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vdS-ah-eoN" id="Rd4-Ge-GXr">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9w8-Fx-y6U">
+                                            <rect key="frame" x="8" y="8" width="584" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5WR-Sm-0Eq">
+                                            <rect key="frame" x="8" y="37" width="584" height="35"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="9w8-Fx-y6U" firstAttribute="leading" secondItem="Rd4-Ge-GXr" secondAttribute="leading" constant="8" id="Aub-hL-Plb"/>
+                                        <constraint firstItem="5WR-Sm-0Eq" firstAttribute="top" secondItem="9w8-Fx-y6U" secondAttribute="bottom" constant="8" id="B3L-Ng-ij3"/>
+                                        <constraint firstAttribute="trailing" secondItem="5WR-Sm-0Eq" secondAttribute="trailing" constant="8" id="RLy-Ot-FOx"/>
+                                        <constraint firstAttribute="trailing" secondItem="9w8-Fx-y6U" secondAttribute="trailing" constant="8" id="Yho-gD-pux"/>
+                                        <constraint firstItem="9w8-Fx-y6U" firstAttribute="top" secondItem="Rd4-Ge-GXr" secondAttribute="top" constant="8" id="ZIj-0i-95z"/>
+                                        <constraint firstAttribute="bottom" secondItem="5WR-Sm-0Eq" secondAttribute="bottom" constant="8" id="aZW-2V-WRJ"/>
+                                        <constraint firstItem="5WR-Sm-0Eq" firstAttribute="leading" secondItem="Rd4-Ge-GXr" secondAttribute="leading" constant="8" id="rqt-yz-vCQ"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="challengeDescriptionLabel" destination="5WR-Sm-0Eq" id="le4-mw-xK6"/>
+                                    <outlet property="challengeTitleLabel" destination="9w8-Fx-y6U" id="r28-kU-JLe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="L0C-PW-gJm" id="lLk-rd-zJK"/>
+                            <outlet property="delegate" destination="L0C-PW-gJm" id="UAS-Px-0Hz"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NAA-gp-lX3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="648" y="-1"/>
         </scene>
         <!--New Posting-->
         <scene sceneID="vmK-nT-p7k">
@@ -764,6 +819,7 @@ line two</string>
                     </tableView>
                     <navigationItem key="navigationItem" id="V2s-wv-Wnj"/>
                     <connections>
+                        <outlet property="challengeLabel" destination="LJN-Cg-fkb" id="Od0-ra-U7X"/>
                         <outlet property="locationLabel" destination="8Wa-uk-WBS" id="GNN-S6-Fp1"/>
                         <outlet property="messageTextView" destination="4wS-ff-bfU" id="h2K-rH-k1N"/>
                         <outlet property="postingPictureImageView" destination="l6V-Fr-wCp" id="MLm-AQ-u19"/>
@@ -1889,7 +1945,7 @@ line two</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wgx-zA-WBZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1333" y="-2"/>
+            <point key="canvasLocation" x="648" y="674"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">

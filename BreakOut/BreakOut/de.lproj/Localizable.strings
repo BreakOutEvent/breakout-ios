@@ -33,10 +33,12 @@
 "webView" = "Browser";
 "helpViewTitle" = "Hilfe";
 "userProfileTitle" = "Dein Profil";
+"challengeTitle" = "Challenges";
 
 // New Posting
 "newPostingEmptyMessage" = "Was erlebst du gerade?";
 "retrievingCurrentLocation" = "Aktueller Ort wird ermittelt...";
+"newPostingEmptyChallenge" = "Wähle eine Challenge aus (optional)";
 
 // UIImagePicker
 "sourceOfImage" = "Wähle ein Bild für deinen Post";

@@ -23,4 +23,5 @@ enum BackendServices: String {
     case FeatureFlags = "featureFlags/"
     case PostingByID = "posting/%i/"
     case EventTeamChallenge = "event/%i/team/%i/challenge/"
+    case ChallengeStatus = "event/%i/team/%i/challenge/%i/status/"
 }

@@ -29,6 +29,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     var newLongitude: Double = 0.0
     var newLatitude: Double = 0.0
     
+    @IBOutlet weak var challengeLabel: UILabel!
+    var newChallenge:BOChallenge?
+    
     var loadingHUD: MBProgressHUD = MBProgressHUD()
 
     override func viewDidLoad() {
@@ -60,6 +63,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.imagePicker.delegate = self
         
         self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
+        self.challengeLabel.text = NSLocalizedString("newPostingEmptyChallenge", comment: "Empty")
         self.styleMessageInput(true)
         
         self.locationLabel.text = NSLocalizedString("retrievingCurrentLocation", comment: "Empty Location")
@@ -90,6 +94,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     override func viewDidAppear(animated: Bool) {
+        if newChallenge != nil {
+            self.challengeLabel.text = String(format: "%0.2f € -- %@", (newChallenge?.amount?.doubleValue)!, (newChallenge?.text)!)
+            self.styleChallengeLabel()
+        }
         // Tracking
         Flurry.logEvent("/newPostingTableViewController", timed: true)
         Answers.logCustomEventWithName("/newPostingTableViewController", customAttributes: [:])
@@ -128,6 +136,14 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.messageTextView.textColor = UIColor.lightGrayColor()
         }else{
             self.messageTextView.textColor = UIColor.blackColor()
+        }
+    }
+    
+    func styleChallengeLabel() {
+        if self.challengeLabel.text == NSLocalizedString("newPostingEmptyChallenge", comment: "Empty") {
+            self.challengeLabel.textColor = UIColor.lightGrayColor()
+        }else{
+            self.challengeLabel.textColor = UIColor.blackColor()
         }
     }
 
@@ -175,6 +191,11 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             newPosting.images.insert(newImage)
             
             withImage = true
+        }
+        
+        // Check wether a challenge is connected to the posting
+        if self.newChallenge != nil {
+            newPosting.challenge = self.newChallenge
         }
         
         // Save
@@ -292,5 +313,16 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 1 {
+            let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+            let challengesTableViewController: ChallengesTableViewController = storyboard.instantiateViewControllerWithIdentifier("ChallengesTableViewController") as! ChallengesTableViewController
+            challengesTableViewController.parentNewPostingTVC = self
+            self.navigationController?.pushViewController(challengesTableViewController, animated: true)
+        }
+    }
 
 }

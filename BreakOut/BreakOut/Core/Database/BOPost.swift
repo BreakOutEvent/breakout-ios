@@ -26,6 +26,7 @@ class BOPost: NSManagedObject {
     @NSManaged var flagNeedsUpload: Bool
     @NSManaged var flagNeedsDownload: Bool
     @NSManaged var team: BOTeam?
+    @NSManaged var challenge: BOChallenge?
     @NSManaged var images: Set<BOImage>
     @NSManaged var comments: Set<BOComment>
     
@@ -175,6 +176,14 @@ class BOPost: NSManagedObject {
                             mediaItem.uploadWithToken(id, token: token)
                         }
                     }
+                }
+                
+                if self.challenge != nil {
+                    self.challenge?.postingId = self.uuid
+                    self.challenge?.status = "with_proof"
+                    self.challenge?.flagNeedsUpload = true
+                    
+                    self.challenge?.upload()
                 }
             }
             

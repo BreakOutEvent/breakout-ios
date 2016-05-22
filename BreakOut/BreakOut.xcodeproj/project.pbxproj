@@ -54,6 +54,8 @@
 		26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */; };
 		26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */; };
 		26F29BE91CF208C3003DB37E /* BOChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F29BE81CF208C3003DB37E /* BOChallenge.swift */; };
+		26F29BEB1CF2111E003DB37E /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */; };
+		26F29BED1CF21137003DB37E /* ChallengesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */; };
 		26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E621C0A41C600BF9EFD /* BOPost.swift */; };
 		26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */; };
 		26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E671C0B8F0400BF9EFD /* BODataModel.xcdatamodeld */; };
@@ -135,6 +137,8 @@
 		26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalWebViewController.swift; path = Screens/InternalWebViewController.swift; sourceTree = "<group>"; };
 		26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileTableViewController.swift; path = Screens/UserProfileTableViewController.swift; sourceTree = "<group>"; };
 		26F29BE81CF208C3003DB37E /* BOChallenge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOChallenge.swift; path = Core/Database/BOChallenge.swift; sourceTree = "<group>"; };
+		26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengeTableViewCell.swift; path = Screens/Posts/ChallengeTableViewCell.swift; sourceTree = "<group>"; };
+		26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengesTableViewController.swift; path = Screens/Posts/ChallengesTableViewController.swift; sourceTree = "<group>"; };
 		26FD9E621C0A41C600BF9EFD /* BOPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPost.swift; path = Core/Database/BOPost.swift; sourceTree = "<group>"; };
 		26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BONetworkerTest.swift; path = Core/Network/BONetworkerTest.swift; sourceTree = "<group>"; };
 		26FD9E681C0B8F0400BF9EFD /* BODataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BODataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -285,6 +289,8 @@
 				262955A91CE7898B004D3213 /* PostingDetailsTableViewController.swift */,
 				262955AB1CE789B4004D3213 /* PostingCommentTableViewCell.swift */,
 				262955AD1CE79656004D3213 /* PostingCommentInputTableViewCell.swift */,
+				26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */,
+				26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -581,6 +587,7 @@
 				61E86D791CE77082000CD707 /* MapLocation.swift in Sources */,
 				26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */,
 				262955B01CE8FABD004D3213 /* HelpTableViewController.swift in Sources */,
+				26F29BED1CF21137003DB37E /* ChallengesTableViewController.swift in Sources */,
 				6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */,
 				269AADC81C9483E10034F32C /* Constants.swift in Sources */,
 				0EC14DDB1CF090A60065F695 /* BOTeam.swift in Sources */,
@@ -612,6 +619,7 @@
 				262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */,
 				266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */,
 				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
+				26F29BEB1CF2111E003DB37E /* ChallengeTableViewCell.swift in Sources */,
 				262955AC1CE789B4004D3213 /* PostingCommentTableViewCell.swift in Sources */,
 				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */,

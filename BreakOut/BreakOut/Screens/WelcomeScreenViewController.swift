@@ -65,7 +65,7 @@ class WelcomeScreenViewController: UIViewController {
                 
                 let navigationController = UINavigationController(rootViewController: controller!)
                 
-                slideMenuController.changeMainViewController(navigationController, close: true)
+                slideMenuController.mainViewController?.presentViewController(navigationController, animated: true, completion: nil)
             }
         }else{
             // User is NOT logged in -> show login screen
