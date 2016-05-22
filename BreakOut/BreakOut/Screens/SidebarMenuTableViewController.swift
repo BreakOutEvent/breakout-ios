@@ -8,12 +8,19 @@
 
 import UIKit
 
-class SidebarMenuTableViewController: UITableViewController {
+import StaticDataTableViewController
+
+class SidebarMenuTableViewController: StaticDataTableViewController {
     
+    @IBOutlet weak var loginAndRegisterButton: UIButton!
     @IBOutlet weak var userPictureImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var userDistanceRemainingTimeLabel: UILabel!
     @IBOutlet weak var addUserpictureButton: UIButton!
+    
+    @IBOutlet weak var yourTeamTableViewCell: UITableViewCell!
+    @IBOutlet weak var allTeamsTableViewCell: UITableViewCell!
+    @IBOutlet weak var newsTableViewCell: UITableViewCell!
     
 // MARK: - Screen Actions
     
@@ -38,6 +45,12 @@ class SidebarMenuTableViewController: UITableViewController {
             self.addUserpictureButton.hidden = true
         }
         
+        self.cell(self.yourTeamTableViewCell, setHidden: true)
+        self.cell(self.newsTableViewCell, setHidden: true)
+        self.cell(self.allTeamsTableViewCell, setHidden: true)
+        
+        self.loginAndRegisterButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), forState: UIControlState.Normal)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showAllPostingsTVC), name: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showWelcomeScreen), name: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN, object: nil)
     }
@@ -50,6 +63,18 @@ class SidebarMenuTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         self.fillInputsWithCurrentUserInfo()
         tableView.reloadData()
+        
+        if CurrentUser.sharedInstance.isLoggedIn() {
+            self.userPictureImageView.hidden = false
+            self.usernameLabel.hidden = false
+            self.userDistanceRemainingTimeLabel.hidden = false
+            self.loginAndRegisterButton.hidden = true
+        }else{
+            self.userPictureImageView.hidden = true
+            self.usernameLabel.hidden = true
+            self.userDistanceRemainingTimeLabel.hidden = true
+            self.loginAndRegisterButton.hidden = false
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -96,6 +121,8 @@ class SidebarMenuTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
             return false
+        }else if(indexPath.section == 1 && indexPath.row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
+            return false
         }
         
         return true
@@ -103,6 +130,8 @@ class SidebarMenuTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+            cell.alpha = 0.5
+        }else if(indexPath.section == 1 && indexPath.row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
             cell.alpha = 0.5
         }else{
             cell.alpha = 1.0
@@ -135,5 +164,10 @@ class SidebarMenuTableViewController: UITableViewController {
 // MARK: - Button Actions
 
     @IBAction func addUserpictureButtonPressed(sender: UIButton) {
+        
+    }
+    
+    @IBAction func loginButtonPressed(sender: UIButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
     }
 }

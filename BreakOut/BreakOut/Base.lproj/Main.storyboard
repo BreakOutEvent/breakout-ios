@@ -1958,11 +1958,31 @@ line two</string>
                                                     <color key="textColor" white="0.80393318965517246" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykX-BV-Z1W">
+                                                    <rect key="frame" x="8" y="61" width="584" height="50"/>
+                                                    <color key="backgroundColor" red="0.92156862750000001" green="0.51372549020000002" blue="0.035294117649999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="t33-l1-Uyb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="25"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="loginButtonPressed:" destination="c7a-kY-cEx" eventType="touchUpInside" id="g87-dU-A7Y"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="F9m-Ia-H5h" firstAttribute="leading" secondItem="DL6-y1-wxv" secondAttribute="leading" id="1j0-vt-0AL"/>
                                                 <constraint firstItem="6Jx-gd-FaR" firstAttribute="height" secondItem="DL6-y1-wxv" secondAttribute="height" id="1zr-Ff-3Ng"/>
                                                 <constraint firstItem="6Jx-gd-FaR" firstAttribute="centerY" secondItem="DL6-y1-wxv" secondAttribute="centerY" id="2WR-2s-cL0"/>
+                                                <constraint firstAttribute="trailing" secondItem="ykX-BV-Z1W" secondAttribute="trailing" constant="8" id="And-n3-4qG"/>
                                                 <constraint firstItem="QOW-Xf-H2Y" firstAttribute="leading" secondItem="Bf5-QW-coP" secondAttribute="leading" id="Ed7-mh-cUC"/>
                                                 <constraint firstItem="QOW-Xf-H2Y" firstAttribute="top" secondItem="Bf5-QW-coP" secondAttribute="top" id="LDS-o7-IsI"/>
                                                 <constraint firstAttribute="trailing" secondItem="QOW-Xf-H2Y" secondAttribute="trailing" id="MXF-4s-WiS"/>
@@ -1976,7 +1996,9 @@ line two</string>
                                                 <constraint firstItem="xu6-c6-ncK" firstAttribute="top" secondItem="F9m-Ia-H5h" secondAttribute="bottom" id="iqH-sx-ygn"/>
                                                 <constraint firstItem="6Jx-gd-FaR" firstAttribute="width" secondItem="DL6-y1-wxv" secondAttribute="width" id="nUa-Fy-2sQ"/>
                                                 <constraint firstAttribute="bottom" secondItem="QOW-Xf-H2Y" secondAttribute="bottom" id="qRW-SK-HeD"/>
+                                                <constraint firstItem="ykX-BV-Z1W" firstAttribute="centerY" secondItem="Bf5-QW-coP" secondAttribute="centerY" id="qwB-j7-kuy"/>
                                                 <constraint firstItem="F9m-Ia-H5h" firstAttribute="top" secondItem="DL6-y1-wxv" secondAttribute="bottom" constant="16" id="yBw-bA-t7Q"/>
+                                                <constraint firstItem="ykX-BV-Z1W" firstAttribute="leading" secondItem="Bf5-QW-coP" secondAttribute="leading" constant="8" id="ydE-vk-XRC"/>
                                                 <constraint firstItem="DL6-y1-wxv" firstAttribute="leading" secondItem="Bf5-QW-coP" secondAttribute="leading" constant="16" id="ytV-I7-5m5"/>
                                             </constraints>
                                             <variation key="default">
@@ -2239,7 +2261,7 @@ line two</string>
                                                         <constraint firstAttribute="width" secondItem="iph-AR-xMG" secondAttribute="height" multiplier="1:1" id="Gjw-Fq-Lw5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYq-Ba-FQM">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYq-Ba-FQM">
                                                     <rect key="frame" x="554" y="16" width="30" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="OqO-dn-i85"/>
@@ -2434,9 +2456,13 @@ line two</string>
                     </tableView>
                     <connections>
                         <outlet property="addUserpictureButton" destination="6Jx-gd-FaR" id="kAM-y9-uWt"/>
+                        <outlet property="allTeamsTableViewCell" destination="7Ly-0J-CTK" id="A9U-OL-2Dt"/>
+                        <outlet property="loginAndRegisterButton" destination="ykX-BV-Z1W" id="bsu-X5-H6W"/>
+                        <outlet property="newsTableViewCell" destination="MMV-q6-f1c" id="LfJ-Nf-zfQ"/>
                         <outlet property="userDistanceRemainingTimeLabel" destination="xu6-c6-ncK" id="FU4-a8-sJU"/>
                         <outlet property="userPictureImageView" destination="DL6-y1-wxv" id="9mN-fp-fFy"/>
                         <outlet property="usernameLabel" destination="F9m-Ia-H5h" id="mRP-od-pNY"/>
+                        <outlet property="yourTeamTableViewCell" destination="ht1-DI-PYc" id="r1G-oh-Fy8"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4YM-pI-QYN" userLabel="First Responder" sceneMemberID="firstResponder"/>
