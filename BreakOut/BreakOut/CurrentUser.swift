@@ -37,6 +37,7 @@ class CurrentUser: NSObject {
     
     var flagParticipant: Bool = false
     var teamid: NSInteger?
+    var eventid: NSInteger?
     
     static var sharedInstance = CurrentUser()
     
@@ -162,6 +163,9 @@ class CurrentUser: NSObject {
         if self.teamid != nil {
             selfDictionary.setValue(self.teamid, forKey: "teamId")
         }
+        if self.eventid != nil {
+            selfDictionary.setValue(self.eventid, forKey: "eventId")
+        }
         
         selfDictionary.setValue(self.flagParticipant, forKey: "flagParticipant")
         selfDictionary.setValue(self.flagBlocked, forKey: "flagBlocked")
@@ -244,6 +248,8 @@ class CurrentUser: NSObject {
                     self.flagParticipant = (keyValue as? Bool)!
                 }else if keyName == "teamId" {
                     self.teamid = (keyValue as? NSInteger)!
+                }else if keyName == "eventId" {
+                    self.eventid = (keyValue as? NSInteger)!
                 }
             }
         }
@@ -313,6 +319,13 @@ class CurrentUser: NSObject {
         }
     }
     
+    func currentEventId() -> Int {
+        if self.eventid != nil {
+            return self.eventid!
+        }else{
+            return -1
+        }
+    }
 
 // MARK: - Image Storing Helpers
     

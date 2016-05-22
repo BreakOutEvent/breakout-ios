@@ -49,15 +49,11 @@ class BOLocation: NSManagedObject{
         
     }
     func setAttributesWithDictionary(dict: NSDictionary) {
-        self.uid = dict.valueForKey("teamId") as! NSInteger
+        //self.uid = dict.valueForKey("id") as! NSInteger
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         self.timestamp = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
-//         let longitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
-//            self.longitude = longitude
-//        }
-//        if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
-//            self.longitude = latitude
-//        }
+        self.latitude = (dict.valueForKey("latitude") as? NSNumber)!
+        self.longitude = (dict.valueForKey("longitude") as? NSNumber)!
     }
     
     func save() {
@@ -72,5 +68,28 @@ class BOLocation: NSManagedObject{
         print("latitude: ", self.latitude)
         print("flagNeedsUpload: ", self.flagNeedsUpload)
         print("----------- ------ -----------")
+    }
+    
+    func upload() {
+        var dict = [String:AnyObject]()
+        
+        dict["latitude"] = self.latitude;
+        dict["longitude"] = self.longitude;
+        dict["date"] = timestamp.timeIntervalSince1970
+        
+        BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.sharedInstance.currentEventId(),CurrentUser.sharedInstance.currentTeamId()], parameters: dict, auth: true, success: { (response) in
+            
+            if let responseDict = response as? NSDictionary, lat = responseDict["latitude"] as? Double {
+                self.latitude = lat
+                
+            }
+            // Tracking
+            self.flagNeedsUpload = false
+            self.save()
+            //Flurry.logEvent("/posting/upload/completed_successful")
+        }) { (error, response) in
+            // Tracking
+            //Flurry.logEvent("/posting/upload/completed_error")
+        }
     }
 }

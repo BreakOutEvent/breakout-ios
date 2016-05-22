@@ -40,7 +40,7 @@ class BOPost: NSManagedObject {
         
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
-        res.date = NSDate()
+        //res.date = NSDate()
         res.images = Set<BOImage>()
         res.comments = Set<BOComment>()
         
@@ -69,14 +69,17 @@ class BOPost: NSManagedObject {
     func setAttributesWithDictionary(dict: NSDictionary) {
         self.uuid = dict.valueForKey("id") as! NSInteger
         self.text = dict.valueForKey("text") as? String
+        
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         self.date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
+        
         if let longitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
             self.longitude = longitude
         }
         if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("latitude") as? NSNumber {
             self.latitude = latitude
         }
+        
         if let mediaArray = dict.valueForKey("media") as? [NSDictionary] {
             for item in mediaArray {
                 BOImage.createFromDictionary(item) { (image) in
@@ -101,6 +104,9 @@ class BOPost: NSManagedObject {
         
         
         self.save()
+        
+        print("Set new attributes for BOPost with Dictionary")
+        self.printToLog()
     }
     
     func addTeamWithId(teamId: Int) {

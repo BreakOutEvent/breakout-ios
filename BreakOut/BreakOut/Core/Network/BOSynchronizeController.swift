@@ -276,6 +276,7 @@ class BOSynchronizeController: NSObject {
     func tryUploadAll() {
         self.tryUploadPosts()
         self.tryUploadComments()
+        self.tryUploadLocations()
         /*self.tryUploadLikes()
         self.tryUploadLocations()
         self.tryUploadImages()
@@ -375,14 +376,13 @@ class BOSynchronizeController: NSObject {
         BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
             for newEvent: NSDictionary in response as! Array {
                 self.downloadAllTeamsForEvent(newEvent.valueForKey("id")as! Int)
+                self.downloadAllLocationsForEvent(newEvent.valueForKey("id")as! Int)
             }
         }) { (error, response) in
         }
     }
     
     func downloadAllTeamsForEvent(eventId: Int) {
-        
-        
         BONetworkManager.doJSONRequestGET(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             var numberOfAddedTeams: Int = 0
             // response is an Array of Team Objects
@@ -390,6 +390,42 @@ class BOSynchronizeController: NSObject {
                 BOTeam.createWithDictionary(newTeam)
                 //newPost.printToLog()
                 numberOfAddedTeams += 1
+            }
+            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
+            // Tracking
+            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+        }) { (error, response) in
+            // TODO: Handle Errors
+            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+        }
+    }
+    
+    func downloadAllLocationsForEvent(eventId: Int) {
+        BONetworkManager.doJSONRequestGET(.EventAllLocations, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
+            // response is an Array of Location Objects
+            for newLocation: NSDictionary in response as! Array {
+                BOLocation.createWithDictionary(newLocation)
+            }
+            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
+            // Tracking
+            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+        }) { (error, response) in
+            // TODO: Handle Errors
+            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+        }
+    }
+    
+    func downloadChallengesForCurrentUser() {
+        if CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() >= 0 && CurrentUser.sharedInstance.currentEventId() >= 0 {
+            self.downloadChallengesForTeam(CurrentUser.sharedInstance.currentTeamId(), eventId: CurrentUser.sharedInstance.currentEventId())
+        }
+    }
+    
+    func downloadChallengesForTeam(teamId: Int, eventId: Int) {
+        BONetworkManager.doJSONRequestGET(.EventTeamChallenge, arguments: [eventId, teamId], parameters: nil, auth: false, success: { (response) in
+            // response is an Array of Location Objects
+            for newChallenge: NSDictionary in response as! Array {
+                BOChallenge.createWithDictionary(newChallenge)
             }
             //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             // Tracking
@@ -426,6 +462,19 @@ class BOSynchronizeController: NSObject {
         }
     }
     
+    func tryUploadLocations() {
+        // LOcations can only be uploaded if the user is logged in and part of a team which participates at an event. Check this before!
+        if (CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() >= 0 && CurrentUser.sharedInstance.currentEventId() >= 0) {
+            if let locationsToUpload = BOLocation.MR_findByAttribute("flagNeedsUpload", withValue: true) as? Array<BOLocation> {
+                for location in locationsToUpload {
+                    location.upload()
+                }
+            }
+        }else{
+            print("Can't upload location")
+        }
+        
+    }
     
 // MARK: - HELPERS
     /*func addIDsToNotYetLoadedPostingsIDs(postingIDs: [Int]) {
