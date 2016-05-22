@@ -198,14 +198,24 @@ class BOSynchronizeController: NSObject {
         }
     }
     
-    func createTeam(name: String, eventID: Int, success: () -> (), error: () -> ()) {
+    func createTeam(name: String, eventID: Int, image: UIImage?, success: () -> (), error: () -> ()) {
         let params: NSDictionary = [
             "event": eventID,
             "name": name
         ]
         BONetworkManager.doJSONRequestPOST(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
-            
-            // TODO: Do something with the response
+            if let imageUnwrapped = image, dict = response as? NSDictionary,
+                    profilePicDict = dict.valueForKey("profilePic") as? NSDictionary,
+                    token = profilePicDict.valueForKey("uploadToken") as? String,
+                    id = profilePicDict.valueForKey("id") as? Int {
+                let boImage = BOImage.createWithImage(imageUnwrapped)
+                boImage.uploadWithToken(id, token: token)
+            }
+            if let dict = response as? NSDictionary {
+                let team = BOTeam.createWithDictionary(dict)
+                CurrentUser.sharedInstance.teamid = team.uuid
+                CurrentUser.sharedInstance.storeInNSUserDefaults()
+            }
             success()
         }) { (err, response) in
             // TODO: Maybe show something more to the user

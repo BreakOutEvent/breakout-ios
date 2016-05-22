@@ -131,7 +131,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         if posting.team != nil {
             cell.teamNameLabel.text = posting.team?.name
         }
-        cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
+        cell.teamPictureImageView.image = posting.team?.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
         
         
         // Check if Posting has an attached challenge
