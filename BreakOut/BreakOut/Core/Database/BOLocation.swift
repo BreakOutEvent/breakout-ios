@@ -49,15 +49,11 @@ class BOLocation: NSManagedObject{
         
     }
     func setAttributesWithDictionary(dict: NSDictionary) {
-        self.uid = dict.valueForKey("teamId") as! NSInteger
+        //self.uid = dict.valueForKey("id") as! NSInteger
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         self.timestamp = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
-//         let longitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
-//            self.longitude = longitude
-//        }
-//        if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
-//            self.longitude = latitude
-//        }
+        self.latitude = (dict.valueForKey("latitude") as? NSNumber)!
+        self.longitude = (dict.valueForKey("longitude") as? NSNumber)!
     }
     
     func save() {
