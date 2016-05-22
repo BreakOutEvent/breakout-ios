@@ -16,6 +16,7 @@ import MagicalRecord
 
 // Tracking
 import Flurry_iOS_SDK
+import Crashlytics
 
 /**
  The BOSynchronizeController communicates with the REST-API and stores the responses in the local Database.
@@ -77,11 +78,15 @@ class BOSynchronizeController: NSObject {
             dispatch_async(dispatch_get_main_queue()) {
                 if reachability.isReachableViaWiFi() {
                     self.internetReachability = "wifi"
+                    
                     self.tryUploadAll()
+                    
                     print("Reachable via WiFi")
+                    Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"wifi"])
                 } else {
                     self.internetReachability = "cellular"
                     print("Reachable via Cellular")
+                    Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"cellular"])
                 }
             }
         }
@@ -91,6 +96,7 @@ class BOSynchronizeController: NSObject {
             dispatch_async(dispatch_get_main_queue()) {
                 self.internetReachability = "not_reachable"
                 print("Not reachable")
+                Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"Not reachable"])
             }
         }
         
@@ -114,14 +120,18 @@ class BOSynchronizeController: NSObject {
             if reachability?.isReachableViaWiFi() ?? false {
                 self.internetReachability = "wifi"
                 print("Reachable via WiFi")
+                Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"wifi"])
+                
                 totalDatabaseSynchronization()
             } else {
                 self.internetReachability = "cellular"
                 print("Reachable via Cellular")
+                Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"cellular"])
             }
         } else {
             self.internetReachability = "not_reachable"
             print("Not reachable")
+            Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"Not reachable"])
         }
     }
     
