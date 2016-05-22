@@ -15,10 +15,17 @@ class WelcomeScreenViewController: UIViewController {
     @IBOutlet weak var descriptionTextLabel: UILabel!
     @IBOutlet weak var participateButton: UIButton!
     
+    var timer: NSTimer?
+    var eventStartDate: NSDate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if defaults.objectForKey("eventStartTimestamp") != nil {
+            self.eventStartDate = NSDate(timeIntervalSince1970: (defaults.objectForKey("eventStartTimestamp") as! Double))
+        }
         
         self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
         self.descriptionTextLabel.text = NSLocalizedString("welcomeScreenDescriptionText", comment: "")
@@ -31,6 +38,15 @@ class WelcomeScreenViewController: UIViewController {
             self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), forState: UIControlState.Normal)
         }
         
+        
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
+    }
+    
+    func updateCountdown() {
+        if self.eventStartDate != nil {
+            self.headlineLabel.text = self.eventStartDate!.toNaturalString(NSDate())
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
