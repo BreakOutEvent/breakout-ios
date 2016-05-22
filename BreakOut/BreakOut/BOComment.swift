@@ -44,7 +44,14 @@ class BOComment: NSManagedObject {
     }
     
     class func createWithDictionary(dict: NSDictionary) -> BOComment {
-        let res = BOComment.MR_createEntity()! as BOComment
+        let res: BOComment
+        if let id = dict["id"] as? NSInteger,
+            origPostArray = BOComment.MR_findByAttribute("uuid", withValue: id) as? Array<BOComment>,
+            post = origPostArray.first {
+            res = post
+        } else {
+            res = BOComment.MR_createEntity()!
+        }
         res.setAttributesWithDictionary(dict)
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         return res
