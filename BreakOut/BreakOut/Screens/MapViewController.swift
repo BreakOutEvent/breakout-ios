@@ -23,6 +23,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     //MARK: Properties and Outlets
     let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
+    var lastCurrentLocation = CLLocation()
     let regionRadius : CLLocationDistance = 5000
     var users = [User]()
     let locationManager = CLLocationManager()
@@ -111,6 +112,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             // Save
             locationPost.save()
             
+            lastCurrentLocation = locations.last!
         }
         // stop updating locations. Optional.
         // locationManager.stopUpdatingLocation()
@@ -161,13 +163,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.removeAnnotations(mapView.annotations)
         for locations in locationsForTeams{
             print("==============================")
-            print(locationsForTeams.count)
-            print(locations.count)
-            print(locations.first!.title)
-            print(locations.first!.coordinate)
+            print("Number of locations for Teams: ", locationsForTeams.count)
+            print("Number of locations: ", locations.count)
+            print("First location title: ", locations.first!.title)
+            print("First location coordinates: ", locations.first!.coordinate)
             print("==============================")
             mapView.addAnnotation(locations.first!)
         }
+    }
+    
+    @IBAction func currentLocationButtonPressed(sender: UIButton) {
+        let center = CLLocationCoordinate2D(latitude: lastCurrentLocation.coordinate.latitude, longitude: lastCurrentLocation.coordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        
+        mapView.setRegion(region, animated: true)
     }
     
      func showSideBar(){
