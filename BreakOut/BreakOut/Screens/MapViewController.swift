@@ -54,7 +54,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        self.title = "MapView"
+        self.title = "Map"
         
         // Create refresh button for navigation item
         let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(fetchLocations))
@@ -137,7 +137,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         
         let pr = MKPolylineRenderer(overlay: overlay)
-        pr.strokeColor = UIColor.redColor()
+        pr.strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
         pr.lineWidth = 2
         return pr
     }
