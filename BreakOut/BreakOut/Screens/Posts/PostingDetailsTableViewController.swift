@@ -98,15 +98,15 @@ class PostingDetailsTableViewController: UITableViewController {
         if posting!.team != nil {
             cell.teamNameLabel.text = posting!.team?.name
         }
-        cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
+        cell.teamPictureImageView?.image = posting?.team?.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
         
         
         // Check if Posting has an attached challenge
         if true == true {
             // Challenge is attached -> Show the challenge box
-            cell.challengeLabel.text = "was geht denn nun hier ab? Man kann sich echt nie sicher sein welche Idioten sich hier an den Beispieltexten vergreifen. Aber lustig ist es schon ;)"
-//            cell.challengeLabelHeightConstraint.constant = 34.0
-            cell.challengeView.hidden = false
+            cell.challengeLabel?.text = "was geht denn nun hier ab? Man kann sich echt nie sicher sein welche Idioten sich hier an den Beispieltexten vergreifen. Aber lustig ist es schon ;)"
+            cell.challengeLabelHeightConstraint?.constant = 34.0
+            cell.challengeView?.hidden = false
         }else{
             cell.challengeLabel.text = ""
             cell.challengeLabelHeightConstraint.constant = 0.0
@@ -115,13 +115,13 @@ class PostingDetailsTableViewController: UITableViewController {
         }
         
         if posting!.flagNeedsUpload == true {
-            cell.statusLabel.text = "Wartet auf Upload zum Server."
+            cell.statusLabel?.text = "Wartet auf Upload zum Server."
         }else{
-            cell.statusLabel.text = ""
+            cell.statusLabel?.text = ""
         }
         
         // Add count for comments
-        cell.commentsButton.setTitle(String(format: "%i %@", posting!.comments.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
+        cell.commentsButton?.setTitle(String(format: "%i %@", posting!.comments.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
         
         cell.parentTableViewController = self
         
