@@ -2015,7 +2015,7 @@ line two</string>
                             </tableViewSection>
                             <tableViewSection id="b32-M1-3pI">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="8" id="m2z-1O-FkJ" userLabel="Padding">
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="8" id="m2z-1O-FkJ" userLabel="Padding">
                                         <rect key="frame" x="0.0" y="172" width="600" height="8"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m2z-1O-FkJ" id="Hwe-uO-1YA">
@@ -2141,7 +2141,7 @@ line two</string>
                             </tableViewSection>
                             <tableViewSection id="qGj-1Z-bzz">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="17" id="gNT-do-oEy" userLabel="Divider Line">
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="17" id="gNT-do-oEy" userLabel="Divider Line">
                                         <rect key="frame" x="0.0" y="324" width="600" height="17"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gNT-do-oEy" id="LFC-U7-8jR">
@@ -2334,7 +2334,7 @@ line two</string>
                             </tableViewSection>
                             <tableViewSection id="boe-lt-hrY">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="17" id="7Gl-rw-p9L" userLabel="Divider Line">
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="17" id="7Gl-rw-p9L" userLabel="Divider Line">
                                         <rect key="frame" x="0.0" y="533" width="600" height="17"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Gl-rw-p9L" id="YiJ-4w-MNO">
