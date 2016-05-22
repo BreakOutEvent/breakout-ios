@@ -70,7 +70,6 @@ class BOPost: NSManagedObject {
     func setAttributesWithDictionary(dict: NSDictionary) {
         self.uuid = dict.valueForKey("id") as! NSInteger
         self.text = dict.valueForKey("text") as? String
-        self.images = Set<BOImage>()
         self.comments = Set<BOComment>()
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
         self.date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)

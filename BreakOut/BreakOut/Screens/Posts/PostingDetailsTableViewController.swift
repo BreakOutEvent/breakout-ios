@@ -14,15 +14,14 @@ class PostingDetailsTableViewController: UITableViewController {
     
     var posting: BOPost? {
         didSet {
+            tableView.reloadData()
             posting?.reload(tableView.reloadData)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = NSLocalizedString("postingDetailsTitle", comment: "")
-        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
     }
@@ -81,7 +80,8 @@ class PostingDetailsTableViewController: UITableViewController {
         }
         
         // Check if Posting has an attached media file
-        if let image:BOImage = self.posting!.images.first {
+        print(self.posting?.images)
+        if let image:BOImage = self.posting?.images.first {
             let uiimage: UIImage = image.getImage()
             if uiimage.hasContent() == true {
                 cell.postingPictureImageView.image = image.getImage()
