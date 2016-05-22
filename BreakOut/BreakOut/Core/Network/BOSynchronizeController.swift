@@ -386,6 +386,11 @@ class BOSynchronizeController: NSObject {
     func downloadIdsOfAllEvents() {
         BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
             for newEvent: NSDictionary in response as! Array {
+                
+                let defaults = NSUserDefaults.standardUserDefaults()
+                defaults.setObject(newEvent.valueForKey("date")as! Int, forKey: "eventStartTimestamp")
+                defaults.synchronize()
+                
                 self.downloadAllTeamsForEvent(newEvent.valueForKey("id")as! Int)
                 self.downloadAllLocationsForEvent(newEvent.valueForKey("id")as! Int)
             }
