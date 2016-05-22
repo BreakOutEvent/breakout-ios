@@ -602,39 +602,42 @@ line two</string>
         <scene sceneID="ked-S6-uOl">
             <objects>
                 <tableViewController storyboardIdentifier="ChallengesTableViewController" id="L0C-PW-gJm" customClass="ChallengesTableViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="WnV-Hf-A6a">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" id="WnV-Hf-A6a">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChallengeTableViewCell" id="vdS-ah-eoN" customClass="ChallengeTableViewCell" customModule="BreakOut" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="80"/>
+                                <rect key="frame" x="0.0" y="49.5" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vdS-ah-eoN" id="Rd4-Ge-GXr">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9w8-Fx-y6U">
-                                            <rect key="frame" x="8" y="8" width="584" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5WR-Sm-0Eq">
+                                            <rect key="frame" x="15" y="43" width="570" height="21.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5WR-Sm-0Eq">
-                                            <rect key="frame" x="8" y="37" width="584" height="35"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9w8-Fx-y6U">
+                                            <rect key="frame" x="15" y="15" width="570" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="bRr-TZ-nZ6"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="9w8-Fx-y6U" firstAttribute="leading" secondItem="Rd4-Ge-GXr" secondAttribute="leading" constant="8" id="Aub-hL-Plb"/>
-                                        <constraint firstItem="5WR-Sm-0Eq" firstAttribute="top" secondItem="9w8-Fx-y6U" secondAttribute="bottom" constant="8" id="B3L-Ng-ij3"/>
-                                        <constraint firstAttribute="trailing" secondItem="5WR-Sm-0Eq" secondAttribute="trailing" constant="8" id="RLy-Ot-FOx"/>
-                                        <constraint firstAttribute="trailing" secondItem="9w8-Fx-y6U" secondAttribute="trailing" constant="8" id="Yho-gD-pux"/>
-                                        <constraint firstItem="9w8-Fx-y6U" firstAttribute="top" secondItem="Rd4-Ge-GXr" secondAttribute="top" constant="8" id="ZIj-0i-95z"/>
-                                        <constraint firstAttribute="bottom" secondItem="5WR-Sm-0Eq" secondAttribute="bottom" constant="8" id="aZW-2V-WRJ"/>
-                                        <constraint firstItem="5WR-Sm-0Eq" firstAttribute="leading" secondItem="Rd4-Ge-GXr" secondAttribute="leading" constant="8" id="rqt-yz-vCQ"/>
+                                        <constraint firstItem="9w8-Fx-y6U" firstAttribute="leading" secondItem="Rd4-Ge-GXr" secondAttribute="leading" constant="15" id="Aub-hL-Plb"/>
+                                        <constraint firstAttribute="trailing" secondItem="5WR-Sm-0Eq" secondAttribute="trailing" constant="15" id="RLy-Ot-FOx"/>
+                                        <constraint firstItem="5WR-Sm-0Eq" firstAttribute="top" secondItem="9w8-Fx-y6U" secondAttribute="bottom" constant="8" id="TSE-Qw-gHM"/>
+                                        <constraint firstAttribute="trailing" secondItem="9w8-Fx-y6U" secondAttribute="trailing" constant="15" id="Yho-gD-pux"/>
+                                        <constraint firstItem="9w8-Fx-y6U" firstAttribute="top" secondItem="Rd4-Ge-GXr" secondAttribute="top" constant="15" id="ZIj-0i-95z"/>
+                                        <constraint firstAttribute="bottom" secondItem="5WR-Sm-0Eq" secondAttribute="bottom" constant="15" id="aZW-2V-WRJ"/>
+                                        <constraint firstItem="5WR-Sm-0Eq" firstAttribute="leading" secondItem="Rd4-Ge-GXr" secondAttribute="leading" constant="15" id="rqt-yz-vCQ"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
