@@ -148,6 +148,10 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func cancelButtonPressed(sender: UIButton) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     /**
      Opens the internal WebView to show additional Information which isn't stored in the app.
      

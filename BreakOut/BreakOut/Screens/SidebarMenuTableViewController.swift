@@ -39,6 +39,7 @@ class SidebarMenuTableViewController: UITableViewController {
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showAllPostingsTVC), name: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showWelcomeScreen), name: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,6 +64,7 @@ class SidebarMenuTableViewController: UITableViewController {
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN, object: nil)
     }
     
     func fillInputsWithCurrentUserInfo() {
@@ -71,6 +73,13 @@ class SidebarMenuTableViewController: UITableViewController {
         self.userPictureImageView.image = CurrentUser.sharedInstance.picture
         if self.userPictureImageView.image != nil {
             self.addUserpictureButton.hidden = true
+        }
+    }
+    
+    func showWelcomeScreen() {
+        if let slideMenuController = self.slideMenuController() {
+            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeScreenViewController")
+            slideMenuController.changeMainViewController(controller!, close: true)
         }
     }
     

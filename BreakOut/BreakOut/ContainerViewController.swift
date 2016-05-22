@@ -33,12 +33,13 @@ class ContainerViewController: SlideMenuController {
         // Check UserDefaults for already logged in user
         let defaults = NSUserDefaults.standardUserDefaults()
         if defaults.objectForKey("userDictionary") == nil {
-            self.presentLoginScreen()
+            // User is NOT logged in
+            //self.presentLoginScreen()
         }else{
             CurrentUser.sharedInstance.downloadUserData()
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentLoginScreen", name: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(presentLoginScreen), name: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
     }
     
 // MARK: - Helper Functions

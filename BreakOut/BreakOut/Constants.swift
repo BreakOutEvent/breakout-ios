@@ -12,4 +12,5 @@ struct Constants {
     static let NOTIFICATION_PRESENT_LOGIN_SCREEN: String = "BONotification_presentLoginScreen"
     static let NOTIFICATION_CURRENT_USER_UPDATED: String = "BONotification_notificationCurrentUserUpdated"
     static let NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST: String = "BONotification_newPostingClosedAndWantsListOfAllPostings"
+    static let NOTIFICATION_PRESENT_WELCOME_SCREEN: String = "BONotification_presentWelcomeScreen"
 }

@@ -23,7 +23,8 @@
 // Welcome Screen
 "welcomeScreenHeadline" = "Bald geht es los!";
 "welcomeScreenDescriptionText" = "Wir arbeiten sehr hart daran, dir die beste App für das nächste BreakOut Event zur Hand zu geben. Ganz egal, ob du Teilnehmer, Sponsor, Familienmitglied oder einfach nur Fan bist. Sei gespannt auf weitere großartige Updates mit neuen Funktionen.";
-"welcomeScreenParticipateButton" = "Teile deinen Ort";
+"welcomeScreenParticipateButtonShareLocation" = "Teile deinen Ort";
+"welcomeScreenParticipateButtonLoginAndRegister" = "ANMELDEN & EINLOGGEN";
 
 // Screen Titles
 "newPostingTitle" = "Neuer Post";
@@ -31,6 +32,7 @@
 "postingDetailsTitle" = "Kommentare";
 "webView" = "Browser";
 "helpViewTitle" = "Hilfe";
+"userProfileTitle" = "Dein Profil";
 
 // New Posting
 "newPostingEmptyMessage" = "Was erlebst du gerade?";

@@ -47,6 +47,9 @@ class CurrentUser: NSObject {
     }
     
     static func resetUser() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.removeObjectForKey("userDictionary")
+        defaults.synchronize()
         self.sharedInstance = CurrentUser()
     }
     
@@ -63,7 +66,7 @@ class CurrentUser: NSObject {
         
         let params: NSMutableDictionary = self.attributesAsDictionary()
         
-        params.setValue(self.attributesAsDictionary(), forKey: "participant")
+        //params.setValue(self.attributesAsDictionary(), forKey: "participant")
         
         BONetworkIndicator.si.increaseLoading()
         
@@ -79,42 +82,44 @@ class CurrentUser: NSObject {
     
     func downloadUserData() {
         
-        BONetworkIndicator.si.increaseLoading()
-        
-        BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
-            // Successful
-            BONetworkIndicator.si.decreaseLoading()
-
-            let basicUserDict: NSDictionary = response as! NSDictionary
+        if self.isLoggedIn() {
+            BONetworkIndicator.si.increaseLoading()
             
-            print("---------------------------------")
-            print("CurrentUser: ")
-            print(basicUserDict)
-            print("---------------------------------")
-            
-            self.setAttributesWithJSON(basicUserDict)
-            
-            // If the user is also an participant we should store the participants information
-            if (basicUserDict.objectForKey("participant") != nil) {
-                if let participantDictionary: NSDictionary = basicUserDict.valueForKey("participant") as? NSDictionary {
-                    self.setAttributesWithJSON(participantDictionary)
-                    // Participant Information is connected to the user -> Mark him as Participant
-                    self.flagParticipant = true
+            BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
+                // Successful
+                BONetworkIndicator.si.decreaseLoading()
+                
+                let basicUserDict: NSDictionary = response as! NSDictionary
+                
+                print("---------------------------------")
+                print("CurrentUser: ")
+                print(basicUserDict)
+                print("---------------------------------")
+                
+                self.setAttributesWithJSON(basicUserDict)
+                
+                // If the user is also an participant we should store the participants information
+                if (basicUserDict.objectForKey("participant") != nil) {
+                    if let participantDictionary: NSDictionary = basicUserDict.valueForKey("participant") as? NSDictionary {
+                        self.setAttributesWithJSON(participantDictionary)
+                        // Participant Information is connected to the user -> Mark him as Participant
+                        self.flagParticipant = true
+                    }else{
+                        // No participant Information is connected to the user -> Mark him as NO Participant
+                        self.flagParticipant = false
+                    }
                 }else{
                     // No participant Information is connected to the user -> Mark him as NO Participant
                     self.flagParticipant = false
                 }
-            }else{
-                // No participant Information is connected to the user -> Mark him as NO Participant
-                self.flagParticipant = false
+                self.storeInNSUserDefaults()
+            }) { (error, response) in
+                BONetworkIndicator.si.decreaseLoading()
+                if response?.statusCode == 401 {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                }
             }
-            self.storeInNSUserDefaults()
-        }) { (error, response) in
-            BONetworkIndicator.si.decreaseLoading()
-            if response?.statusCode == 401 {
-                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
-            }
-        }
+        }        
     }
     
     
@@ -214,11 +219,11 @@ class CurrentUser: NSObject {
                     self.lastname = keyValue as? String
                 }else if keyName == "email" {
                     self.email = keyValue as? String
-                }else if keyName == "hometown" {
+                }else if keyName == "hometown" || keyName == "eventCity" {
                     self.hometown = keyValue as? String
                 }else if keyName == "gender" {
                     self.gender = keyValue as? String
-                }else if keyName == "birthday" {
+                }else if keyName == "birthday" || keyName == "birthdate" {
                     self.birthday = keyValue as? NSDate
                 }else if keyName == "tshirtsize" {
                     self.shirtSize = keyValue as? String
@@ -247,6 +252,15 @@ class CurrentUser: NSObject {
     }
     
 // MARK: - Return Value Helpers
+    
+    func isLoggedIn() -> Bool {
+        if self.email != nil {
+            if self.email != "" {
+                return true
+            }
+        }
+        return false
+    }
     
     func username() -> String {
         var username = ""

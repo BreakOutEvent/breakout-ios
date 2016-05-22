@@ -23,7 +23,8 @@
 // Welcome Screen
 "welcomeScreenHeadline" = "Soon more...";
 "welcomeScreenDescriptionText" = "We are working hard to built the greatest app to support you during the next BreakOut Event. No matter wether you are participant, sponsor, family member or simply a fan. Stay tuned for more cool updates.";
-"welcomeScreenParticipateButton" = "Share your location";
+"welcomeScreenParticipateButtonShareLocation" = "Share your location";
+"welcomeScreenParticipateButtonLoginAndRegister" = "REGISTER & LOGIN";
 
 // Screen Titles
 "newPostingTitle" = "New Post";
@@ -31,6 +32,7 @@
 "postingDetailsTitle" = "Comments";
 "webView" = "Browser";
 "helpViewTitle" = "Help";
+"userProfileTitle" = "Your Profile";
 
 // New Posting
 "newPostingEmptyMessage" = "What is currently going on?";

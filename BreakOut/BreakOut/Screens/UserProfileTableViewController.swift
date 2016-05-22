@@ -18,6 +18,8 @@ import StaticDataTableViewController
 
 class UserProfileTableViewController: StaticDataTableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UINavigationBarDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
+    @IBOutlet weak var passwordTableViewCell: UITableViewCell!
+    @IBOutlet weak var birthdayTableViewCell: UITableViewCell!
     @IBOutlet weak var participateButtonTableViewCell: UITableViewCell!
     @IBOutlet weak var participateButton: UIButton!
     @IBOutlet weak var firstnameTextfield: UITextField!
@@ -50,7 +52,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         super.viewDidLoad()
         
         CurrentUser.sharedInstance.downloadUserData()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificationCurrentUserUpdated", name: Constants.NOTIFICATION_CURRENT_USER_UPDATED, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(notificationCurrentUserUpdated), name: Constants.NOTIFICATION_CURRENT_USER_UPDATED, object: nil)
         
         // Style the navigation bar
         self.navigationController!.navigationBar.translucent = false
@@ -62,7 +64,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         self.title = NSLocalizedString("userProfileTitle", comment: "")
         
         // Create save button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: "saveChanges")
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: #selector(saveChanges))
         navigationItem.rightBarButtonItem = rightButton
         
         // Create menu buttons for navigation item
@@ -77,6 +79,9 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         
         // Set the delegates
         self.imagePicker.delegate = self
+        
+        // As long as we don't support the password reset function -> hide the password cell
+        self.cell(self.passwordTableViewCell, setHidden: true)
         
         // Fill the inputs with stored data
         self.fillInputsWithCurrentUserInfo()
@@ -120,8 +125,9 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         self.emailTextfield.text = CurrentUser.sharedInstance.email
         
         self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
-        //self.birthdayTextfield.text = CurrentUser.sharedInstance.birthday?.toString()
+        self.birthdayTextfield.text = CurrentUser.sharedInstance.birthday?.toString()
         self.shirtSizeTextfield.text = CurrentUser.sharedInstance.shirtSize
+        self.hometownTextfield.text = CurrentUser.sharedInstance.hometown
         self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
         self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
         
@@ -131,9 +137,11 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         if CurrentUser.sharedInstance.flagParticipant == true {
             self.cell(self.participateButtonTableViewCell, setHidden: true)
             self.cells(self.eventInformationTableViewCellCollection, setHidden: false)
+            self.cell(self.birthdayTableViewCell, setHidden: false)
         }else{
             self.cell(self.participateButtonTableViewCell, setHidden: false)
             self.cells(self.eventInformationTableViewCellCollection, setHidden: true)
+            self.cell(self.birthdayTableViewCell, setHidden: true)
         }
     }
     
@@ -318,13 +326,11 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     }
     
     @IBAction func logoutButtonPressed(sender: UIButton) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.removeObjectForKey("userDictionary")
-        defaults.synchronize()
+        CurrentUser.resetUser()
         
         // Tracking
         Answers.logCustomEventWithName("/logoutButtonPressed", customAttributes: [:])
         
-        self.presentLoginScreen()
+        NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN, object: nil)
     }
 }

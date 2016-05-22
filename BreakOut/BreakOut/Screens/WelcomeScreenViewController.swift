@@ -23,7 +23,14 @@ class WelcomeScreenViewController: UIViewController {
         self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
         self.descriptionTextLabel.text = NSLocalizedString("welcomeScreenDescriptionText", comment: "")
         
-        self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButton", comment: ""), forState: UIControlState.Normal)
+        if CurrentUser.sharedInstance.isLoggedIn() {
+            // User is logged in
+            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonShareLocation", comment: ""), forState: UIControlState.Normal)
+        }else{
+            // User is not logged in
+            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), forState: UIControlState.Normal)
+        }
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -51,13 +58,21 @@ class WelcomeScreenViewController: UIViewController {
         
         self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)*/
         
-        if let slideMenuController = self.slideMenuController() {
-            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("NewPostingTableViewController")
-            
-            let navigationController = UINavigationController(rootViewController: controller!)
-            
-            slideMenuController.changeMainViewController(navigationController, close: true)
+        if CurrentUser.sharedInstance.isLoggedIn() {
+            // User is logged in -> Show NewPostingsTVC
+            if let slideMenuController = self.slideMenuController() {
+                let controller = self.storyboard?.instantiateViewControllerWithIdentifier("NewPostingTableViewController")
+                
+                let navigationController = UINavigationController(rootViewController: controller!)
+                
+                slideMenuController.changeMainViewController(navigationController, close: true)
+            }
+        }else{
+            // User is NOT logged in -> show login screen
+            NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
         }
+        
+        
     }
     
     @IBAction func menuButtonPressed(sender: UIButton) {
