@@ -106,9 +106,23 @@ class PostingDetailsTableViewController: UITableViewController {
         if true == true {
             // Challenge is attached -> Show the challenge box
             cell.challengeLabel.text = "was geht denn nun hier ab? Man kann sich echt nie sicher sein welche Idioten sich hier an den Beispieltexten vergreifen. Aber lustig ist es schon ;)"
+            cell.challengeLabelHeightConstraint.constant = 34.0
+            cell.challengeView.hidden = false
         }else{
+            cell.challengeLabel.text = ""
+            cell.challengeLabelHeightConstraint.constant = 0.0
             cell.challengeViewHeightConstraint.constant = 0.0
+            cell.challengeView.hidden = true
         }
+        
+        if posting!.flagNeedsUpload == true {
+            cell.statusLabel.text = "Wartet auf Upload zum Server."
+        }else{
+            cell.statusLabel.text = ""
+        }
+        
+        // Add count for comments
+        cell.commentsButton.setTitle(String(format: "%i %@", posting!.comments.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
         
         cell.parentTableViewController = self
         
