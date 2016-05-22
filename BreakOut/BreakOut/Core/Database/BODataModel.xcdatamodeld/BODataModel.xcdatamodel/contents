@@ -21,8 +21,10 @@
         <relationship name="profilePic" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
     </entity>
     <entity name="BOImage" representedClassName="BOImage" syncable="YES">
+        <attribute name="betterDownloadUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="flagNeedsUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="needsBetterDownload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="uploadToken" optional="YES" attributeType="String" syncable="YES"/>
@@ -59,11 +61,11 @@
         <relationship name="profilePic" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BOImage" syncable="YES"/>
     </entity>
     <elements>
+        <element name="BOChallenge" positionX="-144" positionY="-27" width="128" height="180"/>
         <element name="BOComment" positionX="-137" positionY="-135" width="128" height="148"/>
-        <element name="BOImage" positionX="43" positionY="9" width="128" height="135"/>
+        <element name="BOImage" positionX="43" positionY="9" width="128" height="165"/>
         <element name="BOLocation" positionX="151" positionY="-178" width="128" height="150"/>
         <element name="BOPost" positionX="-351" positionY="-127" width="110" height="225"/>
         <element name="BOTeam" positionX="-128" positionY="153" width="128" height="118"/>
-        <element name="BOChallenge" positionX="-144" positionY="-27" width="128" height="180"/>
     </elements>
 </model>

@@ -46,6 +46,8 @@ class BOImage: NSManagedObject {
     @NSManaged var url: NSString
     @NSManaged var filepath: NSString
     @NSManaged var flagNeedsUpload: Bool
+    @NSManaged var needsBetterDownload: Bool
+    @NSManaged var betterDownloadUrl: String?
     
     class func create(uid: Int, flagNeedsUpload: Bool) -> BOImage {
         let res = BOImage.MR_createEntity()! as BOImage
@@ -70,29 +72,34 @@ class BOImage: NSManagedObject {
     
     class func createWithImage(image: UIImage) -> BOImage {
         let res = BOImage.MR_createEntity()! as BOImage
-        
-        //Store the original image
-        let imageData = UIImageJPEGRepresentation(image, 1)
-        let relativePath:String = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
-        let path:String = fileInDocumentsDirectory(relativePath)
-        if imageData!.writeToFile(path, atomically: true) {
-            //BOToast.log("Storing image file was successful", level: BOToast.Level.Success)
-        }else{
-            //BOToast.log("Error during storing of image file", level: BOToast.Level.Error)
-        }
-        
-        res.type = "image"
-        res.filepath = relativePath
-        
+        res.writeImage(image)
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
         
         return res
     }
     
     class func createFromDictionary(item: NSDictionary, success: (BOImage) -> ()) {
-        if let id = item.valueForKey("id") as? Int, sizes = item.valueForKey("sizes") as? [NSDictionary], last = sizes.last, url = last.valueForKey("url") as? String {
-            BOImageDownloadManager.sharedInstance.getImage(id, url: url) { (image) in
-                success(image)
+        if let id = item.valueForKey("id") as? Int, sizes = item.valueForKey("sizes") as? [NSDictionary] {
+            let image: NSDictionary?
+            let needsBetterDownload: Bool
+            var betterURL: String?
+            if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
+                image = sizes.last
+                needsBetterDownload = true
+            } else {
+                image = sizes.first
+                needsBetterDownload = true
+                if let last = sizes.last, lastURL = last.valueForKey("url") as? String {
+                    betterURL = lastURL
+                }
+            }
+            if let url = image?.valueForKey("url") as? String {
+                BOImageDownloadManager.sharedInstance.getImage(id, url: url) { (image) in
+                    image.needsBetterDownload = needsBetterDownload
+                    image.betterDownloadUrl = betterURL
+                    image.save()
+                    success(image)
+                }
             }
         }
     }
@@ -126,6 +133,20 @@ class BOImage: NSManagedObject {
     }
 
     // MARK: -
+    
+    func writeImage(image: UIImage) {
+        //Store the original image
+        let imageData = UIImageJPEGRepresentation(image, 1)
+        let relativePath:String = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
+        let path:String = fileInDocumentsDirectory(relativePath)
+        if imageData!.writeToFile(path, atomically: true) {
+            //BOToast.log("Storing image file was successful", level: BOToast.Level.Success)
+        }else{
+            //BOToast.log("Error during storing of image file", level: BOToast.Level.Error)
+        }
+        type = "image"
+        filepath = relativePath
+    }
     
     
     func setAttributesWithDictionary(dict: NSDictionary) {

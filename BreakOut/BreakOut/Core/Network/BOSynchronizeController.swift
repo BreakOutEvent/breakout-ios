@@ -33,6 +33,7 @@ class BOSynchronizeController: NSObject {
         self.loadTotalTeamList();
         self.tryUploadAll()
         self.downloadNotYetLoadedPostings()
+        self.downloadBestVersionsOfImages()
         // ... and all the other methods.
     }
 
@@ -443,6 +444,14 @@ class BOSynchronizeController: NSObject {
         }) { (error, response) in
             // TODO: Handle Errors
             //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+        }
+    }
+    
+    func downloadBestVersionsOfImages() {
+        if let images = BOImage.MR_findByAttribute("needsBetterDownload", withValue: true) as? Array<BOImage> {
+            for image in images {
+                BOImageDownloadManager.sharedInstance.getBetterImage(image.uid)
+            }
         }
     }
     

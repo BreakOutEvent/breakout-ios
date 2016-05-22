@@ -26,4 +26,15 @@ class BOImageDownloadManager {
         }
     }
     
+    func getBetterImage(id: Int) {
+        if let arrayOfImages = BOImage.MR_findByAttribute("uid", withValue: id) as? Array<BOImage>, image = arrayOfImages.first, url = image.betterDownloadUrl {
+            Alamofire.request(.GET, url).responseData() { (response) in
+                if let data = response.data, img = UIImage(data: data) {
+                    image.writeImage(img)
+                    image.save()
+                }
+            }
+        }
+    }
+    
 }
