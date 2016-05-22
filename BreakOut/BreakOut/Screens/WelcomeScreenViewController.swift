@@ -54,6 +54,10 @@ class WelcomeScreenViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         // Tracking
         Flurry.logEvent("/welcomeScreen", timed: true)
+        
+        if CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() < 0 {
+            self.participateButton.enabled = false
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
