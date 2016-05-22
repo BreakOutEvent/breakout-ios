@@ -161,7 +161,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      */
     @IBAction func whatIsBreakOutButtonPressed(sender: UIButton) {
         if let internalWebView = storyboard!.instantiateViewControllerWithIdentifier("InternalWebViewController") as? InternalWebViewController {
-            presentViewController(internalWebView, animated: true, completion: nil)
+            let navigationController = UINavigationController(rootViewController: internalWebView)
+            
+            presentViewController(navigationController, animated: true, completion: nil)
             internalWebView.openWebpageWithUrl("http://break-out.org/worum-gehts/")
             
             // --> Tracking

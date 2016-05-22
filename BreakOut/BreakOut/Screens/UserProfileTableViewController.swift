@@ -139,7 +139,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
             self.cells(self.eventInformationTableViewCellCollection, setHidden: false)
             self.cell(self.birthdayTableViewCell, setHidden: false)
         }else{
-            self.cell(self.participateButtonTableViewCell, setHidden: false)
+            self.cell(self.participateButtonTableViewCell, setHidden: true) // Always hidden as long as we haven't this function ready
             self.cells(self.eventInformationTableViewCellCollection, setHidden: true)
             self.cell(self.birthdayTableViewCell, setHidden: true)
         }

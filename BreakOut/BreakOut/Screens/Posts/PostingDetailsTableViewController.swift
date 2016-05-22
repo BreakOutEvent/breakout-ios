@@ -102,9 +102,9 @@ class PostingDetailsTableViewController: UITableViewController {
         
         
         // Check if Posting has an attached challenge
-        if true == true {
+        if posting!.challenge != nil {
             // Challenge is attached -> Show the challenge box
-            cell.challengeLabel?.text = "was geht denn nun hier ab? Man kann sich echt nie sicher sein welche Idioten sich hier an den Beispieltexten vergreifen. Aber lustig ist es schon ;)"
+            cell.challengeLabel.text = posting!.challenge?.text
             cell.challengeLabelHeightConstraint?.constant = 34.0
             cell.challengeView?.hidden = false
         }else{
