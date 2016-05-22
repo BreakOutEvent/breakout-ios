@@ -31,6 +31,7 @@ class BOImageDownloadManager {
             Alamofire.request(.GET, url).responseData() { (response) in
                 if let data = response.data, img = UIImage(data: data) {
                     image.writeImage(img)
+                    image.needsBetterDownload = false
                     image.save()
                 }
             }

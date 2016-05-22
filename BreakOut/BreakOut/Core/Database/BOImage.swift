@@ -85,7 +85,7 @@ class BOImage: NSManagedObject {
             var betterURL: String?
             if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
                 image = sizes.last
-                needsBetterDownload = true
+                needsBetterDownload = false
             } else {
                 image = sizes.first
                 needsBetterDownload = true
