@@ -344,7 +344,7 @@ class BOSynchronizeController: NSObject {
                     updatedPost.flagNeedsDownload = false
                     updatedPost.printToLog()
                 }
-                NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+                NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
                 //BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
                 // Tracking
                 Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])

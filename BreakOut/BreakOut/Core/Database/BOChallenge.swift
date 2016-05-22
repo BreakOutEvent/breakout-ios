@@ -38,7 +38,7 @@ class BOChallenge: NSManagedObject {
         res.uuid = uuid as NSInteger
         
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res;
     }
     
@@ -54,7 +54,7 @@ class BOChallenge: NSManagedObject {
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         
         return res
     }

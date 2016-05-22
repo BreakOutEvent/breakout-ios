@@ -56,7 +56,7 @@ class BOImage: NSManagedObject {
         res.type = "image"
         res.flagNeedsUpload = flagNeedsUpload
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res;
     }
     
@@ -65,7 +65,7 @@ class BOImage: NSManagedObject {
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         
         return res
     }
@@ -73,7 +73,7 @@ class BOImage: NSManagedObject {
     class func createWithImage(image: UIImage) -> BOImage {
         let res = BOImage.MR_createEntity()! as BOImage
         res.writeImage(image)
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         
         return res
     }

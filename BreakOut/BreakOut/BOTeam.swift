@@ -34,7 +34,7 @@ class BOTeam: NSManagedObject {
         res.flagNeedsDownload = flagNeedsDownload
         
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res;
     }
     
@@ -50,7 +50,7 @@ class BOTeam: NSManagedObject {
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         
         return res
     }
@@ -69,7 +69,7 @@ class BOTeam: NSManagedObject {
     }
     
     func save() {
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
     }
     
     func printToLog() {

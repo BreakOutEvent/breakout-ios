@@ -46,7 +46,7 @@ class BOPost: NSManagedObject {
         res.comments = Set<BOComment>()
         
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res;
     }
     
@@ -62,7 +62,7 @@ class BOPost: NSManagedObject {
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         
         return res
     }

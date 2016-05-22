@@ -31,7 +31,7 @@ class BOLocation: NSManagedObject{
         res.uid = uid as NSInteger
         res.flagNeedsUpload = flagNeedsUpload
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res;
     }
     
@@ -40,7 +40,7 @@ class BOLocation: NSManagedObject{
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         
         return res
     }
@@ -49,7 +49,9 @@ class BOLocation: NSManagedObject{
         
     }
     func setAttributesWithDictionary(dict: NSDictionary) {
-        self.uid = dict.valueForKey("id") as! NSInteger
+        if (dict["id"] != nil) {
+            self.uid = dict.valueForKey("id") as! NSInteger
+        }
         self.teamId = dict.valueForKey("teamId") as! NSInteger
         self.teamName = dict.valueForKey("team") as! String
         let unixTimestamp = dict.valueForKey("date") as! NSNumber
@@ -59,7 +61,7 @@ class BOLocation: NSManagedObject{
     }
     
     func save() {
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
     }
     
     func printToLog() {

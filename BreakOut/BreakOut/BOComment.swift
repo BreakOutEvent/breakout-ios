@@ -39,7 +39,7 @@ class BOComment: NSManagedObject {
         BOSynchronizeController.sharedInstance.triggerUpload()
         
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res;
     }
     
@@ -53,7 +53,7 @@ class BOComment: NSManagedObject {
             res = BOComment.MR_createEntity()!
         }
         res.setAttributesWithDictionary(dict)
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res
     }
     
