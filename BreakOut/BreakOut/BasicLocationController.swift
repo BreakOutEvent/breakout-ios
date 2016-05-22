@@ -59,14 +59,11 @@ class BasicLocationController : LocationController {
         
         for team: BOTeam in teamArray {
             let teamId = team.uuid
-            print(teamId)
             if let boLocationArrayForTeamId: [BOLocation] = BOLocation.MR_findByAttribute("teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
                 
                 
                 for locationObject:BOLocation in boLocationArrayForTeamId{
                     let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: teamId.description, subtitle: "distance")
-                    print(" === function ===")
-                    print(location.coordinate)
                     mapLocationArrayForTeamId.append(location)
 
                 }

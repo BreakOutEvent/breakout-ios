@@ -160,14 +160,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     private func drawLocationsOnMap(locationsForTeams:[[MapLocation]]){
         mapView.removeAnnotations(mapView.annotations)
         for locations in locationsForTeams{
-            print("==============================")
-            print(locationsForTeams.count)
-            print(locations.count)
-            print(locations.first!.title)
-            print(locations.first!.coordinate)
-            print("==============================")
             mapView.addAnnotation(locations.first!)
         }
+        
     }
     
      func showSideBar(){
