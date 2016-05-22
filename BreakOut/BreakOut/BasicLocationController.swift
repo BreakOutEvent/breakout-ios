@@ -63,7 +63,7 @@ class BasicLocationController : LocationController {
                 
                 
                 for locationObject:BOLocation in boLocationArrayForTeamId{
-                    let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: teamId.description, subtitle: "distance")
+                    let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: locationObject.teamName, subtitle: locationObject.timestamp.toNaturalString(NSDate()))
                     mapLocationArrayForTeamId.append(location)
 
                 }
