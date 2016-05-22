@@ -47,7 +47,11 @@ class PostingDetailsTableViewController: UITableViewController {
         case 1:
             return posting?.comments.count ?? 0
         case 2:
-            return 1
+            if CurrentUser.sharedInstance.isLoggedIn() {
+                return 1
+            }else{
+                return 0
+            }
         default:
             return 0
         }
