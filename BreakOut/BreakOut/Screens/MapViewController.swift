@@ -26,6 +26,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var lastCurrentLocation = CLLocation()
     let regionRadius : CLLocationDistance = 5000
     var users = [User]()
+    var coordinateArray : [CLLocationCoordinate2D] = []
+    var polyLineArray : [MKPolyline] = []
     let locationManager = CLLocationManager()
     
     
@@ -130,8 +132,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         case .Restricted:print("location tracking status restricted")
         default:break
         }
-        
     }
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let pr = MKPolylineRenderer(overlay: overlay)
+        pr.strokeColor = UIColor.redColor()
+        pr.lineWidth = 2
+        return pr
+    }
+    
     // MARK: selector functions
     let blc = BasicLocationController()
     
@@ -161,6 +171,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      */
     private func drawLocationsOnMap(locationsForTeams:[[MapLocation]]){
         mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
         for locations in locationsForTeams{
             print("==============================")
             print("Number of locations for Teams: ", locationsForTeams.count)
@@ -169,7 +180,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             print("First location coordinates: ", locations.first!.coordinate)
             print("==============================")
             mapView.addAnnotation(locations.first!)
+            for location in locations{
+                coordinateArray.append(location.coordinate)
+            }
+            let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
+            polyLineArray.append(polyLine)
+            coordinateArray.removeAll()
+            
         }
+        for polyLine in polyLineArray{
+            mapView.addOverlay(polyLine)
+        }
+        polyLineArray.removeAll()
+        
     }
     
     @IBAction func currentLocationButtonPressed(sender: UIButton) {
