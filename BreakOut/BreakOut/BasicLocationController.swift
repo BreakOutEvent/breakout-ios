@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 protocol LocationController {
-    func getAllLocations(onComplete: (locations: Array<MapLocation>?, error: NSError?) -> Void)
+    func getAllLocationsForTeams(onComplete: (locationsForTeams: [[MapLocation]]?, error: NSError?) -> Void)
 }
 
 class BasicLocationController : LocationController {
@@ -19,9 +19,9 @@ class BasicLocationController : LocationController {
      - parameter onComplete: completion handler
      - returns: Array of locations as MapLocation conforming to MKAnnotation protocol
      */
-    func getAllLocations(onComplete: (locations:Array<MapLocation>?, error:NSError?) -> Void) {
+    func getAllLocationsForTeams(onComplete: (locationsForTeams:[[MapLocation]]?, error:NSError?) -> Void) {
         let locations = self.convertBOLocationsToMapLocation()
-        onComplete(locations: locations, error: nil)
+        onComplete(locationsForTeams: locations, error: nil)
         
         /*let url = NSURL(string: PrivateConstants().backendURL())
         //let path = "event/1/location/"
@@ -51,26 +51,37 @@ class BasicLocationController : LocationController {
         
     }
     
-    private func convertBOLocationsToMapLocation() -> Array<MapLocation> {
-        var mutableArray: Array<MapLocation> = Array()
+    private func convertBOLocationsToMapLocation() -> [[MapLocation]] {
         
+        var locationArraysForTeams : [[MapLocation]] = []
+        var mapLocationArrayForTeamId: [MapLocation] = []
         let teamArray: [BOTeam] = BOTeam.MR_findAll() as! [BOTeam]
         
         for team: BOTeam in teamArray {
             let teamId = team.uuid
-            if let locationArray: [BOLocation] = BOLocation.MR_findByAttribute("teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
+            print(teamId)
+            if let boLocationArrayForTeamId: [BOLocation] = BOLocation.MR_findByAttribute("teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
                 
-                if locationArray.count>0{
-                    let locationObject: BOLocation = locationArray.first!
-            
+                
+                for locationObject:BOLocation in boLocationArrayForTeamId{
                     let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: teamId.description, subtitle: "distance")
-                    mutableArray.append(location)
+                    print(" === function ===")
+                    print(location.coordinate)
+                    mapLocationArrayForTeamId.append(location)
+
                 }
+                if mapLocationArrayForTeamId.count > 0{
+                    locationArraysForTeams.append(mapLocationArrayForTeamId)
+                    mapLocationArrayForTeamId.removeAll()
+                }
+                
+                
             }
         }
         
-        return mutableArray
+        return locationArraysForTeams
     }
+    
     
     private func convertBOPostingToMapLocation() -> Array<MapLocation> {
         var mutableArray: Array<MapLocation> = Array()

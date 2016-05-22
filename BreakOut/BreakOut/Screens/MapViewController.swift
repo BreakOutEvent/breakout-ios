@@ -74,7 +74,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         // set distance filter in meters
         locationManager.distanceFilter = 1000
         
-        // allow backgroudn updates
+        // allow background updates
         if #available(iOS 9.0, *) {
             locationManager.allowsBackgroundLocationUpdates = true
         } else {
@@ -110,6 +110,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             // Save
             locationPost.save()
+            
         }
         // stop updating locations. Optional.
         // locationManager.stopUpdatingLocation()
@@ -139,14 +140,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      */
     func fetchLocations(){
         locationManager.startUpdatingLocation()
-        blc.getAllLocations { (locations, error) in
+        blc.getAllLocationsForTeams { (locationsForTeams, error) in
             if error != nil{
                 print("An error occured while fetching locations")
                 print(error)
             }
             else{
                 print("Received new locations from server:")
-                self.drawLocationsOnMap(locations!)
+                self.drawLocationsOnMap(locationsForTeams!)
                 
             }
         }
@@ -156,10 +157,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      loops through all locations in location-Array and add them to MapView as Annotation.
      - parameter location: Array of MapLocation
      */
-    private func drawLocationsOnMap(location:[MapLocation]){
-        for places in location{
-            print(places)
-            mapView.addAnnotation(places)
+    private func drawLocationsOnMap(locationsForTeams:[[MapLocation]]){
+        mapView.removeAnnotations(mapView.annotations)
+        for locations in locationsForTeams{
+            print("==============================")
+            print(locationsForTeams.count)
+            print(locations.count)
+            print(locations.first!.title)
+            print(locations.first!.coordinate)
+            print("==============================")
+            mapView.addAnnotation(locations.first!)
         }
     }
     
