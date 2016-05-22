@@ -415,6 +415,27 @@ class BOSynchronizeController: NSObject {
         }
     }
     
+    func downloadChallengesForCurrentUser() {
+        if CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() >= 0 && CurrentUser.sharedInstance.currentEventId() >= 0 {
+            self.downloadChallengesForTeam(CurrentUser.sharedInstance.currentTeamId(), eventId: CurrentUser.sharedInstance.currentEventId())
+        }
+    }
+    
+    func downloadChallengesForTeam(teamId: Int, eventId: Int) {
+        BONetworkManager.doJSONRequestGET(.EventTeamChallenge, arguments: [eventId, teamId], parameters: nil, auth: false, success: { (response) in
+            // response is an Array of Location Objects
+            for newChallenge: NSDictionary in response as! Array {
+                BOChallenge.createWithDictionary(newChallenge)
+            }
+            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
+            // Tracking
+            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+        }) { (error, response) in
+            // TODO: Handle Errors
+            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+        }
+    }
+    
 // MARK: Upload Postings
     
     func tryUploadPosts() {

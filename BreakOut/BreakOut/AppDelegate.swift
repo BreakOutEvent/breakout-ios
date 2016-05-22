@@ -69,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //BOSynchronizeController.sharedInstance.downloadNotYetLoadedPostings()
         BOSynchronizeController.sharedInstance.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
         BOSynchronizeController.sharedInstance.downloadIdsOfAllEvents()
+        BOSynchronizeController.sharedInstance.downloadChallengesForCurrentUser()
         
         FeatureFlagManager.sharedInstance.downloadCurrentFeatureFlagSetup()
         
