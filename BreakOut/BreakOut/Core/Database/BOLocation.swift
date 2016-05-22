@@ -73,4 +73,27 @@ class BOLocation: NSManagedObject{
         print("flagNeedsUpload: ", self.flagNeedsUpload)
         print("----------- ------ -----------")
     }
+    
+    func upload() {
+        var dict = [String:AnyObject]()
+        
+        dict["latitude"] = self.latitude;
+        dict["longitude"] = self.longitude;
+        dict["date"] = timestamp.timeIntervalSince1970
+        
+        BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.sharedInstance.currentEventId(),CurrentUser.sharedInstance.currentTeamId()], parameters: dict, auth: true, success: { (response) in
+            
+            if let responseDict = response as? NSDictionary, lat = responseDict["latitude"] as? Double {
+                self.latitude = lat
+                
+            }
+            // Tracking
+            self.flagNeedsUpload = false
+            self.save()
+            //Flurry.logEvent("/posting/upload/completed_successful")
+        }) { (error, response) in
+            // Tracking
+            //Flurry.logEvent("/posting/upload/completed_error")
+        }
+    }
 }

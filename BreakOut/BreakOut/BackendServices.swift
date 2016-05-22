@@ -17,7 +17,9 @@ enum BackendServices: String {
     case NotLoadedPostings = "posting/get/ids"
     case EventInvitation = "event/%i/team/%i/invitation"
     case EventTeam = "event/%i/team/"
+    case EventAllLocations = "event/%i/team/location"
     case Event = "event/"
+    case EventTeamLocation = "event/%i/team/%i/location"
     case FeatureFlags = "featureFlags/"
     case PostingByID = "posting/%i/"
 }
