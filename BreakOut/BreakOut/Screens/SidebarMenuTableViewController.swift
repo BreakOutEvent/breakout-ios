@@ -21,6 +21,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     @IBOutlet weak var yourTeamTableViewCell: UITableViewCell!
     @IBOutlet weak var allTeamsTableViewCell: UITableViewCell!
     @IBOutlet weak var newsTableViewCell: UITableViewCell!
+    @IBOutlet weak var settingsTableViewCell: UITableViewCell!
     
 // MARK: - Screen Actions
     
@@ -48,6 +49,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.cell(self.yourTeamTableViewCell, setHidden: true)
         self.cell(self.newsTableViewCell, setHidden: true)
         self.cell(self.allTeamsTableViewCell, setHidden: true)
+        self.cell(self.settingsTableViewCell, setHidden: true)
         
         self.loginAndRegisterButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), forState: UIControlState.Normal)
         

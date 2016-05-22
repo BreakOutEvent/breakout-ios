@@ -20,6 +20,8 @@ class WelcomeScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
 
         // Do any additional setup after loading the view.
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -57,6 +59,7 @@ class WelcomeScreenViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/welcomeScreen", withParameters: nil)
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
 
     override func didReceiveMemoryWarning() {

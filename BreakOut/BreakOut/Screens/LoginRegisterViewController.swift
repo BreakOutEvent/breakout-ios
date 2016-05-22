@@ -46,6 +46,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        
         self.loginButton.backgroundColor = Style.mainOrange
         self.loginButton.layer.cornerRadius = 25.0
         
@@ -77,6 +79,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     override func viewDidDisappear(animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/login", withParameters: nil)
+        
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
     override func viewWillAppear(animated: Bool) {
