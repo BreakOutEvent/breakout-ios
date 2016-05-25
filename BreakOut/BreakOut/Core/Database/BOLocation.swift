@@ -13,6 +13,7 @@ import MagicalRecord
 
 // Tracking
 import Flurry_iOS_SDK
+import Crashlytics
 
 
 @objc(BOLocation)
@@ -97,17 +98,20 @@ class BOLocation: NSManagedObject{
         
         BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.sharedInstance.currentEventId(),CurrentUser.sharedInstance.currentTeamId()], parameters: dict, auth: true, success: { (response) in
             
-            if let responseDict = response as? NSDictionary, lat = responseDict["latitude"] as? Double {
+            if let responseDict = response as? NSDictionary, lat = responseDict["latitude"] as? Double, long = responseDict["longitude"] as? Double, uid = responseDict["id"] as? Int {
                 self.latitude = lat
-                
+                self.longitude = long
+                self.uid = uid
             }
             // Tracking
             self.flagNeedsUpload = false
             self.save()
             //Flurry.logEvent("/posting/upload/completed_successful")
+            Answers.logCustomEventWithName("/BOLocation/upload", customAttributes: ["result":"successful"])
         }) { (error, response) in
             // Tracking
             //Flurry.logEvent("/posting/upload/completed_error")
+            Answers.logCustomEventWithName("/BOLocation/upload", customAttributes: ["result":"error"])
         }
     }
 }

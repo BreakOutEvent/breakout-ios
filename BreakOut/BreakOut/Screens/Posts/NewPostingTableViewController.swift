@@ -211,7 +211,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         // Tracking
         Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage":withImage])
-        Answers.logCustomEventWithName("/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage])
+        Answers.logCustomEventWithName("/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage.description])
         
         self.closeView(true)
     }

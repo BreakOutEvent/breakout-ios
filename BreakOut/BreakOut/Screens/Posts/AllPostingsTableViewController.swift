@@ -13,6 +13,9 @@ import MagicalRecord
 
 import SwiftDate
 
+import Flurry_iOS_SDK
+import Crashlytics
+
 class AllPostingsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
@@ -62,6 +65,16 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Tracking
+        Flurry.logEvent("/AllPostingsTVC", timed: true)
+        Answers.logCustomEventWithName("/AllPostingsTVC", customAttributes: [:])
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        Flurry.endTimedEvent("/AllPostingsTVC", withParameters: nil)
     }
     
     func filterButtonPressed() {

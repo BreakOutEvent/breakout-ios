@@ -8,6 +8,9 @@
 
 import UIKit
 
+import Flurry_iOS_SDK
+import Crashlytics
+
 class PostingDetailsTableViewController: UITableViewController {
     
     var postingID: Int = Int()
@@ -24,6 +27,16 @@ class PostingDetailsTableViewController: UITableViewController {
         self.title = NSLocalizedString("postingDetailsTitle", comment: "")
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Tracking
+        Flurry.logEvent("/PostingDetailsTVC", timed: true)
+        Answers.logCustomEventWithName("/PostingDetailsTVC", customAttributes: [:])
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        Flurry.endTimedEvent("/PostingDetailsTVC", withParameters: nil)
     }
 
     override func didReceiveMemoryWarning() {
