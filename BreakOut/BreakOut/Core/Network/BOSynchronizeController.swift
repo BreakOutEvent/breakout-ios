@@ -295,7 +295,7 @@ class BOSynchronizeController: NSObject {
     }
     
     func triggerUpload() {
-        if internetReachability == "wifi" {
+        if internetReachability == "wifi" || internetReachability == "cellular" {
             tryUploadAll()
         }
     }
@@ -319,6 +319,7 @@ class BOSynchronizeController: NSObject {
                 let newPosting: BOPost = BOPost.create(newPostingID, flagNeedsDownload: true)
                 newPosting.printToLog()
             }
+            self.downloadNotYetLoadedPostings()
         })
     }
     
