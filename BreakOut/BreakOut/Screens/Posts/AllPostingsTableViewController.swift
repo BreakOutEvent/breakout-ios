@@ -21,8 +21,8 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         fetchRequest.fetchBatchSize = 20
         
         // Filter Food where type is breastmilk
-        /*var predicate = NSPredicate(format: "%K == %@", "type", "breastmilk")
-        fetchRequest.predicate = predicate*/
+        var predicate = NSPredicate(format: "%K != %@", "flagNeedsDownload", true)
+        fetchRequest.predicate = predicate
         
         // Sort by createdAt
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
@@ -71,6 +71,11 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.reloadData()
+        self.tableView.reloadInputViews()
     }
 
     // MARK: - Table view data source
