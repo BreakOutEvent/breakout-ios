@@ -27,7 +27,12 @@ class BOLocation: NSManagedObject{
 
     
     class func create(uid: Int, flagNeedsUpload: Bool) -> BOLocation {
+        if let origLocationArray = BOLocation.MR_findByAttribute("uid", withValue: uid) as? Array<BOLocation>, location = origLocationArray.first {
+            return location
+        }
+        
         let res = BOLocation.MR_createEntity()! as BOLocation
+        
         res.uid = uid as NSInteger
         res.flagNeedsUpload = flagNeedsUpload
         // Save
@@ -36,7 +41,14 @@ class BOLocation: NSManagedObject{
     }
     
     class func createWithDictionary(dict: NSDictionary) -> BOLocation {
-        let res = BOLocation.MR_createEntity()! as BOLocation
+        let res: BOLocation
+        if let id = dict["id"] as? NSInteger,
+            origLocationArray = BOLocation.MR_findByAttribute("uid", withValue: id) as? Array<BOLocation>,
+            location = origLocationArray.first {
+            res = location
+        } else {
+            res = BOLocation.MR_createEntity()!
+        }
         
         res.setAttributesWithDictionary(dict)
         
