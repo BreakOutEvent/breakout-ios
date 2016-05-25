@@ -28,6 +28,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     let locationManager = CLLocationManager()
     var newLongitude: Double = 0.0
     var newLatitude: Double = 0.0
+    var newCity: String?
     
     @IBOutlet weak var challengeLabel: UILabel!
     var newChallenge:BOChallenge?
@@ -176,10 +177,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         newPosting.longitude = self.newLongitude
         newPosting.date = NSDate()
         
-        if self.locationLabel.text == NSLocalizedString("retrievingCurrentLocation", comment: "Empty Location") {
+        if self.newCity == nil {
             newPosting.city = nil
         }else{
-            newPosting.city = self.locationLabel.text
+            newPosting.city = self.newCity
         }
         
 
@@ -254,36 +255,48 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.presentViewController(optionMenu, animated: true, completion: nil)
     }
     
+    var reverseGeocoderRunning: Bool = false
+    
 // MARK: - Location
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
-        if manager.location?.verticalAccuracy < 50 && manager.location?.horizontalAccuracy < 50.0 {
+        
+        // Store the coordinates
+        self.newLongitude = (manager.location?.coordinate.longitude)!
+        self.newLatitude = (manager.location?.coordinate.latitude)!
+        
+        if self.newCity == nil {
+            self.locationLabel.text = String(format: "lat: %3.3f long: %3.3f", self.newLatitude, self.newLongitude)
+        }
+        
+        if manager.location?.verticalAccuracy < 150 && manager.location?.horizontalAccuracy < 150.0 && self.newCity == nil && reverseGeocoderRunning == false {
             
             // Start Reverse Geocoding to retrieve the cityname
             self.retrieveCurrentCityName(manager.location!)
             
             // Stop further location updates as accuracy is enough
-            manager.stopUpdatingLocation()
+            //manager.stopUpdatingLocation()
             
-            // Store the coordinates
-            self.newLongitude = (manager.location?.coordinate.longitude)!
-            self.newLatitude = (manager.location?.coordinate.latitude)!
         }
     }
     
     func retrieveCurrentCityName(location: CLLocation) {
+        self.reverseGeocoderRunning = true
         CLGeocoder().reverseGeocodeLocation(location, completionHandler:
             {(placemarks, error) in
+                self.reverseGeocoderRunning = false
                 if (error != nil) {
                     //BOToast.log("reverse geodcode fail: \(error!.localizedDescription)", level: BOToast.Level.Error )
-                }
+                }else{
                 
-                let pm = placemarks! as [CLPlacemark]
-                if pm.count > 0 {
-                    let placeMark: CLPlacemark = placemarks![0] as CLPlacemark
-                    //BOToast.log("Retrieved City: \(placeMark.locality)", level: BOToast.Level.Success)
-                    self.locationLabel.text = placeMark.locality
+                    let pm = placemarks! as [CLPlacemark]
+                    if pm.count > 0 {
+                        let placeMark: CLPlacemark = placemarks![0] as CLPlacemark
+                        //BOToast.log("Retrieved City: \(placeMark.locality)", level: BOToast.Level.Success)
+                        self.locationLabel.text = placeMark.locality
+                        self.newCity = placeMark.locality
+                    }
                 }
         })
     }
