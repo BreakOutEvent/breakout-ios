@@ -74,7 +74,7 @@ class PostingDetailsTableViewController: UITableViewController {
         if (posting!.city != nil && posting!.city != "") {
             cell.locationLabel?.text = posting!.city
         }else if (posting!.latitude.intValue != 0 && posting!.longitude.intValue != 0){
-            cell.locationLabel?.text = posting!.longitude.stringValue + "  " + posting!.latitude.stringValue
+            cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting!.latitude, posting!.longitude)
         }else{
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }
