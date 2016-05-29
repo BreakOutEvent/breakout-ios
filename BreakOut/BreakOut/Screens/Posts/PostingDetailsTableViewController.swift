@@ -84,8 +84,8 @@ class PostingDetailsTableViewController: UITableViewController {
         cell.messageLabel?.text = self.posting!.text
         cell.timestampLabel?.text = self.posting!.date.toNaturalString(NSDate())
         
-        if (posting!.city != nil && posting!.city != "") {
-            cell.locationLabel?.text = posting!.city
+        if (posting!.locality != nil && posting!.locality != "") {
+            cell.locationLabel?.text = posting!.locality
         }else if (posting!.latitude.intValue != 0 && posting!.longitude.intValue != 0){
             cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting!.latitude, posting!.longitude)
         }else{
