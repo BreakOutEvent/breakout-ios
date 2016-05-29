@@ -25,6 +25,8 @@ class BOLocation: NSManagedObject{
     @NSManaged var flagNeedsUpload: Bool
     @NSManaged var teamId: NSInteger
     @NSManaged var teamName: String
+    @NSManaged var country: String?
+    @NSManaged var locality: String?
 
     
     class func create(uid: Int, flagNeedsUpload: Bool) -> BOLocation {
@@ -71,6 +73,15 @@ class BOLocation: NSManagedObject{
         self.timestamp = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
         self.latitude = (dict.valueForKey("latitude") as? NSNumber)!
         self.longitude = (dict.valueForKey("longitude") as? NSNumber)!
+        
+        if let locationDataDict: NSDictionary = dict["locationData"] as? NSDictionary {
+            if locationDataDict["COUNTRY"] != nil {
+                self.country = locationDataDict["COUNTRY"] as! String
+            }
+            if locationDataDict["LOCALITY"] != nil {
+                self.locality = locationDataDict["LOCALITY"] as! String
+            }
+        }
     }
     
     func save() {
@@ -99,9 +110,13 @@ class BOLocation: NSManagedObject{
         BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.sharedInstance.currentEventId(),CurrentUser.sharedInstance.currentTeamId()], parameters: dict, auth: true, success: { (response) in
             
             if let responseDict = response as? NSDictionary, lat = responseDict["latitude"] as? Double, long = responseDict["longitude"] as? Double, uid = responseDict["id"] as? Int {
-                self.latitude = lat
-                self.longitude = long
-                self.uid = uid
+                if self.managedObjectContext != nil {
+                    self.latitude = lat
+                    self.longitude = long
+                    self.uid = uid
+                }else{
+                    print("ERROR: BOLocation couldn't be updated because of NSObjectInaccessibleException")
+                }
             }
             // Tracking
             self.flagNeedsUpload = false

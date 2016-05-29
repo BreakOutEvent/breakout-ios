@@ -29,6 +29,8 @@ class BOPost: NSManagedObject {
     @NSManaged var challenge: BOChallenge?
     @NSManaged var images: Set<BOImage>
     @NSManaged var comments: Set<BOComment>
+    @NSManaged var country: String?
+    @NSManaged var locality: String?
     
     class func create(uuid: Int, flagNeedsDownload: Bool) -> BOPost {
         
@@ -102,6 +104,19 @@ class BOPost: NSManagedObject {
             }
         }
         
+        if let postingLocationDictionary = dict.valueForKey("postingLocation") as? NSDictionary {
+            if postingLocationDictionary.count > 0 {
+                if let locationDataDict: NSDictionary = postingLocationDictionary["locationData"] as? NSDictionary {
+                    if locationDataDict["COUNTRY"] != nil {
+                        self.country = locationDataDict["COUNTRY"] as! String
+                    }
+                    if locationDataDict["LOCALITY"] != nil {
+                        self.locality = locationDataDict["LOCALITY"] as! String
+                    }
+                }
+            }
+        }
+        
         
         
         self.save()
@@ -123,6 +138,15 @@ class BOPost: NSManagedObject {
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
     }
     
+    override func didSave() {
+        super.didSave()
+        if NSManagedObjectContext.MR_defaultContext() != self.managedObjectContext {
+            return
+        }
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_DB_BOPOST_DID_SAVE, object: nil)
+    }
+    
     func printToLog() {
         print("----------- BOPost -----------")
         print("ID: ", self.uuid)
@@ -130,6 +154,9 @@ class BOPost: NSManagedObject {
         print("Date: ", self.date.description)
         print("longitude: ", self.longitude)
         print("latitude: ", self.latitude)
+        print("locality: ", self.locality)
+        print("country: ", self.country)
+        print("city: ", self.city)
         print("flagNeedsUpload: ", self.flagNeedsUpload)
         print("flagNeedsDownload: ", self.flagNeedsDownload)
         print("----------- ------ -----------")
