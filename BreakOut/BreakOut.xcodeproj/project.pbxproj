@@ -49,6 +49,7 @@
 		269AADC81C9483E10034F32C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269AADC71C9483E10034F32C /* Constants.swift */; };
 		26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */; };
 		26AA75251C8318A20023D009 /* CreateTeamTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */; };
+		26B3272F1CF63E060039FB66 /* BOLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B3272E1CF63E060039FB66 /* BOLocationManager.swift */; };
 		26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */; };
 		26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */; };
 		26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */; };
@@ -132,6 +133,7 @@
 		269AADC71C9483E10034F32C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPopoverViewController.swift; path = Screens/BOPopoverViewController.swift; sourceTree = "<group>"; };
 		26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateTeamTableViewController.swift; path = Screens/CreateTeamTableViewController.swift; sourceTree = "<group>"; };
+		26B3272E1CF63E060039FB66 /* BOLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOLocationManager.swift; path = Core/BOLocationManager.swift; sourceTree = "<group>"; };
 		26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SidebarMenuTableViewController.swift; path = Screens/SidebarMenuTableViewController.swift; sourceTree = "<group>"; };
 		26DA0DA11C31538A009AB1B7 /* LoginRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginRegisterViewController.swift; path = Screens/LoginRegisterViewController.swift; sourceTree = "<group>"; };
 		26DA0DA51C31568A009AB1B7 /* InternalWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InternalWebViewController.swift; path = Screens/InternalWebViewController.swift; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				260121491C79039E0041EAA8 /* Extensions and Subclasses */,
 				269AADC51C936C2C0034F32C /* BONetworkIndicator.swift */,
 				6153CCB81CD7FA1900E9CAE6 /* BasicLocationController.swift */,
+				26B3272E1CF63E060039FB66 /* BOLocationManager.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -614,6 +617,7 @@
 				2649F80B1C652AF4005AA763 /* TeamProfileViewController.swift in Sources */,
 				26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */,
 				265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */,
+				26B3272F1CF63E060039FB66 /* BOLocationManager.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */,

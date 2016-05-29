@@ -11,6 +11,9 @@ import MapKit
 import CoreLocation
 import MagicalRecord
 
+import Flurry_iOS_SDK
+import Crashlytics
+
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     
@@ -28,7 +31,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var users = [User]()
     var coordinateArray : [CLLocationCoordinate2D] = []
     var polyLineArray : [MKPolyline] = []
-    let locationManager = CLLocationManager()
+    //let locationManager = CLLocationManager()
     
     
     
@@ -62,6 +65,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         navigationItem.rightBarButtonItem = rightButton
         navigationItem.leftBarButtonItem = leftButton
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(fetchLocations), name: NSManagedObjectContextObjectsDidChangeNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidUpdate), name: Constants.NOTIFICATION_LOCATION_DID_UPDATE, object: nil)
+        /*
+ 
         // set delegate
         locationManager.delegate = self
         
@@ -92,52 +100,41 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             print("location Services are enabled. Start Updating Locations ...")
             locationManager.startUpdatingLocation()
         }
-
-    }
-    // MARK: CLLocation delegate methods
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Update Locations")
-        // only use last location
-        if let coordiante = locations.last?.coordinate{
-            print(coordiante)
-            // send to local Database with flag needsUpload
-            let locationPost: BOLocation = BOLocation.MR_createEntity()! as BOLocation
-            locationPost.flagNeedsUpload = true
-            locationPost.timestamp = NSDate()
-            locationPost.latitude = coordiante.latitude as NSNumber
-            locationPost.longitude = coordiante.longitude as NSNumber
-            if CurrentUser.sharedInstance.currentTeamId() > -1 {
-                locationPost.teamId = CurrentUser.sharedInstance.currentTeamId()
-            }else{
-                locationPost.teamId = -1
-            }
-            // Save
-            locationPost.save()
-            
-            lastCurrentLocation = locations.last!
-        }
-        // stop updating locations. Optional.
-        // locationManager.stopUpdatingLocation()
+        */
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        switch status{
-        case .AuthorizedAlways:
-            print("location tracking status always")
-            mapView.showsUserLocation = true;
-        case .Denied:
-            print("location tracking status denied")
-            locationManager.stopUpdatingLocation()
-        case .NotDetermined:print("location tracking status not determined")
-        case .Restricted:print("location tracking status restricted")
-        default:break
-        }
+    override func viewDidAppear(animated: Bool) {
+        // Tracking
+        Flurry.logEvent("/MapViewController", timed: true)
+        Answers.logCustomEventWithName("/MapViewController", customAttributes: [:])
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        Flurry.endTimedEvent("/MapViewController", withParameters: nil)
+    }
+    
+    func getRandomColor() -> UIColor{
+        
+        let randomRed:CGFloat = CGFloat(drand48())
+        
+        let randomGreen:CGFloat = CGFloat(drand48())
+        
+        let randomBlue:CGFloat = CGFloat(drand48())
+        
+        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+        
+    }
+    
+    func locationDidUpdate() {
+        self.lastCurrentLocation = BOLocationManager.sharedInstance.lastKnownLocation!
+    }
+    
     
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         
         let pr = MKPolylineRenderer(overlay: overlay)
-        pr.strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
+        //pr.strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00) // This is one of our CI colors
+        pr.strokeColor = self.getRandomColor()
         pr.lineWidth = 2
         return pr
     }
@@ -151,7 +148,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      If now error occures, drawLocationsOnMap
      */
     func fetchLocations(){
-        locationManager.startUpdatingLocation()
+        self.navigationItem.rightBarButtonItem?.enabled = false
+        //locationManager.startUpdatingLocation()
         blc.getAllLocationsForTeams { (locationsForTeams, error) in
             if error != nil{
                 print("An error occured while fetching locations")
@@ -193,13 +191,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
         polyLineArray.removeAll()
         
+        self.navigationItem.rightBarButtonItem?.enabled = true
     }
     
     @IBAction func currentLocationButtonPressed(sender: UIButton) {
-        let center = CLLocationCoordinate2D(latitude: lastCurrentLocation.coordinate.latitude, longitude: lastCurrentLocation.coordinate.longitude)
+        //let center = CLLocationCoordinate2D(latitude: lastCurrentLocation.coordinate.latitude, longitude: lastCurrentLocation.coordinate.longitude)
+        let center = mapView.userLocation.coordinate
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         
-        mapView.setRegion(region, animated: true)
+        if center.longitude != 0 && center.latitude != 0 {
+            mapView.setRegion(region, animated: true)
+        }
+        
+        
     }
     
      func showSideBar(){
