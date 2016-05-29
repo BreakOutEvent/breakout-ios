@@ -31,8 +31,10 @@
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="BOLocation" representedClassName="BOLocation" syncable="YES">
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="flagNeedsUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="locality" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="teamId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="teamName" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,10 +43,12 @@
     </entity>
     <entity name="BOPost" representedClassName="BOPost" syncable="YES">
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="flagNeedsDownload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="flagNeedsUpload" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="locality" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uuid" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
@@ -64,8 +68,8 @@
         <element name="BOChallenge" positionX="-144" positionY="-27" width="128" height="180"/>
         <element name="BOComment" positionX="-137" positionY="-135" width="128" height="150"/>
         <element name="BOImage" positionX="43" positionY="9" width="128" height="165"/>
-        <element name="BOLocation" positionX="151" positionY="-178" width="128" height="150"/>
-        <element name="BOPost" positionX="-351" positionY="-127" width="110" height="225"/>
+        <element name="BOLocation" positionX="151" positionY="-178" width="128" height="180"/>
+        <element name="BOPost" positionX="-351" positionY="-127" width="110" height="255"/>
         <element name="BOTeam" positionX="-128" positionY="153" width="128" height="120"/>
     </elements>
 </model>
