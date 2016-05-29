@@ -48,6 +48,16 @@
 "photoLibrary" = "Archive";
 "takeAPhoto" = "Take picture";
 
+// Local Pushes
+"Push_24h_before_Start" = "⏱ Tomorrow is the day! Share your preparation with us!";
+"Push_1h_before_Start" = "We will start sooooon 😱";
+"Push_1h_after_Start" = "📸 Enjoy the journey and have a safe trip!";
+"Push_18h_after_Start" = "🚗 On the road? What about half-time picture?
+"Push_35h_after_Start" = "🏁 Hurry up, the time is over very soon!";
+"Push_2d_after_Start" = "⛱ How do you enjoy the time after BreakOut?";
+"Push_7d_after_Start" = "👏 Thanks to all participants, sponsors & fans!!!";
+"Push_1h_after_last_Posting" = "You didn't post for a while 😥";
+
 // Help Screen
 "helpMedicalEmergencyTitle" = "Medical Emergency";
 "helpMedicalEmergency" = "Keep Calm! \n\n• Notify Euro Emergency 112 \n• The Euro Emergency can also speak english \n• First Aid \n• Notify BreakOut at +49 (0) 89 8986 0579 \n• We are not on site, but can provide remote assistance";

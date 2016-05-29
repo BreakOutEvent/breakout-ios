@@ -92,15 +92,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if settings!.types == .None {
             let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
             UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        }else{
+            BOPushManager.sharedInstance.setupAllLocalPushNotifications()
         }
         
         if (launchOptions?[UIApplicationLaunchOptionsLocationKey] as? NSDictionary) != nil {
             BOLocationManager.sharedInstance.start()
         }
         
+        if (launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? NSDictionary) != nil {
+            Answers.logCustomEventWithName("/Delegate/didLaunch/LocalNotificationKey", customAttributes: [:])
+        }
+        
         return true
     }
-    
     
 
     func applicationWillResignActive(application: UIApplication) {

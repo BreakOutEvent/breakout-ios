@@ -213,6 +213,11 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage":withImage])
         Answers.logCustomEventWithName("/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage.description])
         
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(NSDate(), forKey: "lastPostingSent")
+        defaults.synchronize()
+        BOPushManager.sharedInstance.setupAllLocalPushNotifications()
+        
         self.closeView(true)
     }
     

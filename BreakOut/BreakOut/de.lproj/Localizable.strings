@@ -48,6 +48,16 @@
 "photoLibrary" = "Fotoarchiv";
 "takeAPhoto" = "Foto aufnehmen";
 
+// Local Pushes
+"Push_24h_before_Start" = "⏱ Morgen ist es soweit! Teile deine Vorbereitung mit uns!";
+"Push_1h_before_Start" = "Gleich geht es los 😱";
+"Push_1h_after_Start" = "📸 Viel Spaß und eine sichere Reise!";
+"Push_18h_after_Start" = "🚗 Gut unterwegs? Wie währe es mit einem Bergfest-Foto?";
+"Push_35h_after_Start" = "🏁 Schneeeeeeller. Zeit ist gleich um!";
+"Push_2d_after_Start" = "⛱ Wie genießt du die Zeit nach dem Trampen?";
+"Push_7d_after_Start" = "👏 Danke an alle Teilnehmer, Sponsoren & Fans!!!";
+"Push_1h_after_last_Posting" = "Dein letzter Post ist eine Weile her 😥";
+
 // Help Screen
 "helpMedicalEmergencyTitle" = "Medizinischer Notfall";
 "helpMedicalEmergency" = "Ruhe bewahren! \n\n• Euronotruf informieren unter 112 \n• Der Euronotruf kann auch Englisch \n• Erste Hilfe leisten \n• BreakOut Informieren unter +49 (0) 89 8986 0579 \n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
