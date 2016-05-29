@@ -45,6 +45,12 @@ class BOSynchronizeController: NSObject {
     var reachability: Reachability?
     var internetReachability: String = "unknown"
     
+    func isReachableWifiOrCellular() -> Bool {
+        if self.internetReachability == "wifi" || self.internetReachability == "cellular" {
+            return true
+        }
+        return false
+    }
     /** 
     Checks wether the current internet reachability is known (if not, start the check) and returns the current status.
     
@@ -496,7 +502,7 @@ class BOSynchronizeController: NSObject {
                 }
             }
         }else{
-            print("Can't upload location")
+            print("Can't upload location -- User is not logged in and not in a team")
         }
         
     }

@@ -101,32 +101,34 @@ class BOLocation: NSManagedObject{
     }
     
     func upload() {
-        var dict = [String:AnyObject]()
-        
-        dict["latitude"] = self.latitude;
-        dict["longitude"] = self.longitude;
-        dict["date"] = timestamp.timeIntervalSince1970
-        
-        BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.sharedInstance.currentEventId(),CurrentUser.sharedInstance.currentTeamId()], parameters: dict, auth: true, success: { (response) in
+        if BOSynchronizeController.sharedInstance.isReachableWifiOrCellular() {
+            var dict = [String:AnyObject]()
             
-            if let responseDict = response as? NSDictionary, lat = responseDict["latitude"] as? Double, long = responseDict["longitude"] as? Double, uid = responseDict["id"] as? Int {
-                if self.managedObjectContext != nil {
-                    self.latitude = lat
-                    self.longitude = long
-                    self.uid = uid
-                }else{
-                    print("ERROR: BOLocation couldn't be updated because of NSObjectInaccessibleException")
+            dict["latitude"] = self.latitude;
+            dict["longitude"] = self.longitude;
+            dict["date"] = timestamp.timeIntervalSince1970
+            
+            BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.sharedInstance.currentEventId(),CurrentUser.sharedInstance.currentTeamId()], parameters: dict, auth: true, success: { (response) in
+                
+                if let responseDict = response as? NSDictionary, lat = responseDict["latitude"] as? Double, long = responseDict["longitude"] as? Double, uid = responseDict["id"] as? Int {
+                    if self.managedObjectContext != nil {
+                        self.latitude = lat
+                        self.longitude = long
+                        self.uid = uid
+                    }else{
+                        print("ERROR: BOLocation couldn't be updated because of NSObjectInaccessibleException")
+                    }
                 }
+                // Tracking
+                self.flagNeedsUpload = false
+                self.save()
+                //Flurry.logEvent("/posting/upload/completed_successful")
+                Answers.logCustomEventWithName("/BOLocation/upload", customAttributes: ["result":"successful"])
+            }) { (error, response) in
+                // Tracking
+                //Flurry.logEvent("/posting/upload/completed_error")
+                Answers.logCustomEventWithName("/BOLocation/upload", customAttributes: ["result":"error"])
             }
-            // Tracking
-            self.flagNeedsUpload = false
-            self.save()
-            //Flurry.logEvent("/posting/upload/completed_successful")
-            Answers.logCustomEventWithName("/BOLocation/upload", customAttributes: ["result":"successful"])
-        }) { (error, response) in
-            // Tracking
-            //Flurry.logEvent("/posting/upload/completed_error")
-            Answers.logCustomEventWithName("/BOLocation/upload", customAttributes: ["result":"error"])
         }
     }
 }
