@@ -9,6 +9,8 @@
 import UIKit
 import Alamofire
 
+import Crashlytics
+
 class BOImageDownloadManager {
     
     static let sharedInstance = BOImageDownloadManager()
@@ -21,6 +23,8 @@ class BOImageDownloadManager {
                 if let data = response.data, image = UIImage(data: data) {
                     let instance = BOImage.createWithImage(image)
                     handler(instance)
+                    
+                    Answers.logCustomEventWithName("/BOImageDownloadManager/", customAttributes: ["Successful":response.result.isSuccess.description, "Request Duration": response.timeline.requestDuration.description])
                 }
             }
         }
@@ -33,6 +37,8 @@ class BOImageDownloadManager {
                     image.writeImage(img)
                     image.needsBetterDownload = false
                     image.save()
+                    
+                    Answers.logCustomEventWithName("/BOImageDownloadManager/", customAttributes: ["Successful":response.result.isSuccess.description, "Request Duration": response.timeline.requestDuration.description])
                 }
             }
         }
