@@ -128,7 +128,7 @@ class BOPost: NSManagedObject {
     func addTeamWithId(teamId: Int) {
         if let teamArray = BOTeam.MR_findByAttribute("uuid", withValue: teamId) as? Array<BOTeam>,
             origTeam = teamArray.first {
-            team = origTeam
+            team = self.managedObjectContext?.objectWithID(origTeam.objectID) as! BOTeam
         } else {
             // No Team with the given ID was found (locally)
         }

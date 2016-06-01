@@ -294,6 +294,7 @@ class BOSynchronizeController: NSObject {
         self.tryUploadPosts()
         self.tryUploadComments()
         self.tryUploadLocations()
+        self.tryUploadImages()
         /*self.tryUploadLikes()
         self.tryUploadLocations()
         self.tryUploadImages()
@@ -505,6 +506,20 @@ class BOSynchronizeController: NSObject {
             print("Can't upload location -- User is not logged in and not in a team")
         }
         
+    }
+    
+    func tryUploadImages() {
+        if internetReachability == "wifi" {
+            if (CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() >= 0 && CurrentUser.sharedInstance.currentEventId() >= 0) {
+                if let imagesToUpload = BOImage.MR_findByAttribute("flagNeedsUpload", withValue: true) as? Array<BOImage> {
+                    for image in imagesToUpload {
+                        image.upload()
+                    }
+                }
+            }else{
+                print("Can't upload location -- User is not logged in and not in a team")
+            }
+        }
     }
     
 // MARK: - HELPERS

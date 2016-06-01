@@ -172,6 +172,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         let newPosting: BOPost = BOPost.MR_createEntity()! as BOPost
         
         newPosting.flagNeedsUpload = true
+        newPosting.flagNeedsDownload = false
         newPosting.text = self.messageTextView.text
         newPosting.latitude = self.newLatitude
         newPosting.longitude = self.newLongitude
@@ -188,6 +189,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         if let image = postingPictureImageView.image {
             // User selected Image for this post
             let newImage:BOImage = BOImage.createWithImage(image)
+            newImage.flagNeedsUpload = true
         
             newPosting.images.insert(newImage)
             

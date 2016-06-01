@@ -22,6 +22,10 @@ class FeatureFlagManager: NSObject {
             return retrieveFeatureFlag
         }
         
+        if featureFlag == FeatureFlags.useDevelopBackend {
+            return false
+        }
+        
         // If no stored value for the feature flag can be found, the standard return is 'true'
         return true
     }

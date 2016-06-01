@@ -13,6 +13,7 @@ import MagicalRecord
 
 // Tracking
 import Flurry_iOS_SDK
+import Crashlytics
 
 func getDocumentsURL() -> NSURL {
     let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
@@ -115,6 +116,12 @@ class BOImage: NSManagedObject {
         return UIImage()
     }
     
+    func upload() {
+        if (self.uid != 0 && self.uploadToken != "") {
+            self.uploadWithToken(self.uid, token: self.uploadToken as String)
+        }
+    }
+    
     func uploadWithToken(id: Int, token: String) {
         uploadToken = token
         uid = id
@@ -125,8 +132,10 @@ class BOImage: NSManagedObject {
             BONetworkManager.uploadMedia(id, token: token, data: data, filename: filepath as String,   success: { () in
                 print("Upload Succesful")
                 self.flagNeedsUpload = false
+                Answers.logCustomEventWithName("/BOImage/upload", customAttributes: ["Successful":"true"])
             }) { () in
                 print("Upload Not Succesful")
+                Answers.logCustomEventWithName("/BOImage/upload", customAttributes: ["Successful":"false"])
             }
         }
         
