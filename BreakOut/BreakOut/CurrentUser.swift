@@ -65,18 +65,20 @@ class CurrentUser: NSObject {
     
     func uploadUserDataToBackend() {
         
-        let params: NSMutableDictionary = self.attributesAsDictionary()
-        
-        //params.setValue(self.attributesAsDictionary(), forKey: "participant")
-        
-        BONetworkIndicator.si.increaseLoading()
-        
-        BONetworkManager.doJSONRequestPUT(.UserData, arguments: [self.userid!], parameters: params, auth: true, success: { (response) in
-            BONetworkIndicator.si.decreaseLoading()
-        }) { (error, response) in
-            BONetworkIndicator.si.decreaseLoading()
-            if response?.statusCode == 401 {
-                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+        if let id = self.userid {
+            let params: NSMutableDictionary = self.attributesAsDictionary()
+            
+            //params.setValue(self.attributesAsDictionary(), forKey: "participant")
+            
+            BONetworkIndicator.si.increaseLoading()
+            
+            BONetworkManager.doJSONRequestPUT(.UserData, arguments: [id], parameters: params, auth: true, success: { (response) in
+                BONetworkIndicator.si.decreaseLoading()
+            }) { (error, response) in
+                BONetworkIndicator.si.decreaseLoading()
+                if response?.statusCode == 401 {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                }
             }
         }
     }

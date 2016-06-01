@@ -75,7 +75,6 @@ class BOImage: NSManagedObject {
         let res = BOImage.MR_createEntity()! as BOImage
         res.writeImage(image)
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
-        
         return res
     }
     
@@ -148,13 +147,14 @@ class BOImage: NSManagedObject {
         let imageData = UIImageJPEGRepresentation(image, 1)
         let relativePath:String = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
         let path:String = fileInDocumentsDirectory(relativePath)
-        if imageData!.writeToFile(path, atomically: true) {
+        if imageData?.writeToFile(path, atomically: true) ?? false {
             //BOToast.log("Storing image file was successful", level: BOToast.Level.Success)
         }else{
             //BOToast.log("Error during storing of image file", level: BOToast.Level.Error)
         }
         type = "image"
         filepath = relativePath
+        self.save()
     }
     
     
