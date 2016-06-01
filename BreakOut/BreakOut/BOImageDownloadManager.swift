@@ -37,7 +37,6 @@ class BOImageDownloadManager {
                     image.writeImage(img)
                     image.needsBetterDownload = false
                     image.save()
-                    
                     Answers.logCustomEventWithName("/BOImageDownloadManager/", customAttributes: ["Successful":response.result.isSuccess.description, "Request Duration": response.timeline.requestDuration.description])
                 }
             }

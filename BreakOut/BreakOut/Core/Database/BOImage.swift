@@ -56,6 +56,7 @@ class BOImage: NSManagedObject {
         res.uid = uid as NSInteger
         res.type = "image"
         res.flagNeedsUpload = flagNeedsUpload
+        res.filepath = ""
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res;
@@ -73,6 +74,7 @@ class BOImage: NSManagedObject {
     
     class func createWithImage(image: UIImage) -> BOImage {
         let res = BOImage.MR_createEntity()! as BOImage
+        res.filepath = ""
         res.writeImage(image)
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
         return res
@@ -84,7 +86,13 @@ class BOImage: NSManagedObject {
             let needsBetterDownload: Bool
             var betterURL: String?
             if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
-                image = sizes.last
+                let deviceHeight = UIScreen.mainScreen().bounds.height
+                image = sizes.filter() { item in
+                    if let height = item.valueForKey("height") as? Int {
+                        return (CGFloat) (height) < deviceHeight
+                    }
+                    return false
+                }.last
                 needsBetterDownload = false
             } else {
                 image = sizes.first
@@ -143,6 +151,17 @@ class BOImage: NSManagedObject {
     // MARK: -
     
     func writeImage(image: UIImage) {
+        let currentPath = filepath as String
+        if currentPath != "" {
+            do {
+                let fileManager = NSFileManager.defaultManager()
+                try fileManager.removeItemAtPath(currentPath)
+            }
+            catch let error as NSError {
+                print("File Couldn't be deleted. \(error)")
+            }
+        }
+        
         //Store the original image
         let imageData = UIImageJPEGRepresentation(image, 1)
         let relativePath:String = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
