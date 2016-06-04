@@ -30,10 +30,10 @@ class BOSynchronizeController: NSObject {
      Makes a total database synchronization of all tables. It starts all Requests for each Database table and stores all repsones. This should only be used at the first start of the app, when no data is in it. Also be carfeully with loading too much data over cellular
     */
     func totalDatabaseSynchronization() {
-        self.loadTotalTeamList();
+        //self.loadTotalTeamList();
         self.tryUploadAll()
-        self.downloadNotYetLoadedPostings()
-        self.downloadBestVersionsOfImages()
+        //self.downloadNotYetLoadedPostings()
+        //self.downloadBestVersionsOfImages()
         // ... and all the other methods.
     }
 
@@ -410,8 +410,16 @@ class BOSynchronizeController: NSObject {
         BONetworkManager.doJSONRequestGET(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             var numberOfAddedTeams: Int = 0
             // response is an Array of Team Objects
+            let arrayExistingTeams: Array<BOTeam> = BOTeam.MR_findAll() as! Array<BOTeam>
             for newTeam: NSDictionary in response as! Array {
-                BOTeam.createWithDictionary(newTeam)
+                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                    let index = arrayExistingTeams.indexOf({$0.uuid == (newTeam.objectForKey("id") as! Int)})
+                    if index != nil {
+                        // Team already exists
+                    }else{
+                        BOTeam.createWithDictionary(newTeam)
+                    }
+                //})
                 //newPost.printToLog()
                 numberOfAddedTeams += 1
             }
@@ -428,7 +436,9 @@ class BOSynchronizeController: NSObject {
         BONetworkManager.doJSONRequestGET(.EventAllLocations, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Location Objects
             for newLocation: NSDictionary in response as! Array {
-                BOLocation.createWithDictionary(newLocation)
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+                    BOLocation.createWithDictionary(newLocation)
+                })
             }
             //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             // Tracking

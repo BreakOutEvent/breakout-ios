@@ -24,6 +24,8 @@
 		262FA8FB1CCD1BF70094B810 /* AllPostingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */; };
 		262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */; };
 		262FA8FF1CCD5ADA0094B810 /* BOImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FE1CCD5ADA0094B810 /* BOImage.swift */; };
+		263874BF1D01940B008BF00E /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263874BE1D01940B008BF00E /* LoadingTableViewCell.swift */; };
+		263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263874C01D0222FF008BF00E /* GoogleService-Info.plist */; };
 		263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */; };
 		2643F5F51CC2B94500031038 /* NewPostingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2643F5F41CC2B94500031038 /* NewPostingTableViewController.swift */; };
 		2646AB441C56BE680082CA71 /* JoinTeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2646AB431C56BE680082CA71 /* JoinTeamViewController.swift */; };
@@ -101,6 +103,8 @@
 		262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllPostingsTableViewController.swift; path = Screens/Posts/AllPostingsTableViewController.swift; sourceTree = "<group>"; };
 		262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingTableViewCell.swift; path = Screens/Posts/PostingTableViewCell.swift; sourceTree = "<group>"; };
 		262FA8FE1CCD5ADA0094B810 /* BOImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImage.swift; path = Core/Database/BOImage.swift; sourceTree = "<group>"; };
+		263874BE1D01940B008BF00E /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingTableViewCell.swift; path = Screens/Posts/LoadingTableViewCell.swift; sourceTree = "<group>"; };
+		263874C01D0222FF008BF00E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamByInvitationTableViewController.swift; path = Screens/JoinTeamByInvitationTableViewController.swift; sourceTree = "<group>"; };
 		2643F5F41CC2B94500031038 /* NewPostingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewPostingTableViewController.swift; path = Screens/Posts/NewPostingTableViewController.swift; sourceTree = "<group>"; };
 		2646AB431C56BE680082CA71 /* JoinTeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamViewController.swift; path = Screens/JoinTeamViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +242,7 @@
 		2678A57D1B7E4BB4000CF85A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				263874C01D0222FF008BF00E /* GoogleService-Info.plist */,
 				265DEB631BAC48B90076F222 /* Podfile */,
 				2678A57E1B7E4BB4000CF85A /* Info.plist */,
 				61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */,
@@ -295,6 +300,7 @@
 				262955AD1CE79656004D3213 /* PostingCommentInputTableViewCell.swift */,
 				26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */,
 				26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */,
+				263874BE1D01940B008BF00E /* LoadingTableViewCell.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -507,6 +513,7 @@
 				2678A58C1B7E4BB4000CF85A /* LaunchScreen.xib in Resources */,
 				265DEB641BAC48B90076F222 /* Podfile in Resources */,
 				2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */,
+				263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +632,7 @@
 				265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */,
 				26B3272F1CF63E060039FB66 /* BOLocationManager.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
+				263874BF1D01940B008BF00E /* LoadingTableViewCell.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */,
 				266BFF6E1CC400500004E220 /* BOLocation.swift in Sources */,

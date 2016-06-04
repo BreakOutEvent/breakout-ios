@@ -26,6 +26,7 @@ class MapLocation: NSObject, MKAnnotation{
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
+    var posting: Posting?
     
     init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?){
         self.coordinate = coordinate

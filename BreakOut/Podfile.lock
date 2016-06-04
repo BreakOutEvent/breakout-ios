@@ -20,10 +20,38 @@ PODS:
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
+  - Firebase (3.2.1):
+    - Firebase/Core (= 3.2.1)
+  - Firebase/Analytics (3.2.1):
+    - FirebaseAnalytics (= 3.2.0)
+  - Firebase/Core (3.2.1):
+    - Firebase/Analytics (= 3.2.1)
+  - Firebase/Messaging (3.2.1):
+    - Firebase/Analytics (= 3.2.1)
+    - FirebaseMessaging (= 1.1.0)
+  - FirebaseAnalytics (3.2.0):
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.3)
+  - FirebaseInstanceID (1.0.6)
+  - FirebaseMessaging (1.1.0):
+    - FirebaseAnalytics (~> 3.2)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleIPhoneUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
   - Flurry-iOS-SDK/FlurrySDK (7.5.2)
   - GGFullscreenImageViewController (1.0.0)
+  - GoogleInterchangeUtilities (1.2.1):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleIPhoneUtilities (1.2.1):
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.1.1)
+  - GoogleUtilities (1.3.1):
+    - GoogleSymbolUtilities (~> 1.0)
   - Instabug (5.1.2)
-  - JLToast (1.4.0)
+  - JLToast (1.4.1)
   - LECropPictureViewController (0.1.2)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
@@ -39,7 +67,7 @@ PODS:
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
   - SwiftDate (3.0.8)
-  - TouchVisualizer (1.3.1)
+  - TouchVisualizer (1.4.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
@@ -47,6 +75,8 @@ DEPENDENCIES:
   - Alamofire
   - Crashlytics (~> 3.7.0)
   - Fabric (~> 1.6.7)
+  - Firebase
+  - Firebase/Messaging
   - Flurry-iOS-SDK/FlurrySDK (~> 7.5.2)
   - GGFullscreenImageViewController (~> 1.0)
   - Instabug (~> 5.1.2)
@@ -81,10 +111,18 @@ SPEC CHECKSUMS:
   Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  Firebase: 6c80ac28d59d06bfd9152a7b6ea17625ca93183d
+  FirebaseAnalytics: 6f75b04e6bfb8e0b6e9ef298e04c24eea3b13863
+  FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
+  FirebaseMessaging: 8a92e9ea70673605aa7d1803d2d5aa3eb946009c
   Flurry-iOS-SDK: 8c87c4eab6008184ad9f63afabd79ec0d109c82e
   GGFullscreenImageViewController: 17935922bc80806eba3c9a0c22a22ecedc260510
+  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
+  GoogleIPhoneUtilities: 63f25e93a3ddcb66884d182aab3a660d98f1479b
+  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
+  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
   Instabug: c315abe1a1c4cbd3ea1cc6ec8f9954d6c5371c39
-  JLToast: 1599854ade65dddce01dca5bbe61d6119479ff7e
+  JLToast: f2ccfdb8726e562e6c0154fa3658cd432021b1cc
   LECropPictureViewController: d64cd991d94d7804c0971f97adae6d1bc216a7b8
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
@@ -96,6 +134,6 @@ SPEC CHECKSUMS:
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
   SwiftDate: 971f8b9394f664f2226b9c3ab64e801a7291c612
-  TouchVisualizer: ccba09c7f50921eb766ebc7801fbd2821a11b5b3
+  TouchVisualizer: 44c1a7a6e1b6526df7673f68400072363ecd3bf6
 
 COCOAPODS: 0.39.0

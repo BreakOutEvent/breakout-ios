@@ -36,7 +36,7 @@ class BOComment: NSManagedObject {
         if let first = CurrentUser.sharedInstance.firstname, last = CurrentUser.sharedInstance.lastname {
             res.name = first + " " + last
         }
-        BOSynchronizeController.sharedInstance.triggerUpload()
+        //BOSynchronizeController.sharedInstance.triggerUpload()
         
         // Save
         NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)

@@ -13,6 +13,39 @@ protocol LocationController {
     func getAllLocationsForTeams(onComplete: (locationsForTeams: [[MapLocation]]?, error: NSError?) -> Void)
 }
 
+class Location: NSObject {
+    var uid: NSInteger?
+    var timestamp: NSDate?
+    var longitude: NSNumber?
+    var latitude: NSNumber?
+    var flagNeedsUpload: Bool?
+    var teamId: NSInteger?
+    var teamName: String?
+    var country: String?
+    var locality: String?
+    
+    required init(dict: NSDictionary) {
+        if (dict["id"] != nil) {
+            self.uid = dict.valueForKey("id") as? NSInteger
+        }
+        self.teamId = dict.valueForKey("teamId") as? NSInteger
+        self.teamName = dict.valueForKey("team") as? String
+        let unixTimestamp = dict.valueForKey("date") as! NSNumber
+        self.timestamp = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
+        self.latitude = (dict.valueForKey("latitude") as? NSNumber)!
+        self.longitude = (dict.valueForKey("longitude") as? NSNumber)!
+        
+        if let locationDataDict: NSDictionary = dict["locationData"] as? NSDictionary {
+            if locationDataDict["COUNTRY"] != nil {
+                self.country = locationDataDict["COUNTRY"] as? String
+            }
+            if locationDataDict["LOCALITY"] != nil {
+                self.locality = locationDataDict["LOCALITY"] as? String
+            }
+        }
+    }
+}
+
 class BasicLocationController : LocationController {
     /**
      invokes request to server via AFHTTPSessionManager and AFJSONRequestSerializer and casts response to NSDictionary.
@@ -33,7 +66,7 @@ class BasicLocationController : LocationController {
             print(response)
             //let locations = self.convertNSDictionaryToMapLocation(response)
             let locations = self.convertBOLocationsToMapLocation()
-            onComplete(locations: locations, error: nil)
+            onComplete(locationsForTeams: locations, error: nil)
             
             }) { task, error in
                 print(error)

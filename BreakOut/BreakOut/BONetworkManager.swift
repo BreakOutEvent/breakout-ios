@@ -35,7 +35,7 @@ class BONetworkManager {
     }
     
     private static func doJSONRequest(service: BackendServices, arguments: [CVarArgType], parameters: AnyObject?, auth: Bool, handler: (AnyObject) -> (), error: ((NSError, NSHTTPURLResponse?) -> ())?, method: HTTPMethod) {
-        
+        BONetworkIndicator.si.increaseLoading()
         let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: PrivateConstants().backendURL()))
         requestManager.requestSerializer = AFJSONRequestSerializer()
         if auth {
@@ -52,6 +52,7 @@ class BONetworkManager {
                  handler(unwrappedResponse)
             }
             BOToast.log("SUCCESSFUL (): \(requestString) Download! w. Parms \(parameters)")
+            BONetworkIndicator.si.decreaseLoading()
         }) { (operation, err) -> Void in
             print("❗️ERROR: \n Request: \(requestString) \n methode: \(method) \n with Parms: \(parameters)")
             print(err)
@@ -63,6 +64,7 @@ class BONetworkManager {
                     errHandler(err, nil)
                 }
             }
+            BONetworkIndicator.si.decreaseLoading()
         }
     }
     

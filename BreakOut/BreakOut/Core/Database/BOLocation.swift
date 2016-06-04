@@ -45,17 +45,20 @@ class BOLocation: NSManagedObject{
     
     class func createWithDictionary(dict: NSDictionary) -> BOLocation {
         let res: BOLocation
-        if let id = dict["id"] as? NSInteger,
+        /*if let id = dict["id"] as? NSInteger,
             origLocationArray = BOLocation.MR_findByAttribute("uid", withValue: id) as? Array<BOLocation>,
             location = origLocationArray.first {
             res = location
-        } else {
+        } else {*/
             res = BOLocation.MR_createEntity()!
-        }
+        //}
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        //dispatch_async(dispatch_get_main_queue()) {
+            NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        //}
+        
         
         return res
     }

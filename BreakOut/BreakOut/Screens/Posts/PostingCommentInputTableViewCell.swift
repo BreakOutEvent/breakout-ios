@@ -13,7 +13,8 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var commentInputTextField: UITextField!
     
-    var post: BOPost?
+    //var post: BOPost?
+    var post: Posting?
     var reloadHandler: (() -> ())?
     
     override func awakeFromNib() {
@@ -43,8 +44,12 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     @IBAction func postButtonPressed(sender: UIButton) {
         let comment = BOComment.create(0, text: commentInputTextField.text ?? "", postID: post?.uuid ?? 0)
-        post?.comments.insert(comment)
-        post?.save()
+        comment.upload()
+        let dict: NSDictionary =  ["text": commentInputTextField.text!, "postID": (post?.uuid)!, "id": 0, "date": NSDate().timeIntervalSince1970, "user":["firstname": CurrentUser.sharedInstance.firstname! as String, "lastname": CurrentUser.sharedInstance.lastname!], "profilePic":""]
+        let newComment = Comment(dict: dict)
+        post?.comments?.append(newComment)
+        //post?.comments.insert(comment)
+        //post?.save()
         commentInputTextField.text = ""
         if let handler = reloadHandler {
             handler()

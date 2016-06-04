@@ -13,6 +13,8 @@ import Fabric
 import Crashlytics
 import Flurry_iOS_SDK
 
+import Firebase
+
 import TouchVisualizer
 
 // Database
@@ -30,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        FIRApp.configure()
         
         #if DEBUG
             //Instabug Setup
@@ -79,9 +83,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //TESTING persistence of not yet loaded postings IDs
         //BOSynchronizeController.sharedInstance.downloadAllPostings()
         //BOSynchronizeController.sharedInstance.downloadNotYetLoadedPostings()
-        BOSynchronizeController.sharedInstance.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
-        BOSynchronizeController.sharedInstance.downloadIdsOfAllEvents()
-        BOSynchronizeController.sharedInstance.downloadChallengesForCurrentUser()
+        //BOSynchronizeController.sharedInstance.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
+        //BOSynchronizeController.sharedInstance.downloadIdsOfAllEvents()
+        //BOSynchronizeController.sharedInstance.downloadChallengesForCurrentUser()
         
         BOLocationManager.sharedInstance.start()
         

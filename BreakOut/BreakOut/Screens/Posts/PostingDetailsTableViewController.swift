@@ -15,10 +15,10 @@ class PostingDetailsTableViewController: UITableViewController {
     
     var postingID: Int = Int()
     
-    var posting: BOPost? {
+    var posting: Posting? {
         didSet {
             tableView.reloadData()
-            posting?.reload(tableView.reloadData)
+            //posting?.reload(tableView.reloadData)
         }
     }
 
@@ -57,7 +57,7 @@ class PostingDetailsTableViewController: UITableViewController {
         case 0:
             return 1
         case 1:
-            return posting?.comments.count ?? 0
+            return posting?.comments!.count ?? 0
         case 2:
             if CurrentUser.sharedInstance.isLoggedIn() {
                 return 1
@@ -70,11 +70,17 @@ class PostingDetailsTableViewController: UITableViewController {
     }
     
     func configureCommentCell(cell: PostingCommentTableViewCell, indexPath: NSIndexPath) {
-        let comments = posting?.comments.map({ $0 as BOComment })
-        cell.teamNameLabel.text = comments?[indexPath.row].name ?? ""
-        cell.timestampLabel.text = comments?[indexPath.row].date.toNaturalString(NSDate()) ?? ""
-        cell.commentMessageLabel.text = comments?[indexPath.row].text ?? ""
-        cell.teamPictureImageView.image = comments?[indexPath.row].profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
+        let comments = posting?.comments![indexPath.row]
+        cell.teamNameLabel.text = comments!.name ?? ""
+        cell.timestampLabel.text = comments!.date.toNaturalString(NSDate()) ?? ""
+        cell.commentMessageLabel.text = comments!.text ?? ""
+        //cell.teamPictureImageView.image = comments!.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
+        if comments?.profilePicURL != nil {
+            cell.teamPictureImageView.setImageWithURL(NSURL(string: comments!.profilePicURL!)!)
+        }else{
+            cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
+        }
+        
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
@@ -86,15 +92,17 @@ class PostingDetailsTableViewController: UITableViewController {
         
         if (posting!.locality != nil && posting!.locality != "") {
             cell.locationLabel?.text = posting!.locality
-        }else if (posting!.latitude.intValue != 0 && posting!.longitude.intValue != 0){
-            cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting!.latitude, posting!.longitude)
+        }else if(posting!.latitude != nil && posting!.longitude != nil) {
+            if (posting!.latitude!.intValue != 0 && posting!.longitude!.intValue != 0){
+                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting!.latitude!, posting!.longitude!)
+            }
         }else{
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }
         
         // Check if Posting has an attached media file
-        print(self.posting?.images)
-        if let image:BOImage = self.posting?.images.first {
+        //print(self.posting?.images)
+        /*if let image:BOImage = self.posting?.images.first {
             let uiimage: UIImage = image.getImage()
             if uiimage.hasContent() == true {
                 cell.postingPictureImageView.image = image.getImage()
@@ -105,12 +113,22 @@ class PostingDetailsTableViewController: UITableViewController {
         }else{
             cell.postingPictureImageView.image = UIImage()
             cell.postingPictureImageViewHeightConstraint.constant = 0.0
+        }*/
+        if posting!.imageURL != nil {
+            cell.postingPictureImageView.setImageWithURL(NSURL(string: posting!.imageURL!)!)
+            cell.postingPictureImageViewHeightConstraint.constant = 120.0
+        }else{
+            cell.postingPictureImageView.image = UIImage()
+            cell.postingPictureImageViewHeightConstraint.constant = 0.0
         }
         
         // Set the team image & name
-        if posting!.team != nil {
-            cell.teamNameLabel.text = posting!.team?.name
+        if posting!.teamName != nil {
+            cell.teamNameLabel.text = posting!.teamName
         }
+        /*if posting!.team != nil {
+            cell.teamNameLabel.text = posting!.team?.name
+        }*/
         cell.teamPictureImageView?.image = posting?.team?.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
         
         
@@ -134,7 +152,7 @@ class PostingDetailsTableViewController: UITableViewController {
         }
         
         // Add count for comments
-        cell.commentsButton?.setTitle(String(format: "%i %@", posting!.comments.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
+        cell.commentsButton?.setTitle(String(format: "%i %@", posting!.comments!.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
         
         cell.parentTableViewController = self
         
