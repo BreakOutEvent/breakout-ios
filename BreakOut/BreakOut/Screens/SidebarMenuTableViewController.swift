@@ -34,16 +34,16 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.userPictureImageView.clipsToBounds = true
         
         // Styling the Button for adding a userpicture if non exists.
-        self.addUserpictureButton.backgroundColor = UIColor.whiteColor()
-        self.addUserpictureButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        self.addUserpictureButton.backgroundColor = UIColor.white
+        self.addUserpictureButton.setTitleColor(UIColor.black, for: UIControlState())
         self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
         
         self.fillInputsWithCurrentUserInfo()
         
         if self.userPictureImageView.image == nil {
-            self.addUserpictureButton.hidden = false
+            self.addUserpictureButton.isHidden = false
         }else{
-            self.addUserpictureButton.hidden = true
+            self.addUserpictureButton.isHidden = true
         }
         
         self.cell(self.yourTeamTableViewCell, setHidden: true)
@@ -51,10 +51,10 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.cell(self.allTeamsTableViewCell, setHidden: true)
         self.cell(self.settingsTableViewCell, setHidden: true)
         
-        self.loginAndRegisterButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), forState: UIControlState.Normal)
+        self.loginAndRegisterButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), for: UIControlState())
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showAllPostingsTVC), name: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showWelcomeScreen), name: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showAllPostingsTVC), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showWelcomeScreen), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -62,36 +62,36 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.fillInputsWithCurrentUserInfo()
         tableView.reloadData()
         
         if CurrentUser.sharedInstance.isLoggedIn() {
-            self.userPictureImageView.hidden = false
-            self.usernameLabel.hidden = false
-            self.userDistanceRemainingTimeLabel.hidden = false
-            self.loginAndRegisterButton.hidden = true
+            self.userPictureImageView.isHidden = false
+            self.usernameLabel.isHidden = false
+            self.userDistanceRemainingTimeLabel.isHidden = false
+            self.loginAndRegisterButton.isHidden = true
         }else{
-            self.userPictureImageView.hidden = true
-            self.usernameLabel.hidden = true
-            self.userDistanceRemainingTimeLabel.hidden = true
-            self.loginAndRegisterButton.hidden = false
+            self.userPictureImageView.isHidden = true
+            self.usernameLabel.isHidden = true
+            self.userDistanceRemainingTimeLabel.isHidden = true
+            self.loginAndRegisterButton.isHidden = false
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         //Flurry.logEvent("/user/profile", withParameters: nil, timed: true)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         //Flurry.endTimedEvent("/user/profile", withParameters: nil)
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)
     }
     
     func fillInputsWithCurrentUserInfo() {
@@ -99,20 +99,20 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         
         self.userPictureImageView.image = CurrentUser.sharedInstance.picture
         if self.userPictureImageView.image != nil {
-            self.addUserpictureButton.hidden = true
+            self.addUserpictureButton.isHidden = true
         }
     }
     
     func showWelcomeScreen() {
         if let slideMenuController = self.slideMenuController() {
-            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeScreenViewController")
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeScreenViewController")
             slideMenuController.changeMainViewController(controller!, close: true)
         }
     }
     
     func showAllPostingsTVC() {
         if let slideMenuController = self.slideMenuController() {
-            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("AllPostingsTableViewController")
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "AllPostingsTableViewController")
         
             let navigationController = UINavigationController(rootViewController: controller!)
         
@@ -120,20 +120,20 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
             return false
-        }else if(indexPath.section == 1 && indexPath.row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
+        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
             return false
         }
         
         return true
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
             cell.alpha = 0.5
-        }else if(indexPath.section == 1 && indexPath.row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
+        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
             cell.alpha = 0.5
         }else{
             cell.alpha = 1.0
@@ -141,16 +141,16 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     }
     
 // MARK: - TableView Delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell: UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         
         if let slideMenuController = self.slideMenuController() {
-            let controller = self.storyboard?.instantiateViewControllerWithIdentifier(cell.reuseIdentifier!)
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: cell.reuseIdentifier!)
             
             let navigationController = UINavigationController(rootViewController: controller!)
             
             if cell.reuseIdentifier == "NewPostingTableViewController" {
-                slideMenuController.mainViewController?.presentViewController(navigationController, animated: true, completion: nil)
+                slideMenuController.mainViewController?.present(navigationController, animated: true, completion: nil)
                 return
             }
             
@@ -165,11 +165,11 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     
 // MARK: - Button Actions
 
-    @IBAction func addUserpictureButtonPressed(sender: UIButton) {
+    @IBAction func addUserpictureButtonPressed(_ sender: UIButton) {
         
     }
     
-    @IBAction func loginButtonPressed(sender: UIButton) {
-        NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+    @IBAction func loginButtonPressed(_ sender: UIButton) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
     }
 }

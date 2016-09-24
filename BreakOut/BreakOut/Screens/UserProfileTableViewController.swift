@@ -52,19 +52,19 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         super.viewDidLoad()
         
         CurrentUser.sharedInstance.downloadUserData()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(notificationCurrentUserUpdated), name: Constants.NOTIFICATION_CURRENT_USER_UPDATED, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationCurrentUserUpdated), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
         
         // Style the navigation bar
-        self.navigationController!.navigationBar.translucent = false
+        self.navigationController!.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.barTintColor = Style.mainOrange
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         self.title = NSLocalizedString("userProfileTitle", comment: "")
         
         // Create save button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Save, target: self, action: #selector(saveChanges))
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(saveChanges))
         navigationItem.rightBarButtonItem = rightButton
         
         // Create menu buttons for navigation item
@@ -102,18 +102,18 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/user/profile", withParameters: nil, timed: true)
         
         // Check UserDefaults for already logged in user
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if defaults.objectForKey("userDictionary") == nil {
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "userDictionary") == nil {
             self.presentLoginScreen()
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/user/profile", withParameters: nil)
     }
@@ -146,14 +146,14 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
 
     
 // MARK: - Image Picker Delegate
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         let choosenImage: UIImage = image
         
         self.profilePictureImageView.image = choosenImage
@@ -161,13 +161,13 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         CurrentUser.sharedInstance.picture = choosenImage
         CurrentUser.sharedInstance.storeInNSUserDefaults()
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
         return
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 
     
@@ -175,9 +175,9 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
 // MARK: - Helper Functions
     func presentLoginScreen() {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewControllerWithIdentifier("LoginRegisterViewController") as! LoginRegisterViewController
+        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewController(withIdentifier: "LoginRegisterViewController") as! LoginRegisterViewController
         
-        self.presentViewController(loginRegisterViewController, animated: true, completion: nil)
+        self.present(loginRegisterViewController, animated: true, completion: nil)
     }
     
     func inputFieldsChanged() -> Bool {
@@ -191,42 +191,42 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         self.shirtSizePicker.dataSource = self
         self.shirtSizeTextfield.inputView = self.shirtSizePicker
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.Default
-        toolBar.translucent = true
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
         toolBar.tintColor = Style.mainOrange
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarDoneButtonPressed")
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarCancelButtonPressed")
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UserProfileTableViewController.shirtSizePickerToolbarDoneButtonPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UserProfileTableViewController.shirtSizePickerToolbarCancelButtonPressed))
         
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.userInteractionEnabled = true
+        toolBar.isUserInteractionEnabled = true
         
         self.shirtSizeTextfield.inputAccessoryView = toolBar
     }
     
     func setupBirthdayDatePicker() {
-        self.birthdayDatePicker.datePickerMode = UIDatePickerMode.Date
+        self.birthdayDatePicker.datePickerMode = UIDatePickerMode.date
         self.birthdayTextfield.inputView = self.birthdayDatePicker
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.Default
-        toolBar.translucent = true
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
         toolBar.tintColor = Style.mainOrange
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "birthdayDatePickerToolbarDoneButtonPressed")
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UserProfileTableViewController.birthdayDatePickerToolbarDoneButtonPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
         toolBar.setItems([spaceButton, doneButton], animated: false)
-        toolBar.userInteractionEnabled = true
+        toolBar.isUserInteractionEnabled = true
         
         self.birthdayTextfield.inputAccessoryView = toolBar
     }
     
 // MARK: - Picker Toolbar Functions
     func shirtSizePickerToolbarDoneButtonPressed() {
-        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[self.shirtSizePicker.selectedRowInComponent(0)] as? String
+        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[self.shirtSizePicker.selectedRow(inComponent: 0)] as? String
         self.shirtSizeTextfield.resignFirstResponder()
     }
     
@@ -242,19 +242,19 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     }
     
 // MARK: - UIPicker DataSource
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return self.shirtSizeDataSourceArray.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self.shirtSizeDataSourceArray[row] as? String
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[row] as? String
     }
     
@@ -276,61 +276,61 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         //BOToast.log("Stored all Input Values to CurrentUser Object")
     }
     
-    @IBAction func profilePictureButtonPressed(sender: UIButton) {
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.ActionSheet)
+    @IBAction func profilePictureButtonPressed(_ sender: UIButton) {
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.Default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .PhotoLibrary
-            self.imagePicker.modalPresentationStyle = .Popover
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.modalPresentationStyle = .popover
+            self.present(self.imagePicker, animated: true, completion: nil)
         })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.Default, handler: { (alert: UIAlertAction!) -> Void in
+        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("take a photo")
             //shows the camera
             self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .Camera
-            self.imagePicker.cameraDevice = .Front
-            self.imagePicker.modalPresentationStyle = .Popover
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.sourceType = .camera
+            self.imagePicker.cameraDevice = .front
+            self.imagePicker.modalPresentationStyle = .popover
+            self.present(self.imagePicker, animated: true, completion: nil)
             
         })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Cancel")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         })
         
         //Adding the actions to the action sheet. Here, camera will only show up as an option if the camera is available in the first place.
         optionMenu.addAction(photoLibraryOption)
         optionMenu.addAction(cancelOption)
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) == true {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
             optionMenu.addAction(cameraOption)} else {
             print ("I don't have a camera.")
         }
         
         //Now that the action sheet is set up, we present it.
-        self.presentViewController(optionMenu, animated: true, completion: nil)
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
-    @IBAction func participateButtonPressed(sender: UIButton) {
+    @IBAction func participateButtonPressed(_ sender: UIButton) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
+        let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewController(withIdentifier: "BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
         
-        self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)
+        self.present(becomeParticipantTVC, animated: true, completion: nil)
         /*if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") {
             self.slideMenuController()?.changeMainViewController(controller, close: true)
         }*/
     }
     
-    @IBAction func logoutButtonPressed(sender: UIButton) {
+    @IBAction func logoutButtonPressed(_ sender: UIButton) {
         CurrentUser.resetUser()
         
         // Tracking
-        Answers.logCustomEventWithName("/logoutButtonPressed", customAttributes: [:])
+        Answers.logCustomEvent(withName: "/logoutButtonPressed", customAttributes: [:])
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)
     }
 }

@@ -38,10 +38,10 @@ class BONetworkerTest: NSObject {
     */
     func postObjectFromJSON() {
         let jsonString: String = "{\"uuid\": \"123\", \"text\": \"tester\"}"
-        let jsonData: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
+        let jsonData: Data = jsonString.data(using: String.Encoding.utf8)!
         do {
-            let newPostObject:NSDictionary = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
-            let newPost:BOPost = BOPost.MR_importFromObject(newPostObject)
+            let newPostObject:NSDictionary = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as! NSDictionary
+            let newPost:BOPost = BOPost.mr_import(from: newPostObject)
             print("Text attribute of new Post: "+newPost.text!)
         }catch{
             print(error)
@@ -60,11 +60,11 @@ class BONetworkerTest: NSObject {
     }
     
     func exampleLogin() {
-        let baseURL: NSURL = NSURL(string: "http://breakout-development.herokuapp.com/")!
+        let baseURL: URL = URL(string: "http://breakout-development.herokuapp.com/")!
         
         let oAuthManager: AFOAuth2Manager = AFOAuth2Manager.init(baseURL: baseURL, clientID: "breakout_app", secret: "123456789")
         
-        oAuthManager.authenticateUsingOAuthWithURLString("/oauth/token", username: "a@b.c", password: "fdsa", scope: "read write", success: { (credentials) -> Void in
+        oAuthManager.authenticateUsingOAuth(withURLString: "/oauth/token", username: "a@b.c", password: "fdsa", scope: "read write", success: { (credentials) -> Void in
              print("OAuth Code: "+credentials.accessToken)
             }) { (error) -> Void in
                 print(error)

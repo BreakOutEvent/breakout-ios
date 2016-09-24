@@ -22,16 +22,16 @@ class TeamProfileViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // Style the navigation bar
-        self.navigationController!.navigationBar.translucent = false
+        self.navigationController!.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.barTintColor = Style.mainOrange
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         self.title = "Team Name"
         
         // Create right button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "editTeamInfo")
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "editTeamInfo")
         
         // Create two buttons for the navigation item
         navigationItem.rightBarButtonItem = rightButton
@@ -51,9 +51,9 @@ class TeamProfileViewController: UIViewController {
         self.subMenuView.addSubview(self.subMenuSelectionBarView)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.animateSubMenuSelectionBarViewToButton(self.subMenuPostingsButton)
-        self.subMenuPostingsButton.selected = true
+        self.subMenuPostingsButton.isSelected = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,65 +62,65 @@ class TeamProfileViewController: UIViewController {
     }
     
     func showSubmenu() {
-        self.subMenuView.hidden = false
+        self.subMenuView.isHidden = false
     }
     
     func hideSubmenu() {
-        self.subMenuView.hidden = true
+        self.subMenuView.isHidden = true
     }
     
-    @IBAction func showTeamDescription(sender: AnyObject) {
+    @IBAction func showTeamDescription(_ sender: AnyObject) {
         self.subMenuView.frame.origin.y = self.view.frame.size.height - self.subMenuView.frame.size.height
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.postingsTableViewControllerContainer.frame.origin.y = self.view.frame.size.height
-            }) { (done: Bool) -> Void in
+            }, completion: { (done: Bool) -> Void in
                 self.showSubmenu()
-        }
+        }) 
     }
-    @IBAction func swipeUpInSubMenu(sender: AnyObject) {
+    @IBAction func swipeUpInSubMenu(_ sender: AnyObject) {
         self.hideSubmenu()
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.postingsTableViewControllerContainer.frame.origin.y = 0
-            }) { (done: Bool) -> Void in
+            }, completion: { (done: Bool) -> Void in
                 self.subMenuView.frame.origin.y = (self.navigationController?.navigationBar.frame.size.height)!
-        }
+        }) 
     }
     
 // MARK: - SubMenu Button Functions
     
-    @IBAction func subMenuPostingsButtonPressed(sender: UIButton) {
+    @IBAction func subMenuPostingsButtonPressed(_ sender: UIButton) {
         self.deselectAllSubMenuButtons()
-        sender.selected = true
+        sender.isSelected = true
         self.animateSubMenuSelectionBarViewToButton(sender)
     }
     
-    @IBAction func subMenuMapButtonPressed(sender: UIButton) {
+    @IBAction func subMenuMapButtonPressed(_ sender: UIButton) {
         self.deselectAllSubMenuButtons()
-        sender.selected = true
+        sender.isSelected = true
         self.animateSubMenuSelectionBarViewToButton(sender)
     }
     
     func deselectAllSubMenuButtons() {
-        self.subMenuPostingsButton.selected = false
-        self.subMenuMapButton.selected = false
+        self.subMenuPostingsButton.isSelected = false
+        self.subMenuMapButton.isSelected = false
     }
 
-    func animateSubMenuSelectionBarViewToButton(button: UIButton) {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+    func animateSubMenuSelectionBarViewToButton(_ button: UIButton) {
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.subMenuSelectionBarView.frame.origin.x = button.frame.origin.x
             self.subMenuSelectionBarView.frame.size.width = button.frame.size.width
-            }) { (finished: Bool) -> Void in
+            }, completion: { (finished: Bool) -> Void in
                 //
-        }
+        }) 
     }
 // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "EmbedTeamProfilePostingsTableViewController" {
-            let destinationController:TeamProfilePostingsTableViewController = segue.destinationViewController as! TeamProfilePostingsTableViewController
+            let destinationController:TeamProfilePostingsTableViewController = segue.destination as! TeamProfilePostingsTableViewController
             destinationController.parentTeamProfileViewController = self
         }
     }

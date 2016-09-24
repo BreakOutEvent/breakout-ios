@@ -21,51 +21,51 @@ class BOComment: NSManagedObject {
     @NSManaged var postID: NSInteger
     @NSManaged var text: String?
     @NSManaged var name: String?
-    @NSManaged var date: NSDate
+    @NSManaged var date: Date
     @NSManaged var flagNeedsUpload: Bool
     @NSManaged var profilePic: BOImage?
     
     
-    class func create(uuid: Int, text: String?, postID: NSInteger) -> BOComment {
-        let res = BOComment.MR_createEntity()! as BOComment
+    class func create(_ uuid: Int, text: String?, postID: NSInteger) -> BOComment {
+        let res = BOComment.mr_createEntity()! as BOComment
         res.uuid = uuid as NSInteger
-        res.date = NSDate()
+        res.date = Date()
         res.text = text
         res.postID = postID
         res.flagNeedsUpload = true
-        if let first = CurrentUser.sharedInstance.firstname, last = CurrentUser.sharedInstance.lastname {
+        if let first = CurrentUser.sharedInstance.firstname, let last = CurrentUser.sharedInstance.lastname {
             res.name = first + " " + last
         }
         //BOSynchronizeController.sharedInstance.triggerUpload()
         
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         return res;
     }
     
-    class func createWithDictionary(dict: NSDictionary) -> BOComment {
+    class func createWithDictionary(_ dict: NSDictionary) -> BOComment {
         let res: BOComment
         if let id = dict["id"] as? NSInteger,
-            origPostArray = BOComment.MR_findByAttribute("uuid", withValue: id) as? Array<BOComment>,
-            post = origPostArray.first {
+            let origPostArray = BOComment.mr_find(byAttribute: "uuid", withValue: id) as? Array<BOComment>,
+            let post = origPostArray.first {
             res = post
         } else {
-            res = BOComment.MR_createEntity()!
+            res = BOComment.mr_createEntity()!
         }
         res.setAttributesWithDictionary(dict)
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         return res
     }
     
-    func setAttributesWithDictionary(dict: NSDictionary) {
-        uuid = dict.valueForKey("id") as! NSInteger
-        text = dict.valueForKey("text") as? String
-        let unixTimestamp = dict.valueForKey("date") as! NSNumber
-        date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
-        if let user = dict.valueForKey("user") as? NSDictionary, first = user.valueForKey("firstname") as? String,
-                last = user.valueForKey("lastname") as? String {
+    func setAttributesWithDictionary(_ dict: NSDictionary) {
+        uuid = dict.value(forKey: "id") as! NSInteger
+        text = dict.value(forKey: "text") as? String
+        let unixTimestamp = dict.value(forKey: "date") as! NSNumber
+        date = Date(timeIntervalSince1970: unixTimestamp.doubleValue)
+        if let user = dict.value(forKey: "user") as? NSDictionary, let first = user.value(forKey: "firstname") as? String,
+                let last = user.value(forKey: "lastname") as? String {
             name = first + " " + last
-            if let profilePicDict = user.valueForKey("profilePic") as? NSDictionary {
+            if let profilePicDict = user.value(forKey: "profilePic") as? NSDictionary {
                 BOImage.createFromDictionary(profilePicDict) { (image) in
                     self.profilePic = image
                     self.save()
@@ -77,13 +77,13 @@ class BOComment: NSManagedObject {
     }
     
     func save() {
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
     }
     
     func upload() {
         var dict = [String:AnyObject]()
-        dict["text"] = self.text
-        dict["date"] = date.timeIntervalSince1970
+        dict["text"] = self.text as AnyObject?
+        dict["date"] = date.timeIntervalSince1970 as AnyObject?
         BONetworkManager.doJSONRequestPOST(.PostComment, arguments: [postID], parameters: dict, auth: true, success: { (response) in
             // Tracking
             self.flagNeedsUpload = false

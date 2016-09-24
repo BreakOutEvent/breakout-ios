@@ -41,7 +41,7 @@ class TeamProfilePostingsTableViewController: UITableViewController {
         return 0
     }*/
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y
         
         //UIView.animateWithDuration(0.1) { () -> Void in

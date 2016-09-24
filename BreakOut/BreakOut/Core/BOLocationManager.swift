@@ -30,7 +30,7 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         
         // aks user for permission
         let status = CLLocationManager.authorizationStatus()
-        if status == .Denied || status == .NotDetermined || status == .AuthorizedWhenInUse || status == .Restricted{
+        if status == .denied || status == .notDetermined || status == .authorizedWhenInUse || status == .restricted{
             locationManager.requestAlwaysAuthorization()
         }
         
@@ -66,15 +66,15 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     // MARK: CLLocation delegate methods
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Update Locations")
         // only use last location
         if let coordiante = locations.last?.coordinate{
             print(coordiante)
             // send to local Database with flag needsUpload
-            let locationPost: BOLocation = BOLocation.MR_createEntity()! as BOLocation
+            let locationPost: BOLocation = BOLocation.mr_createEntity()! as BOLocation
             locationPost.flagNeedsUpload = true
-            locationPost.timestamp = NSDate()
+            locationPost.timestamp = Date()
             locationPost.latitude = coordiante.latitude as NSNumber
             locationPost.longitude = coordiante.longitude as NSNumber
             if CurrentUser.sharedInstance.currentTeamId() > -1 {
@@ -86,35 +86,35 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
             locationPost.save()
             
             self.lastKnownLocation = locations.last
-            NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_LOCATION_DID_UPDATE, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_LOCATION_DID_UPDATE), object: nil)
             
             // ONLY FOR DEBUGGING
             #if DEBUG
                 let notification = UILocalNotification()
-                notification.fireDate = NSDate(timeIntervalSinceNow: 0)
-                if UIApplication.sharedApplication().applicationState == UIApplicationState.Background {
+                notification.fireDate = Date(timeIntervalSinceNow: 0)
+                if UIApplication.shared.applicationState == UIApplicationState.background {
                     notification.alertTitle = "App in Background"
                 }else{
                     notification.alertTitle = "App in Foreground"
                 }
                 notification.alertBody = "Location Did Change!"
                 notification.soundName = UILocalNotificationDefaultSoundName
-                UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                UIApplication.shared.scheduleLocalNotification(notification)
             #endif
         }
         // stop updating locations. Optional.
         // locationManager.stopUpdatingLocation()
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status{
-        case .AuthorizedAlways:
+        case .authorizedAlways:
             print("location tracking status always")
-        case .Denied:
+        case .denied:
             print("location tracking status denied")
             locationManager.stopUpdatingLocation()
-        case .NotDetermined:print("location tracking status not determined")
-        case .Restricted:print("location tracking status restricted")
+        case .notDetermined:print("location tracking status not determined")
+        case .restricted:print("location tracking status restricted")
         default:break
         }
     }

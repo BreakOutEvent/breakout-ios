@@ -15,22 +15,22 @@ import MagicalRecord
 import Flurry_iOS_SDK
 import Crashlytics
 
-func getDocumentsURL() -> NSURL {
-    let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+func getDocumentsURL() -> URL {
+    let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     return documentsURL
 }
 
-func fileInDocumentsDirectory(filename: String) -> String {
+func fileInDocumentsDirectory(_ filename: String) -> String {
     
-    let fileURL = getDocumentsURL().URLByAppendingPathComponent(filename)
-    return fileURL.path!
+    let fileURL = getDocumentsURL().appendingPathComponent(filename)
+    return fileURL.path
     
 }
 
 public extension UIImage {
     public func hasContent() -> Bool {
-        let cgref = self.CGImage
-        let cim = self.CIImage
+        let cgref = self.cgImage
+        let cim = self.ciImage
         if cgref == nil && cim == nil {
             return false
         }else{
@@ -50,45 +50,45 @@ class BOImage: NSManagedObject {
     @NSManaged var needsBetterDownload: Bool
     @NSManaged var betterDownloadUrl: String?
     
-    class func create(uid: Int, flagNeedsUpload: Bool) -> BOImage {
-        let res = BOImage.MR_createEntity()! as BOImage
+    class func create(_ uid: Int, flagNeedsUpload: Bool) -> BOImage {
+        let res = BOImage.mr_createEntity()! as BOImage
         
         res.uid = uid as NSInteger
         res.type = "image"
         res.flagNeedsUpload = flagNeedsUpload
         res.filepath = ""
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         return res;
     }
     
-    class func createWithDictionary(dict: NSDictionary) -> BOImage {
-        let res = BOImage.MR_createEntity()! as BOImage
+    class func createWithDictionary(_ dict: NSDictionary) -> BOImage {
+        let res = BOImage.mr_createEntity()! as BOImage
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         
         return res
     }
     
-    class func createWithImage(image: UIImage) -> BOImage {
-        let res = BOImage.MR_createEntity()! as BOImage
+    class func createWithImage(_ image: UIImage) -> BOImage {
+        let res = BOImage.mr_createEntity()! as BOImage
         res.filepath = ""
         res.writeImage(image)
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         return res
     }
     
-    class func createFromDictionary(item: NSDictionary, success: (BOImage) -> ()) {
-        if let id = item.valueForKey("id") as? Int, sizes = item.valueForKey("sizes") as? [NSDictionary] {
+    class func createFromDictionary(_ item: NSDictionary, success: @escaping (BOImage) -> ()) {
+        if let id = item.value(forKey: "id") as? Int, let sizes = item.value(forKey: "sizes") as? [NSDictionary] {
             let image: NSDictionary?
             let needsBetterDownload: Bool
             var betterURL: String?
             if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
-                let deviceHeight = UIScreen.mainScreen().bounds.height
+                let deviceHeight = UIScreen.main.bounds.height
                 image = sizes.filter() { item in
-                    if let height = item.valueForKey("height") as? Int {
+                    if let height = item.value(forKey: "height") as? Int {
                         return (CGFloat) (height) < deviceHeight
                     }
                     return false
@@ -97,11 +97,11 @@ class BOImage: NSManagedObject {
             } else {
                 image = sizes.first
                 needsBetterDownload = true
-                if let last = sizes.last, lastURL = last.valueForKey("url") as? String {
+                if let last = sizes.last, let lastURL = last.value(forKey: "url") as? String {
                     betterURL = lastURL
                 }
             }
-            if let url = image?.valueForKey("url") as? String {
+            if let url = image?.value(forKey: "url") as? String {
                 BOImageDownloadManager.sharedInstance.getImage(id, url: url) { (image) in
                     image.needsBetterDownload = needsBetterDownload
                     image.betterDownloadUrl = betterURL
@@ -114,7 +114,7 @@ class BOImage: NSManagedObject {
 
     func getImage() -> UIImage {
         let imageFullPath: String = fileInDocumentsDirectory(filepath as String)
-        let userImageData = NSData(contentsOfFile: imageFullPath)
+        let userImageData = try? Data(contentsOf: URL(fileURLWithPath: imageFullPath))
         // here is your saved image:
         if userImageData != nil {
             return UIImage(data: userImageData!)!
@@ -129,8 +129,8 @@ class BOImage: NSManagedObject {
         }
     }
     
-    func uploadWithToken(id: Int, token: String) {
-        uploadToken = token
+    func uploadWithToken(_ id: Int, token: String) {
+        uploadToken = token as NSString
         uid = id
         
         // TODO: Possible compression later.
@@ -139,10 +139,10 @@ class BOImage: NSManagedObject {
             BONetworkManager.uploadMedia(id, token: token, data: data, filename: filepath as String,   success: { () in
                 print("Upload Succesful")
                 self.flagNeedsUpload = false
-                Answers.logCustomEventWithName("/BOImage/upload", customAttributes: ["Successful":"true"])
+                Answers.logCustomEvent(withName: "/BOImage/upload", customAttributes: ["Successful":"true"])
             }) { () in
                 print("Upload Not Succesful")
-                Answers.logCustomEventWithName("/BOImage/upload", customAttributes: ["Successful":"false"])
+                Answers.logCustomEvent(withName: "/BOImage/upload", customAttributes: ["Successful":"false"])
             }
         }
         
@@ -150,12 +150,12 @@ class BOImage: NSManagedObject {
 
     // MARK: -
     
-    func writeImage(image: UIImage) {
+    func writeImage(_ image: UIImage) {
         let currentPath = filepath as String
         if currentPath != "" {
             do {
-                let fileManager = NSFileManager.defaultManager()
-                try fileManager.removeItemAtPath(currentPath)
+                let fileManager = FileManager.default
+                try fileManager.removeItem(atPath: currentPath)
             }
             catch let error as NSError {
                 print("File Couldn't be deleted. \(error)")
@@ -164,25 +164,25 @@ class BOImage: NSManagedObject {
         
         //Store the original image
         let imageData = UIImageJPEGRepresentation(image, 1)
-        let relativePath:String = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
+        let relativePath:String = "image_\(Date.timeIntervalSinceReferenceDate).jpg"
         let path:String = fileInDocumentsDirectory(relativePath)
-        if imageData?.writeToFile(path, atomically: true) ?? false {
+        if ((try? imageData?.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil) ?? false {
             //BOToast.log("Storing image file was successful", level: BOToast.Level.Success)
         }else{
             //BOToast.log("Error during storing of image file", level: BOToast.Level.Error)
         }
         type = "image"
-        filepath = relativePath
+        filepath = relativePath as NSString
         self.save()
     }
     
     
-    func setAttributesWithDictionary(dict: NSDictionary) {
-        self.uid = dict.valueForKey("id") as! NSInteger
+    func setAttributesWithDictionary(_ dict: NSDictionary) {
+        self.uid = dict.value(forKey: "id") as! NSInteger
     }
     
     func save() {
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
     }
     
     func printToLog() {

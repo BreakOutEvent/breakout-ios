@@ -58,7 +58,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         // Set the breakOut Image as Background of the tableview
         let backgroundImageView: UIImageView = UIImageView.init(image: UIImage.init(named: "breakoutDefaultBackground_600x600"))
-        backgroundImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        backgroundImageView.contentMode = UIViewContentMode.scaleAspectFill
         self.tableView.backgroundView = backgroundImageView
         
         // Set color for placeholder text
@@ -71,7 +71,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.emergencyNumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("emergencyNumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         
         // Set localized Button Texts
-        self.participateButton.setTitle(NSLocalizedString("participateButton", comment: ""), forState: UIControlState.Normal)
+        self.participateButton.setTitle(NSLocalizedString("participateButton", comment: ""), for: UIControlState())
         
         self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
         
@@ -90,12 +90,12 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/user/becomeParticipant", withParameters: nil, timed: true)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/user/becomeParticipant", withParameters: nil)
     }
@@ -118,19 +118,19 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     // MARK: Birthday Picker
     
     func setupBirthdayDatePicker() {
-        self.birthdayDatePicker.datePickerMode = UIDatePickerMode.Date
+        self.birthdayDatePicker.datePickerMode = UIDatePickerMode.date
         self.birthdayTextField.inputView = self.birthdayDatePicker
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.Default
-        toolBar.translucent = true
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
         toolBar.tintColor = Style.mainOrange
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "birthdayDatePickerToolbarDoneButtonPressed")
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BecomeParticipantTableViewController.birthdayDatePickerToolbarDoneButtonPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
         toolBar.setItems([spaceButton, doneButton], animated: false)
-        toolBar.userInteractionEnabled = true
+        toolBar.isUserInteractionEnabled = true
         
         self.birthdayTextField.inputAccessoryView = toolBar
     }
@@ -142,23 +142,23 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
     // MARK: T-Shirt size Picker
     
-    func addSimpleDoneToolbarToTextField(textfield: UITextField) {
+    func addSimpleDoneToolbarToTextField(_ textfield: UITextField) {
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.Default
-        toolBar.translucent = true
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
         toolBar.tintColor = Style.mainOrange
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "textFieldToolbarDoneButtonPressed:")
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BecomeParticipantTableViewController.textFieldToolbarDoneButtonPressed(_:)))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
         toolBar.setItems([spaceButton, doneButton], animated: false)
-        toolBar.userInteractionEnabled = true
+        toolBar.isUserInteractionEnabled = true
         
         textfield.inputAccessoryView = toolBar
     }
     
-    func textFieldToolbarDoneButtonPressed(sender: UIBarButtonItem) {
+    func textFieldToolbarDoneButtonPressed(_ sender: UIBarButtonItem) {
         if self.currentTextFieldWithFirstResponder != nil {
             self.currentTextFieldWithFirstResponder?.resignFirstResponder()
         }
@@ -170,45 +170,45 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.shirtSizePicker.dataSource = self
         self.shirtSizeTextfield.inputView = self.shirtSizePicker
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.Default
-        toolBar.translucent = true
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
         toolBar.tintColor = Style.mainOrange
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarDoneButtonPressed")
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "shirtSizePickerToolbarCancelButtonPressed")
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BecomeParticipantTableViewController.shirtSizePickerToolbarDoneButtonPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: "shirtSizePickerToolbarCancelButtonPressed")
         
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.userInteractionEnabled = true
+        toolBar.isUserInteractionEnabled = true
         
         self.shirtSizeTextfield.inputAccessoryView = toolBar
     }
     
     func shirtSizePickerToolbarDoneButtonPressed() {
-        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[self.shirtSizePicker.selectedRowInComponent(0)] as? String
+        self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[self.shirtSizePicker.selectedRow(inComponent: 0)] as? String
         self.shirtSizeTextfield.resignFirstResponder()
     }
     
     // MARK: T-Shirt size Picker DataSource
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return self.shirtSizeDataSourceArray.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self.shirtSizeDataSourceArray[row] as? String
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.shirtSizeTextfield.text = self.shirtSizeDataSourceArray[row] as? String
     }
     
 // MARK: - TextField Functions
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == self.firstNameTextfield {
             // Switch focus to other text field
@@ -231,53 +231,53 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         return true
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         self.currentTextFieldWithFirstResponder = textField
     }
     
 // MARK: - Button functions
     
-    @IBAction func addUserpictureButtonPressed(sender: UIButton) {
+    @IBAction func addUserpictureButtonPressed(_ sender: UIButton) {
         
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.Default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .PhotoLibrary
-            self.imagePicker.modalPresentationStyle = .Popover
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.modalPresentationStyle = .popover
+            self.present(self.imagePicker, animated: true, completion: nil)
         })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.Default, handler: { (alert: UIAlertAction!) -> Void in
+        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("take a photo")
             //shows the camera
             self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .Camera
-            self.imagePicker.cameraDevice = .Front
-            self.imagePicker.modalPresentationStyle = .Popover
-            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.sourceType = .camera
+            self.imagePicker.cameraDevice = .front
+            self.imagePicker.modalPresentationStyle = .popover
+            self.present(self.imagePicker, animated: true, completion: nil)
             
         })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.Cancel, handler: {
+        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Cancel")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         })
         
         //Adding the actions to the action sheet. Here, camera will only show up as an option if the camera is available in the first place.
         optionMenu.addAction(photoLibraryOption)
         optionMenu.addAction(cancelOption)
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) == true {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
             optionMenu.addAction(cameraOption)} else {
             print ("I don't have a camera.")
         }
         
         //Now that the action sheet is set up, we present it.
-        self.presentViewController(optionMenu, animated: true, completion: nil)
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
-    @IBAction func participateButtonPressed(sender: UIButton) {
+    @IBAction func participateButtonPressed(_ sender: UIButton) {
         if self.allInputsAreFilled() {
             // Send the participation request to the backend
             self.setupLoadingHUD("loadingParticipant")
@@ -286,56 +286,56 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         }
     }
     
-    @IBAction func closeButtonPressed(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func closeButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
 // MARK: - Image Picker Delegate
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         let choosenImage: UIImage = image
         
         self.userpictureImageView.image = choosenImage
         
-        self.addUserpictureButton.hidden = true
+        self.addUserpictureButton.isHidden = true
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
         return
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     
 // MARK: - Helper Functions
-    func setupLoadingHUD(localizedKey: String) {
-        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.Style9CubeGrid, color: UIColor.whiteColor(), spinnerSize: 37.0)
-        self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        self.loadingHUD.square = true
-        self.loadingHUD.mode = MBProgressHUDMode.CustomView
+    func setupLoadingHUD(_ localizedKey: String) {
+        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.style9CubeGrid, color: UIColor.white, spinnerSize: 37.0)
+        self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.loadingHUD.isSquare = true
+        self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
         spinner.startAnimating()
     }
     
-    func setupErrorHUD(localizedKey: String) {
-        self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        self.loadingHUD.square = false
-        self.loadingHUD.mode = MBProgressHUDMode.CustomView
+    func setupErrorHUD(_ localizedKey: String) {
+        self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.loadingHUD.isSquare = false
+        self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
     }
     
-    func setAllInputsToEnabled(enabled: Bool) {
-        self.firstNameTextfield.enabled = enabled
-        self.lastNameTextfield.enabled = enabled
-        self.emailTextField.enabled = enabled
-        self.genderSegmentedControl.enabled = enabled
-        self.shirtSizeTextfield.enabled = enabled
-        self.birthdayTextField.enabled = enabled
-        self.phonenumberTextfield.enabled = enabled
-        self.emergencyNumberTextfield.enabled = enabled
+    func setAllInputsToEnabled(_ enabled: Bool) {
+        self.firstNameTextfield.isEnabled = enabled
+        self.lastNameTextfield.isEnabled = enabled
+        self.emailTextField.isEnabled = enabled
+        self.genderSegmentedControl.isEnabled = enabled
+        self.shirtSizeTextfield.isEnabled = enabled
+        self.birthdayTextField.isEnabled = enabled
+        self.phonenumberTextfield.isEnabled = enabled
+        self.emergencyNumberTextfield.isEnabled = enabled
     }
     
     func allInputsAreFilled() -> Bool {
@@ -395,16 +395,16 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     func getGenderByFirstname() {
-        let requestManager = AFHTTPSessionManager.init(baseURL: NSURL(string: "https://api.genderize.io/"))
+        let requestManager = AFHTTPSessionManager.init(baseURL: URL(string: "https://api.genderize.io/"))
         
         let params: NSDictionary = ["name":self.firstNameTextfield.text!]
         
         requestManager.requestSerializer = AFJSONRequestSerializer()
         
-        requestManager.GET("", parameters: params, success: { (operation, response) -> Void in
+        requestManager.get("", parameters: params, success: { (operation, response) -> Void in
                 // Successful retrival of name attributes
                 let dict: NSDictionary = response as! NSDictionary
-                if dict.valueForKey("gender") as! String == "male" {
+                if dict.value(forKey: "gender") as! String == "male" {
                     self.genderSegmentedControl.selectedSegmentIndex = 0
                 }else{
                     self.genderSegmentedControl.selectedSegmentIndex = 1
@@ -416,9 +416,9 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
     func presentLoginScreenFromViewController() {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewControllerWithIdentifier("LoginRegisterViewController") as! LoginRegisterViewController
+        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewController(withIdentifier: "LoginRegisterViewController") as! LoginRegisterViewController
         
-        self.presentViewController(loginRegisterViewController, animated: true, completion: nil)
+        self.present(loginRegisterViewController, animated: true, completion: nil)
     }
     
     
@@ -437,13 +437,13 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         let genderAsString = CurrentUser.sharedInstance.stringGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
 
-        if let emergency = emergencyNumberTextfield.text, phone = phonenumberTextfield.text, shirt = shirtSizeTextfield.text, first = firstNameTextfield.text, last = lastNameTextfield.text, email = emailTextField.text {
+        if let emergency = emergencyNumberTextfield.text, let phone = phonenumberTextfield.text, let shirt = shirtSizeTextfield.text, let first = firstNameTextfield.text, let last = lastNameTextfield.text, let email = emailTextField.text {
             
             BOSynchronizeController.sharedInstance.becomeParticipant(first, lastname: last, gender: genderAsString, email: email, emergencyNumber: emergency, phone: phone, shirtSize: shirt, success: { () in
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)
-                self.performSegueWithIdentifier("showJoinTeamViewController", sender: self)
+                self.performSegue(withIdentifier: "showJoinTeamViewController", sender: self)
             }) { () in
                 
                 // Activate Inputs again

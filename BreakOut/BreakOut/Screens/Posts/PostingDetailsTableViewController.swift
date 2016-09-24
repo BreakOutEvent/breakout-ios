@@ -29,13 +29,13 @@ class PostingDetailsTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 175.0
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/PostingDetailsTVC", timed: true)
-        Answers.logCustomEventWithName("/PostingDetailsTVC", customAttributes: [:])
+        Answers.logCustomEvent(withName: "/PostingDetailsTVC", customAttributes: [:])
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         Flurry.endTimedEvent("/PostingDetailsTVC", withParameters: nil)
     }
 
@@ -46,12 +46,12 @@ class PostingDetailsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 3
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         switch section {
         case 0:
@@ -69,14 +69,14 @@ class PostingDetailsTableViewController: UITableViewController {
         }
     }
     
-    func configureCommentCell(cell: PostingCommentTableViewCell, indexPath: NSIndexPath) {
-        let comments = posting?.comments![indexPath.row]
+    func configureCommentCell(_ cell: PostingCommentTableViewCell, indexPath: IndexPath) {
+        let comments = posting?.comments![(indexPath as NSIndexPath).row]
         cell.teamNameLabel.text = comments!.name ?? ""
-        cell.timestampLabel.text = comments!.date.toNaturalString(NSDate()) ?? ""
+        cell.timestampLabel.text = comments!.date.toString() ?? ""
         cell.commentMessageLabel.text = comments!.text ?? ""
         //cell.teamPictureImageView.image = comments!.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
         if comments?.profilePicURL != nil {
-            cell.teamPictureImageView.setImageWithURL(NSURL(string: comments!.profilePicURL!)!)
+            cell.teamPictureImageView.setImageWith(URL(string: comments!.profilePicURL!)!)
         }else{
             cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
         }
@@ -85,15 +85,15 @@ class PostingDetailsTableViewController: UITableViewController {
         cell.updateConstraintsIfNeeded()
     }
     
-    func configurePostingCell(cell: PostingTableViewCell) {
+    func configurePostingCell(_ cell: PostingTableViewCell) {
         // Configure cell with the BOPost model
         cell.messageLabel?.text = self.posting!.text
-        cell.timestampLabel?.text = self.posting!.date.toNaturalString(NSDate())
+        cell.timestampLabel?.text = self.posting!.date.toString()
         
         if (posting!.locality != nil && posting!.locality != "") {
             cell.locationLabel?.text = posting!.locality
         }else if(posting!.latitude != nil && posting!.longitude != nil) {
-            if (posting!.latitude!.intValue != 0 && posting!.longitude!.intValue != 0){
+            if (posting!.latitude!.int32Value != 0 && posting!.longitude!.int32Value != 0){
                 cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting!.latitude!, posting!.longitude!)
             }
         }else{
@@ -115,7 +115,7 @@ class PostingDetailsTableViewController: UITableViewController {
             cell.postingPictureImageViewHeightConstraint.constant = 0.0
         }*/
         if posting!.imageURL != nil {
-            cell.postingPictureImageView.setImageWithURL(NSURL(string: posting!.imageURL!)!)
+            cell.postingPictureImageView.setImageWith(URL(string: posting!.imageURL!)!)
             cell.postingPictureImageViewHeightConstraint.constant = 120.0
         }else{
             cell.postingPictureImageView.image = UIImage()
@@ -137,12 +137,12 @@ class PostingDetailsTableViewController: UITableViewController {
             // Challenge is attached -> Show the challenge box
             cell.challengeLabel.text = posting!.challenge?.text
             cell.challengeLabelHeightConstraint?.constant = 34.0
-            cell.challengeView?.hidden = false
+            cell.challengeView?.isHidden = false
         }else{
             cell.challengeLabel.text = ""
             cell.challengeLabelHeightConstraint.constant = 0.0
             cell.challengeViewHeightConstraint.constant = 0.0
-            cell.challengeView.hidden = true
+            cell.challengeView.isHidden = true
         }
         
         if posting!.flagNeedsUpload == true {
@@ -152,7 +152,7 @@ class PostingDetailsTableViewController: UITableViewController {
         }
         
         // Add count for comments
-        cell.commentsButton?.setTitle(String(format: "%i %@", posting!.comments!.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
+        cell.commentsButton?.setTitle(String(format: "%i %@", posting!.comments!.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
         
         cell.parentTableViewController = self
         
@@ -162,17 +162,17 @@ class PostingDetailsTableViewController: UITableViewController {
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0  {
-            let cell = tableView.dequeueReusableCellWithIdentifier("PostingTableViewCell", forIndexPath: indexPath) as! PostingTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 0  {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath) as! PostingTableViewCell
             configurePostingCell(cell)
             return cell
-        }else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("PostingCommentTableViewCell", forIndexPath: indexPath) as! PostingCommentTableViewCell
+        }else if (indexPath as NSIndexPath).section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostingCommentTableViewCell", for: indexPath) as! PostingCommentTableViewCell
             configureCommentCell(cell, indexPath: indexPath)
             return cell
-        }else if indexPath.section == 2 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("PostingCommentInputTableViewCell", forIndexPath: indexPath)
+        }else if (indexPath as NSIndexPath).section == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostingCommentInputTableViewCell", for: indexPath)
             if let c = cell as? PostingCommentInputTableViewCell {
                 c.post = posting
                 c.reloadHandler = tableView.reloadData

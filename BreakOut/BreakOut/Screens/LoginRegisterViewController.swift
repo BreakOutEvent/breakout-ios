@@ -18,7 +18,7 @@ import AFOAuth2Manager
 import MBProgressHUD
 import SpinKit
 
-import JLToast
+import Toaster
 
 
 class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
@@ -46,12 +46,12 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         
         self.loginButton.backgroundColor = Style.mainOrange
         self.loginButton.layer.cornerRadius = 25.0
         
-        self.registerButton.backgroundColor = UIColor.whiteColor()
+        self.registerButton.backgroundColor = UIColor.white
         self.registerButton.alpha = 0.8
         self.registerButton.layer.cornerRadius = 25.0
         
@@ -59,8 +59,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.passwordTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("password", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
         
         // Set localized Button titles
-        self.loginButton.setTitle(NSLocalizedString("login", comment: ""), forState: UIControlState.Normal)
-        self.registerButton.setTitle(NSLocalizedString("register", comment: ""), forState: UIControlState.Normal)
+        self.loginButton.setTitle(NSLocalizedString("login", comment: ""), for: UIControlState())
+        self.registerButton.setTitle(NSLocalizedString("register", comment: ""), for: UIControlState())
     }
     
     override func didReceiveMemoryWarning() {
@@ -68,34 +68,34 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/login", withParameters: nil, timed: true)
         
-        self.emailTextField.enabled = true
-        self.passwordTextField.enabled = true
+        self.emailTextField.isEnabled = true
+        self.passwordTextField.isEnabled = true
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/login", withParameters: nil)
         
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
     
-    override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginRegisterViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginRegisterViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
     
     
     
 // MARK: - TextField Functions
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == self.emailTextField {
             // Switch focus to other text field
@@ -110,16 +110,16 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
 // MARK: - Keyboard Functions
     
-    func keyboardWillShow(notification: NSNotification) {
-        let userInfo:NSDictionary = notification.userInfo!
-        if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+    func keyboardWillShow(_ notification: Notification) {
+        let userInfo:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
+        if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.formContainerViewToBottomConstraint.constant = keyboardSize.height
             self.logoBottomConstraint.constant = 5.0
             self.logoTopConstraint.constant = 5.0
         }
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
         //
         self.formContainerViewToBottomConstraint.constant = 0.0
         self.logoBottomConstraint.constant = 55.0
@@ -136,7 +136,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
     :returns: No return value
     */
-    @IBAction func registerButtonPressed(sender: UIButton) {
+    @IBAction func registerButtonPressed(_ sender: UIButton) {
         if self.allInputsAreFilledOut() {
             // Hide Keyboard and start registration procedure
             self.view.endEditing(true)
@@ -145,15 +145,15 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    @IBAction func loginButtonPressed(sender: UIButton) {
+    @IBAction func loginButtonPressed(_ sender: UIButton) {
         if self.allInputsAreFilledOut() {
             self.view.endEditing(true)
             self.startLoginRequest()
         }
     }
     
-    @IBAction func cancelButtonPressed(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     /**
@@ -163,11 +163,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      
      :returns: No return value
      */
-    @IBAction func whatIsBreakOutButtonPressed(sender: UIButton) {
-        if let internalWebView = storyboard!.instantiateViewControllerWithIdentifier("InternalWebViewController") as? InternalWebViewController {
+    @IBAction func whatIsBreakOutButtonPressed(_ sender: UIButton) {
+        if let internalWebView = storyboard!.instantiateViewController(withIdentifier: "InternalWebViewController") as? InternalWebViewController {
             let navigationController = UINavigationController(rootViewController: internalWebView)
             
-            presentViewController(navigationController, animated: true, completion: nil)
+            present(navigationController, animated: true, completion: nil)
             internalWebView.openWebpageWithUrl("http://break-out.org/worum-gehts/")
             
             // --> Tracking
@@ -179,9 +179,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     func allInputsAreFilledOut() -> Bool {
         if (self.emailTextField.text == "" || self.passwordTextField.text == ""){
             self.alertPopover.alpha = 0.0
-            self.alertPopover.hidden = false
+            self.alertPopover.isHidden = false
             self.formToLogoConstraint.constant = -10.0 // constraint animation needs to be outside animateWithDuration
-            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                 self.alertPopover.alpha = 1.0
                 self.view.layoutIfNeeded()
                 }, completion: nil)
@@ -191,19 +191,19 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         return true
     }
         
-    func setupLoadingHUD(localizedKey: String) {
-        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.Style9CubeGrid, color: UIColor.whiteColor(), spinnerSize: 37.0)
-        self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        self.loadingHUD.square = true
-        self.loadingHUD.mode = MBProgressHUDMode.CustomView
+    func setupLoadingHUD(_ localizedKey: String) {
+        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.style9CubeGrid, color: UIColor.white, spinnerSize: 37.0)
+        self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.loadingHUD.isSquare = true
+        self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
         spinner.startAnimating()
     }
     
-    func enableInputs(enabled: Bool) {
-        self.emailTextField.enabled = enabled
-        self.passwordTextField.enabled = enabled
+    func enableInputs(_ enabled: Bool) {
+        self.emailTextField.isEnabled = enabled
+        self.passwordTextField.isEnabled = enabled
     }
     
 // MARK: - API Requests
@@ -223,14 +223,14 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         let params: NSDictionary = ["email":self.emailTextField.text!, "password":self.passwordTextField.text!]
         
         BONetworkManager.doJSONRequestPOST(.User, arguments: [], parameters: params, auth: false, success: { (response) in
-            let userID = response.valueForKey("id")
+            let userID = response.value(forKey: "id")
             CurrentUser.sharedInstance.userid = userID as? Int
             CurrentUser.sharedInstance.email = self.emailTextField.text
             CurrentUser.sharedInstance.storeInNSUserDefaults()
             
             // Tracking
             Flurry.logEvent("/registration/completed_successful")
-            Answers.logSignUpWithMethod("e-mail",
+            Answers.logSignUp(withMethod: "e-mail",
                 success: true,
                 customAttributes: [:])
             
@@ -246,7 +246,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             
             // Tracking
             Flurry.logEvent("/registration/completed_error")
-            Answers.logSignUpWithMethod("e-mail",
+            Answers.logSignUp(withMethod: "e-mail",
                                         success: false,
                                         customAttributes: [:])
         }
@@ -262,7 +262,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      */
     func startLoginRequest() {
         
-        if let email = emailTextField.text, pass = passwordTextField.text {
+        if let email = emailTextField.text, let pass = passwordTextField.text {
             self.setupLoadingHUD("loginLoading")
             self.enableInputs(false)
             
@@ -282,9 +282,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     
                     // Tracking
                     Flurry.logEvent("/login/completed_successful")
-                    Answers.logLoginWithMethod("e-mail", success: true, customAttributes: [:])
+                    Answers.logLogin(withMethod: "e-mail", success: true, customAttributes: [:])
                     
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(animated: true, completion: nil)
                 })
                 
             }, error:

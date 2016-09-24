@@ -35,15 +35,15 @@ class PostingTableViewCell: UITableViewCell {
         
         // Styling of the Challenge-Box
         self.challengeView.layer.borderWidth = 1
-        self.challengeView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.challengeView.layer.borderColor = UIColor.lightGray.cgColor
         self.challengeView.layer.cornerRadius = 4.0
-        self.challengeView.backgroundColor = UIColor.whiteColor()
+        self.challengeView.backgroundColor = UIColor.white
         
         // Styling of the Posting Picture
         self.postingPictureImageView.layer.cornerRadius = 4.0
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -56,16 +56,16 @@ class PostingTableViewCell: UITableViewCell {
         self.teamPictureImageView.layer.cornerRadius = self.teamPictureImageView.frame.size.width/2.0
     }
     
-    @IBAction func postingImageButtonPressed(sender: UIButton) {
+    @IBAction func postingImageButtonPressed(_ sender: UIButton) {
         let fullscreenImageViewController:GGFullscreenImageViewController = GGFullscreenImageViewController()
         fullscreenImageViewController.liftedImageView = postingPictureImageView
         //fullscreenImageViewController.liftedImageView.contentMode = UIViewContentMode.ScaleAspectFit
-        self.parentTableViewController?.presentViewController(fullscreenImageViewController, animated: true, completion: nil)
+        self.parentTableViewController?.present(fullscreenImageViewController, animated: true, completion: nil)
     }
     
-    @IBAction func likesButtonPressed(sender: UIButton) {
+    @IBAction func likesButtonPressed(_ sender: UIButton) {
     }
 
-    @IBAction func commentsButtonPressed(sender: UIButton) {
+    @IBAction func commentsButtonPressed(_ sender: UIButton) {
     }
 }

@@ -30,7 +30,7 @@ class JoinTeamByInvitationTableViewController: UITableViewController {
 
 // MARK: - Button functions 
     
-    @IBAction func joinTeamButtonPressed(sender: UIButton) {
+    @IBAction func joinTeamButtonPressed(_ sender: UIButton) {
     }
 
 

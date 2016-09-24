@@ -10,12 +10,12 @@ import Foundation
 import MapKit
 
 protocol LocationController {
-    func getAllLocationsForTeams(onComplete: (locationsForTeams: [[MapLocation]]?, error: NSError?) -> Void)
+    func getAllLocationsForTeams(_ onComplete: (_ locationsForTeams: [[MapLocation]]?, _ error: NSError?) -> Void)
 }
 
 class Location: NSObject {
     var uid: NSInteger?
-    var timestamp: NSDate?
+    var timestamp: Date?
     var longitude: NSNumber?
     var latitude: NSNumber?
     var flagNeedsUpload: Bool?
@@ -26,14 +26,14 @@ class Location: NSObject {
     
     required init(dict: NSDictionary) {
         if (dict["id"] != nil) {
-            self.uid = dict.valueForKey("id") as? NSInteger
+            self.uid = dict.value(forKey: "id") as? NSInteger
         }
-        self.teamId = dict.valueForKey("teamId") as? NSInteger
-        self.teamName = dict.valueForKey("team") as? String
-        let unixTimestamp = dict.valueForKey("date") as! NSNumber
-        self.timestamp = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
-        self.latitude = (dict.valueForKey("latitude") as? NSNumber)!
-        self.longitude = (dict.valueForKey("longitude") as? NSNumber)!
+        self.teamId = dict.value(forKey: "teamId") as? NSInteger
+        self.teamName = dict.value(forKey: "team") as? String
+        let unixTimestamp = dict.value(forKey: "date") as! NSNumber
+        self.timestamp = Date(timeIntervalSince1970: unixTimestamp.doubleValue)
+        self.latitude = (dict.value(forKey: "latitude") as? NSNumber)!
+        self.longitude = (dict.value(forKey: "longitude") as? NSNumber)!
         
         if let locationDataDict: NSDictionary = dict["locationData"] as? NSDictionary {
             if locationDataDict["COUNTRY"] != nil {
@@ -52,9 +52,9 @@ class BasicLocationController : LocationController {
      - parameter onComplete: completion handler
      - returns: Array of locations as MapLocation conforming to MKAnnotation protocol
      */
-    func getAllLocationsForTeams(onComplete: (locationsForTeams:[[MapLocation]]?, error:NSError?) -> Void) {
+    func getAllLocationsForTeams(_ onComplete: (_ locationsForTeams:[[MapLocation]]?, _ error:NSError?) -> Void) {
         let locations = self.convertBOLocationsToMapLocation()
-        onComplete(locationsForTeams: locations, error: nil)
+        onComplete(locations, nil)
         
         /*let url = NSURL(string: PrivateConstants().backendURL())
         //let path = "event/1/location/"
@@ -79,25 +79,25 @@ class BasicLocationController : LocationController {
      - parameter dict: response from server as NSDictionary
      - returns: Array of locations as MapLocation which can be displayed on map
      */
-    private func convertNSDictionaryToMapLocation(dicts: Array<NSDictionary>) -> Array<MapLocation> {
+    fileprivate func convertNSDictionaryToMapLocation(_ dicts: Array<NSDictionary>) -> Array<MapLocation> {
         return dicts.map({ dict in extractLocation(dict) }).flatMap({ dict in dict })
         
     }
     
-    private func convertBOLocationsToMapLocation() -> [[MapLocation]] {
+    fileprivate func convertBOLocationsToMapLocation() -> [[MapLocation]] {
         
         var locationArraysForTeams : [[MapLocation]] = []
         var mapLocationArrayForTeamId: [MapLocation] = []
-        let teamArray: [BOTeam] = BOTeam.MR_findAll() as! [BOTeam]
+        let teamArray: [BOTeam] = BOTeam.mr_findAll() as! [BOTeam]
         
         for team: BOTeam in teamArray {
             let teamId = team.uuid
-            if let boLocationArrayForTeamId: [BOLocation] = BOLocation.MR_findByAttribute("teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
+            if let boLocationArrayForTeamId: [BOLocation] = BOLocation.mr_find(byAttribute: "teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
                 
                 
                 for locationObject:BOLocation in boLocationArrayForTeamId{
-                    if locationObject.latitude.intValue != 0 && locationObject.longitude.intValue != 0 {
-                        let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: locationObject.teamName, subtitle: locationObject.timestamp.toNaturalString(NSDate()))
+                    if locationObject.latitude.int32Value != 0 && locationObject.longitude.int32Value != 0 {
+                        let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: locationObject.teamName, subtitle: locationObject.timestamp.toString())
                         mapLocationArrayForTeamId.append(location)
                     }
                 }
@@ -114,9 +114,9 @@ class BasicLocationController : LocationController {
     }
     
     
-    private func convertBOPostingToMapLocation() -> Array<MapLocation> {
+    fileprivate func convertBOPostingToMapLocation() -> Array<MapLocation> {
         var mutableArray: Array<MapLocation> = Array()
-        let postingArray = BOPost.MR_findAll() as! [BOPost]
+        let postingArray = BOPost.mr_findAll() as! [BOPost]
         
         for postingObject:BOPost in postingArray {
             let location = MapLocation(coordinate: CLLocationCoordinate2DMake(postingObject.latitude.doubleValue, postingObject.longitude.doubleValue), title: postingObject.team?.name, subtitle: postingObject.text)
@@ -133,11 +133,11 @@ class BasicLocationController : LocationController {
      - parameter dict: one NSDictionary from response
      - returns: location as MapLocation
      */
-    private func extractLocation(dict: NSDictionary) -> MapLocation? {
-        let longitude = dict.valueForKey("longitude") as! CLLocationDegrees
-        let latitude = dict.valueForKey("latitude") as! CLLocationDegrees
-        let title = dict.valueForKey("team") as! String
-        let subtitle = dict.valueForKey("distance") as! NSNumber
+    fileprivate func extractLocation(_ dict: NSDictionary) -> MapLocation? {
+        let longitude = dict.value(forKey: "longitude") as! CLLocationDegrees
+        let latitude = dict.value(forKey: "latitude") as! CLLocationDegrees
+        let title = dict.value(forKey: "team") as! String
+        let subtitle = dict.value(forKey: "distance") as! NSNumber
         let coordiante = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let location = MapLocation(coordinate: coordiante, title: title, subtitle: "distance: \(subtitle)")
 

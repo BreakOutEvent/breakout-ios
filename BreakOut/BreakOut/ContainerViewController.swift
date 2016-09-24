@@ -13,10 +13,10 @@ import SlideMenuControllerSwift
 class ContainerViewController: SlideMenuController {
     
     override func awakeFromNib() {
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeScreenViewController") {
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeScreenViewController") {
             self.mainViewController = controller
         }
-        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("SidebarMenuTableViewController") {
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "SidebarMenuTableViewController") {
             self.leftViewController = controller
         }
         
@@ -26,28 +26,28 @@ class ContainerViewController: SlideMenuController {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Check UserDefaults for already logged in user
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if defaults.objectForKey("userDictionary") == nil {
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "userDictionary") == nil {
             // User is NOT logged in
             //self.presentLoginScreen()
         }else{
             CurrentUser.sharedInstance.downloadUserData()
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(presentLoginScreen), name: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentLoginScreen), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
     }
     
 // MARK: - Helper Functions
     func presentLoginScreen() {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewControllerWithIdentifier("LoginRegisterViewController") as! LoginRegisterViewController
+        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewController(withIdentifier: "LoginRegisterViewController") as! LoginRegisterViewController
         
-        self.presentViewController(loginRegisterViewController, animated: true, completion: nil)
+        self.present(loginRegisterViewController, animated: true, completion: nil)
     }
 
 }

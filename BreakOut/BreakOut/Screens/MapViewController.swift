@@ -42,7 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBOutlet weak var mapView: MKMapView!{
         didSet{
-            mapView.mapType = .Standard
+            mapView.mapType = .standard
             mapView.delegate = self
         }
     }
@@ -57,26 +57,26 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         fetchLocations()
         
         // Style the navigation bar
-        self.navigationController!.navigationBar.translucent = true
+        self.navigationController!.navigationBar.isTranslucent = true
         self.navigationController!.navigationBar.barTintColor = Style.mainOrange
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         self.title = "Map"
         
         self.switchButton = UISwitch()
-        self.switchButton!.addTarget(self, action: #selector(drawAllPostingsToMap), forControlEvents: UIControlEvents.TouchUpInside)
+        self.switchButton!.addTarget(self, action: #selector(drawAllPostingsToMap), for: UIControlEvents.touchUpInside)
         
         // Create refresh button for navigation item
         //let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(drawAllPostingsToMap))
         let rightButton = UIBarButtonItem(customView: switchButton!)
-        let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.Done, target: self, action: #selector(showSideBar))
+        let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.done, target: self, action: #selector(showSideBar))
         navigationItem.rightBarButtonItem = rightButton
         navigationItem.leftBarButtonItem = leftButton
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(fetchLocations), name: NSManagedObjectContextObjectsDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchLocations), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidUpdate), name: Constants.NOTIFICATION_LOCATION_DID_UPDATE, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(locationDidUpdate), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_LOCATION_DID_UPDATE), object: nil)
         /*
  
         // set delegate
@@ -112,19 +112,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         */
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/MapViewController", timed: true)
-        Answers.logCustomEventWithName("/MapViewController", customAttributes: [:])
+        Answers.logCustomEvent(withName: "/MapViewController", customAttributes: [:])
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         Flurry.endTimedEvent("/MapViewController", withParameters: nil)
     }
     
     func drawAllPostingsToMap() {
         self.mapView.removeAnnotations(self.mapView.annotations)
-        if self.switchButton!.on {
+        if self.switchButton!.isOn {
             self.mapView.addAnnotations(self.arrayOfAllPostingAnnotations)
         }else{
             self.mapView.addAnnotations(self.arrayOfAllLastPostingAnnotations)
@@ -147,20 +147,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func loadIdsOfAllEvents() {
         BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
             for newEvent: NSDictionary in response as! Array {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    self.loadAllTeamsForEvent(newEvent.valueForKey("id")as! Int)
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+                    self.loadAllTeamsForEvent(newEvent.value(forKey: "id")as! Int)
                 })
             }
         }) { (error, response) in
         }
     }
     
-    func loadAllTeamsForEvent(eventId: Int) {
+    func loadAllTeamsForEvent(_ eventId: Int) {
         BONetworkManager.doJSONRequestGET(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Team Objects
             for newTeam: NSDictionary in response as! Array {
-                let teamId: Int = newTeam.objectForKey("id") as! Int
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                let teamId: Int = newTeam.object(forKey: "id") as! Int
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                     self.loadAllPostingsForTeam(eventId, teamId: teamId)
                 })
             }
@@ -173,7 +173,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    func loadAllPostingsForTeam(eventId: Int, teamId: Int) {
+    func loadAllPostingsForTeam(_ eventId: Int, teamId: Int) {
         var teamLocationsArray: Array<Location> = Array()
         BONetworkManager.doJSONRequestGET(.PostingIdsForTeam, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
             
@@ -181,21 +181,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             if arrayOfIds.count > 0 {
             
-            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIds, auth: false, success: { (response) in
+            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIds as AnyObject, auth: false, success: { (response) in
                 
                 if let responseArray = response as? Array<NSDictionary> {
                     var counter: Int = 0
                     for postingDict in responseArray {
                         
-                                if let locationDict = postingDict.objectForKey("postingLocation") as? NSDictionary {
-                                    if let isDuringEvent = locationDict.objectForKey("duringEvent") as? Bool {
+                                if let locationDict = postingDict.object(forKey: "postingLocation") as? NSDictionary {
+                                    if let isDuringEvent = locationDict.object(forKey: "duringEvent") as? Bool {
                                         if isDuringEvent {
                                             
                                             let newLocation = Location(dict: locationDict)
                                             teamLocationsArray.append(newLocation)
                                             
                                             let newPosting: Posting = Posting(dict: postingDict)
-                                            let location = MapLocation(coordinate: CLLocationCoordinate2DMake(newLocation.latitude!.doubleValue, newLocation.longitude!.doubleValue), title: newLocation.teamName, subtitle: newLocation.timestamp!.toNaturalString(NSDate()))
+                                            let location = MapLocation(coordinate: CLLocationCoordinate2DMake(newLocation.latitude!.doubleValue, newLocation.longitude!.doubleValue), title: newLocation.teamName, subtitle: newLocation.timestamp!.toString())
                                             location.posting = newPosting
                                             
                                             if counter == 0 {
@@ -217,8 +217,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                         coordinateArray.append(coordinate)
                     }
                     let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.mapView.addOverlay(polyLine)
+                    DispatchQueue.main.async {
+                        self.mapView.add(polyLine)
                     }
                 }
             })
@@ -226,7 +226,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         })
     }
     
-    func loadAllLocationsForTeam(eventId: Int, teamId: Int) {
+    func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
         var teamLocationsArray: Array<Location> = Array()
         BONetworkManager.doJSONRequestGET(.EventTeamLocation, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
             
@@ -242,8 +242,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     coordinateArray.append(coordinate)
                 }
                 let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.mapView.addOverlay(polyLine)
+                DispatchQueue.main.async {
+                    self.mapView.add(polyLine)
                 }
             }
         })
@@ -254,7 +254,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         
         let pr = MKPolylineRenderer(overlay: overlay)
         //pr.strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00) // This is one of our CI colors
@@ -291,7 +291,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      loops through all locations in location-Array and add them to MapView as Annotation.
      - parameter location: Array of MapLocation
      */
-    private func drawLocationsOnMap(locationsForTeams:[[MapLocation]]){
+    fileprivate func drawLocationsOnMap(_ locationsForTeams:[[MapLocation]]){
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
         for locations in locationsForTeams{
@@ -311,21 +311,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
         }
         for polyLine in polyLineArray{
-            mapView.addOverlay(polyLine)
+            mapView.add(polyLine)
         }
         polyLineArray.removeAll()
         
-        self.navigationItem.rightBarButtonItem?.enabled = true
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 1
         let identifier = "PostingLocation"
         
         // 2
         if annotation is MapLocation {
             // 3
-            var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
             
             if annotationView == nil {
                 //4
@@ -333,7 +333,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 annotationView!.canShowCallout = true
                 
                 // 5
-                let btn = UIButton(type: .DetailDisclosure)
+                let btn = UIButton(type: .detailDisclosure)
                 annotationView!.rightCalloutAccessoryView = btn
             } else {
                 // 6
@@ -347,12 +347,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return nil
     }
     
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let mapLocationAnnotation = view.annotation as! MapLocation
         
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewControllerWithIdentifier("PostingDetailsTableViewController") as! PostingDetailsTableViewController
+        let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController
         
         //postingDetailsTableViewController.posting = (fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost)
         postingDetailsTableViewController.posting = mapLocationAnnotation.posting
@@ -360,7 +360,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
     }
     
-    @IBAction func currentLocationButtonPressed(sender: UIButton) {
+    @IBAction func currentLocationButtonPressed(_ sender: UIButton) {
         //let center = CLLocationCoordinate2D(latitude: lastCurrentLocation.coordinate.latitude, longitude: lastCurrentLocation.coordinate.longitude)
         let center = mapView.userLocation.coordinate
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))

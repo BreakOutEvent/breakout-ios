@@ -8,21 +8,21 @@
 
 import UIKit
 
-import JLToast
+import Toaster
 
 class BOToast {
     
     enum Level {
-        case Success, Warning, Error
+        case success, warning, error
     }
     
-    class func log(message: String, level: Level = Level.Success) {
+    class func log(_ message: String, level: Level = Level.success) {
         
         let toBePrinted: String = {
             switch level {
-            case .Success: return "✅ \(message)"
-            case .Warning: return "⚠️ \(message)"
-            case .Error: return "❗️ \(message)"
+            case .success: return "✅ \(message)"
+            case .warning: return "⚠️ \(message)"
+            case .error: return "❗️ \(message)"
             }
         }()
         

@@ -63,17 +63,17 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
         self.invitationPicker.dataSource = self
         self.teamInvitationSelectionTextfield.inputView = self.invitationPicker
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.Default
-        toolBar.translucent = true
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
         toolBar.tintColor = Style.mainOrange
         toolBar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "invitationPickerToolbarDoneButtonPressed")
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "invitationPickerToolbarCancelButtonPressed")
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(JoinTeamViewController.invitationPickerToolbarDoneButtonPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(JoinTeamViewController.invitationPickerToolbarCancelButtonPressed))
         
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.userInteractionEnabled = true
+        toolBar.isUserInteractionEnabled = true
         
         self.teamInvitationSelectionTextfield.inputAccessoryView = toolBar
     }
@@ -83,12 +83,12 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/user/joinTeam", withParameters: nil, timed: true)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/user/joinTeam", withParameters: nil)
     }
@@ -96,7 +96,7 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
 // MARK: - Picker Toolbar Functions
     
     func invitationPickerToolbarDoneButtonPressed() {
-        self.teamInvitationSelectionTextfield.text = self.invitationDataSourceArray[self.invitationPicker.selectedRowInComponent(0)] as? String
+        self.teamInvitationSelectionTextfield.text = self.invitationDataSourceArray[self.invitationPicker.selectedRow(inComponent: 0)] as? String
         self.teamInvitationSelectionTextfield.resignFirstResponder()
     }
     
@@ -107,59 +107,59 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
     }
     
 // MARK: - UIPicker DataSource 
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return self.invitationDataSourceArray.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self.invitationDataSourceArray[row] as? String
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.teamInvitationSelectionTextfield.text = self.invitationDataSourceArray[row] as? String
     }
     
 // MARK: - Initial Input setup
     
 // MARK: - TextField Functions
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
 // MARK: - Button functions
     
-    @IBAction func invitationButtonPressed(sender: UIButton) {
+    @IBAction func invitationButtonPressed(_ sender: UIButton) {
         self.view.layoutIfNeeded()
         if self.invitationViewTopConstraint.constant <= 100.0 {
             // InvitationsView is visible -> Hide it
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.invitationViewTopConstraint.constant = self.view.frame.size.height - self.invitationButton.frame.size.height
                 self.view.layoutIfNeeded()
             })
         }else{
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 self.invitationViewTopConstraint.constant = 0.0 + self.topLayoutGuide.length
                 self.view.layoutIfNeeded()
             })
         }
     }
     
-    @IBAction func joinTeamButtonPressed(sender: UIButton) {
+    @IBAction func joinTeamButtonPressed(_ sender: UIButton) {
         self.setupLoadingHUD("loadingJoinTeam")
         self.loadingHUD.show(true)
     }
     
 // MARK: - Helper Functions
-    func setupLoadingHUD(localizedKey: String) {
-        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.Style9CubeGrid, color: UIColor.whiteColor(), spinnerSize: 37.0)
-        self.loadingHUD = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        self.loadingHUD.square = true
-        self.loadingHUD.mode = MBProgressHUDMode.CustomView
+    func setupLoadingHUD(_ localizedKey: String) {
+        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.style9CubeGrid, color: UIColor.white, spinnerSize: 37.0)
+        self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.loadingHUD.isSquare = true
+        self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
         self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
         spinner.startAnimating()
@@ -234,9 +234,9 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
         }*/
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "embed_CreateTeamTableViewController" {
-            self.createTeamTableViewController = segue.destinationViewController as! CreateTeamTableViewController
+            self.createTeamTableViewController = segue.destination as! CreateTeamTableViewController
         }
     }
 }

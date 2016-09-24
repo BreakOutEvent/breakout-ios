@@ -21,20 +21,20 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
         super.awakeFromNib()
         // Initialization code
         
-        self.postButton.enabled = false
+        self.postButton.isEnabled = false
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if range.location == 0 && string == ""  {
-            self.postButton.enabled = false
+            self.postButton.isEnabled = false
         }else{
-            self.postButton.enabled = true
+            self.postButton.isEnabled = true
         }
         
         return true
@@ -42,10 +42,10 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
     
 // MARK: - Button Actions
 
-    @IBAction func postButtonPressed(sender: UIButton) {
+    @IBAction func postButtonPressed(_ sender: UIButton) {
         let comment = BOComment.create(0, text: commentInputTextField.text ?? "", postID: post?.uuid ?? 0)
         comment.upload()
-        let dict: NSDictionary =  ["text": commentInputTextField.text!, "postID": (post?.uuid)!, "id": 0, "date": NSDate().timeIntervalSince1970, "user":["firstname": CurrentUser.sharedInstance.firstname! as String, "lastname": CurrentUser.sharedInstance.lastname!], "profilePic":""]
+        let dict: NSDictionary =  ["text": commentInputTextField.text!, "postID": (post?.uuid)!, "id": 0, "date": Date().timeIntervalSince1970, "user":["firstname": CurrentUser.sharedInstance.firstname! as String, "lastname": CurrentUser.sharedInstance.lastname!], "profilePic":""]
         let newComment = Comment(dict: dict)
         post?.comments?.append(newComment)
         //post?.comments.insert(comment)

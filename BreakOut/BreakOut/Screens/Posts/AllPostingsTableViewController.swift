@@ -21,24 +21,24 @@ class Comment: NSObject {
     var postID: NSInteger?
     var text: String?
     var name: String?
-    var date: NSDate
+    var date: Date
     var profilePicURL: String?
     
     required init(dict: NSDictionary) {
-        uuid = dict.valueForKey("id") as! NSInteger
-        text = dict.valueForKey("text") as? String
-        let unixTimestamp = dict.valueForKey("date") as! NSNumber
-        date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
-        if let user = dict.valueForKey("user") as? NSDictionary, first = user.valueForKey("firstname") as? String,
-            last = user.valueForKey("lastname") as? String {
+        uuid = dict.value(forKey: "id") as! NSInteger
+        text = dict.value(forKey: "text") as? String
+        let unixTimestamp = dict.value(forKey: "date") as! NSNumber
+        date = Date(timeIntervalSince1970: unixTimestamp.doubleValue)
+        if let user = dict.value(forKey: "user") as? NSDictionary, let first = user.value(forKey: "firstname") as? String,
+            let last = user.value(forKey: "lastname") as? String {
             name = first + " " + last
-            if let profilePicDict = user.valueForKey("profilePic") as? NSDictionary {
-                if let id = profilePicDict.valueForKey("id") as? Int, sizes = profilePicDict.valueForKey("sizes") as? [NSDictionary] {
+            if let profilePicDict = user.value(forKey: "profilePic") as? NSDictionary {
+                if let id = profilePicDict.value(forKey: "id") as? Int, let sizes = profilePicDict.value(forKey: "sizes") as? [NSDictionary] {
                     let image: NSDictionary?
                     if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
-                        let deviceHeight = UIScreen.mainScreen().bounds.height
+                        let deviceHeight = UIScreen.main.bounds.height
                         image = sizes.filter() { item in
-                            if let height = item.valueForKey("height") as? Int {
+                            if let height = item.value(forKey: "height") as? Int {
                                 return (CGFloat) (height) < deviceHeight
                             }
                             return false
@@ -49,7 +49,7 @@ class Comment: NSObject {
                          betterURL = lastURL
                          }*/
                     }
-                    if let url = image?.valueForKey("url") as? String {
+                    if let url = image?.value(forKey: "url") as? String {
                         self.profilePicURL = url
                     }
                 }
@@ -65,7 +65,7 @@ class Posting: NSObject {
     var text: String?
     var teamName: String?
     var teamImageURL: String?
-    var date: NSDate
+    var date: Date
     var longitude: NSNumber?
     var latitude: NSNumber?
     var flagNeedsUpload: Bool?
@@ -78,28 +78,28 @@ class Posting: NSObject {
     var locality: String?
     
     required init(dict: NSDictionary) {
-        self.uuid = dict.valueForKey("id") as! NSInteger
-        self.text = dict.valueForKey("text") as? String
+        self.uuid = dict.value(forKey: "id") as! NSInteger
+        self.text = dict.value(forKey: "text") as? String
         self.comments = Array()
-        let unixTimestamp = dict.valueForKey("date") as! NSNumber
-        self.date = NSDate(timeIntervalSince1970: unixTimestamp.doubleValue)
+        let unixTimestamp = dict.value(forKey: "date") as! NSNumber
+        self.date = Date(timeIntervalSince1970: unixTimestamp.doubleValue)
         
-        if let longitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("longitude") as? NSNumber {
+        if let longitude: NSNumber = (dict.value(forKey: "postingLocation")! as AnyObject).value(forKey: "longitude") as? NSNumber {
             self.longitude = longitude
         }
-        if let latitude: NSNumber = dict.valueForKey("postingLocation")!.valueForKey("latitude") as? NSNumber {
+        if let latitude: NSNumber = (dict.value(forKey: "postingLocation")! as AnyObject).value(forKey: "latitude") as? NSNumber {
             self.latitude = latitude
         }
         
-        if let mediaArray = dict.valueForKey("media") as? [NSDictionary] {
+        if let mediaArray = dict.value(forKey: "media") as? [NSDictionary] {
             for item in mediaArray {
                 // Handle Images
-                if let id = item.valueForKey("id") as? Int, sizes = item.valueForKey("sizes") as? [NSDictionary] {
+                if let id = item.value(forKey: "id") as? Int, let sizes = item.value(forKey: "sizes") as? [NSDictionary] {
                     let image: NSDictionary?
                     if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
-                        let deviceHeight = UIScreen.mainScreen().bounds.height
+                        let deviceHeight = UIScreen.main.bounds.height
                         image = sizes.filter() { item in
-                            if let height = item.valueForKey("height") as? Int {
+                            if let height = item.value(forKey: "height") as? Int {
                                 return (CGFloat) (height) < deviceHeight
                             }
                             return false
@@ -110,14 +110,14 @@ class Posting: NSObject {
                             betterURL = lastURL
                         }*/
                     }
-                    if let url = image?.valueForKey("url") as? String {
+                    if let url = image?.value(forKey: "url") as? String {
                         self.imageURL = url
                     }
                 }
                 
             }
         }
-        if let commentsArray = dict.valueForKey("comments") as? [NSDictionary] {
+        if let commentsArray = dict.value(forKey: "comments") as? [NSDictionary] {
             for item in commentsArray {
                 let newComment: Comment = Comment(dict: item)
                 self.comments?.append(newComment)
@@ -125,13 +125,13 @@ class Posting: NSObject {
             }
         }
         
-        if let userDictionary = dict.valueForKey("user") as? NSDictionary {
-            if let participantDictionary = userDictionary.valueForKey("participant") as? NSDictionary {
-                let teamid = participantDictionary.valueForKey("teamId")
+        if let userDictionary = dict.value(forKey: "user") as? NSDictionary {
+            if let participantDictionary = userDictionary.value(forKey: "participant") as? NSDictionary {
+                let teamid = participantDictionary.value(forKey: "teamId")
             }
         }
         
-        if let postingLocationDictionary = dict.valueForKey("postingLocation") as? NSDictionary {
+        if let postingLocationDictionary = dict.value(forKey: "postingLocation") as? NSDictionary {
             if postingLocationDictionary.count > 0 {
                 self.teamName = postingLocationDictionary["team"] as! String
                 if let locationDataDict: NSDictionary = postingLocationDictionary["locationData"] as? NSDictionary {
@@ -158,7 +158,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         self.loadPostingsFromBackend(self.lastLoadedPage)
     }
     
-    func loadPostingsFromBackend(page: Int = 0) {
+    func loadPostingsFromBackend(_ page: Int = 0) {
         //if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
         self.loadingCell(true)
         BONetworkIndicator.si.increaseLoading()
@@ -180,38 +180,38 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         //}
     }
     
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        let fetchRequest = NSFetchRequest(entityName: "BOPost")
+    lazy var fetchedResultsController: NSFetchedResultsController<BOPost> = {
+        let fetchRequest = NSFetchRequest<BOPost>(entityName: "BOPost")
         fetchRequest.fetchLimit = 100
         fetchRequest.fetchBatchSize = 20
         
         // Filter Food where type is breastmilk
-        var predicate = NSPredicate(format: "%K != %@", "flagNeedsDownload", true)
+        var predicate = NSPredicate(format: "%K != %@", "flagNeedsDownload", true as CVarArg)
         fetchRequest.predicate = predicate
         
         // Sort by createdAt
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: NSManagedObjectContext.MR_defaultContext(), sectionNameKeyPath: nil, cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: NSManagedObjectContext.mr_default(), sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
         return frc
     }()
     
-    func loadingCell(isLoading: Bool = false) {
+    func loadingCell(_ isLoading: Bool = false) {
         self.isLoading = isLoading
-        let indexPath = NSIndexPath(forRow: self.tableView.numberOfRowsInSection(0)-1, inSection: 0)
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+        let indexPath = IndexPath(row: self.tableView.numberOfRows(inSection: 0)-1, section: 0)
+        self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.fade)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Style the navigation bar
-        self.navigationController!.navigationBar.translucent = false
+        self.navigationController!.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.barTintColor = Style.mainOrange
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         self.title = NSLocalizedString("allPostingsTitle", comment: "")
         
@@ -236,10 +236,10 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
         
-        self.refreshControl?.addTarget(self, action: #selector(handleRefresh), forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
     }
     
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    func handleRefresh(_ refreshControl: UIRefreshControl) {
         self.allPostingsArray.removeAll()
         self.tableView.reloadData()
         
@@ -249,8 +249,8 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         refreshControl.endRefreshing()
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if cell.isKindOfClass(LoadingTableViewCell) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if cell.isKind(of: LoadingTableViewCell.self) {
             if self.isLoading {
                 cell.alpha = 0
             }else{
@@ -258,18 +258,18 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
             }
         }
         
-        if indexPath.row == self.tableView.numberOfRowsInSection(indexPath.section)-1 {
+        if (indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1 {
             self.loadNewPageOfPostings()
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/AllPostingsTVC", timed: true)
-        Answers.logCustomEventWithName("/AllPostingsTVC", customAttributes: [:])
+        Answers.logCustomEvent(withName: "/AllPostingsTVC", customAttributes: [:])
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         Flurry.endTimedEvent("/AllPostingsTVC", withParameters: nil)
     }
     
@@ -282,14 +282,14 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         // Dispose of any resources that can be recreated.
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView.reloadData()
         self.tableView.reloadInputViews()
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         /*if let sections = fetchedResultsController.sections {
             return sections.count
         }*/
@@ -297,7 +297,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         //return 0
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         /*if let currSection = fetchedResultsController.sections?[section] {
             return currSection.numberOfObjects
         }*/
@@ -305,13 +305,13 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if (indexPath.row == self.tableView.numberOfRowsInSection(indexPath.section)-1) {
-            let cell = tableView.dequeueReusableCellWithIdentifier("LoadingTableViewCell", forIndexPath: indexPath) as! LoadingTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if ((indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath) as! LoadingTableViewCell
             
             return cell
         }else{
-            let cell = tableView.dequeueReusableCellWithIdentifier("PostingTableViewCell", forIndexPath: indexPath) as! PostingTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath) as! PostingTableViewCell
         //configureCell(cell, atIndexPath: indexPath)
             configureCellFromDict(cell, atIndexPath: indexPath)
             cell.parentTableViewController = self
@@ -319,17 +319,17 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         }
     }
     
-    func configureCellFromDict(cell: PostingTableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let posting:Posting = self.allPostingsArray[indexPath.row]
+    func configureCellFromDict(_ cell: PostingTableViewCell, atIndexPath indexPath: IndexPath) {
+        let posting:Posting = self.allPostingsArray[(indexPath as NSIndexPath).row]
         cell.messageLabel?.text = posting.text
         
         let date = posting.date
-        cell.timestampLabel?.text = date.toNaturalString(NSDate())
+        cell.timestampLabel?.text = date.toString()
         
         if (posting.locality != nil && posting.locality != "") {
             cell.locationLabel?.text = posting.locality
         }else if(posting.latitude != nil && posting.longitude != nil) {
-            if (posting.latitude!.intValue != 0 && posting.longitude!.intValue != 0){
+            if (posting.latitude!.int32Value != 0 && posting.longitude!.int32Value != 0){
                 cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.latitude!, posting.longitude!)
             }
         }else{
@@ -338,7 +338,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         
         // Check if Posting has an attached media file
         if posting.imageURL != nil {
-            cell.postingPictureImageView.setImageWithURL(NSURL(string: posting.imageURL!)!)
+            cell.postingPictureImageView.setImageWith(URL(string: posting.imageURL!)!)
             cell.postingPictureImageViewHeightConstraint.constant = 120.0
         }else{
             cell.postingPictureImageView.image = UIImage()
@@ -369,12 +369,12 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
             // Challenge is attached -> Show the challenge box
             cell.challengeLabel.text = posting.challenge?.text
             cell.challengeLabelHeightConstraint.constant = 34.0
-            cell.challengeView.hidden = false
+            cell.challengeView.isHidden = false
         }else{
             cell.challengeLabel.text = ""
             cell.challengeLabelHeightConstraint.constant = 0.0
             cell.challengeViewHeightConstraint.constant = 0.0
-            cell.challengeView.hidden = true
+            cell.challengeView.isHidden = true
         }
         
         if posting.flagNeedsUpload == true {
@@ -384,27 +384,27 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         }
         
         // Add count for comments
-        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments!.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
+        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments!.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
         
         
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
     
-    func configureCell(cell: PostingTableViewCell, atIndexPath indexPath: NSIndexPath) {
+    func configureCell(_ cell: PostingTableViewCell, atIndexPath indexPath: IndexPath) {
         // Configure cell with the BOPost model
-        let posting:BOPost = fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost
+        let posting:BOPost = fetchedResultsController.object(at: indexPath) as! BOPost
         
         posting.printToLog()
         
         cell.messageLabel?.text = posting.text
         
         let date = posting.date
-        cell.timestampLabel?.text = date.toNaturalString(NSDate())
+        cell.timestampLabel?.text = date.toString()
         
         if (posting.locality != nil && posting.locality != "") {
             cell.locationLabel?.text = posting.locality
-        }else if (posting.latitude.intValue != 0 && posting.longitude.intValue != 0){
+        }else if (posting.latitude.int32Value != 0 && posting.longitude.int32Value != 0){
             cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.latitude, posting.longitude)
         }else{
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
@@ -436,12 +436,12 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
             // Challenge is attached -> Show the challenge box
             cell.challengeLabel.text = posting.challenge?.text
             cell.challengeLabelHeightConstraint.constant = 34.0
-            cell.challengeView.hidden = false
+            cell.challengeView.isHidden = false
         }else{
             cell.challengeLabel.text = ""
             cell.challengeLabelHeightConstraint.constant = 0.0
             cell.challengeViewHeightConstraint.constant = 0.0
-            cell.challengeView.hidden = true
+            cell.challengeView.isHidden = true
         }
         
         if posting.flagNeedsUpload == true {
@@ -451,20 +451,20 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         }
         
         // Add count for comments
-        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), forState: UIControlState.Normal)
+        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
         
         
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewControllerWithIdentifier("PostingDetailsTableViewController") as! PostingDetailsTableViewController
+        let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController
         
         //postingDetailsTableViewController.posting = (fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost)
-        postingDetailsTableViewController.posting = self.allPostingsArray[indexPath.row] as Posting
+        postingDetailsTableViewController.posting = self.allPostingsArray[(indexPath as NSIndexPath).row] as Posting
         
         self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
     }

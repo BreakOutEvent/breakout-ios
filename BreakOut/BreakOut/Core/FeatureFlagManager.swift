@@ -9,7 +9,7 @@
 import UIKit
 import Pantry
 
-import JLToast
+import Toaster
 
 // Tracking
 import Flurry_iOS_SDK
@@ -17,7 +17,7 @@ import Flurry_iOS_SDK
 class FeatureFlagManager: NSObject {
     static let sharedInstance = FeatureFlagManager()
     
-    func isActivated(featureFlag: String) -> Bool {
+    func isActivated(_ featureFlag: String) -> Bool {
         if let retrieveFeatureFlag: Bool = Pantry.unpack(featureFlag) {
             return retrieveFeatureFlag
         }
@@ -34,8 +34,8 @@ class FeatureFlagManager: NSObject {
         
         BONetworkManager.doJSONRequestGET(.FeatureFlags, arguments: [], parameters: nil, auth: false, success: { (response) in
             for featureFlagConfig: NSDictionary in response as! Array {
-                let key: String = featureFlagConfig.valueForKey("description") as! String
-                Pantry.pack(featureFlagConfig.valueForKey("enabled") as! Bool, key: key)
+                let key: String = featureFlagConfig.value(forKey: "description") as! String
+                Pantry.pack(featureFlagConfig.value(forKey: "enabled") as! Bool, key: key)
             }
             
             Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful":true])

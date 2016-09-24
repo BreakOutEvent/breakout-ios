@@ -21,7 +21,7 @@ class FirstViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         print(BOSynchronizeController.sharedInstance.internetReachabilityStatus())
     }
 

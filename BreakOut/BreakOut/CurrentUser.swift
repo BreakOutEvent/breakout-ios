@@ -21,7 +21,7 @@ class CurrentUser: NSObject {
     var picture: UIImage?
     
     var gender: String? // "male"=0 or "female"=1
-    var birthday: NSDate?
+    var birthday: Date?
     
     var emergencyNumber: String?
     let KEY_EMERGENCYNUMBER: String = "emergencynumber"
@@ -41,24 +41,24 @@ class CurrentUser: NSObject {
     
     static var sharedInstance = CurrentUser()
     
-    override private init() {
+    override fileprivate init() {
         super.init()
         
         self.retrieveFromNSUserDefaults()
     }
     
     static func resetUser() {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.removeObjectForKey("userDictionary")
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "userDictionary")
         defaults.synchronize()
         self.sharedInstance = CurrentUser()
     }
     
-    func presentLoginScreenFromViewController(fromView: UIViewController) {
+    func presentLoginScreenFromViewController(_ fromView: UIViewController) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewControllerWithIdentifier("LoginRegisterViewController") as! LoginRegisterViewController
+        let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewController(withIdentifier: "LoginRegisterViewController") as! LoginRegisterViewController
         
-        fromView.presentViewController(loginRegisterViewController, animated: true, completion: nil)
+        fromView.present(loginRegisterViewController, animated: true, completion: nil)
     }
     
 // MARK: - Sync with Backend
@@ -77,7 +77,7 @@ class CurrentUser: NSObject {
             }) { (error, response) in
                 BONetworkIndicator.si.decreaseLoading()
                 if response?.statusCode == 401 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
                 }
             }
         }
@@ -102,8 +102,8 @@ class CurrentUser: NSObject {
                 self.setAttributesWithJSON(basicUserDict)
                 
                 // If the user is also an participant we should store the participants information
-                if (basicUserDict.objectForKey("participant") != nil) {
-                    if let participantDictionary: NSDictionary = basicUserDict.valueForKey("participant") as? NSDictionary {
+                if (basicUserDict.object(forKey: "participant") != nil) {
+                    if let participantDictionary: NSDictionary = basicUserDict.value(forKey: "participant") as? NSDictionary {
                         self.setAttributesWithJSON(participantDictionary)
                         // Participant Information is connected to the user -> Mark him as Participant
                         self.flagParticipant = true
@@ -119,7 +119,7 @@ class CurrentUser: NSObject {
             }) { (error, response) in
                 BONetworkIndicator.si.decreaseLoading()
                 if response?.statusCode == 401 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
                 }
             }
         }        
@@ -131,7 +131,7 @@ class CurrentUser: NSObject {
     func attributesAsDictionary() -> NSMutableDictionary {
         let selfDictionary: NSMutableDictionary = NSMutableDictionary()
         if self.userid != nil {
-            selfDictionary.setObject(self.userid!, forKey: KEY_USERID)
+            selfDictionary.setObject(self.userid!, forKey: KEY_USERID as NSCopying)
         }
         if self.firstname != nil {
             selfDictionary.setValue(self.firstname, forKey: "firstname")
@@ -177,22 +177,22 @@ class CurrentUser: NSObject {
     
     func storeInNSUserDefaults() {
         //Write login data in UserDefaults
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         
         let selfDictionary: NSMutableDictionary = self.attributesAsDictionary()
         
         //Store the user image
         if self.picture != nil {
             let imageData = UIImageJPEGRepresentation(self.picture!, 1)
-            let relativePath = "image_\(NSDate.timeIntervalSinceReferenceDate()).jpg"
+            let relativePath = "image_\(Date.timeIntervalSinceReferenceDate).jpg"
             let path = self.documentsPathForFileName(relativePath)
-            imageData!.writeToFile(path, atomically: true)
+            try? imageData!.write(to: URL(fileURLWithPath: path), options: [.atomic])
         
             selfDictionary.setValue(relativePath, forKey: "picture")
         }
         
         
-        defaults.setObject(selfDictionary, forKey: "userDictionary")
+        defaults.set(selfDictionary, forKey: "userDictionary")
         defaults.synchronize()
         
         self.uploadUserDataToBackend()
@@ -200,17 +200,17 @@ class CurrentUser: NSObject {
     
     func retrieveFromNSUserDefaults() {
         //Write login data in UserDefaults
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if defaults.objectForKey("userDictionary") != nil {
-            let selfDictionary:NSDictionary = defaults.objectForKey("userDictionary") as! NSDictionary
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "userDictionary") != nil {
+            let selfDictionary:NSDictionary = defaults.object(forKey: "userDictionary") as! NSDictionary
             self.setAttributesWithJSON(selfDictionary)
             //self.setValuesForKeysWithDictionary(selfDictionary as! [String : AnyObject])
         }
     }
     
-    func setAttributesWithJSON(jsonDictionary: NSDictionary) {
+    func setAttributesWithJSON(_ jsonDictionary: NSDictionary) {
         for (key, value) in jsonDictionary {
-            if value.isKindOfClass(NSNull) == false {
+            if !(value as AnyObject).isKind(of: NSNull.self) {
                 let keyName = key as! String
                 let keyValue = value
                 
@@ -230,7 +230,7 @@ class CurrentUser: NSObject {
                 }else if keyName == "gender" {
                     self.gender = keyValue as? String
                 }else if keyName == "birthday" || keyName == "birthdate" {
-                    self.birthday = keyValue as? NSDate
+                    self.birthday = keyValue as? Date
                 }else if keyName == "tshirtsize" {
                     self.shirtSize = keyValue as? String
                 }else if keyName == "emergencynumber" {
@@ -239,7 +239,7 @@ class CurrentUser: NSObject {
                     self.phoneNumber = keyValue as? String
                 }else if keyName == "picture" {
                     let imageFullPath = self.documentsPathForFileName(keyValue as! String)
-                    let userImageData = NSData(contentsOfFile: imageFullPath)
+                    let userImageData = try? Data(contentsOf: URL(fileURLWithPath: imageFullPath))
                     // here is your saved image:
                     if userImageData != nil {
                         self.picture = UIImage(data: userImageData!)
@@ -256,7 +256,7 @@ class CurrentUser: NSObject {
             }
         }
         
-        NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_CURRENT_USER_UPDATED, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
     }
     
 // MARK: - Return Value Helpers
@@ -273,16 +273,16 @@ class CurrentUser: NSObject {
     func username() -> String {
         var username = ""
         if self.firstname != nil {
-            username.appendContentsOf(self.firstname!)
-            username.appendContentsOf(" ")
+            username.append(self.firstname!)
+            username.append(" ")
         }
         if self.lastname != nil {
-            username.appendContentsOf(self.lastname!)
+            username.append(self.lastname!)
         }
         
         if username == "" || username == " " {
             if self.email != nil {
-                username = (self.email?.componentsSeparatedByString("@")[0])!
+                username = (self.email?.components(separatedBy: "@")[0])!
             }
         }
         
@@ -299,7 +299,7 @@ class CurrentUser: NSObject {
         }
     }
     
-    func stringGenderFromInt(int: Int) -> String {
+    func stringGenderFromInt(_ int: Int) -> String {
         if int == 0 {
             return "male"
         }else if int == 1 {
@@ -309,7 +309,7 @@ class CurrentUser: NSObject {
         }
     }
     
-    func setGenderFromInt(int: Int) {
+    func setGenderFromInt(_ int: Int) {
         self.gender = stringGenderFromInt(int)
     }
     
@@ -331,19 +331,19 @@ class CurrentUser: NSObject {
 
 // MARK: - Image Storing Helpers
     
-    func getDocumentsURL() -> NSURL {
-        let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0]
+    func getDocumentsURL() -> URL {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         return documentsURL
     }
     
-    func fileInDocumentsDirectory(filename: String) -> String {
+    func fileInDocumentsDirectory(_ filename: String) -> String {
         
-        let fileURL = getDocumentsURL().URLByAppendingPathComponent(filename)
-        return fileURL.path!
+        let fileURL = getDocumentsURL().appendingPathComponent(filename)
+        return fileURL.path
         
     }
     
-    func documentsPathForFileName(name: String) -> String {
+    func documentsPathForFileName(_ name: String) -> String {
         return fileInDocumentsDirectory(name)
 
     }

@@ -23,43 +23,43 @@ class BOTeam: NSManagedObject {
     @NSManaged var name: String?
     @NSManaged var profilePic: BOImage?
     
-    class func create(uuid: Int, flagNeedsDownload: Bool) -> BOTeam {
-        if let origTeamArray = BOPost.MR_findByAttribute("uuid", withValue: uuid) as? Array<BOTeam>, team = origTeamArray.first {
+    class func create(_ uuid: Int, flagNeedsDownload: Bool) -> BOTeam {
+        if let origTeamArray = BOPost.mr_find(byAttribute: "uuid", withValue: uuid) as? Array<BOTeam>, let team = origTeamArray.first {
             team.flagNeedsDownload = false
             return team
         }
         
-        let res = BOTeam.MR_createEntity()! as BOTeam
+        let res = BOTeam.mr_createEntity()! as BOTeam
         res.uuid = uuid as NSInteger
         res.flagNeedsDownload = flagNeedsDownload
         
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         return res;
     }
     
-    class func createWithDictionary(dict: NSDictionary) -> BOTeam {
+    class func createWithDictionary(_ dict: NSDictionary) -> BOTeam {
         let res: BOTeam
         if let id = dict["id"] as? NSInteger,
-            origTeamArray = BOTeam.MR_findByAttribute("uuid", withValue: id) as? Array<BOTeam>,
-            team = origTeamArray.first {
+            let origTeamArray = BOTeam.mr_find(byAttribute: "uuid", withValue: id) as? Array<BOTeam>,
+            let team = origTeamArray.first {
             res = team
         } else {
-            res = BOTeam.MR_createEntity()!
+            res = BOTeam.mr_createEntity()!
         }
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         
         return res
     }
     
-    func setAttributesWithDictionary(dict: NSDictionary) {
-        uuid = dict.valueForKey("id") as! NSInteger
-        text = dict.valueForKey("description") as? String
-        name = dict.valueForKey("name") as? String
-        if let profilePicDict = dict.valueForKey("profilePic") as? NSDictionary {
+    func setAttributesWithDictionary(_ dict: NSDictionary) {
+        uuid = dict.value(forKey: "id") as! NSInteger
+        text = dict.value(forKey: "description") as? String
+        name = dict.value(forKey: "name") as? String
+        if let profilePicDict = dict.value(forKey: "profilePic") as? NSDictionary {
             BOImage.createFromDictionary(profilePicDict) { (image) in
                 self.profilePic = image
                 self.save()
@@ -69,7 +69,7 @@ class BOTeam: NSManagedObject {
     }
     
     func save() {
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
     }
     
     func printToLog() {

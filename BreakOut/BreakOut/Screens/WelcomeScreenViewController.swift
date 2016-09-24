@@ -15,18 +15,18 @@ class WelcomeScreenViewController: UIViewController {
     @IBOutlet weak var descriptionTextLabel: UILabel!
     @IBOutlet weak var participateButton: UIButton!
     
-    var timer: NSTimer?
-    var eventStartDate: NSDate?
+    var timer: Timer?
+    var eventStartDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
 
         // Do any additional setup after loading the view.
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if defaults.objectForKey("eventStartTimestamp") != nil {
-            self.eventStartDate = NSDate(timeIntervalSince1970: (defaults.objectForKey("eventStartTimestamp") as! Double))
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "eventStartTimestamp") != nil {
+            self.eventStartDate = Date(timeIntervalSince1970: (defaults.object(forKey: "eventStartTimestamp") as! Double))
         }
         
         self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
@@ -34,36 +34,36 @@ class WelcomeScreenViewController: UIViewController {
         
         if CurrentUser.sharedInstance.isLoggedIn() {
             // User is logged in
-            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonShareLocation", comment: ""), forState: UIControlState.Normal)
+            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonShareLocation", comment: ""), for: UIControlState())
         }else{
             // User is not logged in
-            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), forState: UIControlState.Normal)
+            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), for: UIControlState())
         }
         
         
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
     }
     
     func updateCountdown() {
         if self.eventStartDate != nil {
-            self.headlineLabel.text = self.eventStartDate!.toNaturalString(NSDate())
+            self.headlineLabel.text = self.eventStartDate!.toString()
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/welcomeScreen", timed: true)
         
         if CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() < 0 {
-            self.participateButton.enabled = false
+            self.participateButton.isEnabled = false
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/welcomeScreen", withParameters: nil)
-        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,7 +75,7 @@ class WelcomeScreenViewController: UIViewController {
     
 // MARK: - Button Actions
     
-    @IBAction func participateButtonPressed(sender: UIButton) {
+    @IBAction func participateButtonPressed(_ sender: UIButton) {
         /*let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
         
@@ -84,21 +84,21 @@ class WelcomeScreenViewController: UIViewController {
         if CurrentUser.sharedInstance.isLoggedIn() {
             // User is logged in -> Show NewPostingsTVC
             if let slideMenuController = self.slideMenuController() {
-                let controller = self.storyboard?.instantiateViewControllerWithIdentifier("NewPostingTableViewController")
+                let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewPostingTableViewController")
                 
                 let navigationController = UINavigationController(rootViewController: controller!)
                 
-                slideMenuController.mainViewController?.presentViewController(navigationController, animated: true, completion: nil)
+                slideMenuController.mainViewController?.present(navigationController, animated: true, completion: nil)
             }
         }else{
             // User is NOT logged in -> show login screen
-            NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
         }
         
         
     }
     
-    @IBAction func menuButtonPressed(sender: UIButton) {
+    @IBAction func menuButtonPressed(_ sender: UIButton) {
         self.slideMenuController()?.toggleLeft()
     }
 

@@ -19,11 +19,11 @@ class HelpTableViewController: StaticDataTableViewController {
         super.viewDidLoad()
 
         // Style the navigation bar
-        self.navigationController!.navigationBar.translucent = false
+        self.navigationController!.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.barTintColor = Style.mainOrange
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         self.title = NSLocalizedString("helpViewTitle", comment: "")
         
@@ -37,13 +37,13 @@ class HelpTableViewController: StaticDataTableViewController {
         tableView.estimatedRowHeight = 175.0
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/helpView", timed: true)
-        Answers.logCustomEventWithName("/helpView", customAttributes: [:])
+        Answers.logCustomEvent(withName: "/helpView", customAttributes: [:])
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/helpView", withParameters: nil)
     }
@@ -53,13 +53,13 @@ class HelpTableViewController: StaticDataTableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let emptyView = UIView()
         
         return emptyView
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
     

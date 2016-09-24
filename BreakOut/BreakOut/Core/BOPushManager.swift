@@ -16,7 +16,7 @@ class BOPushManager: NSObject {
     
     static let sharedInstance = BOPushManager()
     
-    var eventStartDate: NSDate?
+    var eventStartDate: Date?
     
     let oneHour: Double = 3600
     let oneDay: Double = 14400
@@ -25,44 +25,44 @@ class BOPushManager: NSObject {
         self.removeAllRegisteredNotifications()
         
         // Do any additional setup after loading the view.
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if defaults.objectForKey("eventStartTimestamp") != nil {
-            self.eventStartDate = NSDate(timeIntervalSince1970: (defaults.objectForKey("eventStartTimestamp") as! Double))
+        let defaults = UserDefaults.standard
+        if defaults.object(forKey: "eventStartTimestamp") != nil {
+            self.eventStartDate = Date(timeIntervalSince1970: (defaults.object(forKey: "eventStartTimestamp") as! Double))
         }
         
         print("BOPushManager: EventStartDate: ", self.eventStartDate?.description)
         if self.eventStartDate != nil {
-            self.registerPush((eventStartDate?.dateByAddingTimeInterval(-self.oneDay))!, text: NSLocalizedString("Push_24h_before_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(-self.oneDay))!, text: NSLocalizedString("Push_24h_before_Start", comment: "push"))
             
-            self.registerPush((eventStartDate?.dateByAddingTimeInterval(-self.oneHour))!, text: NSLocalizedString("Push_1h_before_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(-self.oneHour))!, text: NSLocalizedString("Push_1h_before_Start", comment: "push"))
             
-            self.registerPush((eventStartDate?.dateByAddingTimeInterval(self.oneHour))!, text: NSLocalizedString("Push_1h_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(self.oneHour))!, text: NSLocalizedString("Push_1h_after_Start", comment: "push"))
             
-            self.registerPush((eventStartDate?.dateByAddingTimeInterval(18*self.oneHour))!, text: NSLocalizedString("Push_18h_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(18*self.oneHour))!, text: NSLocalizedString("Push_18h_after_Start", comment: "push"))
             
-            self.registerPush((eventStartDate?.dateByAddingTimeInterval(35*self.oneHour))!, text: NSLocalizedString("Push_35h_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(35*self.oneHour))!, text: NSLocalizedString("Push_35h_after_Start", comment: "push"))
             
-            self.registerPush((eventStartDate?.dateByAddingTimeInterval(2*self.oneDay))!, text: NSLocalizedString("Push_2d_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(2*self.oneDay))!, text: NSLocalizedString("Push_2d_after_Start", comment: "push"))
             
-            self.registerPush((eventStartDate?.dateByAddingTimeInterval(7*self.oneDay))!, text: NSLocalizedString("Push_7d_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(7*self.oneDay))!, text: NSLocalizedString("Push_7d_after_Start", comment: "push"))
             
-            if defaults.objectForKey("lastPostingSent") != nil {
-                let lastPostingSentDate: NSDate = defaults.objectForKey("lastPostingSent") as! NSDate
+            if defaults.object(forKey: "lastPostingSent") != nil {
+                let lastPostingSentDate: Date = defaults.object(forKey: "lastPostingSent") as! Date
                 
-                self.registerPush(lastPostingSentDate.dateByAddingTimeInterval(self.oneHour), text: NSLocalizedString("Push_1h_after_last_Posting", comment: "push"))
+                self.registerPush(lastPostingSentDate.addingTimeInterval(self.oneHour), text: NSLocalizedString("Push_1h_after_last_Posting", comment: "push"))
             }
         }
     }
 
     func removeAllRegisteredNotifications() {
-        UIApplication.sharedApplication().scheduledLocalNotifications?.removeAll()
+        UIApplication.shared.scheduledLocalNotifications?.removeAll()
     }
     
-    func registerPush(fireDate: NSDate, text: String) {
+    func registerPush(_ fireDate: Date, text: String) {
         let notification = UILocalNotification()
         notification.fireDate = fireDate
         notification.alertBody = text
         notification.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        UIApplication.shared.scheduleLocalNotification(notification)
     }
 }

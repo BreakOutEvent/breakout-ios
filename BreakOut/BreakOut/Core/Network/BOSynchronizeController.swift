@@ -71,74 +71,74 @@ class BOSynchronizeController: NSObject {
      The current reachability status is stored in the 'internetReachability' var and has one of the following values: 'unknown', 'wifi', 'cellular' or 'not_reachable'
      */
     func checkForInternetReachability() {
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
+        
+        guard let reachability = Reachability() else {
             print("Unable to create Reachability")
             return
         }
         
+        self.reachability = reachability
         
-        reachability!.whenReachable = { reachability in
+        reachability.whenReachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
-            dispatch_async(dispatch_get_main_queue()) {
-                if reachability.isReachableViaWiFi() {
+            DispatchQueue.main.async {
+                if reachability.isReachableViaWiFi {
                     self.internetReachability = "wifi"
                     
                     self.tryUploadAll()
                     
                     print("Reachable via WiFi")
-                    Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"wifi"])
+                    Answers.logCustomEvent(withName: "/reachability", customAttributes: ["Reachable via":"wifi"])
                 } else {
                     self.internetReachability = "cellular"
                     print("Reachable via Cellular")
-                    Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"cellular"])
+                    Answers.logCustomEvent(withName: "/reachability", customAttributes: ["Reachable via":"cellular"])
                 }
             }
         }
-        reachability!.whenUnreachable = { reachability in
+        reachability.whenUnreachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.internetReachability = "not_reachable"
                 print("Not reachable")
-                Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"Not reachable"])
+                Answers.logCustomEvent(withName: "/reachability", customAttributes: ["Reachable via":"Not reachable"])
             }
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self,
+        NotificationCenter.default.addObserver(self,
             selector: #selector(BOSynchronizeController.reachabilityChanged(_:)),
             name: ReachabilityChangedNotification,
             object: reachability)
         
         do {
-            try reachability!.startNotifier()
+            try reachability.startNotifier()
         } catch {
             print("Unable to start notifier")
         }
     }
     
-    func reachabilityChanged(note: NSNotification) {
+    func reachabilityChanged(_ note: Notification) {
         
         let reachability = note.object as? Reachability
         
-        if reachability?.isReachable() ?? false {
-            if reachability?.isReachableViaWiFi() ?? false {
+        if reachability?.isReachable ?? false {
+            if reachability?.isReachableViaWiFi ?? false {
                 self.internetReachability = "wifi"
                 print("Reachable via WiFi")
-                Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"wifi"])
+                Answers.logCustomEvent(withName: "/reachability", customAttributes: ["Reachable via":"wifi"])
                 
                 totalDatabaseSynchronization()
             } else {
                 self.internetReachability = "cellular"
                 print("Reachable via Cellular")
-                Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"cellular"])
+                Answers.logCustomEvent(withName: "/reachability", customAttributes: ["Reachable via":"cellular"])
             }
         } else {
             self.internetReachability = "not_reachable"
             print("Not reachable")
-            Answers.logCustomEventWithName("/reachability", customAttributes: ["Reachable via":"Not reachable"])
+            Answers.logCustomEvent(withName: "/reachability", customAttributes: ["Reachable via":"Not reachable"])
         }
     }
     
@@ -157,7 +157,7 @@ class BOSynchronizeController: NSObject {
     /**
      Get only updates of the team list till specified date and store response in Database.
     */
-    func loadUpdatesOfTeamList(date: NSDate) {
+    func loadUpdatesOfTeamList(_ date: Date) {
         
     }
     
@@ -170,7 +170,7 @@ class BOSynchronizeController: NSObject {
     
 // MARK: Events
     
-    func sendInvitationToTeam(teamID: Int, name: String, eventID: Int, handler: () -> ()) {
+    func sendInvitationToTeam(_ teamID: Int, name: String, eventID: Int, handler: @escaping () -> ()) {
         
         //TODO: Which parameter need to be passed to the API-Endpoint?
         let params: NSDictionary = [
@@ -186,7 +186,7 @@ class BOSynchronizeController: NSObject {
         }
     }
     
-    func getAllEvents(success: ([BOEvent]) -> ()) {
+    func getAllEvents(_ success: @escaping ([BOEvent]) -> ()) {
         BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: true, success: { (response) in
             if let responseArray: Array = response as? Array<NSDictionary> {
                 var res = [BOEvent]()
@@ -200,21 +200,21 @@ class BOSynchronizeController: NSObject {
             }
         }) { (error, response) in
             if response?.statusCode == 401 {
-                NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
             }
         }
     }
     
-    func createTeam(name: String, eventID: Int, image: UIImage?, success: () -> (), error: () -> ()) {
+    func createTeam(_ name: String, eventID: Int, image: UIImage?, success: @escaping () -> (), error: @escaping () -> ()) {
         let params: NSDictionary = [
             "event": eventID,
             "name": name
         ]
         BONetworkManager.doJSONRequestPOST(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
-            if let imageUnwrapped = image, dict = response as? NSDictionary,
-                    profilePicDict = dict.valueForKey("profilePic") as? NSDictionary,
-                    token = profilePicDict.valueForKey("uploadToken") as? String,
-                    id = profilePicDict.valueForKey("id") as? Int {
+            if let imageUnwrapped = image, let dict = response as? NSDictionary,
+                    let profilePicDict = dict.value(forKey: "profilePic") as? NSDictionary,
+                    let token = profilePicDict.value(forKey: "uploadToken") as? String,
+                    let id = profilePicDict.value(forKey: "id") as? Int {
                 let boImage = BOImage.createWithImage(imageUnwrapped)
                 boImage.uploadWithToken(id, token: token)
             }
@@ -233,7 +233,7 @@ class BOSynchronizeController: NSObject {
     
 // MARK: Participant
     
-    func becomeParticipant(firstName: String, lastname: String, gender: String, email: String, emergencyNumber: String, phone: String, shirtSize: String, success: () -> (), error: () -> ()) {
+    func becomeParticipant(_ firstName: String, lastname: String, gender: String, email: String, emergencyNumber: String, phone: String, shirtSize: String, success: @escaping () -> (), error: @escaping () -> ()) {
         
         if let userID = CurrentUser.sharedInstance.userid {
             
@@ -262,7 +262,7 @@ class BOSynchronizeController: NSObject {
                 
                 // TODO: Show detailed errors to the user
                 if response?.statusCode == 401 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
                 }
                 error()
                 
@@ -279,7 +279,7 @@ class BOSynchronizeController: NSObject {
 
     
     func testPostUploads() {
-        let newPost: BOPost = BOPost.MR_createEntity()!
+        let newPost: BOPost = BOPost.mr_createEntity()!
         
         newPost.flagNeedsUpload = true
         newPost.text = "test post"
@@ -312,14 +312,14 @@ class BOSynchronizeController: NSObject {
 // MARK: Download Postings
     
     func downloadArrayOfNewPostingIDsSinceLastKnownPostingID() {
-        if let lastKnownPosting: BOPost = BOPost.MR_findFirstOrderedByAttribute("uuid", ascending: false) {
+        if let lastKnownPosting: BOPost = BOPost.mr_findFirstOrdered(byAttribute: "uuid", ascending: false) {
             self.downloadArrayOfNewPostingIDsSince(lastKnownPosting.uuid)
         }else{
             self.downloadArrayOfNewPostingIDsSince(0)
         }
     }
     
-    func downloadArrayOfNewPostingIDsSince(lastID: Int) {
+    func downloadArrayOfNewPostingIDsSince(_ lastID: Int) {
         BONetworkManager.doJSONRequestGET(.PostingsSince, arguments: [lastID], parameters: nil, auth: false, success: { (response) in
             let arrayOfPostingIDs: [Int] = response as! [Int]
             for newPostingID: Int in arrayOfPostingIDs {
@@ -331,7 +331,7 @@ class BOSynchronizeController: NSObject {
     }
     
     func downloadNotYetLoadedPostings() {
-        let arrayOfNotYetLoadedPostings: Array = BOPost.MR_findByAttribute("flagNeedsDownload", withValue: true) as! Array<BOPost>
+        let arrayOfNotYetLoadedPostings: Array = BOPost.mr_find(byAttribute: "flagNeedsDownload", withValue: true) as! Array<BOPost>
         if arrayOfNotYetLoadedPostings.count > 0 {
             var arrayOfIDsToLoad: [Int] = [Int]()
             var count:Int = 100
@@ -343,16 +343,16 @@ class BOSynchronizeController: NSObject {
                 }
             }
             
-            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIDsToLoad, auth: false, success: { (response) in
+            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIDsToLoad as AnyObject?, auth: false, success: { (response) in
                 // response is an Array of Posting Dictionaries
                 let arrayOfPostingDictionaries: Array = response as! Array<NSDictionary>
                 for newPostingDict: NSDictionary in arrayOfPostingDictionaries {
-                    let updatedPost: BOPost = BOPost.MR_findFirstByAttribute("flagNeedsDownload", withValue: true)!
+                    let updatedPost: BOPost = BOPost.mr_findFirst(byAttribute: "flagNeedsDownload", withValue: true)!
                     updatedPost.setAttributesWithDictionary(newPostingDict)
                     updatedPost.flagNeedsDownload = false
                     updatedPost.printToLog()
                 }
-                NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+                NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
                 //BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
                 // Tracking
                 Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
@@ -395,25 +395,25 @@ class BOSynchronizeController: NSObject {
         BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
             for newEvent: NSDictionary in response as! Array {
                 
-                let defaults = NSUserDefaults.standardUserDefaults()
-                defaults.setObject(newEvent.valueForKey("date")as! Int, forKey: "eventStartTimestamp")
+                let defaults = UserDefaults.standard
+                defaults.set(newEvent.value(forKey: "date")as! Int, forKey: "eventStartTimestamp")
                 defaults.synchronize()
                 
-                self.downloadAllTeamsForEvent(newEvent.valueForKey("id")as! Int)
-                self.downloadAllLocationsForEvent(newEvent.valueForKey("id")as! Int)
+                self.downloadAllTeamsForEvent(newEvent.value(forKey: "id")as! Int)
+                self.downloadAllLocationsForEvent(newEvent.value(forKey: "id")as! Int)
             }
         }) { (error, response) in
         }
     }
     
-    func downloadAllTeamsForEvent(eventId: Int) {
+    func downloadAllTeamsForEvent(_ eventId: Int) {
         BONetworkManager.doJSONRequestGET(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             var numberOfAddedTeams: Int = 0
             // response is an Array of Team Objects
-            let arrayExistingTeams: Array<BOTeam> = BOTeam.MR_findAll() as! Array<BOTeam>
+            let arrayExistingTeams: Array<BOTeam> = BOTeam.mr_findAll() as! Array<BOTeam>
             for newTeam: NSDictionary in response as! Array {
                 //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    let index = arrayExistingTeams.indexOf({$0.uuid == (newTeam.objectForKey("id") as! Int)})
+                    let index = arrayExistingTeams.index(where: {$0.uuid == (newTeam.object(forKey: "id") as! Int)})
                     if index != nil {
                         // Team already exists
                     }else{
@@ -432,11 +432,11 @@ class BOSynchronizeController: NSObject {
         }
     }
     
-    func downloadAllLocationsForEvent(eventId: Int) {
+    func downloadAllLocationsForEvent(_ eventId: Int) {
         BONetworkManager.doJSONRequestGET(.EventAllLocations, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Location Objects
             for newLocation: NSDictionary in response as! Array {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
                     BOLocation.createWithDictionary(newLocation)
                 })
             }
@@ -455,7 +455,7 @@ class BOSynchronizeController: NSObject {
         }
     }
     
-    func downloadChallengesForTeam(teamId: Int, eventId: Int) {
+    func downloadChallengesForTeam(_ teamId: Int, eventId: Int) {
         BONetworkManager.doJSONRequestGET(.EventTeamChallenge, arguments: [eventId, teamId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Location Objects
             for newChallenge: NSDictionary in response as! Array {
@@ -471,7 +471,7 @@ class BOSynchronizeController: NSObject {
     }
     
     func downloadBestVersionsOfImages() {
-        if let images = BOImage.MR_findByAttribute("needsBetterDownload", withValue: true) as? Array<BOImage> {
+        if let images = BOImage.mr_find(byAttribute: "needsBetterDownload", withValue: true) as? Array<BOImage> {
             for image in images {
                 BOImageDownloadManager.sharedInstance.getBetterImage(image.uid)
             }
@@ -482,7 +482,7 @@ class BOSynchronizeController: NSObject {
     
     func tryUploadPosts() {
         // Retrieve Array of all posts which are flagged as offline with need to upload
-        let arrayOfPostsToUpload: Array = BOPost.MR_findByAttribute("flagNeedsUpload", withValue: true) as! Array<BOPost>
+        let arrayOfPostsToUpload: Array = BOPost.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as! Array<BOPost>
         
         // Tracking
         Flurry.logEvent("/posting/upload/start", withParameters: ["Number of Posts": arrayOfPostsToUpload.count])
@@ -497,7 +497,7 @@ class BOSynchronizeController: NSObject {
 // MARK: Upload Comments
     
     func tryUploadComments() {
-        if let commentsToUpload = BOComment.MR_findByAttribute("flagNeedsUpload", withValue: true) as? Array<BOComment> {
+        if let commentsToUpload = BOComment.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as? Array<BOComment> {
             for comment in commentsToUpload {
                 comment.upload()
             }
@@ -507,7 +507,7 @@ class BOSynchronizeController: NSObject {
     func tryUploadLocations() {
         // LOcations can only be uploaded if the user is logged in and part of a team which participates at an event. Check this before!
         if (CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() >= 0 && CurrentUser.sharedInstance.currentEventId() >= 0) {
-            if let locationsToUpload = BOLocation.MR_findByAttribute("flagNeedsUpload", withValue: true) as? Array<BOLocation> {
+            if let locationsToUpload = BOLocation.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as? Array<BOLocation> {
                 for location in locationsToUpload {
                     location.upload()
                 }
@@ -521,7 +521,7 @@ class BOSynchronizeController: NSObject {
     func tryUploadImages() {
         if internetReachability == "wifi" {
             if (CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() >= 0 && CurrentUser.sharedInstance.currentEventId() >= 0) {
-                if let imagesToUpload = BOImage.MR_findByAttribute("flagNeedsUpload", withValue: true) as? Array<BOImage> {
+                if let imagesToUpload = BOImage.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as? Array<BOImage> {
                     for image in imagesToUpload {
                         image.upload()
                     }

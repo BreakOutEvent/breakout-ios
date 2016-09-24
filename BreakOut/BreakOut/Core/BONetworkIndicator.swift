@@ -26,9 +26,9 @@ class BONetworkIndicator: NSObject {
     
     func handleActivityIndicator() {
         if self.loadingCount > 0 {
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }else{
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self.loadingCount = 0
         }
     }

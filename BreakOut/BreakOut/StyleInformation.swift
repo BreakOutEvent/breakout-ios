@@ -27,5 +27,5 @@ struct Style {
     static let graphLineColor: UIColor = UIColor(red:0.77, green:0.29, blue:0.96, alpha:1)
     static let graphGradientColor: UIColor = UIColor(red:0.77, green:0.29, blue:0.96, alpha:0.05)
     
-    static let normalTextColor: UIColor = UIColor.whiteColor()
+    static let normalTextColor: UIColor = UIColor.white
 }

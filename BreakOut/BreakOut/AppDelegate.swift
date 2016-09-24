@@ -30,50 +30,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         FIRApp.configure()
         
         #if DEBUG
             //Instabug Setup
-            Instabug.startWithToken(PrivateConstants.instabugAPIToken, invocationEvent: IBGInvocationEvent.TwoFingersSwipeLeft)
+            Instabug.start(withToken: PrivateConstants.instabugAPIToken, invocationEvent: IBGInvocationEvent.twoFingersSwipeLeft)
         #endif
         
         //Fabric Setup
         //Fabric.with([Crashlytics.self()])
-        Fabric.with([Crashlytics.startWithAPIKey(PrivateConstants.crashlyticsAPIToken)])
+        Fabric.with([Crashlytics.start(withAPIKey: PrivateConstants.crashlyticsAPIToken)])
         
         //Flurry Setup
         Flurry.startSession(PrivateConstants.flurryAPIToken);
         
         
         // Database
-        MagicalRecord.setupCoreDataStackWithStoreNamed("BODataModel")
-        MagicalRecord.setLoggingLevel(MagicalRecordLoggingLevel.All) //All Events are logged to the console
+        MagicalRecord.setupCoreDataStack(withStoreNamed: "BODataModel")
+        MagicalRecord.setLoggingLevel(MagicalRecordLoggingLevel.all) //All Events are logged to the console
         
         // Network Debugging
         #if DEBUG
             NFX.sharedInstance().start()
             Visualizer.start()
             
-            NSNotificationCenter.defaultCenter().addObserverForName(nil,
+            NotificationCenter.default.addObserver(forName: nil,
                 object: nil,
                 queue: nil) {
                     note in
-                    if note.name.containsString("BONotification_") {
-                        print("Notification: " + note.name + "\r\n")
-                    }
+//                    if note.name.containsString("BONotification_") {
+//                        print("Notification: " + note.name + "\r\n")
+//                    }
             }
             
             
             print("----------- DB Entity Counts ----------------------")
-            print("BOPost: ", BOPost.MR_countOfEntities())
-            print("BOLocation: ", BOLocation.MR_countOfEntities())
-            print("BOImage: ", BOImage.MR_countOfEntities())
-            print("BOTeam: ", BOTeam.MR_countOfEntities())
-            print("BOChallenge: ", BOChallenge.MR_countOfEntities())
-            print("BOComment: ", BOComment.MR_countOfEntities())
+            print("BOPost: ", BOPost.mr_countOfEntities())
+            print("BOLocation: ", BOLocation.mr_countOfEntities())
+            print("BOImage: ", BOImage.mr_countOfEntities())
+            print("BOTeam: ", BOTeam.mr_countOfEntities())
+            print("BOChallenge: ", BOChallenge.mr_countOfEntities())
+            print("BOComment: ", BOComment.mr_countOfEntities())
             print("---------------------------------------------------")
         #endif
 
@@ -91,48 +91,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FeatureFlagManager.sharedInstance.downloadCurrentFeatureFlagSetup()
         
-        let settings = UIApplication.sharedApplication().currentUserNotificationSettings()
+        let settings = UIApplication.shared.currentUserNotificationSettings
         
-        if settings!.types == .None {
-            let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
-            UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+        if settings!.types == UIUserNotificationType() {
+            let notificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(notificationSettings)
         }else{
             BOPushManager.sharedInstance.setupAllLocalPushNotifications()
         }
         
-        if (launchOptions?[UIApplicationLaunchOptionsLocationKey] as? NSDictionary) != nil {
+        if (launchOptions?[UIApplicationLaunchOptionsKey.location] as? NSDictionary) != nil {
             BOLocationManager.sharedInstance.start()
         }
         
-        if (launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? NSDictionary) != nil {
-            Answers.logCustomEventWithName("/Delegate/didLaunch/LocalNotificationKey", customAttributes: [:])
+        if (launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? NSDictionary) != nil {
+            Answers.logCustomEvent(withName: "/Delegate/didLaunch/LocalNotificationKey", customAttributes: [:])
         }
         
         return true
     }
     
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         BOLocationManager.sharedInstance.enterBackground()
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         BOLocationManager.sharedInstance.becomeActive()
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
         // Database

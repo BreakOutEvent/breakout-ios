@@ -27,46 +27,46 @@ class BOChallenge: NSManagedObject {
     @NSManaged var amount: NSNumber?
     @NSManaged var flagNeedsUpload: Bool
     
-    class func create(uuid: Int) -> BOChallenge {
+    class func create(_ uuid: Int) -> BOChallenge {
         
-        if let origChallengeArray = BOChallenge.MR_findByAttribute("uuid", withValue: uuid) as? Array<BOChallenge>, challenge = origChallengeArray.first {
+        if let origChallengeArray = BOChallenge.mr_find(byAttribute: "uuid", withValue: uuid) as? Array<BOChallenge>, let challenge = origChallengeArray.first {
             return challenge
         }
         
-        let res = BOChallenge.MR_createEntity()! as BOChallenge
+        let res = BOChallenge.mr_createEntity()! as BOChallenge
         
         res.uuid = uuid as NSInteger
         
         // Save
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         return res;
     }
     
-    class func createWithDictionary(dict: NSDictionary) -> BOChallenge {
+    class func createWithDictionary(_ dict: NSDictionary) -> BOChallenge {
         let res: BOChallenge
         if let id = dict["id"] as? NSInteger,
-            origChallengeArray = BOChallenge.MR_findByAttribute("uuid", withValue: id) as? Array<BOChallenge>,
-            challenge = origChallengeArray.first {
+            let origChallengeArray = BOChallenge.mr_find(byAttribute: "uuid", withValue: id) as? Array<BOChallenge>,
+            let challenge = origChallengeArray.first {
             res = challenge
         } else {
-            res = BOChallenge.MR_createEntity()!
+            res = BOChallenge.mr_createEntity()!
         }
         
         res.setAttributesWithDictionary(dict)
         
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreWithCompletion(nil)
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
         
         return res
     }
     
-    func setAttributesWithDictionary(dict: NSDictionary) {
-        self.uuid = dict.valueForKey("id") as! NSInteger
-        self.teamId = dict.valueForKey("teamId") as! NSInteger
-        self.eventId = dict.valueForKey("eventId") as! NSInteger
-        self.teamName = dict.valueForKey("team") as? String
-        self.text = dict.valueForKey("description") as? String
-        self.amount = dict.valueForKey("amount") as? NSNumber
-        self.status = dict.valueForKey("status") as? String
+    func setAttributesWithDictionary(_ dict: NSDictionary) {
+        self.uuid = dict.value(forKey: "id") as! NSInteger
+        self.teamId = dict.value(forKey: "teamId") as! NSInteger
+        self.eventId = dict.value(forKey: "eventId") as! NSInteger
+        self.teamName = dict.value(forKey: "team") as? String
+        self.text = dict.value(forKey: "description") as? String
+        self.amount = dict.value(forKey: "amount") as? NSNumber
+        self.status = dict.value(forKey: "status") as? String
         
         self.save()
         
@@ -75,7 +75,7 @@ class BOChallenge: NSManagedObject {
     }
     
     func save() {
-        NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+        NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
     }
     
     func printToLog() {
@@ -95,12 +95,12 @@ class BOChallenge: NSManagedObject {
     func upload() {
         var dict = [String:AnyObject]()
         
-        dict["status"] = self.status;
-        dict["postingId"] = self.postingId
+        dict["status"] = self.status as AnyObject?;
+        dict["postingId"] = self.postingId as AnyObject?
         
-        BONetworkManager.doJSONRequestPUT(.ChallengeStatus, arguments: [self.eventId, self.teamId, self.uuid], parameters: dict, auth: true, success: { (response) in
+        BONetworkManager.doJSONRequestPUT(.ChallengeStatus, arguments: [self.eventId, self.teamId, self.uuid], parameters: dict as AnyObject, auth: true, success: { (response) in
             
-            if let responseDict = response as? NSDictionary, id = responseDict["id"] as? Int, status = responseDict["status"] as? String {
+            if let responseDict = response as? NSDictionary, let id = responseDict["id"] as? Int, let status = responseDict["status"] as? String {
                 self.uuid = id
                 self.status = status
                 self.flagNeedsUpload = false

@@ -19,8 +19,8 @@ class AboutBreakOutViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let url = NSURL (string: self.initialURL)
-        let requestObj = NSURLRequest(URL: url!)
+        let url = URL (string: self.initialURL)
+        let requestObj = URLRequest(url: url!)
         self.internalWebView.loadRequest(requestObj)
     }
 
@@ -29,12 +29,12 @@ class AboutBreakOutViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/aboutBreakOutView", withParameters: ["url":self.initialURL], timed: true)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/aboutBreakOutView", withParameters: nil)
     }

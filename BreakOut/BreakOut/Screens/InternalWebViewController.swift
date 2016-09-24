@@ -27,16 +27,16 @@ class InternalWebViewController: UIViewController {
         }
         
         // Style the navigation bar
-        self.navigationController!.navigationBar.translucent = false
+        self.navigationController!.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.barTintColor = Style.mainOrange
         self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         self.title = NSLocalizedString("webView", comment: "")
         
         // Create posting button for navigation item
-        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(reloadWebView))
+        let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(reloadWebView))
         navigationItem.rightBarButtonItem = rightButton
         
         // Create menu buttons for navigation item
@@ -51,12 +51,12 @@ class InternalWebViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/internalWebView", withParameters: ["url":self.initialURL], timed: true)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/internalWebView", withParameters: nil)
     }
@@ -65,11 +65,11 @@ class InternalWebViewController: UIViewController {
         self.internalWebView.reload()
     }
     
-    func openWebpageWithUrl(urlString: String) {
+    func openWebpageWithUrl(_ urlString: String) {
         self.initialURL = urlString
         
-        let url = NSURL (string: urlString)
-        let requestObj = NSURLRequest(URL: url!)
+        let url = URL (string: urlString)
+        let requestObj = URLRequest(url: url!)
         
         if self.internalWebView != nil {
             self.internalWebView.loadRequest(requestObj)
@@ -80,8 +80,8 @@ class InternalWebViewController: UIViewController {
     
 // MARK: Button Actions
     
-    @IBAction func closeButtonPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true) { () -> Void in
+    @IBAction func closeButtonPressed(_ sender: AnyObject) {
+        self.dismiss(animated: true) { () -> Void in
             //Code?!
         }
     }

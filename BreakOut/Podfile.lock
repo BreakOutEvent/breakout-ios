@@ -16,7 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - AFOAuth2Manager (3.0.0):
     - AFNetworking/NSURLSession (~> 3.0)
-  - Alamofire (3.4.0)
+  - Alamofire (4.0.0)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
@@ -51,28 +51,28 @@ PODS:
   - GoogleUtilities (1.3.1):
     - GoogleSymbolUtilities (~> 1.0)
   - Instabug (5.1.2)
-  - JLToast (1.4.1)
   - LECropPictureViewController (0.1.2)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
   - MBProgressHUD (0.9.2)
-  - netfox (1.7.2)
+  - netfox (1.8)
   - Pantry (0.2.1)
-  - ReachabilitySwift (2.3.3)
+  - ReachabilitySwift (3)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
-  - SlideMenuControllerSwift (2.0.6)
+  - SlideMenuControllerSwift (3.0.0)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - SwiftDate (3.0.8)
-  - TouchVisualizer (1.4.0)
+  - SwiftDate (3.0.9)
+  - Toaster (2.0.0)
+  - TouchVisualizer (2.0.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - AFOAuth2Manager (~> 3.0)
-  - Alamofire
+  - Alamofire (~> 4.0)
   - Crashlytics (~> 3.7.0)
   - Fabric (~> 1.6.7)
   - Firebase
@@ -80,35 +80,45 @@ DEPENDENCIES:
   - Flurry-iOS-SDK/FlurrySDK (~> 7.5.2)
   - GGFullscreenImageViewController (~> 1.0)
   - Instabug (~> 5.1.2)
-  - JLToast (~> 1.4.0)
   - LECropPictureViewController (~> 0.1.2)
   - MagicalRecord (~> 2.3.2)
   - MBProgressHUD (~> 0.9.2)
-  - netfox (~> 1.7.2)
-  - Pantry (~> 0.2.1)
-  - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`, tag
-    `v2.3.3`)
+  - netfox (from `https://github.com/mathiasquintero/netfox.git`)
+  - Pantry (from `https://github.com/andreyz/Pantry.git`, branch `swift3`)
+  - ReachabilitySwift (~> 3)
   - SDWebImage (~> 3.7)
-  - SlideMenuControllerSwift (~> 2.0.5)
+  - SlideMenuControllerSwift (~> 3.0.0)
   - SpinKit (~> 1.2.0)
   - StaticDataTableViewController (~> 2.0)
-  - SwiftDate (~> 3.0.1)
-  - TouchVisualizer (~> 1.3)
+  - SwiftDate (from `https://github.com/malcommac/SwiftDate.git`, branch `feature/swift-3.0`)
+  - Toaster (~> 2.0)
+  - TouchVisualizer (~> 2.0.1)
 
 EXTERNAL SOURCES:
-  ReachabilitySwift:
-    :git: https://github.com/ashleymills/Reachability.swift
-    :tag: v2.3.3
+  netfox:
+    :git: https://github.com/mathiasquintero/netfox.git
+  Pantry:
+    :branch: swift3
+    :git: https://github.com/andreyz/Pantry.git
+  SwiftDate:
+    :branch: feature/swift-3.0
+    :git: https://github.com/malcommac/SwiftDate.git
 
 CHECKOUT OPTIONS:
-  ReachabilitySwift:
-    :git: https://github.com/ashleymills/Reachability.swift
-    :tag: v2.3.3
+  netfox:
+    :commit: 261697c1784b1a9a7380d83b75315a7fbfa3f459
+    :git: https://github.com/mathiasquintero/netfox.git
+  Pantry:
+    :commit: 97f82ad403f21215f93027d4135e8230f9bfc010
+    :git: https://github.com/andreyz/Pantry.git
+  SwiftDate:
+    :commit: 040b2c844a34a677feed13238a1bbcf85eceac41
+    :git: https://github.com/malcommac/SwiftDate.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AFOAuth2Manager: 0566da1be64883e339813d411229fdc9a84dab7c
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Firebase: 6c80ac28d59d06bfd9152a7b6ea17625ca93183d
@@ -122,18 +132,20 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
   Instabug: c315abe1a1c4cbd3ea1cc6ec8f9954d6c5371c39
-  JLToast: f2ccfdb8726e562e6c0154fa3658cd432021b1cc
   LECropPictureViewController: d64cd991d94d7804c0971f97adae6d1bc216a7b8
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  netfox: ab995a8327995b847a7b7c1d83c574e0d4aacb25
+  netfox: b153c852b852453057f7ded304ff1678c9f4b15f
   Pantry: 433931c8f545dd3426ca7d09a4edd5afa89c6e01
-  ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
-  SlideMenuControllerSwift: 143343f05b79aef3e2bb4dc72a1dc373ffa66d6c
+  SlideMenuControllerSwift: 9c0a84f9a3fba51681debd7be77617094562ebcc
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  SwiftDate: 971f8b9394f664f2226b9c3ab64e801a7291c612
-  TouchVisualizer: 44c1a7a6e1b6526df7673f68400072363ecd3bf6
+  SwiftDate: fa487d9b7d8c3070ea2553486902494f4915465d
+  Toaster: 25101e968655aa991fa72ad888029e8d515c6237
+  TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 5e32a27a860acf68975c6b8e22c932f233ff94ed
+
+COCOAPODS: 1.0.1
