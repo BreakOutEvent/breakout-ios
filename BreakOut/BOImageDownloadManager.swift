@@ -1,0 +1,46 @@
+//
+//  BOImageDownloadManager.swift
+//  BreakOut
+//
+//  Created by Mathias Quintero on 5/19/16.
+//  Copyright © 2016 BreakOut. All rights reserved.
+//
+
+import UIKit
+import Alamofire
+
+import Crashlytics
+
+class BOImageDownloadManager {
+    
+    static let sharedInstance = BOImageDownloadManager()
+    
+    func getImage(_ id: Int, url: String, handler: @escaping (BOImage) -> ()) {
+        if let arrayOfImages = BOImage.mr_find(byAttribute: "uid", withValue: id) as? Array<BOImage>, let image = arrayOfImages.first {
+            handler(image)
+        } else {
+            Alamofire.request(url).responseData() { (response) in
+                if let data = response.data, let image = UIImage(data: data) {
+                    let instance = BOImage.createWithImage(image)
+                    handler(instance)
+                    
+                    Answers.logCustomEvent(withName: "/BOImageDownloadManager/", customAttributes: ["Successful":response.result.isSuccess.description, "Request Duration": response.timeline.requestDuration.description])
+                }
+            }
+        }
+    }
+    
+    func getBetterImage(_ id: Int) {
+        if let arrayOfImages = BOImage.mr_find(byAttribute: "uid", withValue: id) as? Array<BOImage>, let image = arrayOfImages.first, let url = image.betterDownloadUrl {
+            Alamofire.request(url).responseData() { (response) in
+                if let data = response.data, let img = UIImage(data: data) {
+                    image.writeImage(img)
+                    image.needsBetterDownload = false
+                    image.save()
+                    Answers.logCustomEvent(withName: "/BOImageDownloadManager/", customAttributes: ["Successful":response.result.isSuccess.description, "Request Duration": response.timeline.requestDuration.description])
+                }
+            }
+        }
+    }
+    
+}

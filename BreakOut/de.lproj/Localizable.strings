@@ -1,0 +1,75 @@
+/* 
+  Localizable.strings
+  BreakOut
+
+  Created by Leo Käßner on 10.01.16.
+  Copyright © 2016 BreakOut. All rights reserved.
+*/
+
+"email" = "E-Mail";
+"password" = "Password";
+"login" = "EINLOGGEN";
+"register" = "KOSTENLOS REGISTRIEREN";
+"unknownLocation" = "Unbekannter Ort";
+
+"cancel" = "Abbrechen";
+
+"comments" = "Kommentare";
+
+// Loading Texts
+"registrationLoading" = "Hab etwas geduld während wir dich für BreakOut registrieren";
+"loginLoading" = "Gleich bist du eingelogged";
+
+// Welcome Screen
+"welcomeScreenHeadline" = "Bald geht es los!";
+"welcomeScreenDescriptionText" = "Wir arbeiten sehr hart daran, dir die beste App für das nächste BreakOut Event zur Hand zu geben. Ganz egal, ob du Teilnehmer, Sponsor, Familienmitglied oder einfach nur Fan bist. Sei gespannt auf weitere großartige Updates mit neuen Funktionen.";
+"welcomeScreenDescriptionTextDuringEvent" = "";
+"welcomeScreenDescriptionTextBeforeEvent" = "";
+
+"welcomeScreenParticipateButtonShareLocation" = "Teile deinen Ort";
+"welcomeScreenParticipateButtonLoginAndRegister" = "ANMELDEN & EINLOGGEN";
+
+// Screen Titles
+"newPostingTitle" = "Neuer Post";
+"allPostingsTitle" = "Alle Posts";
+"postingDetailsTitle" = "Kommentare";
+"webView" = "Browser";
+"helpViewTitle" = "Hilfe";
+"userProfileTitle" = "Dein Profil";
+"challengeTitle" = "Challenges";
+
+// New Posting
+"newPostingEmptyMessage" = "Was erlebst du gerade?";
+"retrievingCurrentLocation" = "Aktueller Ort wird ermittelt...";
+"newPostingEmptyChallenge" = "Wähle eine Challenge aus (optional)";
+
+// UIImagePicker
+"sourceOfImage" = "Wähle ein Bild für deinen Post";
+"photoLibrary" = "Fotoarchiv";
+"takeAPhoto" = "Foto aufnehmen";
+
+// Local Pushes
+"Push_24h_before_Start" = "⏱ Morgen ist es soweit! Teile deine Vorbereitung mit uns!";
+"Push_1h_before_Start" = "Gleich geht es los 😱";
+"Push_1h_after_Start" = "📸 Viel Spaß und eine sichere Reise!";
+"Push_18h_after_Start" = "🚗 Gut unterwegs? Wie währe es mit einem Bergfest-Foto?";
+"Push_35h_after_Start" = "🏁 Schneeeeeeller. Zeit ist gleich um!";
+"Push_2d_after_Start" = "⛱ Wie genießt du die Zeit nach dem Trampen?";
+"Push_7d_after_Start" = "👏 Danke an alle Teilnehmer, Sponsoren & Fans!!!";
+"Push_1h_after_last_Posting" = "Dein letzter Post ist eine Weile her 😥";
+
+// Help Screen
+"helpMedicalEmergencyTitle" = "Medizinischer Notfall";
+"helpMedicalEmergency" = "Ruhe bewahren! \n\n• Euronotruf informieren unter 112 \n• Der Euronotruf kann auch Englisch \n• Erste Hilfe leisten \n• BreakOut Informieren unter +49 (0) 89 8986 0579 \n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpPoliceEmergencyTitle" = "Polizeilicher Notfall";
+"helpPoliceEmergency" = "Ruhe bewahren!\n\n• Euronotruf informieren unter 112\n• Der Euronotruf kann auch Englisch\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpDiplomaticEmergencyTitle" = "Dipolomatischer Notfall im Ausland";
+"helpDiplomaticEmergency" = "Ruhe bewahren!\n\n• Notdienst des Auswertigen Amtes informieren +49 (0) 30 1817 0\n • Der Notdienst spricht natürlich Deutsch und Englisch\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpTeampartnerEmergencyTitle" = "Teampartner verloren";
+"helpTeampartnerEmergency" = "Ruhe bewahren!\n\n• Zurück gehen zu dem letzten Ort an dem Ihr gemeinsam wart\n• Teampartner versuchen an zu rufen\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+
+"helpOtherEmergencyTitle" = "Alle anderen Notfälle oder Probleme";
+"helpOtherEmergency" = "Ruhe bewahren!\n\nIhr könnt während den 36 Stunden rund um die Uhr BreakOut unter +49 (0) 89 8986 0579 erreichen. Wir sind zwar nicht vor Ort aber mit schnellem Internet, viel Tramp & Reise Erfahrung und diplomatischem Geschick ausgestattet und können euch so bestimmt unterstützen.";

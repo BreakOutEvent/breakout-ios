@@ -23,7 +23,7 @@ DerivedData
 # you should judge for yourself, the pros and cons are mentioned at:
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 #
-BreakOut/Pods/
+Pods/
 
 # Carthage
 #
@@ -34,3 +34,10 @@ Carthage/Build
 PrivatConstants.swift
 PrivateConstants.swift
 Screencasts
+*.pages
+iOS Developer gesucht.pdf
+Designs
+App Structure & Overview.numbers
+
+# AppCode
+.idea

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="LYV-I7-7x2">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="WZk-4S-1t3"/>
+                <viewControllerLayoutGuide type="bottom" id="aXZ-cd-adG"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="c1B-ob-ZP2">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="navbar-background" translatesAutoresizingMaskIntoConstraints="NO" id="NMS-DI-6i5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="tintColor" red="0.96862745100000003" green="0.57647058819999997" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
+            </view>
+            <point key="canvasLocation" x="85" y="322"/>
+        </viewController>
+    </objects>
+    <resources>
+        <image name="navbar-background" width="3" height="3"/>
+    </resources>
+</document>
