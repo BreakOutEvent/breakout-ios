@@ -2,7 +2,7 @@
 
 This is the official github project for the _BreakOut_ iOS-App.
 
-Documentation: (http://breakoutevent.github.io/breakout-ios/)
+Documentation: http://breakoutevent.github.io/breakout-ios/
 
 [![Platform](http://img.shields.io/badge/platform-ios-blue.svg?style=flat
 )](https://developer.apple.com/iphone/index.action)
