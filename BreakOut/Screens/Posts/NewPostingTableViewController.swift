@@ -215,7 +215,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         // Save
         NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
         
-        BOSynchronizeController.sharedInstance.triggerUpload()
+        BOSynchronizeController.shared.triggerUpload()
         
         // After Saving throw User message and reset inputs
         self.setupLoadingHUD("New Posting saved!")
@@ -229,7 +229,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         let defaults = UserDefaults.standard
         defaults.set(Date(), forKey: "lastPostingSent")
         defaults.synchronize()
-        BOPushManager.sharedInstance.setupAllLocalPushNotifications()
+        BOPushManager.shared.setupAllLocalPushNotifications()
         
         self.closeView(true)
     }

@@ -255,7 +255,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
     
     func getAllEventsRequest() {
         
-        BOSynchronizeController.sharedInstance.getAllEvents() { (result) in
+        BOSynchronizeController.teams.getAllEvents() { (result) in
             self.eventDataSourceArray = result
             self.setupEventPicker()
         }
@@ -272,7 +272,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         
         if let name = teamNameTextfield.text, let currentEvent = eventCurrentlySelected {
             let eventID: Int = self.eventDataSourceArray[currentEvent].id
-            BOSynchronizeController.sharedInstance.sendInvitationToTeam(teamID, name: name, eventID: eventID) { () in
+            BOSynchronizeController.teams.sendInvitationToTeam(teamID, name: name, eventID: eventID) { () in
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)
@@ -293,7 +293,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         
         if let name = teamNameTextfield.text, let currentEvent = eventCurrentlySelected {
             let eventID: Int = self.eventDataSourceArray[currentEvent].id
-            BOSynchronizeController.sharedInstance.createTeam(name, eventID: eventID, image: chosenImage, success: { () in
+            BOSynchronizeController.teams.createTeam(name, eventID: eventID, image: chosenImage, success: { () in
                 self.sendInvitationRequest(2)
                 self.setAllInputsToEnabled(true)
                 self.loadingHUD.hide(true)

@@ -18,7 +18,7 @@ import Crashlytics
 
 class BOLocationManager: NSObject, CLLocationManagerDelegate {
     
-    static let sharedInstance = BOLocationManager()
+    static let shared = BOLocationManager()
     
     var lastKnownLocation: CLLocation?
     
@@ -77,8 +77,8 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
             locationPost.timestamp = Date()
             locationPost.latitude = coordiante.latitude as NSNumber
             locationPost.longitude = coordiante.longitude as NSNumber
-            if CurrentUser.sharedInstance.currentTeamId() > -1 {
-                locationPost.teamId = CurrentUser.sharedInstance.currentTeamId()
+            if CurrentUser.shared.currentTeamId() > -1 {
+                locationPost.teamId = CurrentUser.shared.currentTeamId()
             }else{
                 locationPost.teamId = -1
             }

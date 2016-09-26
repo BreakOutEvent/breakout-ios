@@ -39,7 +39,7 @@ class CurrentUser: NSObject {
     var teamid: NSInteger?
     var eventid: NSInteger?
     
-    static var sharedInstance = CurrentUser()
+    static var shared = CurrentUser()
     
     override fileprivate init() {
         super.init()
@@ -51,7 +51,7 @@ class CurrentUser: NSObject {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "userDictionary")
         defaults.synchronize()
-        self.sharedInstance = CurrentUser()
+        self.shared = CurrentUser()
     }
     
     func presentLoginScreenFromViewController(_ fromView: UIViewController) {

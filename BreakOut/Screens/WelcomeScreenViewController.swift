@@ -32,7 +32,7 @@ class WelcomeScreenViewController: UIViewController {
         self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
         self.descriptionTextLabel.text = NSLocalizedString("welcomeScreenDescriptionText", comment: "")
         
-        if CurrentUser.sharedInstance.isLoggedIn() {
+        if CurrentUser.shared.isLoggedIn() {
             // User is logged in
             self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonShareLocation", comment: ""), for: UIControlState())
         }else{
@@ -55,7 +55,7 @@ class WelcomeScreenViewController: UIViewController {
         // Tracking
         Flurry.logEvent("/welcomeScreen", timed: true)
         
-        if CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() < 0 {
+        if CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() < 0 {
             self.participateButton.isEnabled = false
         }
     }
@@ -81,7 +81,7 @@ class WelcomeScreenViewController: UIViewController {
         
         self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)*/
         
-        if CurrentUser.sharedInstance.isLoggedIn() {
+        if CurrentUser.shared.isLoggedIn() {
             // User is logged in -> Show NewPostingsTVC
             if let slideMenuController = self.slideMenuController() {
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewPostingTableViewController")

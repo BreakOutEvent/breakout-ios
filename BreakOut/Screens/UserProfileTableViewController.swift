@@ -51,7 +51,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CurrentUser.sharedInstance.downloadUserData()
+        CurrentUser.shared.downloadUserData()
         NotificationCenter.default.addObserver(self, selector: #selector(notificationCurrentUserUpdated), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
         
         // Style the navigation bar
@@ -119,22 +119,22 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     }
     
     func fillInputsWithCurrentUserInfo() {
-        self.firstnameTextfield.text = CurrentUser.sharedInstance.firstname
-        self.familynameTextfield.text = CurrentUser.sharedInstance.lastname
+        self.firstnameTextfield.text = CurrentUser.shared.firstname
+        self.familynameTextfield.text = CurrentUser.shared.lastname
         
-        self.emailTextfield.text = CurrentUser.sharedInstance.email
+        self.emailTextfield.text = CurrentUser.shared.email
         
-        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
-        self.birthdayTextfield.text = CurrentUser.sharedInstance.birthday?.toString()
-        self.shirtSizeTextfield.text = CurrentUser.sharedInstance.shirtSize
-        self.hometownTextfield.text = CurrentUser.sharedInstance.hometown
-        self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
-        self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
+        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.shared.genderAsInt()
+        self.birthdayTextfield.text = CurrentUser.shared.birthday?.toString()
+        self.shirtSizeTextfield.text = CurrentUser.shared.shirtSize
+        self.hometownTextfield.text = CurrentUser.shared.hometown
+        self.phonenumberTextfield.text = CurrentUser.shared.phoneNumber
+        self.emergencyNumberTextfield.text = CurrentUser.shared.emergencyNumber
         
-        self.profilePictureImageView.image = CurrentUser.sharedInstance.picture
+        self.profilePictureImageView.image = CurrentUser.shared.picture
         
         // Check if current user is already participate
-        if CurrentUser.sharedInstance.flagParticipant == true {
+        if CurrentUser.shared.flagParticipant == true {
             self.cell(self.participateButtonTableViewCell, setHidden: true)
             self.cells(self.eventInformationTableViewCellCollection, setHidden: false)
             self.cell(self.birthdayTableViewCell, setHidden: false)
@@ -158,8 +158,8 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         
         self.profilePictureImageView.image = choosenImage
         
-        CurrentUser.sharedInstance.picture = choosenImage
-        CurrentUser.sharedInstance.storeInNSUserDefaults()
+        CurrentUser.shared.picture = choosenImage
+        CurrentUser.shared.storeInNSUserDefaults()
         
         self.dismiss(animated: true, completion: nil)
         
@@ -261,17 +261,17 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
 // MARK: - Button Actions
     
     func saveChanges() {
-        CurrentUser.sharedInstance.firstname = self.firstnameTextfield.text
-        CurrentUser.sharedInstance.lastname = self.familynameTextfield.text
+        CurrentUser.shared.firstname = self.firstnameTextfield.text
+        CurrentUser.shared.lastname = self.familynameTextfield.text
         
-        CurrentUser.sharedInstance.email = self.emailTextfield.text
+        CurrentUser.shared.email = self.emailTextfield.text
         
-        CurrentUser.sharedInstance.setGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
-        CurrentUser.sharedInstance.hometown = self.hometownTextfield.text
-        CurrentUser.sharedInstance.phoneNumber = self.phonenumberTextfield.text
-        CurrentUser.sharedInstance.emergencyNumber = self.emergencyNumberTextfield.text
+        CurrentUser.shared.setGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
+        CurrentUser.shared.hometown = self.hometownTextfield.text
+        CurrentUser.shared.phoneNumber = self.phonenumberTextfield.text
+        CurrentUser.shared.emergencyNumber = self.emergencyNumberTextfield.text
         
-        CurrentUser.sharedInstance.storeInNSUserDefaults()
+        CurrentUser.shared.storeInNSUserDefaults()
         
         //BOToast.log("Stored all Input Values to CurrentUser Object")
     }

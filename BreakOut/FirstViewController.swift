@@ -22,7 +22,7 @@ class FirstViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print(BOSynchronizeController.sharedInstance.internetReachabilityStatus())
+        print(BOSynchronizeController.shared.internetStatus)
     }
 
 

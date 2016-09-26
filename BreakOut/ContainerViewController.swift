@@ -36,7 +36,7 @@ class ContainerViewController: SlideMenuController {
             // User is NOT logged in
             //self.presentLoginScreen()
         }else{
-            CurrentUser.sharedInstance.downloadUserData()
+            CurrentUser.shared.downloadUserData()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(presentLoginScreen), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)

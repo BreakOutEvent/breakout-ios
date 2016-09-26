@@ -104,14 +104,14 @@ class BOLocation: NSManagedObject{
     }
     
     func upload() {
-        if BOSynchronizeController.sharedInstance.isReachableWifiOrCellular() {
+        if BOSynchronizeController.shared.isReachable {
             var dict = [String:AnyObject]()
             
             dict["latitude"] = self.latitude;
             dict["longitude"] = self.longitude;
             dict["date"] = timestamp.timeIntervalSince1970 as AnyObject?
             
-            BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.sharedInstance.currentEventId(),CurrentUser.sharedInstance.currentTeamId()], parameters: dict, auth: true, success: { (response) in
+            BONetworkManager.doJSONRequestPOST(.EventTeamLocation, arguments: [CurrentUser.shared.currentEventId(),CurrentUser.shared.currentTeamId()], parameters: dict, auth: true, success: { (response) in
                 
                 if let responseDict = response as? NSDictionary, let lat = responseDict["latitude"] as? Double, let long = responseDict["longitude"] as? Double, let uid = responseDict["id"] as? Int {
                     if self.managedObjectContext != nil {

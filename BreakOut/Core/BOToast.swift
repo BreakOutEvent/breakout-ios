@@ -26,7 +26,7 @@ class BOToast {
             }
         }()
         
-        if FeatureFlagManager.sharedInstance.isActivated(FeatureFlags.showDebuggingToasts) {
+        if FeatureFlagManager.shared.isActivated(FeatureFlags.showDebuggingToasts) {
 //            JLToast.makeText(toBePrinted, duration: JLToastLongDelay).show()
 //            #if DEBUG
 //                print("BOToast: \(toBePrinted)")

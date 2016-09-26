@@ -35,7 +35,7 @@ class Comment: NSObject {
             if let profilePicDict = user.value(forKey: "profilePic") as? NSDictionary {
                 if let id = profilePicDict.value(forKey: "id") as? Int, let sizes = profilePicDict.value(forKey: "sizes") as? [NSDictionary] {
                     let image: NSDictionary?
-                    if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
+                    if BOSynchronizeController.shared.hasWifi {
                         let deviceHeight = UIScreen.main.bounds.height
                         image = sizes.filter() { item in
                             if let height = item.value(forKey: "height") as? Int {
@@ -96,7 +96,7 @@ class Posting: NSObject {
                 // Handle Images
                 if let id = item.value(forKey: "id") as? Int, let sizes = item.value(forKey: "sizes") as? [NSDictionary] {
                     let image: NSDictionary?
-                    if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
+                    if BOSynchronizeController.shared.hasWifi {
                         let deviceHeight = UIScreen.main.bounds.height
                         image = sizes.filter() { item in
                             if let height = item.value(forKey: "height") as? Int {
@@ -159,7 +159,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     }
     
     func loadPostingsFromBackend(_ page: Int = 0) {
-        //if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
+        //if BOSynchronizeController.shared.internetReachability == "wifi" {
         self.loadingCell(true)
         BONetworkIndicator.si.increaseLoading()
             BONetworkManager.doJSONRequestGET(BackendServices.PostingsOffsetLimit, arguments: [page,20], parameters: nil, auth: false) { (response) in

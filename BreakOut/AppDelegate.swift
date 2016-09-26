@@ -78,18 +78,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         //BONetworkerTest().postObjectFromJSON()
-        BOSynchronizeController.sharedInstance.checkForInternetReachability()
+        BOSynchronizeController.shared.checkForInternetReachability()
         
         //TESTING persistence of not yet loaded postings IDs
-        //BOSynchronizeController.sharedInstance.downloadAllPostings()
-        //BOSynchronizeController.sharedInstance.downloadNotYetLoadedPostings()
-        //BOSynchronizeController.sharedInstance.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
-        //BOSynchronizeController.sharedInstance.downloadIdsOfAllEvents()
-        //BOSynchronizeController.sharedInstance.downloadChallengesForCurrentUser()
+        //BOSynchronizeController.shared.downloadAllPostings()
+        //BOSynchronizeController.shared.downloadNotYetLoadedPostings()
+        //BOSynchronizeController.shared.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
+        //BOSynchronizeController.shared.downloadIdsOfAllEvents()
+        //BOSynchronizeController.shared.downloadChallengesForCurrentUser()
         
-        BOLocationManager.sharedInstance.start()
+        BOLocationManager.shared.start()
         
-        FeatureFlagManager.sharedInstance.downloadCurrentFeatureFlagSetup()
+        FeatureFlagManager.shared.downloadCurrentFeatureFlagSetup()
         
         let settings = UIApplication.shared.currentUserNotificationSettings
         
@@ -97,11 +97,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let notificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             UIApplication.shared.registerUserNotificationSettings(notificationSettings)
         }else{
-            BOPushManager.sharedInstance.setupAllLocalPushNotifications()
+            BOPushManager.shared.setupAllLocalPushNotifications()
         }
         
         if (launchOptions?[UIApplicationLaunchOptionsKey.location] as? NSDictionary) != nil {
-            BOLocationManager.sharedInstance.start()
+            BOLocationManager.shared.start()
         }
         
         if (launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? NSDictionary) != nil {
@@ -120,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        BOLocationManager.sharedInstance.enterBackground()
+        BOLocationManager.shared.enterBackground()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        BOLocationManager.sharedInstance.becomeActive()
+        BOLocationManager.shared.becomeActive()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

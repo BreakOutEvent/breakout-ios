@@ -66,7 +66,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.fillInputsWithCurrentUserInfo()
         tableView.reloadData()
         
-        if CurrentUser.sharedInstance.isLoggedIn() {
+        if CurrentUser.shared.isLoggedIn() {
             self.userPictureImageView.isHidden = false
             self.usernameLabel.isHidden = false
             self.userDistanceRemainingTimeLabel.isHidden = false
@@ -95,9 +95,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     }
     
     func fillInputsWithCurrentUserInfo() {
-        self.usernameLabel.text = CurrentUser.sharedInstance.username()
+        self.usernameLabel.text = CurrentUser.shared.username()
         
-        self.userPictureImageView.image = CurrentUser.sharedInstance.picture
+        self.userPictureImageView.image = CurrentUser.shared.picture
         if self.userPictureImageView.image != nil {
             self.addUserpictureButton.isHidden = true
         }
@@ -121,9 +121,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             return false
-        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
+        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.shared.isLoggedIn() == false) {
             return false
         }
         
@@ -131,9 +131,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
-        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
+        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.shared.isLoggedIn() == false) {
             cell.alpha = 0.5
         }else{
             cell.alpha = 1.0

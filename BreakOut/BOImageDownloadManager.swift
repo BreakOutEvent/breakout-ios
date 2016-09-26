@@ -13,7 +13,7 @@ import Crashlytics
 
 class BOImageDownloadManager {
     
-    static let sharedInstance = BOImageDownloadManager()
+    static let shared = BOImageDownloadManager()
     
     func getImage(_ id: Int, url: String, handler: @escaping (BOImage) -> ()) {
         if let arrayOfImages = BOImage.mr_find(byAttribute: "uid", withValue: id) as? Array<BOImage>, let image = arrayOfImages.first {

@@ -163,7 +163,7 @@ class BOPost: NSManagedObject {
     }
     
     func reload(_ handler: (() -> ())? = nil) {
-        if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
+        if BOSynchronizeController.shared.hasWifi {
             BONetworkManager.doJSONRequestGET(BackendServices.PostingByID, arguments: [uuid], parameters: nil, auth: false) { (response) in
                 if let dict = response as? NSDictionary {
                     self.setAttributesWithDictionary(dict)

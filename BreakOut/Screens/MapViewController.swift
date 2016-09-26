@@ -250,7 +250,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func locationDidUpdate() {
-        self.lastCurrentLocation = BOLocationManager.sharedInstance.lastKnownLocation!
+        self.lastCurrentLocation = BOLocationManager.shared.lastKnownLocation!
     }
     
     

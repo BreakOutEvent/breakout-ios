@@ -15,7 +15,7 @@ import Toaster
 import Flurry_iOS_SDK
 
 class FeatureFlagManager: NSObject {
-    static let sharedInstance = FeatureFlagManager()
+    static let shared = FeatureFlagManager()
     
     func isActivated(_ featureFlag: String) -> Bool {
         if let retrieveFeatureFlag: Bool = Pantry.unpack(featureFlag) {

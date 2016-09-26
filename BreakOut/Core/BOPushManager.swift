@@ -14,7 +14,7 @@ import Crashlytics
 
 class BOPushManager: NSObject {
     
-    static let sharedInstance = BOPushManager()
+    static let shared = BOPushManager()
     
     var eventStartDate: Date?
     
