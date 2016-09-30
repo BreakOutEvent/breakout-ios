@@ -10,7 +10,9 @@ xcode_sdk: iphonesimulator10.0
 sudo: required
 
 notifications:
-  slack: breakoutevent:kV9edN91PBbtZA3sjA2ChnuP
+  slack:
+    rooms:
+      - breakoutevent:kV9edN91PBbtZA3sjA2ChnuP
     on_success: change
     on_failure: change
 
