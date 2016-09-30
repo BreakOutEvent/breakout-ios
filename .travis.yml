@@ -1,11 +1,12 @@
 language: objective-c
+sudo: required
 
 dependencies:
   pre:
     - gem update --system
-    - gem update fastlane
 
 before_install:
+  - sudo gem update fastlane
   - pod repo update
   - openssl aes-256-cbc -K $encrypted_7cb16b9c01f6_key -iv $encrypted_7cb16b9c01f6_iv -in PrivateConstants.swift.enc -out BreakOut/PrivateConstants.swift -d
   - gem cleanup
