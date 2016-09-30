@@ -1,3 +1,9 @@
-language: swift
+language: objective-c
+
+xcode_project: BreakOut.xcodeproj
+xcode_scheme: BreakOutTests
+osx_image: xcode8.0
+xcode_sdk: iphonesimulator10.0
+
 script:
-  - xctool test -workspace BreakOut.xcworkspace -scheme BreakOutTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+- xcodebuild clean build test -workspace BreakOut.xcworkspace -scheme BreakOutTests
