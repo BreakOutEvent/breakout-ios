@@ -1,14 +1,12 @@
 language: objective-c
 
+dependencies:
+  pre:
+    - gem update --system
 before_install:
-  - gem install cocoapods --pre
-  - pod repo update
   - openssl aes-256-cbc -K $encrypted_7cb16b9c01f6_key -iv $encrypted_7cb16b9c01f6_iv -in PrivateConstants.swift.enc -out BreakOut/PrivateConstants.swift -d
 
-xcode_project: BreakOut.xcodeproj
-xcode_scheme: BreakOutTests
 osx_image: xcode8
-xcode_sdk: iphonesimulator10.0
 
 script:
-  - xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.0' CODE_SIGNING_REQUIRED=NO
+  - fastlane test
