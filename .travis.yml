@@ -1,7 +1,7 @@
 language: objective-c
 
 before_install:
-  - gem install cocoapods -v '= 1.0.1'
+  - gem install cocoapods --pre
   # - pod repo update
   - openssl aes-256-cbc -K $encrypted_7cb16b9c01f6_key -iv $encrypted_7cb16b9c01f6_iv -in PrivateConstants.swift.enc -out BreakOut/PrivateConstants.swift -d
 
