@@ -1,4 +1,7 @@
 language: objective-c
+cache: cocoapods
+osx_image: xcode8
+
 sudo: required
 
 dependencies:
@@ -11,7 +14,6 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_7cb16b9c01f6_key -iv $encrypted_7cb16b9c01f6_iv -in PrivateConstants.swift.enc -out BreakOut/PrivateConstants.swift -d
   - gem cleanup
 
-osx_image: xcode8
 
 script:
   - fastlane test
