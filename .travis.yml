@@ -1,6 +1,6 @@
 language: objective-c
 
-before_install: gem install cocoapods -v '= 1.0.1'
+before_install: gem install cocoapods -v '= 1.0.1' && pod repo update
 
 xcode_project: BreakOut.xcodeproj
 xcode_scheme: BreakOutTests

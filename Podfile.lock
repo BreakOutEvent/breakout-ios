@@ -16,27 +16,28 @@ PODS:
     - AFNetworking/NSURLSession
   - AFOAuth2Manager (3.0.0):
     - AFNetworking/NSURLSession (~> 3.0)
-  - Alamofire (4.0.0)
-  - Crashlytics (3.7.0):
+  - Alamofire (4.0.1)
+  - Crashlytics (3.7.3):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.7)
-  - Firebase (3.2.1):
-    - Firebase/Core (= 3.2.1)
-  - Firebase/Analytics (3.2.1):
-    - FirebaseAnalytics (= 3.2.0)
-  - Firebase/Core (3.2.1):
-    - Firebase/Analytics (= 3.2.1)
-  - Firebase/Messaging (3.2.1):
-    - Firebase/Analytics (= 3.2.1)
-    - FirebaseMessaging (= 1.1.0)
-  - FirebaseAnalytics (3.2.0):
+  - Fabric (1.6.9)
+  - Firebase (3.6.0):
+    - Firebase/Core (= 3.6.0)
+  - Firebase/Analytics (3.6.0):
+    - FirebaseAnalytics (= 3.4.2)
+  - Firebase/Core (3.6.0):
+    - Firebase/Analytics
+  - Firebase/Messaging (3.6.0):
+    - Firebase/Analytics
+    - FirebaseMessaging (= 1.2.0)
+  - FirebaseAnalytics (3.4.2):
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
-    - GoogleUtilities (~> 1.3)
-  - FirebaseInstanceID (1.0.6)
-  - FirebaseMessaging (1.1.0):
-    - FirebaseAnalytics (~> 3.2)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseInstanceID (1.0.8)
+  - FirebaseMessaging (1.2.0):
+    - FirebaseAnalytics (~> 3.3)
+    - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleIPhoneUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
@@ -59,9 +60,9 @@ PODS:
   - netfox (1.8)
   - Pantry (0.2.1)
   - ReachabilitySwift (3)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
   - SlideMenuControllerSwift (3.0.0)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
@@ -106,7 +107,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   netfox:
-    :commit: 261697c1784b1a9a7380d83b75315a7fbfa3f459
+    :commit: a8ce99b1b597433576d5d77da042602b87445de3
     :git: https://github.com/mathiasquintero/netfox.git
   Pantry:
     :commit: 97f82ad403f21215f93027d4135e8230f9bfc010
@@ -118,13 +119,13 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AFOAuth2Manager: 0566da1be64883e339813d411229fdc9a84dab7c
-  Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  Firebase: 6c80ac28d59d06bfd9152a7b6ea17625ca93183d
-  FirebaseAnalytics: 6f75b04e6bfb8e0b6e9ef298e04c24eea3b13863
-  FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
-  FirebaseMessaging: 8a92e9ea70673605aa7d1803d2d5aa3eb946009c
+  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
+  Fabric: bc5bec42cef4bcf1ee3ce0e218fc518e4b44dfbb
+  Firebase: 34187200ef4979dbd485c7aa685ef078bf587c86
+  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FirebaseMessaging: 789d23fd796594dfb55dcf36cd325541df887c22
   Flurry-iOS-SDK: 8c87c4eab6008184ad9f63afabd79ec0d109c82e
   GGFullscreenImageViewController: 17935922bc80806eba3c9a0c22a22ecedc260510
   GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
@@ -138,7 +139,7 @@ SPEC CHECKSUMS:
   netfox: b153c852b852453057f7ded304ff1678c9f4b15f
   Pantry: 433931c8f545dd3426ca7d09a4edd5afa89c6e01
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SlideMenuControllerSwift: 9c0a84f9a3fba51681debd7be77617094562ebcc
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
