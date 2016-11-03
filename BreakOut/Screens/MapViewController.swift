@@ -145,7 +145,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadIdsOfAllEvents() {
-        BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
             for newEvent: NSDictionary in response as! Array {
                 DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                     self.loadAllTeamsForEvent(newEvent.value(forKey: "id")as! Int)
@@ -156,7 +156,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadAllTeamsForEvent(_ eventId: Int) {
-        BONetworkManager.doJSONRequestGET(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Team Objects
             for newTeam: NSDictionary in response as! Array {
                 let teamId: Int = newTeam.object(forKey: "id") as! Int
@@ -175,13 +175,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func loadAllPostingsForTeam(_ eventId: Int, teamId: Int) {
         var teamLocationsArray: Array<Location> = Array()
-        BONetworkManager.doJSONRequestGET(.PostingIdsForTeam, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.PostingIdsForTeam, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
             
             let arrayOfIds = response as! [Int]
             
             if arrayOfIds.count > 0 {
             
-            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIds as AnyObject, auth: false, success: { (response) in
+            BONetworkManager.post(.NotLoadedPostings, arguments: [], parameters: arrayOfIds as AnyObject, auth: false, success: { (response) in
                 
                 if let responseArray = response as? Array<NSDictionary> {
                     var counter: Int = 0
@@ -228,7 +228,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
         var teamLocationsArray: Array<Location> = Array()
-        BONetworkManager.doJSONRequestGET(.EventTeamLocation, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.EventTeamLocation, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
             
             if let responseArray = response as? Array<NSDictionary> {
                 for locationDict in responseArray {

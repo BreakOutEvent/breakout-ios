@@ -47,7 +47,7 @@ class BOTeamSyncManager: BOSyncManager {
     }
     
     func downloadChallengesForTeam(_ teamId: Int, eventId: Int) {
-        BONetworkManager.doJSONRequestGET(.EventTeamChallenge, arguments: [eventId, teamId], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.EventTeamChallenge, arguments: [eventId, teamId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Location Objects
             for newChallenge: NSDictionary in response as! Array {
                 BOChallenge.createWithDictionary(newChallenge)
@@ -62,7 +62,7 @@ class BOTeamSyncManager: BOSyncManager {
     }
     
     func getAllEvents(_ success: @escaping ([BOEvent]) -> ()) {
-        BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: true, success: { (response) in
+        BONetworkManager.get(.Event, arguments: [], parameters: nil, auth: true, success: { (response) in
             if let responseArray: Array = response as? Array<NSDictionary> {
                 var res = [BOEvent]()
                 for eventDictionary: NSDictionary in responseArray {
@@ -81,7 +81,7 @@ class BOTeamSyncManager: BOSyncManager {
     }
     
     func downloadAllTeamsForEvent(_ eventId: Int) {
-        BONetworkManager.doJSONRequestGET(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             var numberOfAddedTeams: Int = 0
             // response is an Array of Team Objects
             let arrayExistingTeams: Array<BOTeam> = BOTeam.mr_findAll() as! Array<BOTeam>
@@ -111,7 +111,7 @@ class BOTeamSyncManager: BOSyncManager {
             "event": eventID,
             "name": name
         ]
-        BONetworkManager.doJSONRequestPOST(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
+        BONetworkManager.post(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
             if let imageUnwrapped = image, let dict = response as? NSDictionary,
                 let profilePicDict = dict.value(forKey: "profilePic") as? NSDictionary,
                 let token = profilePicDict.value(forKey: "uploadToken") as? String,
@@ -139,7 +139,7 @@ class BOTeamSyncManager: BOSyncManager {
             "name": name
         ]
         
-        BONetworkManager.doJSONRequestPOST(.EventInvitation, arguments: [eventID, teamID], parameters: params, auth: true, success: { (response) in
+        BONetworkManager.post(.EventInvitation, arguments: [eventID, teamID], parameters: params, auth: true, success: { (response) in
             CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
             handler()
         }) { (_,_) in
@@ -166,7 +166,7 @@ class BOTeamSyncManager: BOSyncManager {
                 "participant": participantParams
             ]
             
-            BONetworkManager.doJSONRequestPUT(.UserData, arguments: [userID], parameters: params, auth: true, success: { (response) in
+            BONetworkManager.put(.UserData, arguments: [userID], parameters: params, auth: true, success: { (response) in
                 CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
                 
                 // Tracking

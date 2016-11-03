@@ -164,7 +164,7 @@ class BOPost: NSManagedObject {
     
     func reload(_ handler: (() -> ())? = nil) {
         if BOSynchronizeController.shared.hasWifi {
-            BONetworkManager.doJSONRequestGET(BackendServices.PostingByID, arguments: [uuid], parameters: nil, auth: false) { (response) in
+            BONetworkManager.get(BackendServices.PostingByID, arguments: [uuid], parameters: nil, auth: false) { (response) in
                 if let dict = response as? NSDictionary {
                     self.setAttributesWithDictionary(dict)
                     if let f = handler {
@@ -191,7 +191,7 @@ class BOPost: NSManagedObject {
         
         dict["uploadMediaTypes"] = img.map() { $0.type } as AnyObject
 
-        BONetworkManager.doJSONRequestPOST(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
+        BONetworkManager.post(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
             
             if let responseDict = response as? NSDictionary, let id = responseDict["id"] as? Int, let mediaArray = responseDict["media"] as? [NSDictionary] {
                 self.uuid = id

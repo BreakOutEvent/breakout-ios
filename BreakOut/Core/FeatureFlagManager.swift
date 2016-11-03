@@ -32,7 +32,7 @@ class FeatureFlagManager: NSObject {
     
     func downloadCurrentFeatureFlagSetup() {
         
-        BONetworkManager.doJSONRequestGET(.FeatureFlags, arguments: [], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.FeatureFlags, arguments: [], parameters: nil, auth: false, success: { (response) in
             for featureFlagConfig: NSDictionary in response as! Array {
                 let key: String = featureFlagConfig.value(forKey: "description") as! String
                 Pantry.pack(featureFlagConfig.value(forKey: "enabled") as! Bool, key: key)

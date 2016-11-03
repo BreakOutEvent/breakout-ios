@@ -19,7 +19,7 @@ class BOLocationSyncManager: BOSyncManager {
                     location.upload()
                 }
             }
-        }else{
+        } else {
             print("Can't upload location -- User is not logged in and not in a team")
         }
     }
@@ -27,12 +27,12 @@ class BOLocationSyncManager: BOSyncManager {
     func dowloadMisisng() { }
     
     func downloadAllLocationsForEvent(_ eventId: Int) {
-        BONetworkManager.doJSONRequestGET(.EventAllLocations, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.EventAllLocations, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Location Objects
             for newLocation: NSDictionary in response as! Array {
-                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
                     BOLocation.createWithDictionary(newLocation)
-                })
+                }
             }
             //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
             // Tracking

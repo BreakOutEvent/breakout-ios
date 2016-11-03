@@ -162,7 +162,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         //if BOSynchronizeController.shared.internetReachability == "wifi" {
         self.loadingCell(true)
         BONetworkIndicator.si.increaseLoading()
-            BONetworkManager.doJSONRequestGET(BackendServices.PostingsOffsetLimit, arguments: [page,20], parameters: nil, auth: false) { (response) in
+            BONetworkManager.get(BackendServices.PostingsOffsetLimit, arguments: [page,20], parameters: nil, auth: false) { (response) in
                 if let postingsArray = response as? NSArray {
                     for postingDict:NSDictionary in postingsArray as! [NSDictionary] {
                         let newPosting: Posting = Posting(dict: postingDict)

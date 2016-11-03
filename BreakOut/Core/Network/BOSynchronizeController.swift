@@ -80,7 +80,7 @@ class BOSynchronizeController: NSObject {
     }
     
     func uploadAllMissing() {
-        for (_,manager) in managers {
+        for (_, manager) in managers {
             manager.uploadMissing()
         }
     }
@@ -205,7 +205,7 @@ class BOSynchronizeController: NSObject {
     }
     
     func downloadIdsOfAllEvents() {
-        BONetworkManager.doJSONRequestGET(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
+        BONetworkManager.get(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
             for newEvent: NSDictionary in response as! Array {
                 
                 let defaults = UserDefaults.standard

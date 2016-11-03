@@ -68,35 +68,35 @@ class BONetworkManager {
         }
     }
     
-    static func doJSONRequestGET(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
+    static func get(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .get)
     }
     
-    static func doJSONRequestPOST(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
+    static func post(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .post)
     }
     
-    static func doJSONRequestPUT(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
+    static func put(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .put)
     }
     
-    static func doJSONRequestDELETE(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
+    static func delete(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> ()) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: nil, method: .delete)
     }
     
-    static func doJSONRequestGET(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
+    static func get(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .get)
     }
     
-    static func doJSONRequestPUT(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
+    static func put(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .put)
     }
     
-    static func doJSONRequestPOST(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
+    static func post(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .post)
     }
     
-    static func doJSONRequestDELETE(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
+    static func delete(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping (AnyObject) -> (), error: ((Error, HTTPURLResponse?) -> ())?) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .delete)
     }
     

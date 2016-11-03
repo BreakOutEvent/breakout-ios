@@ -84,7 +84,7 @@ class BOComment: NSManagedObject {
         var dict = [String:AnyObject]()
         dict["text"] = self.text as AnyObject?
         dict["date"] = date.timeIntervalSince1970 as AnyObject?
-        BONetworkManager.doJSONRequestPOST(.PostComment, arguments: [postID], parameters: dict, auth: true, success: { (response) in
+        BONetworkManager.post(.PostComment, arguments: [postID], parameters: dict, auth: true, success: { (response) in
             // Tracking
             self.flagNeedsUpload = false
             self.save()

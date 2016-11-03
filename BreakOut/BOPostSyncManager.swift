@@ -15,16 +15,13 @@ class BOPostSyncManager: BOSyncManager {
     
     func uploadMissing() {
         // Retrieve Array of all posts which are flagged as offline with need to upload
-        let arrayOfPostsToUpload: Array = BOPost.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as! Array<BOPost>
+        let arrayOfPostsToUpload = BOPost.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as! Array<BOPost>
         
         // Tracking
         Flurry.logEvent("/posting/upload/start", withParameters: ["Number of Posts": arrayOfPostsToUpload.count])
         
         // Start upload process for all offline posts (TODO: Asynchronous)
-        for postToUpload: BOPost in arrayOfPostsToUpload {
-            // Start upload function for each BOPost
-            postToUpload.upload()
-        }
+        arrayOfPostsToUpload.forEach { $0.upload() }
     }
     
     func dowloadMisisng() {
@@ -32,7 +29,7 @@ class BOPostSyncManager: BOSyncManager {
     }
     
     func downloadArrayOfNewPostingIDsSinceLastKnownPostingID() {
-        if let lastKnownPosting: BOPost = BOPost.mr_findFirstOrdered(byAttribute: "uuid", ascending: false) {
+        if let lastKnownPosting = BOPost.mr_findFirstOrdered(byAttribute: "uuid", ascending: false) {
             self.downloadArrayOfNewPostingIDs(since: lastKnownPosting.uuid)
         } else {
             self.downloadArrayOfNewPostingIDs(since: 0)
@@ -40,10 +37,10 @@ class BOPostSyncManager: BOSyncManager {
     }
     
     func downloadArrayOfNewPostingIDs(since lastID: Int) {
-        BONetworkManager.doJSONRequestGET(.PostingsSince, arguments: [lastID], parameters: nil, auth: false, success: { (response) in
-            let arrayOfPostingIDs: [Int] = response as! [Int]
-            for newPostingID: Int in arrayOfPostingIDs {
-                let newPosting: BOPost = BOPost.create(newPostingID, flagNeedsDownload: true)
+        BONetworkManager.get(.PostingsSince, arguments: [lastID], parameters: nil, auth: false, success: { (response) in
+            let arrayOfPostingIDs = response as! [Int]
+            for newPostingID in arrayOfPostingIDs {
+                let newPosting = BOPost.create(newPostingID, flagNeedsDownload: true)
                 newPosting.printToLog()
             }
             self.downloadNotYetLoadedPostings()
@@ -52,27 +49,21 @@ class BOPostSyncManager: BOSyncManager {
     
     func downloadNotYetLoadedPostings() {
         let arrayOfNotYetLoadedPostings: Array = BOPost.mr_find(byAttribute: "flagNeedsDownload", withValue: true) as! Array<BOPost>
-        if arrayOfNotYetLoadedPostings.count > 0 {
-            var arrayOfIDsToLoad: [Int] = [Int]()
-            var count:Int = 100
-            for notYetLoadedPosting:BOPost in arrayOfNotYetLoadedPostings {
-                arrayOfIDsToLoad += [notYetLoadedPosting.uuid]
-                count -= 1
-                if count <= 0 {
-                    break
-                }
-            }
-            BONetworkManager.doJSONRequestPOST(.NotLoadedPostings, arguments: [], parameters: arrayOfIDsToLoad as AnyObject?, auth: false, success: { (response) in
+        if !arrayOfNotYetLoadedPostings.isEmpty {
+            let arrayOfIDsToLoad = arrayOfNotYetLoadedPostings.first(100)
+            BONetworkManager.post(.NotLoadedPostings, arguments: [], parameters: arrayOfIDsToLoad as AnyObject?, auth: false, success: { (response) in
+                
                 // response is an Array of Posting Dictionaries
-                let arrayOfPostingDictionaries: Array = response as! Array<NSDictionary>
-                for newPostingDict: NSDictionary in arrayOfPostingDictionaries {
-                    let updatedPost: BOPost = BOPost.mr_findFirst(byAttribute: "flagNeedsDownload", withValue: true)!
+                let arrayOfPostingDictionaries = response as! Array<NSDictionary>
+                for newPostingDict in arrayOfPostingDictionaries {
+                    let updatedPost = BOPost.mr_findFirst(byAttribute: "flagNeedsDownload", withValue: true)!
                     updatedPost.setAttributesWithDictionary(newPostingDict)
                     updatedPost.flagNeedsDownload = false
                     updatedPost.printToLog()
                 }
                 NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
                 //BOToast.log("Successfully downloaded and stored \(arrayOfPostingDictionaries.count) Postings")
+                
                 // Tracking
                 Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"POST: posting/get/ids", "Number of IDs asked for":arrayOfIDsToLoad.count])
             }) { (error, response) in
@@ -82,13 +73,12 @@ class BOPostSyncManager: BOSyncManager {
     }
     
     func downloadAllPostings() {
-        BONetworkManager.doJSONRequestGET(.Postings, arguments: [], parameters: nil, auth: false, success: { (response) in
-            var numberOfAddedPosts: Int = 0
-            for newPosting: NSDictionary in response as? Array ?? [] {
-                BOPost.createWithDictionary(newPosting)
-                numberOfAddedPosts += 1
+        BONetworkManager.get(.Postings, arguments: [], parameters: nil, auth: false, success: { (response) in
+            let responseArray = response as? [NSDictionary] ?? []
+            responseArray.forEach {
+                _ = BOPost.createWithDictionary($0)
             }
-            Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+            Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings": responseArray.count])
         }) { (error, response) in
             Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
         }
