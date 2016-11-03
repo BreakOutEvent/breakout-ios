@@ -17,8 +17,8 @@ notifications:
     on_failure: change
 
 before_install:
-  # - pod repo update
+  # - pod repo update > /dev/null
   - openssl aes-256-cbc -K $encrypted_7cb16b9c01f6_key -iv $encrypted_7cb16b9c01f6_iv -in PrivateConstants.swift.enc -out BreakOut/PrivateConstants.swift -d
 
 script:
-  - xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.0' CODE_SIGNING_REQUIRED=NO
+  - xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.0' CODE_SIGNING_REQUIRED=NO | grep -A 5 error:
