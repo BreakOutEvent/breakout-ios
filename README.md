@@ -10,6 +10,7 @@ Documentation: http://breakoutevent.github.io/breakout-ios/
 )](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/License-GNU-blue.svg?style=flat
 )](http://www.gnu.org/licenses/)
+[![Build Status](https://travis-ci.org/BreakOutEvent/breakout-ios.svg?branch=master)](https://travis-ci.org/BreakOutEvent/breakout-ios)
 
 ## What is BreakOut?
 With BreakOut we challenge you, to travel as far away as possible in 36 hours without spending any money, starting from Munich. During this time each team collects money for the DAFI-program to give refugees the opportunity of higher education.
