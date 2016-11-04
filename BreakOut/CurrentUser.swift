@@ -39,7 +39,7 @@ class CurrentUser: NSObject {
     var teamid: NSInteger?
     var eventid: NSInteger?
     
-    static var sharedInstance = CurrentUser()
+    static var shared = CurrentUser()
     
     override fileprivate init() {
         super.init()
@@ -51,7 +51,7 @@ class CurrentUser: NSObject {
         let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "userDictionary")
         defaults.synchronize()
-        self.sharedInstance = CurrentUser()
+        self.shared = CurrentUser()
     }
     
     func presentLoginScreenFromViewController(_ fromView: UIViewController) {
@@ -72,7 +72,7 @@ class CurrentUser: NSObject {
             
             BONetworkIndicator.si.increaseLoading()
             
-            BONetworkManager.doJSONRequestPUT(.UserData, arguments: [id], parameters: params, auth: true, success: { (response) in
+            BONetworkManager.put(.UserData, arguments: [id], parameters: params, auth: true, success: { (response) in
                 BONetworkIndicator.si.decreaseLoading()
             }) { (error, response) in
                 BONetworkIndicator.si.decreaseLoading()
@@ -88,7 +88,7 @@ class CurrentUser: NSObject {
         if self.isLoggedIn() {
             BONetworkIndicator.si.increaseLoading()
             
-            BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
+            BONetworkManager.get(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
                 // Successful
                 BONetworkIndicator.si.decreaseLoading()
                 

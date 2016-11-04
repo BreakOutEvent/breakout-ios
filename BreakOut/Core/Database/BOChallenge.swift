@@ -98,7 +98,7 @@ class BOChallenge: NSManagedObject {
         dict["status"] = self.status as AnyObject?;
         dict["postingId"] = self.postingId as AnyObject?
         
-        BONetworkManager.doJSONRequestPUT(.ChallengeStatus, arguments: [self.eventId, self.teamId, self.uuid], parameters: dict as AnyObject, auth: true, success: { (response) in
+        BONetworkManager.put(.ChallengeStatus, arguments: [self.eventId, self.teamId, self.uuid], parameters: dict as AnyObject, auth: true, success: { (response) in
             
             if let responseDict = response as? NSDictionary, let id = responseDict["id"] as? Int, let status = responseDict["status"] as? String {
                 self.uuid = id

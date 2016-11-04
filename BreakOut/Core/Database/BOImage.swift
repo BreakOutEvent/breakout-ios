@@ -85,7 +85,7 @@ class BOImage: NSManagedObject {
             let image: NSDictionary?
             let needsBetterDownload: Bool
             var betterURL: String?
-            if BOSynchronizeController.sharedInstance.internetReachability == "wifi" {
+            if BOSynchronizeController.shared.hasWifi {
                 let deviceHeight = UIScreen.main.bounds.height
                 image = sizes.filter() { item in
                     if let height = item.value(forKey: "height") as? Int {
@@ -102,7 +102,7 @@ class BOImage: NSManagedObject {
                 }
             }
             if let url = image?.value(forKey: "url") as? String {
-                BOImageDownloadManager.sharedInstance.getImage(id, url: url) { (image) in
+                BOImageDownloadManager.shared.getImage(id, url: url) { (image) in
                     image.needsBetterDownload = needsBetterDownload
                     image.betterDownloadUrl = betterURL
                     image.save()

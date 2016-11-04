@@ -51,3 +51,14 @@ extension UIButton {
         }
     }
 }
+
+extension Array {
+    
+    func first(_ bound: Int) -> [Element] {
+        guard let upper = [count, bound].min() else {
+            return []
+        }
+        return (0..<upper).map { self[$0] }
+    }
+    
+}

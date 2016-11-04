@@ -208,7 +208,7 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
                 print("Become Participant Response: ")
                 print(response)
                 
-                CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
+                CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
                 
                 // Tracking
                 Flurry.logEvent("/user/becomeParticipant/completed_successful")

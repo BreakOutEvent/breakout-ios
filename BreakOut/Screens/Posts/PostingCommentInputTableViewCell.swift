@@ -45,7 +45,7 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBAction func postButtonPressed(_ sender: UIButton) {
         let comment = BOComment.create(0, text: commentInputTextField.text ?? "", postID: post?.uuid ?? 0)
         comment.upload()
-        let dict: NSDictionary =  ["text": commentInputTextField.text!, "postID": (post?.uuid)!, "id": 0, "date": Date().timeIntervalSince1970, "user":["firstname": CurrentUser.sharedInstance.firstname! as String, "lastname": CurrentUser.sharedInstance.lastname!], "profilePic":""]
+        let dict: NSDictionary =  ["text": commentInputTextField.text!, "postID": (post?.uuid)!, "id": 0, "date": Date().timeIntervalSince1970, "user":["firstname": CurrentUser.shared.firstname! as String, "lastname": CurrentUser.shared.lastname!], "profilePic":""]
         let newComment = Comment(dict: dict)
         post?.comments?.append(newComment)
         //post?.comments.insert(comment)

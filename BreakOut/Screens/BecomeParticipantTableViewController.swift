@@ -103,14 +103,14 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
 // MARK: - Initial Input setup 
     
     func fillInputsWithCurrentUserInfo() {
-        self.firstNameTextfield.text = CurrentUser.sharedInstance.firstname
-        self.lastNameTextfield.text = CurrentUser.sharedInstance.lastname
-        self.emailTextField.text = CurrentUser.sharedInstance.email
-        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
+        self.firstNameTextfield.text = CurrentUser.shared.firstname
+        self.lastNameTextfield.text = CurrentUser.shared.lastname
+        self.emailTextField.text = CurrentUser.shared.email
+        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.shared.genderAsInt()
         
-        self.shirtSizeTextfield.text = CurrentUser.sharedInstance.shirtSize
-        self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
-        self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
+        self.shirtSizeTextfield.text = CurrentUser.shared.shirtSize
+        self.emergencyNumberTextfield.text = CurrentUser.shared.emergencyNumber
+        self.phonenumberTextfield.text = CurrentUser.shared.phoneNumber
     }
     
 // MARK: - Picker Setup & Button functions
@@ -435,11 +435,11 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         
         self.setAllInputsToEnabled(false)
         
-        let genderAsString = CurrentUser.sharedInstance.stringGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
+        let genderAsString = CurrentUser.shared.stringGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
 
         if let emergency = emergencyNumberTextfield.text, let phone = phonenumberTextfield.text, let shirt = shirtSizeTextfield.text, let first = firstNameTextfield.text, let last = lastNameTextfield.text, let email = emailTextField.text {
             
-            BOSynchronizeController.sharedInstance.becomeParticipant(first, lastname: last, gender: genderAsString, email: email, emergencyNumber: emergency, phone: phone, shirtSize: shirt, success: { () in
+            BOSynchronizeController.teams.becomeParticipant(firstName: first, lastname: last, gender: genderAsString, email: email, emergencyNumber: emergency, phone: phone, shirtSize: shirt, success: { () in
                 self.setAllInputsToEnabled(true)
                 
                 self.loadingHUD.hide(true)

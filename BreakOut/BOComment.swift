@@ -33,10 +33,10 @@ class BOComment: NSManagedObject {
         res.text = text
         res.postID = postID
         res.flagNeedsUpload = true
-        if let first = CurrentUser.sharedInstance.firstname, let last = CurrentUser.sharedInstance.lastname {
+        if let first = CurrentUser.shared.firstname, let last = CurrentUser.shared.lastname {
             res.name = first + " " + last
         }
-        //BOSynchronizeController.sharedInstance.triggerUpload()
+        //BOSynchronizeController.shared.triggerUpload()
         
         // Save
         NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
@@ -84,7 +84,7 @@ class BOComment: NSManagedObject {
         var dict = [String:AnyObject]()
         dict["text"] = self.text as AnyObject?
         dict["date"] = date.timeIntervalSince1970 as AnyObject?
-        BONetworkManager.doJSONRequestPOST(.PostComment, arguments: [postID], parameters: dict, auth: true, success: { (response) in
+        BONetworkManager.post(.PostComment, arguments: [postID], parameters: dict, auth: true, success: { (response) in
             // Tracking
             self.flagNeedsUpload = false
             self.save()

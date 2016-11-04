@@ -222,11 +222,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         let params: NSDictionary = ["email":self.emailTextField.text!, "password":self.passwordTextField.text!]
         
-        BONetworkManager.doJSONRequestPOST(.User, arguments: [], parameters: params, auth: false, success: { (response) in
+        BONetworkManager.post(.User, arguments: [], parameters: params, auth: false, success: { (response) in
             let userID = response.value(forKey: "id")
-            CurrentUser.sharedInstance.userid = userID as? Int
-            CurrentUser.sharedInstance.email = self.emailTextField.text
-            CurrentUser.sharedInstance.storeInNSUserDefaults()
+            CurrentUser.shared.userid = userID as? Int
+            CurrentUser.shared.email = self.emailTextField.text
+            CurrentUser.shared.storeInNSUserDefaults()
             
             // Tracking
             Flurry.logEvent("/registration/completed_successful")
@@ -268,10 +268,10 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             
             BONetworkManager.loginRequest(email, pass: pass, success: { () in
                 
-                BONetworkManager.doJSONRequestGET(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
+                BONetworkManager.get(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
                     CurrentUser.resetUser()
-                    CurrentUser.sharedInstance.setAttributesWithJSON(response as! NSDictionary)
-                    CurrentUser.sharedInstance.storeInNSUserDefaults()
+                    CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
+                    CurrentUser.shared.storeInNSUserDefaults()
                     
                     // Empty Textinputs
                     self.emailTextField.text = ""
