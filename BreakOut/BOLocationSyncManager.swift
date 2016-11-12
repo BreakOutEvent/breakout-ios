@@ -43,4 +43,25 @@ class BOLocationSyncManager: BOSyncManager {
         }
     }
     
+    
+    
+    func downloadArrayOfNewLocationsSinceLastKnownLocationFor(eventId:Int){
+        if let lastKnownLocation = BOLocation.mr_findFirstOrdered(byAttribute: "uid", ascending: false) {
+            self.downloadArrayOfNewLocationsSince(lastId: lastKnownLocation.uid, for: eventId)
+        } else {
+            self.downloadArrayOfNewLocationsSince(lastId: 0, for: eventId)
+        }
+    }
+    
+    func downloadArrayOfNewLocationsSince(lastId: Int, for eventId: Int){
+        BONetworkManager.get(.EventLocationsSince, arguments: [eventId, lastId], parameters: nil, auth: false, success: { (response) in
+            // response is Array of BOLocation
+            
+            for newLocation: NSDictionary in response as! Array {
+                BOLocation.createWithDictionary(newLocation)
+            }
+        }) {(error, response) in
+        
+        }
+    }
 }

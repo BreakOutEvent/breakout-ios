@@ -60,5 +60,21 @@ extension Array {
         }
         return (0..<upper).map { self[$0] }
     }
-    
+}
+
+extension Sequence {
+    func groupBy<Key: Hashable>(handler: (Iterator.Element) -> Key) -> [Key: [Iterator.Element]] {
+        var grouped = [Key: Array<Iterator.Element>]()
+        
+        self.forEach { item in
+            let key = handler(item)
+            if grouped[key] == nil {
+                grouped[key] = [item]
+            } else {
+                grouped[key]?.append(item)
+            }
+        }
+        
+        return grouped
+    }
 }

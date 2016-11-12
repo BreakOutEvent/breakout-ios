@@ -28,10 +28,16 @@ class MapLocation: NSObject, MKAnnotation{
     var subtitle: String?
     var posting: Posting?
     
-    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?){
-        self.coordinate = coordinate
+//    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?){
+//        self.coordinate = coordinate
+//        self.title = title
+//        self.subtitle = subtitle
+//        super.init()
+//    }
+    
+    init(latitude:CLLocationDegrees, longitude:CLLocationDegrees, title: String?){
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         self.title = title
-        self.subtitle = subtitle
         super.init()
     }
     
