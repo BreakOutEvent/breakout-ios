@@ -30,7 +30,7 @@ pod 'SpinKit', '~>1.2.0'
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'SlideMenuControllerSwift', '~> 3.0.0'
 pod 'LECropPictureViewController', '~> 0.1.2'
-pod 'SwiftDate', :git=> 'https://github.com/malcommac/SwiftDate.git', :branch => 'feature/swift-3.0'
+pod 'SwiftDate', '~> 4.0'
 pod 'StaticDataTableViewController', '~> 2.0'
 pod 'GGFullscreenImageViewController', '~> 1.0'
 

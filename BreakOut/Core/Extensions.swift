@@ -62,3 +62,13 @@ extension Array {
     }
     
 }
+
+extension Date {
+    
+    func toString() -> String {
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = "hh:mm a, EEE dd MMM"
+        return dateformatter.string(from: self)
+    }
+    
+}
