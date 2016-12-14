@@ -6,7 +6,20 @@
 //  Copyright © 2016 BreakOut. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import SwiftyJSON
+
+public extension UIImage {
+    public func hasContent() -> Bool {
+        let cgref = self.cgImage
+        let cim = self.ciImage
+        if cgref == nil && cim == nil {
+            return false
+        } else {
+            return true
+        }
+    }
+}
 
 extension UILabel {
     
@@ -69,6 +82,17 @@ extension Date {
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = "hh:mm a, EEE dd MMM"
         return dateformatter.string(from: self)
+    }
+    
+}
+
+extension JSON {
+    
+    var date: Date? {
+        guard let timestap = self.int else {
+            return nil
+        }
+        return Date(timeIntervalSince1970: Double(timestap))
     }
     
 }

@@ -222,9 +222,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         let params: NSDictionary = ["email":self.emailTextField.text!, "password":self.passwordTextField.text!]
         
-        BONetworkManager.post(.User, arguments: [], parameters: params, auth: false, success: { (response) in
-            let userID = response.value(forKey: "id")
-            CurrentUser.shared.userid = userID as? Int
+        BONetworkManager.post(.User, arguments: [], parameters: params, auth: false, success: { (json) in
+            CurrentUser.shared.userid = json["id"].int
             CurrentUser.shared.email = self.emailTextField.text
             CurrentUser.shared.storeInNSUserDefaults()
             
@@ -270,7 +269,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 
                 BONetworkManager.get(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
                     CurrentUser.resetUser()
-                    CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
+//                    CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
                     CurrentUser.shared.storeInNSUserDefaults()
                     
                     // Empty Textinputs

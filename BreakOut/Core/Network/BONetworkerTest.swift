@@ -37,15 +37,15 @@ class BONetworkerTest: NSObject {
     :returns: No return value
     */
     func postObjectFromJSON() {
-        let jsonString: String = "{\"uuid\": \"123\", \"text\": \"tester\"}"
-        let jsonData: Data = jsonString.data(using: String.Encoding.utf8)!
-        do {
-            let newPostObject:NSDictionary = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as! NSDictionary
-            let newPost:BOPost = BOPost.mr_import(from: newPostObject)
-            print("Text attribute of new Post: "+newPost.text!)
-        }catch{
-            print(error)
-        }
+//        let jsonString: String = "{\"uuid\": \"123\", \"text\": \"tester\"}"
+//        let jsonData: Data = jsonString.data(using: String.Encoding.utf8)!
+//        do {
+//            let newPostObject:NSDictionary = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as! NSDictionary
+//            let newPost:BOPost = BOPost.mr_import(from: newPostObject)
+//            print("Text attribute of new Post: "+newPost.text!)
+//        }catch{
+//            print(error)
+//        }
         
         
         

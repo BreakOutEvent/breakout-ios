@@ -7,16 +7,15 @@
 //
 
 import Foundation
+import Sweeft
+
 class BOCommentSyncManager: BOSyncManager {
     
     required init() { }
     
     func uploadMissing() {
-        if let commentsToUpload = BOComment.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as? Array<BOComment> {
-            for comment in commentsToUpload {
-                comment.upload()
-            }
-        }
+        let comments = BOComment.all { $0.flagNeedsUpload }
+        comments => BOComment.upload
     }
     
     func dowloadMisisng() { }

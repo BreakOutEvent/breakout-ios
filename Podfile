@@ -3,6 +3,8 @@
 
 target 'BreakOut' do
 
+pod 'SwiftyJSON'
+pod 'Sweeft'
 
 pod 'Instabug', '~> 5.1.2'
 pod 'Fabric', '~> 1.6.7'

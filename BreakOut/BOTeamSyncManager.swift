@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Sweeft
 import Flurry_iOS_SDK
 
 class BOTeamSyncManager: BOSyncManager {
@@ -84,14 +85,14 @@ class BOTeamSyncManager: BOSyncManager {
         BONetworkManager.get(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             var numberOfAddedTeams: Int = 0
             // response is an Array of Team Objects
-            let arrayExistingTeams: Array<BOTeam> = BOTeam.mr_findAll() as! Array<BOTeam>
-            for newTeam: NSDictionary in response as! Array {
+            let arrayExistingTeams = BOTeam.all
+            for newTeam in response.array.? {
                 //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                let index = arrayExistingTeams.index(where: {$0.uuid == (newTeam.object(forKey: "id") as! Int)})
+                let index = arrayExistingTeams.index(where: { $0.uuid == newTeam["id"].int.? })
                 if index != nil {
                     // Team already exists
-                }else{
-                    BOTeam.createWithDictionary(newTeam)
+                } else {
+                    _ = BOTeam(from: newTeam)
                 }
                 //})
                 //newPost.printToLog()
@@ -112,15 +113,15 @@ class BOTeamSyncManager: BOSyncManager {
             "name": name
         ]
         BONetworkManager.post(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
-            if let imageUnwrapped = image, let dict = response as? NSDictionary,
-                let profilePicDict = dict.value(forKey: "profilePic") as? NSDictionary,
-                let token = profilePicDict.value(forKey: "uploadToken") as? String,
-                let id = profilePicDict.value(forKey: "id") as? Int {
-                let boImage = BOImage.createWithImage(imageUnwrapped)
+            if let imageUnwrapped = image,
+                let token = response["profilePic"]["uploadToken"].string,
+                let id = response["profilePic"]["id"].int {
+                
+                let boImage = BOMedia(from: imageUnwrapped)
                 boImage.uploadWithToken(id, token: token)
             }
-            if let dict = response as? NSDictionary {
-                let team = BOTeam.createWithDictionary(dict)
+            
+            if let team = BOTeam(from: response) {
                 CurrentUser.shared.teamid = team.uuid
                 CurrentUser.shared.storeInNSUserDefaults()
             }

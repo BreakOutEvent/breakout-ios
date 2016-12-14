@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftDate
+import Sweeft
 import MapKit
 
 protocol LocationController {
@@ -89,7 +90,7 @@ class BasicLocationController : LocationController {
         
         var locationArraysForTeams : [[MapLocation]] = []
         var mapLocationArrayForTeamId: [MapLocation] = []
-        let teamArray: [BOTeam] = BOTeam.mr_findAll() as! [BOTeam]
+        let teamArray: [BOTeam] = BOTeam.all
         
         for team: BOTeam in teamArray {
             let teamId = team.uuid
@@ -115,16 +116,12 @@ class BasicLocationController : LocationController {
     }
     
     
-    fileprivate func convertBOPostingToMapLocation() -> Array<MapLocation> {
-        var mutableArray: Array<MapLocation> = Array()
-        let postingArray = BOPost.mr_findAll() as! [BOPost]
-        
-        for postingObject:BOPost in postingArray {
-            let location = MapLocation(coordinate: CLLocationCoordinate2DMake(postingObject.latitude.doubleValue, postingObject.longitude.doubleValue), title: postingObject.team?.name, subtitle: postingObject.text)
-            mutableArray.append(location)
+    fileprivate func convertBOPostingToMapLocation() -> [MapLocation] {
+        return BOPost.all.map { (post: BOPost) in
+            return MapLocation(coordinate: CLLocationCoordinate2DMake(post.latitude, post.longitude),
+                               title: post.team?.name,
+                               subtitle: post.text)
         }
-        
-        return mutableArray
     }
     
 

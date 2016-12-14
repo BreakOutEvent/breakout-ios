@@ -7,28 +7,22 @@
 //
 
 import Foundation
+import Sweeft
+
 class BOImageSyncManager: BOSyncManager {
     
     required init() { }
     
     func uploadMissing() {
         if (CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() >= 0 && CurrentUser.shared.currentEventId() >= 0) {
-            if let imagesToUpload = BOImage.mr_find(byAttribute: "flagNeedsUpload", withValue: true) as? Array<BOImage> {
-                for image in imagesToUpload {
-                    image.upload()
-                }
-            }
+            (BOMedia.all { $0.flagNeedsUpload }) => BOMedia.upload
         } else {
             print("Can't upload location -- User is not logged in and not in a team")
         }
     }
     
     func dowloadMisisng() {
-        if let images = BOImage.mr_find(byAttribute: "needsBetterDownload", withValue: true) as? Array<BOImage> {
-            for image in images {
-                BOImageDownloadManager.shared.getBetterImage(image.uid)
-            }
-        }
+        (BOMedia.all { $0.needsBetterDownload }) => { BOImageDownloadManager.shared.getBetterImage($0.uuid) }
     }
     
 }

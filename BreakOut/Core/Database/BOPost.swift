@@ -7,144 +7,58 @@
 //
 
 import Foundation
-
-// Database
-import MagicalRecord
+import SwiftyJSON
+import Sweeft
 
 // Tracking
 import Flurry_iOS_SDK
 
-@objc(BOPost)
-class BOPost: NSManagedObject {
+final class BOPost {
     
-    @NSManaged var uuid: NSInteger
-    @NSManaged var text: String?
-    @NSManaged var city: String?
-    @NSManaged var date: Date
-    @NSManaged var longitude: NSNumber
-    @NSManaged var latitude: NSNumber
-    @NSManaged var flagNeedsUpload: Bool
-    @NSManaged var flagNeedsDownload: Bool
-    @NSManaged var team: BOTeam?
-    @NSManaged var challenge: BOChallenge?
-    @NSManaged var images: Set<BOImage>
-    @NSManaged var comments: Set<BOComment>
-    @NSManaged var country: String?
-    @NSManaged var locality: String?
+    static var items = [Int : BOPost]()
     
-    class func create(_ uuid: Int, flagNeedsDownload: Bool) -> BOPost {
-        
-        if let origPostArray = BOPost.mr_find(byAttribute: "uuid", withValue: uuid) as? Array<BOPost>, let post = origPostArray.first {
-            post.flagNeedsDownload = false
-            return post
-        }
-        
-        let res = BOPost.mr_createEntity()! as BOPost
-        
-        res.uuid = uuid as NSInteger
-        res.flagNeedsDownload = flagNeedsDownload
-        //res.date = NSDate()
-        res.images = Set<BOImage>()
-        res.comments = Set<BOComment>()
-        
-        // Save
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
-        return res;
+    var uuid: Int
+    var text: String?
+    var city: String?
+    var date: Date
+    var longitude: Double
+    var latitude: Double
+    var flagNeedsUpload: Bool
+    var flagNeedsDownload: Bool
+    var team: BOTeam?
+    var challenge: BOChallenge?
+    var images: [BOMedia]
+    var comments: [BOComment]
+    var country: String?
+    var locality: String?
+    
+    init(_ uuid: Int, flagNeedsDownload: Bool? = nil, date: Date = Date(), location: (Double, Double)) {
+        self.uuid = uuid
+        self.flagNeedsDownload = flagNeedsDownload ?? false
+        latitude = location.0
+        longitude = location.1
+        flagNeedsUpload = !(flagNeedsDownload.?)
+        self.date = date
+        images = []
+        comments = []
     }
     
-    class func createWithDictionary(_ dict: NSDictionary) -> BOPost {
-        let res: BOPost
-        if let id = dict["id"] as? NSInteger,
-                let origPostArray = BOPost.mr_find(byAttribute: "uuid", withValue: id) as? Array<BOPost>,
-                let post = origPostArray.first {
-            res = post
-        } else {
-            res = BOPost.mr_createEntity()!
+    required convenience init?(from json: JSON) {
+        guard let id = json["id"].int,
+            let date = json["date"].date,
+            let longitude = json["postingLocation"]["longitude"].double,
+            let latitude = json["postingLocation"]["latitude"].double else {
+                return nil
         }
-        
-        res.setAttributesWithDictionary(dict)
-        
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
-        
-        return res
-    }
-    
-    func setAttributesWithDictionary(_ dict: NSDictionary) {
-        self.uuid = dict.value(forKey: "id") as! NSInteger
-        self.text = dict.value(forKey: "text") as? String
-        self.comments = Set<BOComment>()
-        let unixTimestamp = dict.value(forKey: "date") as! NSNumber
-        self.date = Date(timeIntervalSince1970: unixTimestamp.doubleValue)
-        
-        if let longitude: NSNumber = (dict.value(forKey: "postingLocation")! as AnyObject).value(forKey: "longitude") as? NSNumber {
-            self.longitude = longitude
-        }
-        if let latitude: NSNumber = (dict.value(forKey: "postingLocation")! as AnyObject).value(forKey: "latitude") as? NSNumber {
-            self.latitude = latitude
-        }
-        
-        if let mediaArray = dict.value(forKey: "media") as? [NSDictionary] {
-            for item in mediaArray {
-                BOImage.createFromDictionary(item) { (image) in
-                    self.images.insert(image)
-                    self.save()
-                }
-            }
-        }
-        if let commentsArray = dict.value(forKey: "comments") as? [NSDictionary] {
-            for item in commentsArray {
-                comments.insert(BOComment.createWithDictionary(item))
-            }
-        }
-        
-        if let userDictionary = dict.value(forKey: "user") as? NSDictionary {
-            if let participantDictionary = userDictionary.value(forKey: "participant") as? NSDictionary {
-                let teamid = participantDictionary.value(forKey: "teamId")
-                self.addTeamWithId(teamid as? Int ?? -1)
-            }
-        }
-        
-        if let postingLocationDictionary = dict.value(forKey: "postingLocation") as? NSDictionary {
-            if postingLocationDictionary.count > 0 {
-                if let locationDataDict: NSDictionary = postingLocationDictionary["locationData"] as? NSDictionary {
-                    if locationDataDict["COUNTRY"] != nil {
-                        self.country = locationDataDict["COUNTRY"] as! String
-                    }
-                    if locationDataDict["LOCALITY"] != nil {
-                        self.locality = locationDataDict["LOCALITY"] as! String
-                    }
-                }
-            }
-        }
-        
-        
-        
-        self.save()
-        
-        print("Set new attributes for BOPost with Dictionary")
-        self.printToLog()
+        self.init(id, flagNeedsDownload: json["flagNeedsDownload"].bool, date: date, location: (latitude, longitude))
+        self.setAttributes(from: json)
     }
     
     func addTeamWithId(_ teamId: Int) {
-        if let teamArray = BOTeam.mr_find(byAttribute: "uuid", withValue: teamId) as? Array<BOTeam>,
-            let origTeam = teamArray.first {
-            team = self.managedObjectContext?.object(with: origTeam.objectID) as! BOTeam
-        } else {
-            // No Team with the given ID was found (locally)
+        let teamArray = BOTeam.all() { $0.uuid == teamId }
+        if let team = teamArray.first {
+            self.team = team
         }
-    }
-    
-    func save() {
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
-    }
-    
-    override func didSave() {
-        super.didSave()
-        if NSManagedObjectContext.mr_default() != self.managedObjectContext {
-            return
-        }
-        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_DB_BOPOST_DID_SAVE), object: nil)
     }
     
     func printToLog() {
@@ -164,42 +78,38 @@ class BOPost: NSManagedObject {
     
     func reload(_ handler: (() -> ())? = nil) {
         if BOSynchronizeController.shared.hasWifi {
-            BONetworkManager.get(BackendServices.PostingByID, arguments: [uuid], parameters: nil, auth: false) { (response) in
-                if let dict = response as? NSDictionary {
-                    self.setAttributesWithDictionary(dict)
-                    if let f = handler {
-                        f()
-                    }
-                }
-            }
+            BONetworkManager.get(.PostingByID, arguments: [uuid], parameters: nil, auth: false, success: { (response: JSON) in
+                response | self.setAttributes
+                handler?()
+            })
         }
     }
     
     func upload() {
-        var dict = [String:AnyObject]()
+        let dict = json
         
-        dict["text"] = text as AnyObject?;
-        dict["date"] = date.timeIntervalSince1970 as AnyObject?
+//        dict["text"] = text as AnyObject?;
+//        dict["date"] = date.timeIntervalSince1970 as AnyObject?
+//
+//        var postingLocation = [String:AnyObject]()
+//        postingLocation["latitude"] = latitude
+//        postingLocation["longitude"] = longitude
+//        
+//        dict["postingLocation"] = postingLocation as AnyObject?
+//        
+        let img = images.map() { $0 as BOMedia }
+//
+//        dict["uploadMediaTypes"] = img.map() { $0.type } as AnyObject
 
-        var postingLocation = [String:AnyObject]()
-        postingLocation["latitude"] = latitude
-        postingLocation["longitude"] = longitude
-        
-        dict["postingLocation"] = postingLocation as AnyObject?
-        
-        let img = images.map() { $0 as BOImage }
-        
-        dict["uploadMediaTypes"] = img.map() { $0.type } as AnyObject
-
-        BONetworkManager.post(.Postings, arguments: [], parameters: dict, auth: true, success: { (response) in
+        BONetworkManager.post(.Postings, arguments: [], parameters: dict, auth: true, success: { (json) in
             
-            if let responseDict = response as? NSDictionary, let id = responseDict["id"] as? Int, let mediaArray = responseDict["media"] as? [NSDictionary] {
+            if let id = json["id"].int, let mediaArray = json["media"].array {
                 self.uuid = id
                 if !mediaArray.isEmpty {
                     for i in 0...(mediaArray.count-1) {
                         let respondedMediaItem = mediaArray[i]
                         let mediaItem = img[i]
-                        if let id = respondedMediaItem["id"] as? Int, let token = respondedMediaItem["uploadToken"] as? String {
+                        if let id = respondedMediaItem["id"].int, let token = respondedMediaItem["uploadToken"].string {
                             mediaItem.uploadWithToken(id, token: token)
                         }
                     }
@@ -224,4 +134,35 @@ class BOPost: NSManagedObject {
             Flurry.logEvent("/posting/upload/completed_error")
         }
     }
+    
+    func setAttributes(from json: JSON) {
+        flagNeedsUpload = json["flagNeedsUpload"].bool.?
+        text = json["text"].string
+        json["user"]["participant"]["teamId"].int | addTeamWithId
+        country = json["postingLocation"]["locationData"]["COUNTRY"].string
+        locality = json["postingLocation"]["locationData"]["LOCALITY"].string
+        comments <- json["comments"].comments
+        images <- json["images"].mediaStuffs
+    }
+    
+}
+
+extension BOPost: BOObject {
+    
+    var json: JSON {
+        return JSON([:])
+    }
+    
+}
+
+extension JSON {
+    
+    var post: BOPost? {
+        return BOPost.create(from: self)
+    }
+    
+    var posts: [BOPost]? {
+        return BOPost.array(from: self)
+    }
+    
 }

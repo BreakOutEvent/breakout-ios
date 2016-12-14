@@ -66,15 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                    }
             }
             
-            
-            print("----------- DB Entity Counts ----------------------")
-            print("BOPost: ", BOPost.mr_countOfEntities())
-            print("BOLocation: ", BOLocation.mr_countOfEntities())
-            print("BOImage: ", BOImage.mr_countOfEntities())
-            print("BOTeam: ", BOTeam.mr_countOfEntities())
-            print("BOChallenge: ", BOChallenge.mr_countOfEntities())
-            print("BOComment: ", BOComment.mr_countOfEntities())
-            print("---------------------------------------------------")
         #endif
 
         //BONetworkerTest().postObjectFromJSON()

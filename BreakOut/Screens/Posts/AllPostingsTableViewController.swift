@@ -38,7 +38,7 @@ class Comment: NSObject {
                     if BOSynchronizeController.shared.hasWifi {
                         let deviceHeight = UIScreen.main.bounds.height
                         image = sizes.filter() { item in
-                            if let height = item.value(forKey: "height") as? Int {
+                            if let height = item.0.value(forKey: "height") as? Int {
                                 return (CGFloat) (height) < deviceHeight
                             }
                             return false
@@ -99,7 +99,7 @@ class Posting: NSObject {
                     if BOSynchronizeController.shared.hasWifi {
                         let deviceHeight = UIScreen.main.bounds.height
                         image = sizes.filter() { item in
-                            if let height = item.value(forKey: "height") as? Int {
+                            if let height = item.0.value(forKey: "height") as? Int {
                                 return (CGFloat) (height) < deviceHeight
                             }
                             return false
@@ -162,9 +162,9 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         //if BOSynchronizeController.shared.internetReachability == "wifi" {
         self.loadingCell(true)
         BONetworkIndicator.si.increaseLoading()
-            BONetworkManager.get(BackendServices.PostingsOffsetLimit, arguments: [page,20], parameters: nil, auth: false) { (response) in
-                if let postingsArray = response as? NSArray {
-                    for postingDict:NSDictionary in postingsArray as! [NSDictionary] {
+        BONetworkManager.get(BackendServices.PostingsOffsetLimit, arguments: [page,20], parameters: nil, auth: false, success: { (response) in
+                if let postingsArray = response.arrayObject {
+                    for postingDict in postingsArray as! [NSDictionary] {
                         let newPosting: Posting = Posting(dict: postingDict)
                         self.allPostingsArray.append(newPosting)
                     }
@@ -176,26 +176,8 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
                 self.lastLoadedPage = page
                 self.loadingCell(false)
                 BONetworkIndicator.si.decreaseLoading()
-            }
-        //}
+            })
     }
-    
-    lazy var fetchedResultsController: NSFetchedResultsController<BOPost> = {
-        let fetchRequest = NSFetchRequest<BOPost>(entityName: "BOPost")
-        fetchRequest.fetchLimit = 100
-        fetchRequest.fetchBatchSize = 20
-        
-        // Filter Food where type is breastmilk
-        var predicate = NSPredicate(format: "%K != %@", "flagNeedsDownload", true as CVarArg)
-        fetchRequest.predicate = predicate
-        
-        // Sort by createdAt
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-        
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: NSManagedObjectContext.mr_default(), sectionNameKeyPath: nil, cacheName: nil)
-        frc.delegate = self
-        return frc
-    }()
     
     func loadingCell(_ isLoading: Bool = false) {
         self.isLoading = isLoading
@@ -361,7 +343,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         if posting.teamName != nil {
             cell.teamNameLabel.text = posting.teamName
         }
-        cell.teamPictureImageView.image = posting.team?.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
+        cell.teamPictureImageView.image = posting.team?.profilePic?.image ?? UIImage(named: "emptyProfilePic")
         
         
         // Check if Posting has an attached challenge
@@ -393,69 +375,69 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     
     func configureCell(_ cell: PostingTableViewCell, atIndexPath indexPath: IndexPath) {
         // Configure cell with the BOPost model
-        let posting:BOPost = fetchedResultsController.object(at: indexPath) as! BOPost
-        
-        posting.printToLog()
-        
-        cell.messageLabel?.text = posting.text
-        
-        let date = posting.date
-        cell.timestampLabel?.text = date.toString()
-        
-        if (posting.locality != nil && posting.locality != "") {
-            cell.locationLabel?.text = posting.locality
-        }else if (posting.latitude.int32Value != 0 && posting.longitude.int32Value != 0){
-            cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.latitude, posting.longitude)
-        }else{
-            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
-        }
-
-        // Check if Posting has an attached media file
-        if let image:BOImage = posting.images.first {
-            let uiimage: UIImage = image.getImage()
-            if uiimage.hasContent() == true {
-                cell.postingPictureImageView.image = image.getImage()
-                cell.postingPictureImageViewHeightConstraint.constant = 120.0                
-            }else{
-                cell.postingPictureImageViewHeightConstraint.constant = 0.0
-            }
-        }else{
-            cell.postingPictureImageView.image = UIImage()
-            cell.postingPictureImageViewHeightConstraint.constant = 0.0
-        }
-        
-        // Set the team image & name
-        if posting.team != nil {
-            cell.teamNameLabel.text = posting.team?.name
-        }
-        cell.teamPictureImageView.image = posting.team?.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
-        
-        
-        // Check if Posting has an attached challenge
-        if posting.challenge != nil {
-            // Challenge is attached -> Show the challenge box
-            cell.challengeLabel.text = posting.challenge?.text
-            cell.challengeLabelHeightConstraint.constant = 34.0
-            cell.challengeView.isHidden = false
-        }else{
-            cell.challengeLabel.text = ""
-            cell.challengeLabelHeightConstraint.constant = 0.0
-            cell.challengeViewHeightConstraint.constant = 0.0
-            cell.challengeView.isHidden = true
-        }
-        
-        if posting.flagNeedsUpload == true {
-            cell.statusLabel.text = "Wartet auf Upload zum Server."
-        }else{
-            cell.statusLabel.text = ""
-        }
-        
-        // Add count for comments
-        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
-        
-        
-        cell.setNeedsUpdateConstraints()
-        cell.updateConstraintsIfNeeded()
+//        let posting: BOPost = fetchedResultsController.object(at: indexPath) as! BOPost
+//        
+//        posting.printToLog()
+//        
+//        cell.messageLabel?.text = posting.text
+//        
+//        let date = posting.date
+//        cell.timestampLabel?.text = date.toString()
+//        
+//        if (posting.locality != nil && posting.locality != "") {
+//            cell.locationLabel?.text = posting.locality
+//        }else if (posting.latitude.int32Value != 0 && posting.longitude.int32Value != 0){
+//            cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.latitude, posting.longitude)
+//        }else{
+//            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
+//        }
+//
+//        // Check if Posting has an attached media file
+//        if let image:BOImage = posting.images.first {
+//            let uiimage: UIImage = image.getImage()
+//            if uiimage.hasContent() == true {
+//                cell.postingPictureImageView.image = image.getImage()
+//                cell.postingPictureImageViewHeightConstraint.constant = 120.0                
+//            }else{
+//                cell.postingPictureImageViewHeightConstraint.constant = 0.0
+//            }
+//        }else{
+//            cell.postingPictureImageView.image = UIImage()
+//            cell.postingPictureImageViewHeightConstraint.constant = 0.0
+//        }
+//        
+//        // Set the team image & name
+//        if posting.team != nil {
+//            cell.teamNameLabel.text = posting.team?.name
+//        }
+//        cell.teamPictureImageView.image = posting.team?.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
+//        
+//        
+//        // Check if Posting has an attached challenge
+//        if posting.challenge != nil {
+//            // Challenge is attached -> Show the challenge box
+//            cell.challengeLabel.text = posting.challenge?.text
+//            cell.challengeLabelHeightConstraint.constant = 34.0
+//            cell.challengeView.isHidden = false
+//        }else{
+//            cell.challengeLabel.text = ""
+//            cell.challengeLabelHeightConstraint.constant = 0.0
+//            cell.challengeViewHeightConstraint.constant = 0.0
+//            cell.challengeView.isHidden = true
+//        }
+//        
+//        if posting.flagNeedsUpload == true {
+//            cell.statusLabel.text = "Wartet auf Upload zum Server."
+//        }else{
+//            cell.statusLabel.text = ""
+//        }
+//        
+//        // Add count for comments
+//        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
+//        
+//        
+//        cell.setNeedsUpdateConstraints()
+//        cell.updateConstraintsIfNeeded()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

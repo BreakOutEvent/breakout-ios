@@ -6,70 +6,39 @@
 //  Copyright © 2016 BreakOut. All rights reserved.
 //
 
-import Foundation
-
-// Database
-import MagicalRecord
+import SwiftyJSON
+import Sweeft
 
 // Tracking
 import Flurry_iOS_SDK
 
-@objc(BOTeam)
-class BOTeam: NSManagedObject {
+final class BOTeam {
     
-    @NSManaged var uuid: NSInteger
-    @NSManaged var text: String?
-    @NSManaged var flagNeedsDownload: Bool
-    @NSManaged var name: String?
-    @NSManaged var profilePic: BOImage?
+    static var items = [Int : BOTeam]()
     
-    class func create(_ uuid: Int, flagNeedsDownload: Bool) -> BOTeam {
-        if let origTeamArray = BOPost.mr_find(byAttribute: "uuid", withValue: uuid) as? Array<BOTeam>, let team = origTeamArray.first {
-            team.flagNeedsDownload = false
-            return team
-        }
-        
-        let res = BOTeam.mr_createEntity()! as BOTeam
-        res.uuid = uuid as NSInteger
-        res.flagNeedsDownload = flagNeedsDownload
-        
-        // Save
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
-        return res;
+    var uuid: Int
+    var text: String?
+    var flagNeedsDownload: Bool
+    var name: String?
+    var profilePic: BOMedia?
+    
+    init(uuid: Int, flagNeedsDownload: Bool = false, name: String? = nil, profilePic: BOMedia? = nil, text: String? = nil) {
+        self.uuid = uuid
+        self.flagNeedsDownload = flagNeedsDownload
+        self.name = name
+        self.profilePic = profilePic
+        self.text = text
     }
     
-    class func createWithDictionary(_ dict: NSDictionary) -> BOTeam {
-        let res: BOTeam
-        if let id = dict["id"] as? NSInteger,
-            let origTeamArray = BOTeam.mr_find(byAttribute: "uuid", withValue: id) as? Array<BOTeam>,
-            let team = origTeamArray.first {
-            res = team
-        } else {
-            res = BOTeam.mr_createEntity()!
+    required convenience init?(from json: JSON) {
+        guard let id = json["id"].int else {
+            return nil
         }
-        
-        res.setAttributesWithDictionary(dict)
-        
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
-        
-        return res
-    }
-    
-    func setAttributesWithDictionary(_ dict: NSDictionary) {
-        uuid = dict.value(forKey: "id") as! NSInteger
-        text = dict.value(forKey: "description") as? String
-        name = dict.value(forKey: "name") as? String
-        if let profilePicDict = dict.value(forKey: "profilePic") as? NSDictionary {
-            BOImage.createFromDictionary(profilePicDict) { (image) in
-                self.profilePic = image
-                self.save()
-            }
-        }
-        self.save()
-    }
-    
-    func save() {
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStore(completion: nil)
+        let flagNeedsDownload = json["flagNeedsDownload"].bool ?? false
+        let name = json["name"].string
+        let profilePic = json["profilePic"].media
+        let text = json["text"].string
+        self.init(uuid: id, flagNeedsDownload: flagNeedsDownload, name: name, profilePic: profilePic, text: text)
     }
     
     func printToLog() {
@@ -79,4 +48,24 @@ class BOTeam: NSManagedObject {
         print("flagNeedsDownload: ", self.flagNeedsDownload)
         print("----------- ------ -----------")
     }
+}
+
+extension BOTeam: BOObject {
+    
+    var json: JSON {
+        return JSON([:])
+    }
+    
+}
+
+extension JSON {
+    
+    var team: BOTeam? {
+        return BOTeam.create(from: self)
+    }
+    
+    var teams: [BOTeam]? {
+        return BOTeam.array(from: self)
+    }
+    
 }

@@ -17,7 +17,7 @@ import Crashlytics
 
 
 @objc(BOLocation)
-class BOLocation: NSManagedObject{
+class BOLocation: NSManagedObject {
     @NSManaged var uid: NSInteger
     @NSManaged var timestamp: Date
     @NSManaged var longitude: NSNumber

@@ -129,7 +129,7 @@ class PostingDetailsTableViewController: UITableViewController {
         /*if posting!.team != nil {
             cell.teamNameLabel.text = posting!.team?.name
         }*/
-        cell.teamPictureImageView?.image = posting?.team?.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
+        cell.teamPictureImageView?.image = posting?.team?.profilePic?.image ?? UIImage(named: "emptyProfilePic")
         
         
         // Check if Posting has an attached challenge

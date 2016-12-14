@@ -180,31 +180,21 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - Button Actions
     
     func sendPostingButtonPressed() {
-        let newPosting: BOPost = BOPost.mr_createEntity()! as BOPost
         
-        newPosting.flagNeedsUpload = true
-        newPosting.flagNeedsDownload = false
-        newPosting.text = self.messageTextView.text
-        newPosting.latitude = NSNumber(value: self.newLatitude)
-        newPosting.longitude = NSNumber(value: self.newLongitude)
-        newPosting.date = Date()
+        let newPosting = BOPost(0, flagNeedsDownload: false, location: (newLatitude, newLongitude))
         
         if self.newCity == nil {
             newPosting.city = nil
-        }else{
+        } else {
             newPosting.city = self.newCity
         }
         
-
-        var withImage:Bool = false
         if let image = postingPictureImageView.image {
             // User selected Image for this post
-            let newImage:BOImage = BOImage.createWithImage(image)
+            let newImage = BOMedia(from: image)
             newImage.flagNeedsUpload = true
         
-            newPosting.images.insert(newImage)
-            
-            withImage = true
+            newPosting.images.append(newImage)
         }
         
         // Check wether a challenge is connected to the posting
@@ -222,9 +212,11 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD.hide(true, afterDelay: 3.0)
         self.resetAllInputs()
         
+        let withImage = !newPosting.images.isEmpty
+        
         // Tracking
-        Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage":withImage])
-        Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage.description])
+        Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])
+        Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage": withImage.description])
         
         let defaults = UserDefaults.standard
         defaults.set(Date(), forKey: "lastPostingSent")

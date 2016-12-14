@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E7AB41F1DE9F050001317ED /* BOObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7AB41E1DE9F050001317ED /* BOObject.swift */; };
 		0E7EFF361CEDBEFE006ACDA1 /* BOImageDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7EFF351CEDBEFE006ACDA1 /* BOImageDownloadManager.swift */; };
 		0E9990B21D99B7F5009AEEB2 /* BOCommentSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9990B11D99B7F5009AEEB2 /* BOCommentSyncManager.swift */; };
 		0E9990B41D99B899009AEEB2 /* BOLocationSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9990B31D99B899009AEEB2 /* BOLocationSyncManager.swift */; };
@@ -29,7 +30,7 @@
 		262955B01CE8FABD004D3213 /* HelpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262955AF1CE8FABD004D3213 /* HelpTableViewController.swift */; };
 		262FA8FB1CCD1BF70094B810 /* AllPostingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */; };
 		262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */; };
-		262FA8FF1CCD5ADA0094B810 /* BOImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FE1CCD5ADA0094B810 /* BOImage.swift */; };
+		262FA8FF1CCD5ADA0094B810 /* BOMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262FA8FE1CCD5ADA0094B810 /* BOMedia.swift */; };
 		263874BF1D01940B008BF00E /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263874BE1D01940B008BF00E /* LoadingTableViewCell.swift */; };
 		263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 263874C01D0222FF008BF00E /* GoogleService-Info.plist */; };
 		263BAE471C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */; };
@@ -68,7 +69,6 @@
 		26F29BED1CF21137003DB37E /* ChallengesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */; };
 		26FD9E631C0A41C600BF9EFD /* BOPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E621C0A41C600BF9EFD /* BOPost.swift */; };
 		26FD9E661C0B78FF00BF9EFD /* BONetworkerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */; };
-		26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E671C0B8F0400BF9EFD /* BODataModel.xcdatamodeld */; };
 		26FD9E6B1C0B9B2D00BF9EFD /* BOSynchronizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */; };
 		26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */; };
 		26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */; };
@@ -94,6 +94,7 @@
 /* Begin PBXFileReference section */
 		05FB01B2A32B991368F6CE98 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		0E6E6A60DAADD446EC06104D /* Pods-BreakOutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOutTests/Pods-BreakOutTests.release.xcconfig"; sourceTree = "<group>"; };
+		0E7AB41E1DE9F050001317ED /* BOObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOObject.swift; sourceTree = "<group>"; };
 		0E7EFF351CEDBEFE006ACDA1 /* BOImageDownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOImageDownloadManager.swift; sourceTree = "<group>"; };
 		0E9990B11D99B7F5009AEEB2 /* BOCommentSyncManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOCommentSyncManager.swift; sourceTree = "<group>"; };
 		0E9990B31D99B899009AEEB2 /* BOLocationSyncManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOLocationSyncManager.swift; sourceTree = "<group>"; };
@@ -117,7 +118,7 @@
 		262955AF1CE8FABD004D3213 /* HelpTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpTableViewController.swift; path = Screens/HelpTableViewController.swift; sourceTree = "<group>"; };
 		262FA8FA1CCD1BF70094B810 /* AllPostingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllPostingsTableViewController.swift; path = Screens/Posts/AllPostingsTableViewController.swift; sourceTree = "<group>"; };
 		262FA8FC1CCD1C210094B810 /* PostingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingTableViewCell.swift; path = Screens/Posts/PostingTableViewCell.swift; sourceTree = "<group>"; };
-		262FA8FE1CCD5ADA0094B810 /* BOImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImage.swift; path = Core/Database/BOImage.swift; sourceTree = "<group>"; };
+		262FA8FE1CCD5ADA0094B810 /* BOMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOMedia.swift; path = Core/Database/BOMedia.swift; sourceTree = "<group>"; };
 		263874BE1D01940B008BF00E /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingTableViewCell.swift; path = Screens/Posts/LoadingTableViewCell.swift; sourceTree = "<group>"; };
 		263874C01D0222FF008BF00E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JoinTeamByInvitationTableViewController.swift; path = Screens/JoinTeamByInvitationTableViewController.swift; sourceTree = "<group>"; };
@@ -164,7 +165,6 @@
 		26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengesTableViewController.swift; path = Screens/Posts/ChallengesTableViewController.swift; sourceTree = "<group>"; };
 		26FD9E621C0A41C600BF9EFD /* BOPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOPost.swift; path = Core/Database/BOPost.swift; sourceTree = "<group>"; };
 		26FD9E651C0B78FF00BF9EFD /* BONetworkerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BONetworkerTest.swift; path = Core/Network/BONetworkerTest.swift; sourceTree = "<group>"; };
-		26FD9E681C0B8F0400BF9EFD /* BODataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BODataModel.xcdatamodel; sourceTree = "<group>"; };
 		26FD9E6A1C0B9B2D00BF9EFD /* BOSynchronizeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOSynchronizeController.swift; path = Core/Network/BOSynchronizeController.swift; sourceTree = "<group>"; };
 		26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImageController.swift; path = Core/BOImageController.swift; sourceTree = "<group>"; };
 		26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleInformation.swift; sourceTree = "<group>"; };
@@ -380,8 +380,8 @@
 				266BFF6D1CC400500004E220 /* BOLocation.swift */,
 				0EC14DD81CF090A60065F695 /* BOComment.swift */,
 				0EC14DD91CF090A60065F695 /* BOTeam.swift */,
-				262FA8FE1CCD5ADA0094B810 /* BOImage.swift */,
-				26FD9E671C0B8F0400BF9EFD /* BODataModel.xcdatamodeld */,
+				262FA8FE1CCD5ADA0094B810 /* BOMedia.swift */,
+				0E7AB41E1DE9F050001317ED /* BOObject.swift */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -606,7 +606,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5A811A17E3A5FB935C69A35A /* [CP] Copy Pods Resources */ = {
@@ -636,7 +636,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E047DB7A768B98660EB70887 /* [CP] Embed Pods Frameworks */ = {
@@ -682,7 +682,7 @@
 				262955AE1CE79656004D3213 /* PostingCommentInputTableViewCell.swift in Sources */,
 				2646AB441C56BE680082CA71 /* JoinTeamViewController.swift in Sources */,
 				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
-				262FA8FF1CCD5ADA0094B810 /* BOImage.swift in Sources */,
+				262FA8FF1CCD5ADA0094B810 /* BOMedia.swift in Sources */,
 				26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */,
 				61E86D791CE77082000CD707 /* MapLocation.swift in Sources */,
 				26BB1E8A1C3F082C00871024 /* SidebarMenuTableViewController.swift in Sources */,
@@ -711,6 +711,7 @@
 				262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */,
 				262FA8FB1CCD1BF70094B810 /* AllPostingsTableViewController.swift in Sources */,
 				0EC14DDA1CF090A60065F695 /* BOComment.swift in Sources */,
+				0E7AB41F1DE9F050001317ED /* BOObject.swift in Sources */,
 				26F29BE91CF208C3003DB37E /* BOChallenge.swift in Sources */,
 				61D0BE801CD6BB670069DAEC /* User.swift in Sources */,
 				2649F80B1C652AF4005AA763 /* TeamProfileViewController.swift in Sources */,
@@ -727,7 +728,6 @@
 				26F29BEB1CF2111E003DB37E /* ChallengeTableViewCell.swift in Sources */,
 				262955AC1CE789B4004D3213 /* PostingCommentTableViewCell.swift in Sources */,
 				0EA3AAB01D99AE3A00F5EF79 /* BOSyncManager.swift in Sources */,
-				26FD9E691C0B8F0400BF9EFD /* BODataModel.xcdatamodeld in Sources */,
 				61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */,
 				26B327311CFB6C050039FB66 /* BOPushManager.swift in Sources */,
 				2649F80D1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift in Sources */,
@@ -993,20 +993,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		26FD9E671C0B8F0400BF9EFD /* BODataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				26FD9E681C0B8F0400BF9EFD /* BODataModel.xcdatamodel */,
-			);
-			currentVersion = 26FD9E681C0B8F0400BF9EFD /* BODataModel.xcdatamodel */;
-			name = BODataModel.xcdatamodeld;
-			path = Core/Database/BODataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 2678A5721B7E4BB4000CF85A /* Project object */;
 }
