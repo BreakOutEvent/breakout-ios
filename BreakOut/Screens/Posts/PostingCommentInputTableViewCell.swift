@@ -13,8 +13,6 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var postButton: UIButton!
     @IBOutlet weak var commentInputTextField: UITextField!
     
-    //var post: BOPost?
-    var post: Posting?
     var reloadHandler: (() -> ())?
     
     override func awakeFromNib() {

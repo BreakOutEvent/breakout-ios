@@ -14,8 +14,8 @@ class BOCommentSyncManager: BOSyncManager {
     required init() { }
     
     func uploadMissing() {
-        let comments = BOComment.all { $0.flagNeedsUpload }
-        comments => BOComment.upload
+//        let comments = BOComment.all { $0.flagNeedsUpload }
+//        comments => BOComment.upload
     }
     
     func dowloadMisisng() { }

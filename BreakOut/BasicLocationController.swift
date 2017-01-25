@@ -15,39 +15,6 @@ protocol LocationController {
     func getAllLocationsForTeams(_ onComplete: (_ locationsForTeams: [[MapLocation]]?, _ error: NSError?) -> Void)
 }
 
-class Location: NSObject {
-    var uid: NSInteger?
-    var timestamp: Date?
-    var longitude: NSNumber?
-    var latitude: NSNumber?
-    var flagNeedsUpload: Bool?
-    var teamId: NSInteger?
-    var teamName: String?
-    var country: String?
-    var locality: String?
-    
-    required init(dict: NSDictionary) {
-        if (dict["id"] != nil) {
-            self.uid = dict.value(forKey: "id") as? NSInteger
-        }
-        self.teamId = dict.value(forKey: "teamId") as? NSInteger
-        self.teamName = dict.value(forKey: "team") as? String
-        let unixTimestamp = dict.value(forKey: "date") as! NSNumber
-        self.timestamp = Date(timeIntervalSince1970: unixTimestamp.doubleValue)
-        self.latitude = (dict.value(forKey: "latitude") as? NSNumber)!
-        self.longitude = (dict.value(forKey: "longitude") as? NSNumber)!
-        
-        if let locationDataDict: NSDictionary = dict["locationData"] as? NSDictionary {
-            if locationDataDict["COUNTRY"] != nil {
-                self.country = locationDataDict["COUNTRY"] as? String
-            }
-            if locationDataDict["LOCALITY"] != nil {
-                self.locality = locationDataDict["LOCALITY"] as? String
-            }
-        }
-    }
-}
-
 class BasicLocationController : LocationController {
     /**
      invokes request to server via AFHTTPSessionManager and AFJSONRequestSerializer and casts response to NSDictionary.
@@ -90,38 +57,39 @@ class BasicLocationController : LocationController {
         
         var locationArraysForTeams : [[MapLocation]] = []
         var mapLocationArrayForTeamId: [MapLocation] = []
-        let teamArray: [BOTeam] = BOTeam.all
-        
-        for team: BOTeam in teamArray {
-            let teamId = team.uuid
-            if let boLocationArrayForTeamId: [BOLocation] = BOLocation.mr_find(byAttribute: "teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
-                
-                
-                for locationObject:BOLocation in boLocationArrayForTeamId{
-                    if locationObject.latitude.int32Value != 0 && locationObject.longitude.int32Value != 0 {
-                        let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: locationObject.teamName, subtitle: locationObject.timestamp.toString())
-                        mapLocationArrayForTeamId.append(location)
-                    }
-                }
-                if mapLocationArrayForTeamId.count > 0{
-                    locationArraysForTeams.append(mapLocationArrayForTeamId)
-                    mapLocationArrayForTeamId.removeAll()
-                }
-                
-                
-            }
-        }
+//        let teamArray: [BOTeam] = BOTeam.all
+//        
+//        for team: BOTeam in teamArray {
+//            let teamId = team.uuid
+//            if let boLocationArrayForTeamId: [BOLocation] = BOLocation.mr_find(byAttribute: "teamId", withValue: teamId, andOrderBy: "timestamp", ascending: false) as? [BOLocation] {
+//                
+//                
+//                for locationObject:BOLocation in boLocationArrayForTeamId{
+//                    if locationObject.latitude.int32Value != 0 && locationObject.longitude.int32Value != 0 {
+//                        let location = MapLocation(coordinate: CLLocationCoordinate2DMake(locationObject.latitude.doubleValue, locationObject.longitude.doubleValue), title: locationObject.teamName, subtitle: locationObject.timestamp.toString())
+//                        mapLocationArrayForTeamId.append(location)
+//                    }
+//                }
+//                if mapLocationArrayForTeamId.count > 0{
+//                    locationArraysForTeams.append(mapLocationArrayForTeamId)
+//                    mapLocationArrayForTeamId.removeAll()
+//                }
+//                
+//                
+//            }
+//        }
         
         return locationArraysForTeams
     }
     
     
     fileprivate func convertBOPostingToMapLocation() -> [MapLocation] {
-        return BOPost.all.map { (post: BOPost) in
-            return MapLocation(coordinate: CLLocationCoordinate2DMake(post.latitude, post.longitude),
-                               title: post.team?.name,
-                               subtitle: post.text)
-        }
+        return []
+//        return BOPost.all.map { (post: BOPost) in
+//            return MapLocation(coordinate: CLLocationCoordinate2DMake(post.latitude, post.longitude),
+//                               title: post.team?.name,
+//                               subtitle: post.text)
+//        }
     }
     
 

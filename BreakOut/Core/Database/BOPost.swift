@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftyJSON
 import Sweeft
 
 // Tracking
@@ -150,7 +149,7 @@ final class BOPost {
 extension BOPost: BOObject {
     
     var json: JSON {
-        return JSON([:])
+        return .dict([:])
     }
     
 }

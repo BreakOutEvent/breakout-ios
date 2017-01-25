@@ -69,9 +69,9 @@ PODS:
   - SlideMenuControllerSwift (3.0.1)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - Sweeft (0.2.6)
-  - SwiftDate (4.0.8)
-  - SwiftyJSON (3.1.3)
+  - Sweeft (0.3.2)
+  - SwiftDate (4.0.11)
+  - SwiftyJSON (3.1.4)
   - Toaster (2.0.1)
   - TouchVisualizer (2.0.1)
 
@@ -96,7 +96,7 @@ DEPENDENCIES:
   - SlideMenuControllerSwift (~> 3.0.0)
   - SpinKit (~> 1.2.0)
   - StaticDataTableViewController (~> 2.0)
-  - Sweeft
+  - Sweeft (~> 0.3)
   - SwiftDate (~> 4.0)
   - SwiftyJSON
   - Toaster (~> 2.0)
@@ -144,12 +144,12 @@ SPEC CHECKSUMS:
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  Sweeft: 881222c2f25e567329abc4ed8823ddb937a61c45
-  SwiftDate: 9aa3259d8850d818bec02802f8f05aa9a8c26fdb
-  SwiftyJSON: 38a8ea2006779c0fc4c310cb2ee8195327740faf
+  Sweeft: 64510a334fd7d3db1f0ac1e5b1934da776464227
+  SwiftDate: a36d5ce7c86bed3ed92b583ccbf15045f374ac65
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   Toaster: be65cd48e93a525b2a9cc4bd25a2bfc900e02d9f
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: 267ac1337aa99389e789e5ece1c54b6c5f1ec4dc
+PODFILE CHECKSUM: 131ae3d0fe6fa6c4d2cfefac436215ca507c7e54
 
 COCOAPODS: 1.2.0.beta.1

@@ -255,10 +255,10 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
     
     func getAllEventsRequest() {
         
-        BOSynchronizeController.teams.getAllEvents() { (result) in
-            self.eventDataSourceArray = result
-            self.setupEventPicker()
-        }
+//        BOSynchronizeController.teams.getAllEvents() { (result) in
+//            self.eventDataSourceArray = result
+//            self.setupEventPicker()
+//        }
         
     }
     

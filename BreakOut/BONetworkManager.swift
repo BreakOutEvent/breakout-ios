@@ -13,14 +13,15 @@ import Flurry_iOS_SDK
 import Crashlytics
 
 import Sweeft
-import SwiftyJSON
 
 class BONetworkManager {
     
     typealias SuccessHandler = (JSON) -> ()
     typealias ErrorHandler = (Error, HTTPURLResponse?) -> ()
-    typealias BOHandler<T: BOObject> = (T) -> ()
-    typealias BOCollectionHandler<T: BOObject> = ([T]) -> ()
+    
+    static var auth: AFOAuthCredential? {
+        return AFOAuthCredential.retrieveCredential(withIdentifier: loginStorage)
+    }
     
     fileprivate static let loginSecret = "123456789"
     
@@ -42,23 +43,6 @@ class BONetworkManager {
         }
     }
     
-    fileprivate static func doJSONRequest<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, handler: @escaping BOHandler<T>, error: ErrorHandler?, method: HTTPMethod) {
-        
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: { (json) in
-            
-            let object = T.init(from: json)
-            object | handler
-        }, error: error, method: method)
-    }
-    
-    fileprivate static func doJSONRequest<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, handler: @escaping BOCollectionHandler<T>, error: ((Error, HTTPURLResponse?) -> ())?, method: HTTPMethod) {
-        
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: { (json) in
-            let array = !((json.array ?? []) => T.init)
-            array | handler
-        }, error: error, method: method)
-    }
-    
     fileprivate static func doJSONRequest(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, handler: @escaping SuccessHandler, error: ((Error, HTTPURLResponse?) -> ())?, method: HTTPMethod) {
         BONetworkIndicator.si.increaseLoading()
         let requestManager = AFHTTPSessionManager.init(baseURL: URL(string: PrivateConstants().backendURL()))
@@ -73,9 +57,8 @@ class BONetworkManager {
             (operation, response) -> Void in
             print("✅Successful: : \n Request: \(requestString) \n methode: \(method) \n with Parms: \(parameters) \n \(requestString) Response: ")
             print(response)
-            if let response = response as? [String:Any] {
-                let json = JSON(response)
-                handler(json)
+            if let response = JSON(from: response) {
+                handler(response)
             }
             BOToast.log("SUCCESSFUL (): \(requestString) Download! w. Parms \(parameters)")
             BONetworkIndicator.si.decreaseLoading()
@@ -98,23 +81,7 @@ class BONetworkManager {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .get)
     }
     
-    static func get<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOHandler<T>, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .get)
-    }
-    
-    static func get<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOCollectionHandler<T>, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .get)
-    }
-    
     static func put(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping SuccessHandler, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .put)
-    }
-    
-    static func put<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOHandler<T>, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .put)
-    }
-    
-    static func put<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOCollectionHandler<T>, error: ErrorHandler? = nil) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .put)
     }
     
@@ -122,23 +89,7 @@ class BONetworkManager {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .post)
     }
     
-    static func post<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOHandler<T>, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .post)
-    }
-    
-    static func post<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOCollectionHandler<T>, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .post)
-    }
-    
     static func delete(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping SuccessHandler, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .delete)
-    }
-    
-    static func delete<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOHandler<T>, error: ErrorHandler? = nil) {
-        doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .delete)
-    }
-    
-    static func delete<T: BOObject>(_ service: BackendServices, arguments: [CVarArg], parameters: Any?, auth: Bool, success: @escaping BOCollectionHandler<T>, error: ErrorHandler? = nil) {
         doJSONRequest(service, arguments: arguments, parameters: parameters, auth: auth, handler: success, error: error, method: .delete)
     }
     

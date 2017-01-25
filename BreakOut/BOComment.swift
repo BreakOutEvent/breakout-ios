@@ -6,7 +6,6 @@
 //  Copyright © 2016 BreakOut. All rights reserved.
 //
 
-import SwiftyJSON
 import Sweeft
 
 // Tracking

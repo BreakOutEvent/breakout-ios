@@ -48,88 +48,88 @@ class BOTeamSyncManager: BOSyncManager {
     }
     
     func downloadChallengesForTeam(_ teamId: Int, eventId: Int) {
-        BONetworkManager.get(.EventTeamChallenge, arguments: [eventId, teamId], parameters: nil, auth: false, success: { (response) in
-            // response is an Array of Location Objects
-            for newChallenge: NSDictionary in response as! Array {
-                BOChallenge.createWithDictionary(newChallenge)
-            }
-            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
-            // Tracking
-            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
-        }) { (error, response) in
-            // TODO: Handle Errors
-            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
-        }
+//        BONetworkManager.get(.EventTeamChallenge, arguments: [eventId, teamId], parameters: nil, auth: false, success: { (response) in
+//            // response is an Array of Location Objects
+//            for newChallenge: NSDictionary in response as! Array {
+//                BOChallenge.createWithDictionary(newChallenge)
+//            }
+//            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
+//            // Tracking
+//            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+//        }) { (error, response) in
+//            // TODO: Handle Errors
+//            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+//        }
     }
     
-    func getAllEvents(_ success: @escaping ([BOEvent]) -> ()) {
-        BONetworkManager.get(.Event, arguments: [], parameters: nil, auth: true, success: { (response) in
-            if let responseArray: Array = response as? Array<NSDictionary> {
-                var res = [BOEvent]()
-                for eventDictionary: NSDictionary in responseArray {
-                    let newEvent: BOEvent = BOEvent(id: (eventDictionary["id"] as? Int)!, title: (eventDictionary["title"] as? String)!, dateUnixTimestamp: (eventDictionary["date"] as? Int)!, city:(eventDictionary["city"] as? String)!)
-                    res.append(newEvent)
-                }
-                success(res)
-            } else {
-                success([])
-            }
-        }) { (error, response) in
-            if response?.statusCode == 401 {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
-            }
-        }
+    func getAllEvents() {
+//        BONetworkManager.get(.Event, arguments: [], parameters: nil, auth: true, success: { (response) in
+//            if let responseArray: Array = response as? Array<NSDictionary> {
+//                var res = [BOEvent]()
+//                for eventDictionary: NSDictionary in responseArray {
+//                    let newEvent: BOEvent = BOEvent(id: (eventDictionary["id"] as? Int)!, title: (eventDictionary["title"] as? String)!, dateUnixTimestamp: (eventDictionary["date"] as? Int)!, city:(eventDictionary["city"] as? String)!)
+//                    res.append(newEvent)
+//                }
+//                success(res)
+//            } else {
+//                success([])
+//            }
+//        }) { (error, response) in
+//            if response?.statusCode == 401 {
+//                NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
+//            }
+//        }
     }
     
     func downloadAllTeamsForEvent(_ eventId: Int) {
-        BONetworkManager.get(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
-            var numberOfAddedTeams: Int = 0
-            // response is an Array of Team Objects
-            let arrayExistingTeams = BOTeam.all
-            for newTeam in response.array.? {
-                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                let index = arrayExistingTeams.index(where: { $0.uuid == newTeam["id"].int.? })
-                if index != nil {
-                    // Team already exists
-                } else {
-                    _ = BOTeam(from: newTeam)
-                }
-                //})
-                //newPost.printToLog()
-                numberOfAddedTeams += 1
-            }
-            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
-            // Tracking
-            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
-        }) { (error, response) in
-            // TODO: Handle Errors
-            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
-        }
+//        BONetworkManager.get(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
+//            var numberOfAddedTeams: Int = 0
+//            // response is an Array of Team Objects
+//            let arrayExistingTeams = BOTeam.all
+//            for newTeam in response.array.? {
+//                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+//                let index = arrayExistingTeams.index(where: { $0.uuid == newTeam["id"].int.? })
+//                if index != nil {
+//                    // Team already exists
+//                } else {
+//                    _ = BOTeam(from: newTeam)
+//                }
+//                //})
+//                //newPost.printToLog()
+//                numberOfAddedTeams += 1
+//            }
+//            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
+//            // Tracking
+//            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
+//        }) { (error, response) in
+//            // TODO: Handle Errors
+//            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
+//        }
     }
     
     func createTeam(_ name: String, eventID: Int, image: UIImage?, success: @escaping () -> (), error: @escaping () -> ()) {
-        let params: NSDictionary = [
-            "event": eventID,
-            "name": name
-        ]
-        BONetworkManager.post(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
-            if let imageUnwrapped = image,
-                let token = response["profilePic"]["uploadToken"].string,
-                let id = response["profilePic"]["id"].int {
-                
-                let boImage = BOMedia(from: imageUnwrapped)
-                boImage.uploadWithToken(id, token: token)
-            }
-            
-            if let team = BOTeam(from: response) {
-                CurrentUser.shared.teamid = team.uuid
-                CurrentUser.shared.storeInNSUserDefaults()
-            }
-            success()
-        }) { (err, response) in
-            // TODO: Maybe show something more to the user
-            error()
-        }
+//        let params: NSDictionary = [
+//            "event": eventID,
+//            "name": name
+//        ]
+//        BONetworkManager.post(BackendServices.EventTeam, arguments: [eventID], parameters: params, auth: true, success: { (response) in
+//            if let imageUnwrapped = image,
+//                let token = response["profilePic"]["uploadToken"].string,
+//                let id = response["profilePic"]["id"].int {
+//                
+//                let boImage = BOMedia(from: imageUnwrapped)
+//                boImage.uploadWithToken(id, token: token)
+//            }
+//            
+//            if let team = BOTeam(from: response) {
+//                CurrentUser.shared.teamid = team.uuid
+//                CurrentUser.shared.storeInNSUserDefaults()
+//            }
+//            success()
+//        }) { (err, response) in
+//            // TODO: Maybe show something more to the user
+//            error()
+//        }
     }
     
     func sendInvitationToTeam(_ teamID: Int, name: String, eventID: Int, handler: @escaping () -> ()) {

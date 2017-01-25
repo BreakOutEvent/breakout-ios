@@ -14,15 +14,15 @@ class BOImageSyncManager: BOSyncManager {
     required init() { }
     
     func uploadMissing() {
-        if (CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() >= 0 && CurrentUser.shared.currentEventId() >= 0) {
-            (BOMedia.all { $0.flagNeedsUpload }) => BOMedia.upload
-        } else {
-            print("Can't upload location -- User is not logged in and not in a team")
-        }
+//        if (CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() >= 0 && CurrentUser.shared.currentEventId() >= 0) {
+//            (BOMedia.all { $0.flagNeedsUpload }) => BOMedia.upload
+//        } else {
+//            print("Can't upload location -- User is not logged in and not in a team")
+//        }
     }
     
     func dowloadMisisng() {
-        (BOMedia.all { $0.needsBetterDownload }) => { BOImageDownloadManager.shared.getBetterImage($0.uuid) }
+//        (BOMedia.all { $0.needsBetterDownload }) => { BOImageDownloadManager.shared.getBetterImage($0.uuid) }
     }
     
 }

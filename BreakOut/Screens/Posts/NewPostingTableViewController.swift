@@ -42,7 +42,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     var newCity: String?
     
     @IBOutlet weak var challengeLabel: UILabel!
-    var newChallenge:BOChallenge?
+//    var newChallenge:BOChallenge?
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
 
@@ -106,10 +106,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if newChallenge != nil {
-            self.challengeLabel.text = String(format: "%0.2f € -- %@", (newChallenge?.amount?.doubleValue)!, (newChallenge?.text)!)
-            self.styleChallengeLabel()
-        }
+//        if newChallenge != nil {
+//            self.challengeLabel.text = String(format: "%0.2f € -- %@", (newChallenge?.amount?.doubleValue)!, (newChallenge?.text)!)
+//            self.styleChallengeLabel()
+//        }
         // Tracking
         Flurry.logEvent("/newPostingTableViewController", timed: true)
         Answers.logCustomEvent(withName: "/newPostingTableViewController", customAttributes: [:])
@@ -181,26 +181,26 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     func sendPostingButtonPressed() {
         
-        let newPosting = BOPost(0, flagNeedsDownload: false, location: (newLatitude, newLongitude))
-        
-        if self.newCity == nil {
-            newPosting.city = nil
-        } else {
-            newPosting.city = self.newCity
-        }
-        
-        if let image = postingPictureImageView.image {
-            // User selected Image for this post
-            let newImage = BOMedia(from: image)
-            newImage.flagNeedsUpload = true
-        
-            newPosting.images.append(newImage)
-        }
-        
-        // Check wether a challenge is connected to the posting
-        if self.newChallenge != nil {
-            newPosting.challenge = self.newChallenge
-        }
+//        let newPosting = BOPost(0, flagNeedsDownload: false, location: (newLatitude, newLongitude))
+//        
+//        if self.newCity == nil {
+//            newPosting.city = nil
+//        } else {
+//            newPosting.city = self.newCity
+//        }
+//        
+//        if let image = postingPictureImageView.image {
+//            // User selected Image for this post
+//            let newImage = BOMedia(from: image)
+//            newImage.flagNeedsUpload = true
+//        
+//            newPosting.images.append(newImage)
+//        }
+//        
+//        // Check wether a challenge is connected to the posting
+//        if self.newChallenge != nil {
+//            newPosting.challenge = self.newChallenge
+//        }
         
         // Save
         NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
@@ -212,7 +212,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD.hide(true, afterDelay: 3.0)
         self.resetAllInputs()
         
-        let withImage = !newPosting.images.isEmpty
+//        let withImage = !newPosting.images.isEmpty
+
+        let withImage = false
         
         // Tracking
         Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])

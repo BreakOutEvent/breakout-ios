@@ -6,7 +6,6 @@
 //  Copyright © 2016 BreakOut. All rights reserved.
 //
 
-import SwiftyJSON
 import Sweeft
 
 // Tracking
@@ -53,7 +52,7 @@ final class BOTeam {
 extension BOTeam: BOObject {
     
     var json: JSON {
-        return JSON([:])
+        return .dict([:])
     }
     
 }
