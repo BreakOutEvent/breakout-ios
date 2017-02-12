@@ -65,7 +65,7 @@ PODS:
   - SlideMenuControllerSwift (3.0.0)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - SwiftDate (3.0.9)
+  - SwiftDate (4.0.11)
   - Toaster (2.0.0)
   - TouchVisualizer (2.0.1)
 
@@ -90,7 +90,7 @@ DEPENDENCIES:
   - SlideMenuControllerSwift (~> 3.0.0)
   - SpinKit (~> 1.2.0)
   - StaticDataTableViewController (~> 2.0)
-  - SwiftDate (from `https://github.com/malcommac/SwiftDate.git`, branch `feature/swift-3.0`)
+  - SwiftDate (~> 4.0)
   - Toaster (~> 2.0)
   - TouchVisualizer (~> 2.0.1)
 
@@ -100,9 +100,6 @@ EXTERNAL SOURCES:
   Pantry:
     :branch: swift3
     :git: https://github.com/andreyz/Pantry.git
-  SwiftDate:
-    :branch: feature/swift-3.0
-    :git: https://github.com/malcommac/SwiftDate.git
 
 CHECKOUT OPTIONS:
   netfox:
@@ -111,9 +108,6 @@ CHECKOUT OPTIONS:
   Pantry:
     :commit: 97f82ad403f21215f93027d4135e8230f9bfc010
     :git: https://github.com/andreyz/Pantry.git
-  SwiftDate:
-    :commit: 040b2c844a34a677feed13238a1bbcf85eceac41
-    :git: https://github.com/malcommac/SwiftDate.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -142,10 +136,10 @@ SPEC CHECKSUMS:
   SlideMenuControllerSwift: 9c0a84f9a3fba51681debd7be77617094562ebcc
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  SwiftDate: fa487d9b7d8c3070ea2553486902494f4915465d
+  SwiftDate: a36d5ce7c86bed3ed92b583ccbf15045f374ac65
   Toaster: 25101e968655aa991fa72ad888029e8d515c6237
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: 5e32a27a860acf68975c6b8e22c932f233ff94ed
+PODFILE CHECKSUM: a0b9032cbc7c401a37d8c6369a9bccc17143285d
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.2.0
