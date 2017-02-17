@@ -125,7 +125,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         self.emailTextfield.text = CurrentUser.shared.email
         
         self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.shared.genderAsInt()
-        self.birthdayTextfield.text = CurrentUser.shared.birthday?.toString()
+        self.birthdayTextfield.text = CurrentUser.shared.birthday?.string()
         self.shirtSizeTextfield.text = CurrentUser.shared.shirtSize
         self.hometownTextfield.text = CurrentUser.shared.hometown
         self.phonenumberTextfield.text = CurrentUser.shared.phoneNumber

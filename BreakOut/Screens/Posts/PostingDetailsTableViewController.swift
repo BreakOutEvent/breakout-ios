@@ -72,7 +72,7 @@ class PostingDetailsTableViewController: UITableViewController {
     func configureCommentCell(_ cell: PostingCommentTableViewCell, indexPath: IndexPath) {
         let comments = posting?.comments![(indexPath as NSIndexPath).row]
         cell.teamNameLabel.text = comments!.name ?? ""
-        cell.timestampLabel.text = comments!.date.toString() ?? ""
+        cell.timestampLabel.text = comments!.date.string() 
         cell.commentMessageLabel.text = comments!.text ?? ""
         //cell.teamPictureImageView.image = comments!.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
         if comments?.profilePicURL != nil {
@@ -88,7 +88,7 @@ class PostingDetailsTableViewController: UITableViewController {
     func configurePostingCell(_ cell: PostingTableViewCell) {
         // Configure cell with the BOPost model
         cell.messageLabel?.text = self.posting!.text
-        cell.timestampLabel?.text = self.posting!.date.toString()
+        cell.timestampLabel?.text = self.posting!.date.string()
         
         if (posting!.locality != nil && posting!.locality != "") {
             cell.locationLabel?.text = posting!.locality

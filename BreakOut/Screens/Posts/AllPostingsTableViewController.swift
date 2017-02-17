@@ -324,7 +324,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         cell.messageLabel?.text = posting.text
         
         let date = posting.date
-        cell.timestampLabel?.text = date.toString()
+        cell.timestampLabel?.text = date.string()
         
         if (posting.locality != nil && posting.locality != "") {
             cell.locationLabel?.text = posting.locality
@@ -400,7 +400,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         cell.messageLabel?.text = posting.text
         
         let date = posting.date
-        cell.timestampLabel?.text = date.toString()
+        cell.timestampLabel?.text = date.string()
         
         if (posting.locality != nil && posting.locality != "") {
             cell.locationLabel?.text = posting.locality

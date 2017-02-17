@@ -47,7 +47,7 @@ class WelcomeScreenViewController: UIViewController {
     
     func updateCountdown() {
         if self.eventStartDate != nil {
-            self.headlineLabel.text = self.eventStartDate!.toString()
+            self.headlineLabel.text = self.eventStartDate!.string()
         }
     }
     

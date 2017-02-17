@@ -30,7 +30,7 @@ class BOLocationSyncManager: BOSyncManager {
         BONetworkManager.get(.EventAllLocations, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
             // response is an Array of Location Objects
             for newLocation: NSDictionary in response as! Array {
-                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+                DispatchQueue.global(qos: .userInitiated).async {
                     BOLocation.createWithDictionary(newLocation)
                 }
             }

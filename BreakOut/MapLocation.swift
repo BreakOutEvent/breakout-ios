@@ -25,6 +25,7 @@ class MapLocation: NSObject, MKAnnotation{
     
     var coordinate: CLLocationCoordinate2D
     var title: String?
+    var teamId: Int?
     var subtitle: String?
     var posting: Posting?
     
