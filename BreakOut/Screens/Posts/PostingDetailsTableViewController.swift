@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Sweeft
 
 import Flurry_iOS_SDK
 import Crashlytics
@@ -17,6 +18,7 @@ class PostingDetailsTableViewController: UITableViewController {
     
     var posting: Post! {
         didSet {
+            posting >>> **self.tableView.reloadData
             tableView.reloadData()
         }
     }
@@ -113,8 +115,8 @@ class PostingDetailsTableViewController: UITableViewController {
             cell.postingPictureImageViewHeightConstraint.constant = 0.0
         }*/
         
-        if !posting.images.isEmpty {
-            cell.postingPictureImageView.image = posting.images.first?.image
+        if let image = posting.images.flatMap({ $0.image }).first {
+            cell.postingPictureImageView.image = image
             cell.postingPictureImageViewHeightConstraint.constant = 120.0
         } else {
             cell.postingPictureImageView.image = UIImage()

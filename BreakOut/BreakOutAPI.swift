@@ -83,6 +83,7 @@ final class Post: Observable {
         self.images = images
         self.comments = comments
         self.likes = likes
+        images >>> **self.hasChanged
     }
     
 }

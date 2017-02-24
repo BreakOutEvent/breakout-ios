@@ -32,6 +32,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         self.loadingCell(true)
         BONetworkIndicator.si.increaseLoading()
         Post.get(page: page).onSuccess { newPosts in
+            newPosts >>> **self.tableView.reloadData
             self.allPostingsArray.append(contentsOf: newPosts)
             self.tableView.reloadData()
             self.tableView.reloadInputViews()

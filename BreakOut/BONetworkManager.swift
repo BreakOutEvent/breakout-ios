@@ -19,8 +19,8 @@ class BONetworkManager {
     typealias SuccessHandler = (JSON) -> ()
     typealias ErrorHandler = (Error, HTTPURLResponse?) -> ()
     
-    static var auth: AFOAuthCredential? {
-        return AFOAuthCredential.retrieveCredential(withIdentifier: loginStorage)
+    static var auth: Auth? {
+        return AFOAuthCredential.retrieveCredential(withIdentifier: loginStorage) ?? NoAuth.standard
     }
     
     fileprivate static let loginSecret = "123456789"
