@@ -15,12 +15,11 @@ class PostingDetailsTableViewController: UITableViewController {
     
     var postingID: Int = Int()
     
-//    var posting: Posting? {
-//        didSet {
-//            tableView.reloadData()
-//            //posting?.reload(tableView.reloadData)
-//        }
-//    }
+    var posting: Post! {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,17 +51,15 @@ class PostingDetailsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         switch section {
         case 0:
             return 1
         case 1:
-//            return posting?.comments!.count ?? 0
-            return 0
+            return posting.comments.count
         case 2:
             if CurrentUser.shared.isLoggedIn() {
                 return 1
-            }else{
+            } else {
                 return 0
             }
         default:
@@ -71,89 +68,84 @@ class PostingDetailsTableViewController: UITableViewController {
     }
     
     func configureCommentCell(_ cell: PostingCommentTableViewCell, indexPath: IndexPath) {
-//        let comments = posting?.comments![(indexPath as NSIndexPath).row]
-//        cell.teamNameLabel.text = comments!.name ?? ""
-//        cell.timestampLabel.text = comments!.date.toString() ?? ""
-//        cell.commentMessageLabel.text = comments!.text ?? ""
-//        //cell.teamPictureImageView.image = comments!.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
-//        if comments?.profilePicURL != nil {
-//            cell.teamPictureImageView.setImageWith(URL(string: comments!.profilePicURL!)!)
-//        }else{
+        let comment = posting.comments[indexPath.row]
+        cell.teamNameLabel.text = comment.name ?? ""
+        cell.timestampLabel.text = comment.date.toString()
+        cell.commentMessageLabel.text = comment.text ?? ""
+        //cell.teamPictureImageView.image = comments!.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
+        if comment.image != nil {
+            cell.teamPictureImageView.image = comment.image?.image
+        } else {
             cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
-//        }
-        
+        }
+    
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
     
     func configurePostingCell(_ cell: PostingTableViewCell) {
-//        // Configure cell with the BOPost model
-//        cell.messageLabel?.text = self.posting!.text
-//        cell.timestampLabel?.text = self.posting!.date.toString()
-//        
-//        if (posting!.locality != nil && posting!.locality != "") {
-//            cell.locationLabel?.text = posting!.locality
-//        }else if(posting!.latitude != nil && posting!.longitude != nil) {
-//            if (posting!.latitude!.int32Value != 0 && posting!.longitude!.int32Value != 0){
-//                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting!.latitude!, posting!.longitude!)
-//            }
-//        }else{
-//            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
-//        }
-//        
-//        // Check if Posting has an attached media file
-//        //print(self.posting?.images)
-//        /*if let image:BOImage = self.posting?.images.first {
-//            let uiimage: UIImage = image.getImage()
-//            if uiimage.hasContent() == true {
-//                cell.postingPictureImageView.image = image.getImage()
-//                cell.postingPictureImageViewHeightConstraint.constant = 120.0
-//            }else{
-//                cell.postingPictureImageViewHeightConstraint.constant = 0.0
-//            }
-//        }else{
-//            cell.postingPictureImageView.image = UIImage()
-//            cell.postingPictureImageViewHeightConstraint.constant = 0.0
-//        }*/
-//        if posting!.imageURL != nil {
-//            cell.postingPictureImageView.setImageWith(URL(string: posting!.imageURL!)!)
-//            cell.postingPictureImageViewHeightConstraint.constant = 120.0
-//        }else{
-//            cell.postingPictureImageView.image = UIImage()
-//            cell.postingPictureImageViewHeightConstraint.constant = 0.0
-//        }
-//        
-//        // Set the team image & name
-//        if posting!.teamName != nil {
-//            cell.teamNameLabel.text = posting!.teamName
-//        }
-//        /*if posting!.team != nil {
-//            cell.teamNameLabel.text = posting!.team?.name
-//        }*/
-//        cell.teamPictureImageView?.image = posting?.team?.profilePic?.image ?? UIImage(named: "emptyProfilePic")
-//        
-//        
-//        // Check if Posting has an attached challenge
-//        if posting!.challenge != nil {
-//            // Challenge is attached -> Show the challenge box
-//            cell.challengeLabel.text = posting!.challenge?.text
-//            cell.challengeLabelHeightConstraint?.constant = 34.0
-//            cell.challengeView?.isHidden = false
-//        }else{
-//            cell.challengeLabel.text = ""
-//            cell.challengeLabelHeightConstraint.constant = 0.0
-//            cell.challengeViewHeightConstraint.constant = 0.0
-//            cell.challengeView.isHidden = true
-//        }
-//        
-//        if posting!.flagNeedsUpload == true {
-//            cell.statusLabel?.text = "Wartet auf Upload zum Server."
-//        }else{
-//            cell.statusLabel?.text = ""
-//        }
-//        
-//        // Add count for comments
-//        cell.commentsButton?.setTitle(String(format: "%i %@", posting!.comments!.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
+        // Configure cell with the BOPost model
+        cell.messageLabel?.text = self.posting!.text
+        cell.timestampLabel?.text = self.posting!.date.toString()
+        
+        if posting!.locality != nil && posting!.locality != "" {
+            cell.locationLabel?.text = posting!.locality
+        } else if posting.latitude != nil && posting.longitude != nil {
+            if Int(posting.latitude) != 0 && Int(posting.longitude) != 0 {
+                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.latitude, posting.longitude)
+            }
+        } else {
+            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
+        }
+        
+        // Check if Posting has an attached media file
+        //print(self.posting?.images)
+        /*if let image:BOImage = self.posting?.images.first {
+            let uiimage: UIImage = image.getImage()
+            if uiimage.hasContent() == true {
+                cell.postingPictureImageView.image = image.getImage()
+                cell.postingPictureImageViewHeightConstraint.constant = 120.0
+            }else{
+                cell.postingPictureImageViewHeightConstraint.constant = 0.0
+            }
+        }else{
+            cell.postingPictureImageView.image = UIImage()
+            cell.postingPictureImageViewHeightConstraint.constant = 0.0
+        }*/
+        
+        if !posting.images.isEmpty {
+            cell.postingPictureImageView.image = posting.images.first?.image
+            cell.postingPictureImageViewHeightConstraint.constant = 120.0
+        } else {
+            cell.postingPictureImageView.image = UIImage()
+            cell.postingPictureImageViewHeightConstraint.constant = 0.0
+        }
+        
+        // Set the team image & name
+        if posting.participant.team != nil {
+            cell.teamNameLabel.text = posting.participant.team?.name
+        }
+        /*if posting!.team != nil {
+            cell.teamNameLabel.text = posting!.team?.name
+        }*/
+        cell.teamPictureImageView?.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
+        
+        
+        // Check if Posting has an attached challenge
+        if posting!.challenge != nil {
+            // Challenge is attached -> Show the challenge box
+            cell.challengeLabel.text = posting!.challenge?.text
+            cell.challengeLabelHeightConstraint?.constant = 34.0
+            cell.challengeView?.isHidden = false
+        } else {
+            cell.challengeLabel.text = ""
+            cell.challengeLabelHeightConstraint.constant = 0.0
+            cell.challengeViewHeightConstraint.constant = 0.0
+            cell.challengeView.isHidden = true
+        }
+        
+        // Add count for comments
+        cell.commentsButton?.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
         
         cell.parentTableViewController = self
         
@@ -164,22 +156,22 @@ class PostingDetailsTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).section == 0  {
+        if indexPath.section == 0  {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath) as! PostingTableViewCell
             configurePostingCell(cell)
             return cell
-        }else if (indexPath as NSIndexPath).section == 1 {
+        }else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingCommentTableViewCell", for: indexPath) as! PostingCommentTableViewCell
             configureCommentCell(cell, indexPath: indexPath)
             return cell
-        }else if (indexPath as NSIndexPath).section == 2 {
+        } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingCommentInputTableViewCell", for: indexPath)
             if let c = cell as? PostingCommentInputTableViewCell {
 //                c.post = posting
 //                c.reloadHandler = tableView.reloadData
             }
             return cell
-        }else{
+        } else {
             let cell = UITableViewCell()
             return cell
         }

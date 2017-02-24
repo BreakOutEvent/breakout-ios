@@ -158,53 +158,51 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     }
     
     func configureCellFromDict(_ cell: PostingTableViewCell, atIndexPath indexPath: IndexPath) {
-//        let posting = self.allPostingsArray[indexPath.row]
-//        cell.messageLabel?.text = posting.text
-//        
-//        let date = posting.date
-//        cell.timestampLabel?.text = date.toString()
-//        
-//        if (posting.locality != nil && posting.locality != "") {
-//            cell.locationLabel?.text = posting.locality
-//        } else if (posting.latitude.int32Value != 0 && posting.longitude.int32Value != 0) {
-//                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.latitude!, posting.longitude!)
-//        } else {
-//            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
-//        }
-//        
-//        // Check if Posting has an attached media file
-//        if let image = posting.images.first {
-//            cell.postingPictureImageView.image = image
-//            cell.postingPictureImageViewHeightConstraint.constant = 120.0
-//        } else {
-//            cell.postingPictureImageView.image = UIImage()
-//            cell.postingPictureImageViewHeightConstraint.constant = 0.0
-//        }
-//        
-//        // Set the team image & name
-//        if posting.teamName != nil {
-//            cell.teamNameLabel.text = posting.teamName
-//        }
-//        cell.teamPictureImageView.image = posting.team?.profilePic?.image ?? UIImage(named: "emptyProfilePic")
-//        
-//
-//        // Check if Posting has an attached challenge
-//        if posting.challenge != nil {
-//            // Challenge is attached -> Show the challenge box
-//            cell.challengeLabel.text = posting.challenge?.text
-//            cell.challengeLabelHeightConstraint.constant = 34.0
-//            cell.challengeView.isHidden = false
-//        }else{
-//            cell.challengeLabel.text = ""
-//            cell.challengeLabelHeightConstraint.constant = 0.0
-//            cell.challengeViewHeightConstraint.constant = 0.0
-//            cell.challengeView.isHidden = true
-//        }
+        let posting = self.allPostingsArray[indexPath.row]
+        cell.messageLabel?.text = posting.text
+
+        let date = posting.date
+        cell.timestampLabel?.text = date.toString()
+
+        if (posting.locality != nil && posting.locality != "") {
+            cell.locationLabel?.text = posting.locality
+        } else if (Int(posting.latitude) != 0 && Int(posting.longitude) != 0) {
+                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", posting.latitude, posting.longitude)
+        } else {
+            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
+        }
+
+        // Check if Posting has an attached media file
+        if let image = posting.images.first?.image {
+            cell.postingPictureImageView.image = image
+            cell.postingPictureImageViewHeightConstraint.constant = 120.0
+        } else {
+            cell.postingPictureImageView.image = UIImage()
+            cell.postingPictureImageViewHeightConstraint.constant = 0.0
+        }
+
+        // Set the team image & name
+        if posting.participant.team?.name != nil {
+            cell.teamNameLabel.text = posting.participant.team?.name
+        }
+        cell.teamPictureImageView.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
+
+
+        // Check if Posting has an attached challenge
+        if posting.challenge != nil {
+            cell.challengeLabel.text = posting.challenge?.text
+            cell.challengeLabelHeightConstraint.constant = 34.0
+            cell.challengeView.isHidden = false
+        } else {
+            cell.challengeLabel.text = ""
+            cell.challengeLabelHeightConstraint.constant = 0.0
+            cell.challengeViewHeightConstraint.constant = 0.0
+            cell.challengeView.isHidden = true
+        }
         
         // Add count for comments
-//        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments!.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
-//        
-//        
+        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
+        
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
@@ -214,8 +212,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         
         let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController
         
-        //postingDetailsTableViewController.posting = (fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost)
-//        postingDetailsTableViewController.posting = self.allPostingsArray[(indexPath as NSIndexPath).row] as Posting
+        postingDetailsTableViewController.posting = self.allPostingsArray[indexPath.row]
         
         self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
     }

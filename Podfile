@@ -20,7 +20,7 @@ pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2'
 
 # Database
 pod 'MagicalRecord', '~> 2.3.2'
-pod 'Pantry', :git=> 'https://github.com/andreyz/Pantry.git', :branch => 'swift3'
+pod 'Pantry' 
 
 # Networking
 pod 'AFNetworking', '~> 3.0'

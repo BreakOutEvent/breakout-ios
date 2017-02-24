@@ -16,7 +16,6 @@ enum BOEndpoint: String, APIEndpoint {
     case currentUser = "me/"
     case postingsSince = "posting/get/since/{id}/"
     case postings = "posting/"
-    case postingsOffsetLimit = "posting/?offset={offset}&limit={limit}"
     case postComment = "posting/{id}/comment/"
     case postingIdsForTeam = "event/{event}/team/{team}/posting/"
     case notLoadedPostings = "posting/get/ids/"
@@ -33,7 +32,9 @@ enum BOEndpoint: String, APIEndpoint {
 
 struct BreakOut: API {
     typealias Endpoint = BOEndpoint
+    
     var baseURL: String
+    
     static var shared = BreakOut()
 }
 
@@ -59,23 +60,29 @@ final class Post: Observable {
     let id: Int
     let text: String?
     let date: Date
+    let participant: Participant
     let longitude: Double
     let latitude: Double
     let country: String?
     let locality: String?
+    let challenge: Challenge?
     let images: [Image]
     let comments: [PostComment]
+    let likes: Int
     
-    init(id: Int, text: String? = nil, date: Date, longitude: Double, latitude: Double, country: String? = nil, locality: String? = nil, images: [Image] = [], comments: [PostComment] = []) {
+    init(id: Int, text: String? = nil, date: Date, participant: Participant, longitude: Double, latitude: Double, country: String? = nil, locality: String? = nil, challenge: Challenge? = nil, images: [Image] = [], comments: [PostComment] = [], likes: Int = 0) {
         self.id = id
         self.text = text
         self.date = date
+        self.participant = participant
         self.longitude = longitude
         self.latitude = latitude
         self.country = country
         self.locality = locality
+        self.challenge = challenge
         self.images = images
         self.comments = comments
+        self.likes = likes
     }
     
 }
@@ -86,15 +93,18 @@ extension Post: Deserializable {
         guard let id = json["id"].int,
             let date = json["date"].date(),
             let longitude = json["postingLocation"]["longitude"].double,
-            let latitude = json["postingLocation"]["latitude"].double else {
+            let latitude = json["postingLocation"]["latitude"].double,
+            let participant = json["user"].participant else {
                 return nil
         }
         self.init(id: id, text: json["text"].string,
-                  date: date, longitude: longitude, latitude: latitude,
+                  date: date, participant: participant,
+                  longitude: longitude, latitude: latitude,
                   country: json["postingLocation"]["locationData"]["COUNTRY"].string,
                   locality: json["postingLocation"]["locationData"]["LOCALITY"].string,
-                  images: json["images"].images,
-                  comments: json["comments"].comments)
+                  images: json["media"].images,
+                  comments: json["comments"].comments,
+                  likes: json["likes"].int.?)
     }
     
 }
@@ -109,8 +119,8 @@ extension Post {
         return getAll(using: api, at: .postingsSince, arguments: ["id": id])
     }
     
-    static func get(page: Int, using api: BreakOut = .shared) -> Post.Results {
-        return getAll(using: api, at: .postingsOffsetLimit, arguments: ["offset": page, "limit": 20])
+    static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
+        return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size])
     }
     
 }
@@ -132,9 +142,12 @@ final class Image: Observable {
     
     init(id: Int, url: String?) {
         self.id = id
-//        DispatchQueue(label: "Download").async {
-//            self.image <- url | URL.init | Data.init | UIImage.init
-//        }
+        if let url = url | URL.init(string:) ?? nil {
+            DispatchQueue(label: "Download").async {
+                let data = try? Data(contentsOf: url)
+                self.image <- data | UIImage.init
+            }
+        }
     }
     
 }
@@ -145,7 +158,6 @@ extension Image: Deserializable {
         guard let id = json["id"].int else {
             return nil
         }
-        let deviceHeight = UIScreen.main.bounds.height
         let image = json["sizes"][0]
         self.init(id: id, url: image["url"].string)
     }
@@ -167,15 +179,13 @@ extension PostComment: Deserializable {
             let date = json["date"].date() else {
                 return nil
         }
-        let image = json["profilePic"].image
-        let text = json["text"].string
         let name: String?
         if let first = json["user"]["firstname"].string, let last = json["user"]["lastname"].string {
             name = first + " " + last
         } else {
             name = nil
         }
-        self.init(id: id, date: date, text: json["text"].string, name: name, image: nil)
+        self.init(id: id, date: date, text: json["text"].string, name: name, image: json["profilePic"].image)
     }
     
 }
@@ -213,13 +223,67 @@ extension Location {
     
 }
 
-final class Team: Observable {
+struct Challenge {
+    let id: Int
+    let text: String?
+    let status: String?
+    let amount: Int?
+}
+
+extension Challenge: Deserializable {
+    
+    public init?(from json: JSON) {
+        guard let id = json["id"].int else {
+            return nil
+        }
+        self.init(id: id, text: json["description"].string, status: json["status"].string, amount: json["amount"].int)
+    }
+    
+}
+
+final class Participant: Observable {
     
     var listeners = [Listener]()
     let id: Int
+    let name: String
+    let team: Team?
+    let image: Image?
     
-    init(id: Int) {
+    init(id: Int, name: String, team: Team?, image: Image?) {
         self.id = id
+        self.name = name
+        self.team = team
+        self.image = image
+    }
+    
+}
+
+extension Participant: Deserializable {
+    
+    public convenience init?(from json: JSON) {
+        guard let id = json["id"].int,
+            let first = json["firstname"].string,
+            let last = json["lastname"].string else {
+                
+            return nil
+        }
+        self.init(id: id, name: "\(first) \(last)", team: json["participant"].team, image: json["profilePic"].image)
+    }
+    
+}
+
+struct Team {
+    let id: Int
+    let name: String
+}
+
+extension Team: Deserializable {
+    
+    public init?(from json: JSON) {
+        guard let id = json["teamId"].int, let name = json["teamName"].string else {
+            return nil
+        }
+        self.init(id: id, name: name)
     }
     
 }
@@ -236,6 +300,14 @@ extension JSON {
     
     var comments: [PostComment] {
         return array ==> PostComment.init
+    }
+    
+    var team: Team? {
+        return Team(from: self)
+    }
+    
+    var participant: Participant? {
+        return Participant(from: self)
     }
     
 }

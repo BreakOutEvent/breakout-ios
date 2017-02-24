@@ -16,44 +16,37 @@ PODS:
     - AFNetworking/NSURLSession
   - AFOAuth2Manager (3.0.0):
     - AFNetworking/NSURLSession (~> 3.0)
-  - Alamofire (4.2.0)
+  - Alamofire (4.3.0)
   - Crashlytics (3.7.3):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.11)
-  - Firebase (3.11.0):
-    - Firebase/Core (= 3.11.0)
-  - Firebase/Core (3.11.0):
-    - FirebaseAnalytics (= 3.6.0)
-    - FirebaseCore (= 3.4.6)
-  - Firebase/Messaging (3.11.0):
+  - Firebase (3.14.0):
+    - Firebase/Core (= 3.14.0)
+  - Firebase/Core (3.14.0):
+    - FirebaseAnalytics (= 3.7.0)
+    - FirebaseCore (= 3.5.1)
+  - Firebase/Messaging (3.14.0):
     - Firebase/Core
-    - FirebaseMessaging (= 1.2.1)
-  - FirebaseAnalytics (3.6.0):
-    - FirebaseCore (~> 3.4)
+    - FirebaseMessaging (= 1.2.2)
+  - FirebaseAnalytics (3.7.0):
+    - FirebaseCore (~> 3.5)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCore (3.4.6):
-    - GoogleInterchangeUtilities (~> 1.2)
+  - FirebaseCore (3.5.1):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseInstanceID (1.0.8)
-  - FirebaseMessaging (1.2.1):
-    - FirebaseAnalytics (~> 3.4)
+  - FirebaseInstanceID (1.0.9)
+  - FirebaseMessaging (1.2.2):
+    - FirebaseAnalytics (~> 3.7)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
   - Flurry-iOS-SDK/FlurrySDK (7.5.2)
   - GGFullscreenImageViewController (1.0.0)
-  - GoogleInterchangeUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
-  - GoogleSymbolUtilities (1.1.2)
-  - GoogleToolboxForMac/Defines (2.1.0)
-  - GoogleToolboxForMac/Logger (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
-  - GoogleToolboxForMac/NSData+zlib (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/Logger (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
   - Instabug (5.1.2)
   - LECropPictureViewController (0.1.2)
   - MagicalRecord (2.3.2):
@@ -61,7 +54,8 @@ PODS:
   - MagicalRecord/Core (2.3.2)
   - MBProgressHUD (0.9.2)
   - netfox (1.8)
-  - Pantry (0.2.1)
+  - Pantry (0.3)
+  - Protobuf (3.2.0)
   - ReachabilitySwift (3)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
@@ -69,10 +63,10 @@ PODS:
   - SlideMenuControllerSwift (3.0.1)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - Sweeft (0.3.2)
-  - SwiftDate (4.0.11)
+  - Sweeft (0.4.0)
+  - SwiftDate (4.0.13)
   - SwiftyJSON (3.1.4)
-  - Toaster (2.0.1)
+  - Toaster (2.0.3)
   - TouchVisualizer (2.0.1)
 
 DEPENDENCIES:
@@ -90,7 +84,7 @@ DEPENDENCIES:
   - MagicalRecord (~> 2.3.2)
   - MBProgressHUD (~> 0.9.2)
   - netfox (from `https://github.com/mathiasquintero/netfox.git`)
-  - Pantry (from `https://github.com/andreyz/Pantry.git`, branch `swift3`)
+  - Pantry
   - ReachabilitySwift (~> 3)
   - SDWebImage (~> 3.7)
   - SlideMenuControllerSwift (~> 3.0.0)
@@ -105,51 +99,44 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   netfox:
     :git: https://github.com/mathiasquintero/netfox.git
-  Pantry:
-    :branch: swift3
-    :git: https://github.com/andreyz/Pantry.git
 
 CHECKOUT OPTIONS:
   netfox:
     :commit: 4d911346b6ada4980966bc140d93291da74f937a
     :git: https://github.com/mathiasquintero/netfox.git
-  Pantry:
-    :commit: 97f82ad403f21215f93027d4135e8230f9bfc010
-    :git: https://github.com/andreyz/Pantry.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AFOAuth2Manager: 0566da1be64883e339813d411229fdc9a84dab7c
-  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  Firebase: b8134e285eb33201115bc688bc5d7f112923bc1f
-  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
-  FirebaseCore: 03da1cb32615569bbc2830a22f9ad753d9a02ef5
-  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
-  FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
+  Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
+  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
+  FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
+  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
+  FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
   Flurry-iOS-SDK: 8c87c4eab6008184ad9f63afabd79ec0d109c82e
   GGFullscreenImageViewController: 17935922bc80806eba3c9a0c22a22ecedc260510
-  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
-  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
-  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   Instabug: c315abe1a1c4cbd3ea1cc6ec8f9954d6c5371c39
   LECropPictureViewController: d64cd991d94d7804c0971f97adae6d1bc216a7b8
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   netfox: b153c852b852453057f7ded304ff1678c9f4b15f
-  Pantry: 433931c8f545dd3426ca7d09a4edd5afa89c6e01
+  Pantry: 98481849be65d2b2cb9658976533e84ebd266192
+  Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  Sweeft: 64510a334fd7d3db1f0ac1e5b1934da776464227
-  SwiftDate: a36d5ce7c86bed3ed92b583ccbf15045f374ac65
+  Sweeft: 2a7ea9634b69a6acdf6c4a805ff0a205320bb9b9
+  SwiftDate: 8ec416bb1b5129d1f35e8efaed720421f41d42df
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  Toaster: be65cd48e93a525b2a9cc4bd25a2bfc900e02d9f
+  Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: 131ae3d0fe6fa6c4d2cfefac436215ca507c7e54
+PODFILE CHECKSUM: 036aafce2382b8bb342558e9a537727359c39639
 
 COCOAPODS: 1.2.0.beta.1
