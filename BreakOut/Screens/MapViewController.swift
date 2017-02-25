@@ -10,6 +10,8 @@ import UIKit
 import MapKit
 import CoreLocation
 import MagicalRecord
+import SpinKit
+import MBProgressHUD
 
 import Flurry_iOS_SDK
 import Crashlytics
@@ -22,15 +24,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     private var polyLineArray = [MKPolyline]()
     private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00), 2: UIColor.red]
     private var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
-    
+    private var loadingHUD: MBProgressHUD = MBProgressHUD()
     // MARK: Model
     /**
      Model for the MapView. This dictionary contains all locations for all events and all teams in a sorted fashion. First Int is eventId, second is teamId.
      */
     var eventDict = [Int:[Int:[MapLocation]]](){
+
         didSet{
             drawLocationsForAllEventsOnMap(eventDict)
-            
+            loadingHUD.hide(true)
         }
     }
 
@@ -66,6 +69,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
         }) { (error, response) in
             Flurry.logError("ERROR_ID", message: "An error occured getEvent", error: error)
+            self.loadingHUD.hide(true)
         }
     }
     
@@ -117,11 +121,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      - parameter locationsForEventsAndTeams: Dictionary with first parameter as eventId , second as teamId
      */
     private func drawLocationsForAllEventsOnMap(_ locationsForEventsAndTeams:[Int:[Int:[MapLocation]]]){
-        for (eventIds, dictForTeams) in locationsForEventsAndTeams{
-            strokeColor = colorsForEvent[eventIds] ?? UIColor.black
+        for (eventId, dictForTeams) in locationsForEventsAndTeams{
+            strokeColor = colorsForEvent[eventId] ?? UIColor.black
             for (teamIds, locations) in dictForTeams{
                 print("==============================")
-                print("Event Id: ", eventIds)
+                print("Event Id: ", eventId)
                 print("Team Id: ", teamIds)
                 print("Number of Teams: ", dictForTeams.count)
                 print("Number of locations: ", locations.count)
@@ -150,6 +154,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
 
 
+    private func setupLoadingHUD(_ localizedKey: String) {
+        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.style9CubeGrid, color: UIColor.white, spinnerSize: 37.0)
+        self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+        self.loadingHUD.isSquare = true
+        self.loadingHUD.mode = MBProgressHUDMode.customView
+        self.loadingHUD.customView = spinner
+        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        spinner.startAnimating()
+    }
+    
    // MARK: Delegate Methods
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -199,6 +213,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         self.title = "Map"
+        
+        setupLoadingHUD("Loading ...")
         fetchAllLocationsForEvents()
         // Buttons in navigation bar
         let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(fetchNewBOLocationsSinceLastId))
