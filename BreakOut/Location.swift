@@ -28,7 +28,13 @@ extension Location: Deserializable {
             let longitude = json["longitude"].double else {
                 return nil
         }
-        self.init(id: id, date: date, longitude: longitude, latitude: latitude, team: json.team, country: json["locationData"]["COUNTRY"].string, locality: json["locationData"]["LOCALITY"].string)
+        self.init(id: id,
+                  date: date,
+                  longitude: longitude,
+                  latitude: latitude,
+                  team: json.team,
+                  country: json["locationData"]["COUNTRY"].string,
+                  locality: json["locationData"]["LOCALITY"].string ?? json["locationData"]["ADMINISTRATIVE_AREA_LEVEL_3"].string)
     }
     
 }

@@ -20,6 +20,8 @@ import SpinKit
 
 import Toaster
 
+import Sweeft
+
 
 class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
@@ -220,34 +222,25 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.setupLoadingHUD("registrationLoading")
         self.enableInputs(false)
         
-        let params: NSDictionary = ["email":self.emailTextField.text!, "password":self.passwordTextField.text!]
-        
-        BONetworkManager.post(.User, arguments: [], parameters: params, auth: false, success: { (json) in
-            CurrentUser.shared.userid = json["id"].int
-            CurrentUser.shared.email = self.emailTextField.text
-            CurrentUser.shared.storeInNSUserDefaults()
-            
+        CurrentUser.shared.register(email: self.emailTextField.text.?, password: self.passwordTextField.text.?).onSuccess { _ in
             // Tracking
             Flurry.logEvent("/registration/completed_successful")
             Answers.logSignUp(withMethod: "e-mail",
-                success: true,
-                customAttributes: [:])
+                              success: true,
+                              customAttributes: [:])
             
             self.loadingHUD.hide(true)
-            // Try to Login with new account
             self.startLoginRequest()
-
-        }) { (error, response) in
-            // TODO: Show detailed errors to the user
-            
+        }
+        .onError { error in
             self.enableInputs(true)
             self.loadingHUD.hide(true)
             
             // Tracking
             Flurry.logEvent("/registration/completed_error")
             Answers.logSignUp(withMethod: "e-mail",
-                                        success: false,
-                                        customAttributes: [:])
+                              success: false,
+                              customAttributes: [:])
         }
     }
 
@@ -265,13 +258,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             self.setupLoadingHUD("loginLoading")
             self.enableInputs(false)
             
-            BONetworkManager.loginRequest(email, pass: pass, success: { () in
+            LoginManager.login(email, pass: pass, success: { () in
                 
-                BONetworkManager.get(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
-                    CurrentUser.resetUser()
-                    CurrentUser.shared.set(with: response)
-                    CurrentUser.shared.storeInNSUserDefaults()
-                    
+                CurrentUser.get().onSuccess { user in
                     // Empty Textinputs
                     self.emailTextField.text = ""
                     self.passwordTextField.text = ""
@@ -284,8 +273,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     Answers.logLogin(withMethod: "e-mail", success: true, customAttributes: [:])
                     
                     self.dismiss(animated: true, completion: nil)
-                })
-                
+                }
             }, error:
             { () in
                 self.loadingHUD.hide(true)

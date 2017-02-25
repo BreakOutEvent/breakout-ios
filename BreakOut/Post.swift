@@ -117,7 +117,7 @@ extension Post {
         ]
         let promise = api.doJSONRequest(with: .post,
                                         to: .postings,
-                                        auth: BONetworkManager.auth,
+                                        auth: LoginManager.auth,
                                         body: body,
                                         acceptableStatusCodes: [200, 201])
         
@@ -149,7 +149,7 @@ extension Post {
         api.doObjectRequest(with: .post,
                             to: .postComment,
                             arguments: ["id": self.id],
-                            auth: BONetworkManager.auth,
+                            auth: LoginManager.auth,
                             body: comment.json,
                             acceptableStatusCodes: [201]).onSuccess { (comment: PostComment) in
                                 
