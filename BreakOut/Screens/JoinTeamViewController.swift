@@ -177,6 +177,9 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
     :returns: No return value
     */
     func startCreateTeamRequest() {
+        
+        // TODO: Redo this request
+        
         //self.setAllInputsToEnabled(false)
         
 //        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))

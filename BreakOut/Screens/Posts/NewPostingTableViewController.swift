@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 
+import Sweeft
+
 // Database
 import MagicalRecord
 
@@ -42,7 +44,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     var newCity: String?
     
     @IBOutlet weak var challengeLabel: UILabel!
-//    var newChallenge:BOChallenge?
+    var newChallenge: Challenge?
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
 
@@ -180,52 +182,31 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - Button Actions
     
     func sendPostingButtonPressed() {
-        
-//        let newPosting = BOPost(0, flagNeedsDownload: false, location: (newLatitude, newLongitude))
-//        
-//        if self.newCity == nil {
-//            newPosting.city = nil
-//        } else {
-//            newPosting.city = self.newCity
-//        }
-//        
-//        if let image = postingPictureImageView.image {
-//            // User selected Image for this post
-//            let newImage = BOMedia(from: image)
-//            newImage.flagNeedsUpload = true
-//        
-//            newPosting.images.append(newImage)
-//        }
-//        
-//        // Check wether a challenge is connected to the posting
-//        if self.newChallenge != nil {
-//            newPosting.challenge = self.newChallenge
-//        }
-        
-        // Save
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
-        
-        BOSynchronizeController.shared.triggerUpload()
+        let image = postingPictureImageView.image | NewMedia.image
+        let media = [image].flatMap { $0 }
+        Post.post(text: messageTextView.text, latitude: newLatitude, longitude: newLongitude, city: newCity, challenge: newChallenge, media: media).onSuccess { post in
+            
+            self.setupLoadingHUD("New Posting sent!")
+            self.loadingHUD.hide(true, afterDelay: 3.0)
+            self.resetAllInputs()
+            
+            
+            let withImage = !media.isEmpty
+            
+            // Tracking
+            Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])
+            Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage": withImage.description])
+            
+            let defaults = UserDefaults.standard
+            defaults.set(Date(), forKey: "lastPostingSent")
+            defaults.synchronize()
+            BOPushManager.shared.setupAllLocalPushNotifications()
+            
+            self.closeView(true)
+        }
         
         // After Saving throw User message and reset inputs
-        self.setupLoadingHUD("New Posting saved!")
-        self.loadingHUD.hide(true, afterDelay: 3.0)
-        self.resetAllInputs()
         
-//        let withImage = !newPosting.images.isEmpty
-
-        let withImage = false
-        
-        // Tracking
-        Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])
-        Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage": withImage.description])
-        
-        let defaults = UserDefaults.standard
-        defaults.set(Date(), forKey: "lastPostingSent")
-        defaults.synchronize()
-        BOPushManager.shared.setupAllLocalPushNotifications()
-        
-        self.closeView(true)
     }
     
     @IBAction func addAttachementButtonPressed(_ sender: UIButton) {

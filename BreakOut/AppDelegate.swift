@@ -68,7 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
 
         //BONetworkerTest().postObjectFromJSON()
-        BOSynchronizeController.shared.checkForInternetReachability()
         
         //TESTING persistence of not yet loaded postings IDs
         //BOSynchronizeController.shared.downloadAllPostings()

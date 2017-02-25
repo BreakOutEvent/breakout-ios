@@ -15,14 +15,6 @@ import Flurry_iOS_SDK
 import MBProgressHUD
 import SpinKit
 
-struct BOEvent {
-    var id:Int
-    var title:String
-    var dateUnixTimestamp: Int
-    var city:String
-    //TODO: add more attributes
-}
-
 class CreateTeamTableViewController: UITableViewController, UIImagePickerControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var addTeampictureButton: UIButton!
@@ -35,7 +27,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
     
     var chosenImage: UIImage?
     var eventPicker: UIPickerView! = UIPickerView()
-    var eventDataSourceArray: Array<BOEvent> = Array()
+    var eventDataSourceArray = [Event]()
     var eventCurrentlySelected: Int?
     
     var imagePicker: UIImagePickerController = UIImagePickerController()
@@ -90,7 +82,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
     
 // MARK: - Picker Toolbar Functions
     func eventPickerToolbarDoneButtonPressed() {
-        let selectedEvent:BOEvent = self.eventDataSourceArray[self.eventPicker.selectedRow(inComponent: 0)]
+        let selectedEvent = self.eventDataSourceArray[self.eventPicker.selectedRow(inComponent: 0)]
         self.eventSelectionTextfield.text = selectedEvent.title
         self.eventSelectionTextfield.resignFirstResponder()
         self.eventCurrentlySelected = self.eventPicker.selectedRow(inComponent: 0)
@@ -106,12 +98,12 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let selectedEvent:BOEvent = self.eventDataSourceArray[row]
+        let selectedEvent = self.eventDataSourceArray[row]
         return selectedEvent.title
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedEvent:BOEvent = self.eventDataSourceArray[row]
+        let selectedEvent = self.eventDataSourceArray[row]
         self.eventSelectionTextfield.text = selectedEvent.title
         self.eventCurrentlySelected = row
     }
@@ -254,15 +246,13 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - API Calls
     
     func getAllEventsRequest() {
-        
-//        BOSynchronizeController.teams.getAllEvents() { (result) in
-//            self.eventDataSourceArray = result
-//            self.setupEventPicker()
-//        }
-        
+        Event.all().onSuccess { events in
+            self.eventDataSourceArray = events
+            self.setupEventPicker()
+        }
     }
     
-    func sendInvitationRequest(_ teamID: Int) {
+    func sendInvitationRequest(_ team: Team) {
         
         if self.emailTextField.text == "" {
             return
@@ -272,11 +262,9 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         
         if let name = teamNameTextfield.text, let currentEvent = eventCurrentlySelected {
             let eventID: Int = self.eventDataSourceArray[currentEvent].id
-            BOSynchronizeController.teams.sendInvitationToTeam(teamID, name: name, eventID: eventID) { () in
-                self.setAllInputsToEnabled(true)
-                
-                self.loadingHUD.hide(true)
-
+            
+            team.invite(name: name, to: eventID).onSuccess { json in
+                print(json)
             }
         }
     }
@@ -293,14 +281,15 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         
         if let name = teamNameTextfield.text, let currentEvent = eventCurrentlySelected {
             let eventID: Int = self.eventDataSourceArray[currentEvent].id
-            BOSynchronizeController.teams.createTeam(name, eventID: eventID, image: chosenImage, success: { () in
-                self.sendInvitationRequest(2)
+            
+            Team.create(name: name, event: eventID, image: chosenImage).onSuccess { team in
+                self.sendInvitationRequest(team)
                 self.setAllInputsToEnabled(true)
                 self.loadingHUD.hide(true)
                 self.dismiss(animated: true, completion: nil)
-            }) { () in
+            }
+            .onError { error in
                 self.setAllInputsToEnabled(true)
-                
                 self.loadingHUD.hide(true)
             }
         }

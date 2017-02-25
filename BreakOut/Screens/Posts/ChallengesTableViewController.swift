@@ -11,24 +11,6 @@ import UIKit
 class ChallengesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var parentNewPostingTVC: NewPostingTableViewController?
-    
-//    lazy var fetchedResultsController: NSFetchedResultsController<BOChallenge> = { [unowned self] in
-//        
-//        let fetchRequest = NSFetchRequest<BOChallenge>(entityName: "BOChallenge")
-//        fetchRequest.fetchLimit = 100
-//        fetchRequest.fetchBatchSize = 20
-//        
-//        // Filter Food where type is breastmilk
-//        /*var predicate = NSPredicate(format: "%K == %@", "type", "breastmilk")
-//         fetchRequest.predicate = predicate*/
-//        
-//        // Sort by createdAt
-//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "amount", ascending: false)]
-//        
-//        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: NSManagedObjectContext.mr_default(), sectionNameKeyPath: nil, cacheName: nil)
-//        frc.delegate = self
-//        return frc
-//    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()

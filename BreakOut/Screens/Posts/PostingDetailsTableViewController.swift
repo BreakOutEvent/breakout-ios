@@ -94,21 +94,6 @@ class PostingDetailsTableViewController: UITableViewController {
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }
         
-        // Check if Posting has an attached media file
-        //print(self.posting?.images)
-        /*if let image:BOImage = self.posting?.images.first {
-            let uiimage: UIImage = image.getImage()
-            if uiimage.hasContent() == true {
-                cell.postingPictureImageView.image = image.getImage()
-                cell.postingPictureImageViewHeightConstraint.constant = 120.0
-            }else{
-                cell.postingPictureImageViewHeightConstraint.constant = 0.0
-            }
-        }else{
-            cell.postingPictureImageView.image = UIImage()
-            cell.postingPictureImageViewHeightConstraint.constant = 0.0
-        }*/
-        
         if let image = posting.media.flatMap({ $0.image }).first {
             cell.postingPictureImageView.image = image
             cell.postingPictureImageViewHeightConstraint.constant = 120.0
@@ -121,9 +106,7 @@ class PostingDetailsTableViewController: UITableViewController {
         if posting.participant.team != nil {
             cell.teamNameLabel.text = posting.participant.team?.name
         }
-        /*if posting!.team != nil {
-            cell.teamNameLabel.text = posting!.team?.name
-        }*/
+        
         cell.teamPictureImageView?.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
         
         

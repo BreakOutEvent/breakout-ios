@@ -439,18 +439,20 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
 
         if let emergency = emergencyNumberTextfield.text, let phone = phonenumberTextfield.text, let shirt = shirtSizeTextfield.text, let first = firstNameTextfield.text, let last = lastNameTextfield.text, let email = emailTextField.text {
             
-            BOSynchronizeController.teams.becomeParticipant(firstName: first, lastname: last, gender: genderAsString, email: email, emergencyNumber: emergency, phone: phone, shirtSize: shirt, success: { () in
-                self.setAllInputsToEnabled(true)
-                
-                self.loadingHUD.hide(true)
-                self.performSegue(withIdentifier: "showJoinTeamViewController", sender: self)
-            }) { () in
-                
-                // Activate Inputs again
-                self.setAllInputsToEnabled(true)
-                
-                self.loadingHUD.hide(true)
-            }
+            Participant.become(firstName: first, lastName: last, gender: genderAsString,
+                               email: email, emergencyNumber: emergency,
+                               phone: phone, shirtSize: shirt).onSuccess { _ in
+                    
+                    self.setAllInputsToEnabled(true)
+                    self.loadingHUD.hide(true)
+                    self.performSegue(withIdentifier: "showJoinTeamViewController", sender: self)
+                }
+                .onError { _ in
+                    // Activate Inputs again
+                    self.setAllInputsToEnabled(true)
+                    
+                    self.loadingHUD.hide(true)
+                }
         }
         
     }

@@ -32,6 +32,29 @@ enum BOEndpoint: String, APIEndpoint {
     case challengeStatus = "event/{event}/team/{team}/challenge/{challenge}/status/"
 }
 
+enum NewMedia {
+    case image(UIImage)
+    case video(URL)
+    
+    var type: String {
+        switch self {
+        case .image:
+            return "IMAGE"
+        case .video:
+            return "VIDEO"
+        }
+    }
+    
+    func upload(id: Int, token: String) {
+        switch self {
+        case .image(let image):
+            image.upload(itemWith: id, using: token)
+        case .video(let url):
+            url.uploadVideo(with: id, using: token)
+        }
+    }
+}
+
 struct BreakOut: API {
     typealias Endpoint = BOEndpoint
     
@@ -135,6 +158,48 @@ extension Post: Deserializable {
 }
 
 extension Post {
+    
+    static func post(text: String,
+                     latitude: Double,
+                     longitude: Double,
+                     city: String?,
+                     challenge: Challenge?,
+                     media: [NewMedia],
+                     api: BreakOut = .shared) -> Post.Result {
+    
+        let body: JSON = [
+            "text": text.json,
+            "date": Date.now.timeIntervalSince1970.json,
+            "location": [
+                "latitude": latitude.json,
+                "longitude": longitude.json,
+            ].json,
+            "uploadMediaTypes": (media => { $0.type }).json
+        ]
+        let promise = api.doJSONRequest(with: .post,
+                          to: .postings,
+                          auth: BONetworkManager.auth,
+                          body: body,
+                          acceptableStatusCodes: [200, 201])
+        
+        promise.onSuccess { json in
+            media => { item, index in
+                guard let id = json["media"][index]["id"].int,
+                    let token = json["media"][index]["uploadToken"].string else {
+                        
+                    return
+                }
+                item.upload(id: id, token: token)
+            }
+        }
+        return promise.nested { json, promise in
+            if let team = Post(from: json) {
+                promise.success(with: team)
+            } else {
+                promise.error(with: .mappingError(json: json))
+            }
+        }
+    }
     
     static func all(using api: BreakOut = .shared) -> Post.Results {
         return getAll(using: api, at: .postings)
@@ -475,6 +540,35 @@ extension Participant: Deserializable {
     
 }
 
+extension Participant {
+    
+    static func become(firstName: String,
+                       lastName: String,
+                       gender: String,
+                       email: String,
+                       emergencyNumber: String,
+                       phone: String,
+                       shirtSize: String,
+                       using api: BreakOut = .shared) -> JSON.Result {
+        
+        let body: JSON = [
+            "firstname": firstName.json,
+            "lastname": lastName.json,
+            "email": email.json,
+            "gender": gender.json,
+            "participant": [
+                "emergencynumber": emergencyNumber.json,
+                "phonenumber": phone.json,
+                "tshirtsize": shirtSize.json
+            ]
+        ]
+        let promise = api.doJSONRequest(with: .post, to: .userData, auth: BONetworkManager.auth, body: body, acceptableStatusCodes: [200, 201])
+        promise.onSuccess(call: CurrentUser.shared.set)
+        return promise
+    }
+    
+}
+
 struct Team {
     let id: Int
     let name: String
@@ -493,8 +587,50 @@ extension Team: Deserializable {
 
 extension Team {
     
+    func invite(name: String, to event: Int, using api: BreakOut = .shared) -> JSON.Result {
+        let body: JSON = [
+            "event": event.json,
+            "name": name.json
+        ]
+        return api.doJSONRequest(with: .post,
+                                 to: .eventInvitation,
+                                 arguments: ["event": event, "team": id],
+                                 auth: BONetworkManager.auth,
+                                 body: body,
+                                 acceptableStatusCodes: [200, 201])
+    }
+    
+}
+
+extension Team {
+    
     static func all(for event: Int, using api: BreakOut = .shared) -> Team.Results {
         return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event])
+    }
+    
+    static func create(name: String, event: Int, image: UIImage?, using api: BreakOut = .shared) -> Team.Result {
+        let body: JSON = [
+            "event": event.json,
+            "name": name.json
+        ]
+        let promise = api.doJSONRequest(with: .post, to: .eventTeam, arguments: ["event": event], auth: BONetworkManager.auth, body: body, acceptableStatusCodes: [200, 201])
+        promise.onSuccess { json in
+            
+            if let token = json["profilePic"]["uploadToken"].string,
+                let id = json["profilePic"]["id"].int {
+                
+                image?.upload(itemWith: id, using: token)
+            }
+        }
+        return promise.nested { json, promise in
+            if let team = json.team {
+                CurrentUser.shared.teamid = team.id
+                CurrentUser.shared.storeInNSUserDefaults()
+                promise.success(with: team)
+            } else {
+                promise.error(with: .mappingError(json: json))
+            }
+        }
     }
     
 }
@@ -531,6 +667,38 @@ extension JSON {
     
     var participant: Participant? {
         return Participant(from: self)
+    }
+    
+}
+
+extension UIImage {
+    
+    func upload(itemWith id: Int, using token: String) {
+        guard let data = UIImageJPEGRepresentation(self, 0.75) else {
+            return
+        }
+        BONetworkManager.uploadMedia(id,
+                                     token: token,
+                                     data: data,
+                                     filename: "Image.png",
+                                     success: dropArguments,
+                                     error: dropArguments)
+    }
+    
+}
+
+extension URL {
+    
+    func uploadVideo(with id: Int, using token: String) {
+        guard let data = try? Data(contentsOf: self) else {
+            return
+        }
+        BONetworkManager.uploadMedia(id,
+                                     token: token,
+                                     data: data,
+                                     filename: "Video.mp4",
+                                     success: dropArguments,
+                                     error: dropArguments)
     }
     
 }
