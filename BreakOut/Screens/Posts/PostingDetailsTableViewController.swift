@@ -1,4 +1,4 @@
-//
+ //
 //  PostingDetailsTableViewController.swift
 //  BreakOut
 //
@@ -71,7 +71,7 @@ class PostingDetailsTableViewController: UITableViewController {
     
     func configureCommentCell(_ cell: PostingCommentTableViewCell, indexPath: IndexPath) {
         let comment = posting.comments[indexPath.row]
-        cell.teamNameLabel.text = comment.participant.name ?? ""
+        cell.teamNameLabel.text = comment.participant.name
         cell.timestampLabel.text = comment.date.toString()
         cell.commentMessageLabel.text = comment.text ?? ""
         cell.teamPictureImageView.image = comment.participant.image?.image ?? UIImage(named: "emptyProfilePic")
@@ -84,11 +84,14 @@ class PostingDetailsTableViewController: UITableViewController {
         cell.messageLabel?.text = self.posting!.text
         cell.timestampLabel?.text = self.posting!.date.toString()
         
-        if posting!.location.locality != nil && posting!.location.locality != "" {
-            cell.locationLabel?.text = posting!.location.locality
-        } else if posting.location.latitude != nil && posting.location.longitude != nil {
-            if Int(posting.location.latitude) != 0 && Int(posting.location.longitude) != 0 {
-                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.location.latitude, posting.location.longitude)
+        let latitude = (posting?.location?.latitude).?
+        let longitude = (posting?.location?.longitude).?
+        
+        if posting?.location?.locality != nil && posting?.location?.locality != "" {
+            cell.locationLabel?.text = posting!.location?.locality
+        } else if posting.location?.latitude != nil && posting.location?.longitude != nil {
+            if Int(latitude) != 0 && Int(longitude) != 0 {
+                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", latitude, longitude)
             }
         } else {
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")

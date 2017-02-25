@@ -15,13 +15,13 @@ final class Post: Observable {
     let text: String?
     let date: Date
     let participant: Participant
-    let location: Location
+    let location: Location?
     let challenge: Challenge?
     let media: [MediaItem]
     var comments: [PostComment]
     let likes: Int
     
-    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [PostComment] = [], likes: Int = 0) {
+    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location?, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [PostComment] = [], likes: Int = 0) {
         self.id = id
         self.text = text
         self.date = date
@@ -42,13 +42,12 @@ extension Post: Deserializable {
     convenience init?(from json: JSON) {
         guard let id = json["id"].int,
             let date = json["date"].date(),
-            let location = json["postingLocation"].location,
             let participant = json["user"].participant else {
                 return nil
         }
         self.init(id: id, text: json["text"].string,
                   date: date, participant: participant,
-                  location: location,
+                  location: json["postingLocation"].location,
                   media: json["media"].media,
                   comments: json["comments"].comments,
                   likes: json["likes"].int.?)
@@ -87,12 +86,12 @@ extension Post {
                 }
             default: break
             }
-            }
-            .onSuccess { json -> Post.Results in
-                let ids = json["ids"].array ==> { $0.int }
-                return Post.postings(with: ids)
-            }
-            .future
+        }
+        .onSuccess { json -> Post.Results in
+            let ids = json.array ==> { $0.int }
+            return Post.postings(with: ids)
+        }
+        .future
     }
     
 }

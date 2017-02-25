@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Sweeft
 
 import Flurry_iOS_SDK
 import Crashlytics
@@ -143,7 +144,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func loadIdsOfAllEvents() {
         Event.all().onSuccess { events in
-            events.forEach {
+            events => {
                 self.loadAllTeamsForEvent($0.id)
             }
         }
@@ -151,76 +152,36 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func loadAllTeamsForEvent(_ eventId: Int) {
         Team.all(for: eventId).onSuccess { teams in
-            teams.forEach {
-                self.loadAllLocationsForTeam(eventId, teamId: $0.id)
+            teams.array(withFirst: 10) => {
+                self.loadAllPostingsForTeam(eventId, teamId: $0.id)
+//                self.loadAllLocationsForTeam(eventId, teamId: $0.id)
             }
         }
     }
     
     func loadAllPostingsForTeam(_ eventId: Int, teamId: Int) {
         Post.get(team: teamId, event: eventId).onSuccess { posts in
-            print(posts)
+            let posts = posts.array(withFirst: 10)
+            let coordinateArray = posts ==> { $0.location?.coordinates }
+            let locations = posts ==> { ($0, $0?.location?.coordinates) } >>> iff => { (post: Post, coordinate: CLLocationCoordinate2D) -> MapLocation in
+                let location = MapLocation(coordinate: coordinate, title: post.participant.team?.name, subtitle: post.date.toString())
+                location.posting = post
+                return location
+            }
+            
+            self.arrayOfAllPostingAnnotations.append(contentsOf: locations)
+            self.arrayOfAllLastPostingAnnotations += [locations.first].flatMap { $0 }
+            
+            let polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+            DispatchQueue.main.async {
+                self.mapView.add(polyLine)
+            }
         }
-        .onError { error in
-            print(error)
-        }
-        
-        
-//        var teamLocationsArray: Array<Location> = Array()
-//        BONetworkManager.get(.PostingIdsForTeam, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
-//            
-//            let arrayOfIds = response as! [Int]
-//            
-//            if arrayOfIds.count > 0 {
-//            
-//            BONetworkManager.post(.NotLoadedPostings, arguments: [], parameters: arrayOfIds as AnyObject, auth: false, success: { (response) in
-//                
-//                if let responseArray = response as? Array<NSDictionary> {
-//                    var counter: Int = 0
-//                    for postingDict in responseArray {
-//                        
-//                                if let locationDict = postingDict.object(forKey: "postingLocation") as? NSDictionary {
-//                                    if let isDuringEvent = locationDict.object(forKey: "duringEvent") as? Bool {
-//                                        if isDuringEvent {
-//                                            
-//                                            let newLocation = Location(dict: locationDict)
-//                                            teamLocationsArray.append(newLocation)
-//                                            
-//                                            let newPosting: Posting = Posting(dict: postingDict)
-//                                            let location = MapLocation(coordinate: CLLocationCoordinate2DMake(newLocation.latitude!.doubleValue, newLocation.longitude!.doubleValue), title: newLocation.teamName, subtitle: newLocation.timestamp!.toString())
-//                                            location.posting = newPosting
-//                                            
-//                                            if counter == 0 {
-//                                                self.mapView.addAnnotation(location)
-//                                                self.arrayOfAllLastPostingAnnotations.append(location)
-//                                            }
-//                                            self.arrayOfAllPostingAnnotations.append(location)
-//                                        }
-//                                    }
-//                                }
-//                        
-//                        
-//                        counter += 1
-//                    }
-//                    
-//                    var coordinateArray : [CLLocationCoordinate2D] = []
-//                    for location in teamLocationsArray{
-//                        let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: (location.latitude?.doubleValue)!, longitude: (location.longitude?.doubleValue)!)
-//                        coordinateArray.append(coordinate)
-//                    }
-//                    let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
-//                    DispatchQueue.main.async {
-//                        self.mapView.add(polyLine)
-//                    }
-//                }
-//            })
-//            }
-//        })
     }
     
     func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
         Location.all(forTeam: teamId, event: eventId).onSuccess { locations in
-            let coordinateArray = locations.map { $0.coordinates }
+            let coordinateArray = locations => { $0.coordinates }
             let polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
             DispatchQueue.main.async {
                 self.mapView.add(polyLine)
@@ -251,19 +212,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      If now error occures, drawLocationsOnMap
      */
     func fetchLocations(){
-        //self.navigationItem.rightBarButtonItem?.enabled = false
-        //locationManager.startUpdatingLocation()
-        /*blc.getAllLocationsForTeams { (locationsForTeams, error) in
-            if error != nil{
-                print("An error occured while fetching locations")
-                print(error)
-            }
-            else{
-                print("Received new locations from server:")
-                self.drawLocationsOnMap(locationsForTeams!)
-                
-            }
-        }*/
         self.loadIdsOfAllEvents()
     }
     /**
@@ -333,8 +281,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController
         
-        //postingDetailsTableViewController.posting = (fetchedResultsController.objectAtIndexPath(indexPath) as! BOPost)
-//        postingDetailsTableViewController.posting = mapLocationAnnotation.posting
+        postingDetailsTableViewController.posting = mapLocationAnnotation.posting
         
         self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
     }

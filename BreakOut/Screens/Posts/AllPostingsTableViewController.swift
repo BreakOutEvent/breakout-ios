@@ -154,12 +154,15 @@ class AllPostingsTableViewController: UITableViewController {
         cell.messageLabel?.text = posting.text
 
         let date = posting.date
+        
+        let latitude = (posting.location?.latitude).?
+        let longitude = (posting.location?.longitude).?
         cell.timestampLabel?.text = date.toString()
 
-        if (posting.location.locality != nil && posting.location.locality != "") {
-            cell.locationLabel?.text = posting.location.locality
-        } else if (Int(posting.location.latitude) != 0 && Int(posting.location.longitude) != 0) {
-                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", posting.location.latitude, posting.location.longitude)
+        if (posting.location?.locality != nil && posting.location?.locality != "") {
+            cell.locationLabel?.text = posting.location?.locality
+        } else if (Int(latitude) != 0 && Int(longitude) != 0) {
+                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", latitude, longitude)
         } else {
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }

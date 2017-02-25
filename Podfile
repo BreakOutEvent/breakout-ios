@@ -3,7 +3,7 @@
 
 target 'BreakOut' do
 
-pod 'Sweeft', '~> 0.3'
+pod 'Sweeft', '~> 0.5'
 
 pod 'Instabug', '~> 5.1.2'
 pod 'Fabric', '~> 1.6.7'
