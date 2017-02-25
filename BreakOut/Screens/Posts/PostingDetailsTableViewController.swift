@@ -71,10 +71,10 @@ class PostingDetailsTableViewController: UITableViewController {
     
     func configureCommentCell(_ cell: PostingCommentTableViewCell, indexPath: IndexPath) {
         let comment = posting.comments[indexPath.row]
-        cell.teamNameLabel.text = comment.participant?.name ?? ""
+        cell.teamNameLabel.text = comment.participant.name ?? ""
         cell.timestampLabel.text = comment.date.toString()
         cell.commentMessageLabel.text = comment.text ?? ""
-        cell.teamPictureImageView.image = comment.participant?.image?.image ?? UIImage(named: "emptyProfilePic")
+        cell.teamPictureImageView.image = comment.participant.image?.image ?? UIImage(named: "emptyProfilePic")
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
@@ -163,8 +163,8 @@ class PostingDetailsTableViewController: UITableViewController {
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingCommentInputTableViewCell", for: indexPath)
             if let c = cell as? PostingCommentInputTableViewCell {
-//                c.post = posting
-//                c.reloadHandler = tableView.reloadData
+                c.post = posting
+                c.reloadHandler = tableView.reloadData
             }
             return cell
         } else {

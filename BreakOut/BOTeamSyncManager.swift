@@ -141,7 +141,7 @@ class BOTeamSyncManager: BOSyncManager {
         ]
         
         BONetworkManager.post(.EventInvitation, arguments: [eventID, teamID], parameters: params, auth: true, success: { (response) in
-            CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
+            CurrentUser.shared.set(with: response)
             handler()
         }) { (_,_) in
             handler()
@@ -168,7 +168,7 @@ class BOTeamSyncManager: BOSyncManager {
             ]
             
             BONetworkManager.put(.UserData, arguments: [userID], parameters: params, auth: true, success: { (response) in
-                CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
+                CurrentUser.shared.set(with: response)
                 
                 // Tracking
                 Flurry.logEvent("/user/becomeParticipant/completed_successful")

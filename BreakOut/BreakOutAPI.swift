@@ -68,7 +68,7 @@ final class Post: Observable {
     let locality: String?
     let challenge: Challenge?
     let media: [MediaItem]
-    let comments: [PostComment]
+    var comments: [PostComment]
     let likes: Int
     
     init(id: Int, text: String? = nil, date: Date, participant: Participant, longitude: Double, latitude: Double, country: String? = nil, locality: String? = nil, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [PostComment] = [], likes: Int = 0) {
@@ -84,7 +84,7 @@ final class Post: Observable {
         self.media = media
         self.comments = comments
         self.likes = likes
-//        images >>> **self.hasChanged
+        comments >>> **self.hasChanged
         participant >>> **self.hasChanged
     }
     
@@ -124,6 +124,46 @@ extension Post {
     
     static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
         return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size])
+    }
+    
+}
+
+extension Post {
+    
+    func comment(_ comment: String, using api: BreakOut = .shared, completion: @escaping () -> ()) {
+        let comment = NewComment(post: self, comment: comment, user: .shared, date: .now)
+        api.doObjectRequest(with: .post,
+                            to: .postComment,
+                            arguments: ["id": self.id],
+                            auth: BONetworkManager.auth,
+                            body: comment.json,
+                            acceptableStatusCodes: [201]).onSuccess { (comment: PostComment) in
+                                
+            comment >>> **self.hasChanged
+            self.comments.append(comment)
+            self.hasChanged()
+            completion()
+        }
+    }
+    
+}
+
+struct NewComment {
+    let post: Post
+    let comment: String
+    let user: CurrentUser
+    let date: Date
+}
+
+extension NewComment: Serializable {
+    
+    var json: JSON {
+        return [
+            "date": date.timeIntervalSince1970.json,
+            "text": comment.json,
+            "postID": post.id.json,
+            "user": user.json
+        ]
     }
     
 }
@@ -269,17 +309,27 @@ struct PostComment {
     let id: Int
     let date: Date
     let text: String?
-    let participant: Participant?
+    let participant: Participant
 }
 
 extension PostComment: Deserializable {
     
     init?(from json: JSON) {
         guard let id = json["id"].int,
-            let date = json["date"].date() else {
+            let date = json["date"].date(),
+            let participant = json["user"].participant else {
+                
                 return nil
         }
-        self.init(id: id, date: date, text: json["text"].string, participant: json["user"].participant)
+        self.init(id: id, date: date, text: json["text"].string, participant: participant)
+    }
+    
+}
+
+extension PostComment: ObservableContainer {
+    
+    var observable: Participant {
+        return participant
     }
     
 }

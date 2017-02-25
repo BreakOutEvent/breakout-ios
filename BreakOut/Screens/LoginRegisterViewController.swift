@@ -269,7 +269,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 
                 BONetworkManager.get(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
                     CurrentUser.resetUser()
-//                    CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
+                    CurrentUser.shared.set(with: response)
                     CurrentUser.shared.storeInNSUserDefaults()
                     
                     // Empty Textinputs

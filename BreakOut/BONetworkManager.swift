@@ -19,7 +19,7 @@ class BONetworkManager {
     typealias SuccessHandler = (JSON) -> ()
     typealias ErrorHandler = (Error, HTTPURLResponse?) -> ()
     
-    static var auth: Auth? {
+    static var auth: Auth {
         return AFOAuthCredential.retrieveCredential(withIdentifier: loginStorage) ?? NoAuth.standard
     }
     

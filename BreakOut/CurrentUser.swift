@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Sweeft
 
 import AFOAuth2Manager
 
@@ -92,29 +93,27 @@ class CurrentUser: NSObject {
                 // Successful
                 BONetworkIndicator.si.decreaseLoading()
                 
-                let basicUserDict: NSDictionary = response as! NSDictionary
+//                print("---------------------------------")
+//                print("CurrentUser: ")
+//                print(basicUserDict)
+//                print("---------------------------------")
                 
-                print("---------------------------------")
-                print("CurrentUser: ")
-                print(basicUserDict)
-                print("---------------------------------")
-                
-                self.setAttributesWithJSON(basicUserDict)
+                self.set(with: response)
                 
                 // If the user is also an participant we should store the participants information
-                if (basicUserDict.object(forKey: "participant") != nil) {
-                    if let participantDictionary: NSDictionary = basicUserDict.value(forKey: "participant") as? NSDictionary {
-                        self.setAttributesWithJSON(participantDictionary)
-                        // Participant Information is connected to the user -> Mark him as Participant
-                        self.flagParticipant = true
-                    }else{
-                        // No participant Information is connected to the user -> Mark him as NO Participant
-                        self.flagParticipant = false
-                    }
-                }else{
-                    // No participant Information is connected to the user -> Mark him as NO Participant
-                    self.flagParticipant = false
-                }
+//                if (basicUserDict.object(forKey: "participant") != nil) {
+//                    if let participantDictionary: NSDictionary = basicUserDict.value(forKey: "participant") as? NSDictionary {
+//                        self.setAttributesWithJSON(participantDictionary)
+//                        // Participant Information is connected to the user -> Mark him as Participant
+//                        self.flagParticipant = true
+//                    }else{
+//                        // No participant Information is connected to the user -> Mark him as NO Participant
+//                        self.flagParticipant = false
+//                    }
+//                }else{
+//                    // No participant Information is connected to the user -> Mark him as NO Participant
+//                    self.flagParticipant = false
+//                }
                 self.storeInNSUserDefaults()
             }) { (error, response) in
                 BONetworkIndicator.si.decreaseLoading()
@@ -208,6 +207,33 @@ class CurrentUser: NSObject {
         }
     }
     
+    func set(with json: JSON) {
+        userid = json["id"].int
+        firstname = json["firstname"].string
+        lastname = json["lastname"].string
+        email = json["email"].string
+        gender = json["gender"].string
+        birthday = json["birthday"].date()
+        hometown = json["hometown"].string
+        shirtSize = json["tshirtsize"].string
+        emergencyNumber = json["emergencynumber"].string
+        phoneNumber = json[KEY_PHONENUMBER].string
+        if let imagePath = json["image"].string {
+            let imageFullPath = self.documentsPathForFileName(imagePath)
+            DispatchQueue(label: "Download") >>> {
+                let userImageData = try? Data(contentsOf: URL(fileURLWithPath: imageFullPath))
+                // here is your saved image:
+                if userImageData != nil {
+                    self.picture = UIImage(data: userImageData!)
+                }
+            }
+        }
+        teamid = json["teamId"].int
+        eventid = json["teamId"].int
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
+    }
+    
     func setAttributesWithJSON(_ jsonDictionary: NSDictionary) {
         for (key, value) in jsonDictionary {
             if !(value as AnyObject).isKind(of: NSNull.self) {
@@ -255,8 +281,6 @@ class CurrentUser: NSObject {
                 }
             }
         }
-        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
     }
     
 // MARK: - Return Value Helpers
@@ -347,4 +371,15 @@ class CurrentUser: NSObject {
         return fileInDocumentsDirectory(name)
 
     }
+}
+
+extension CurrentUser: Serializable {
+    
+    var json: JSON {
+        return [
+            "firstname": (firstname.?).json,
+            "lastname": (lastname.?).json
+        ]
+    }
+    
 }
