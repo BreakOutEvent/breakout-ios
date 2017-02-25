@@ -109,10 +109,10 @@ extension Post {
         let body: JSON = [
             "text": text.json,
             "date": Date.now.timeIntervalSince1970.json,
-            "location": [
+            "postingLocation": [
                 "latitude": latitude.json,
                 "longitude": longitude.json,
-                ].json,
+            ].json,
             "uploadMediaTypes": (media => { $0.type }).json
         ]
         let promise = api.doJSONRequest(with: .post,

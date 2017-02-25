@@ -370,6 +370,7 @@
 		26FD9E5F1C0A3CD700BF9EFD /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				0E3B87E81E61F7F900C21AB9 /* BreakOutEndpoints.swift */,
 				0EF0FAE51E260A7F0049F878 /* BreakOut.swift */,
 				0E3B87DE1E61F7C400C21AB9 /* Post.swift */,
 				0E3B87F11E61F84100C21AB9 /* Comment.swift */,
@@ -379,7 +380,6 @@
 				0E3B87E21E61F7D600C21AB9 /* Team.swift */,
 				0E3B87E41E61F7DF00C21AB9 /* Event.swift */,
 				0E3B87E61E61F7E700C21AB9 /* Participant.swift */,
-				0E3B87E81E61F7F900C21AB9 /* BreakOutEndpoints.swift */,
 				0E3B87F71E61F8A500C21AB9 /* Auth+JSON.swift */,
 				0E3B87F01E61F82F00C21AB9 /* Media */,
 			);

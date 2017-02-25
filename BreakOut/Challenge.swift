@@ -25,3 +25,11 @@ extension Challenge: Deserializable {
     }
     
 }
+
+extension Challenge {
+    
+    static func get(event: Int, team: Int, using api: BreakOut = .shared) -> Challenge.Results {
+        return getAll(using: api, method: .get, at: .eventTeamChallenge, arguments: ["event": event, "team": team], auth: BONetworkManager.auth)
+    }
+    
+}

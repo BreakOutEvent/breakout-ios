@@ -105,10 +105,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        if newChallenge != nil {
-//            self.challengeLabel.text = String(format: "%0.2f € -- %@", (newChallenge?.amount?.doubleValue)!, (newChallenge?.text)!)
-//            self.styleChallengeLabel()
-//        }
+        if let amount = newChallenge?.amount, let text = newChallenge?.text {
+            self.challengeLabel.text = String(format: "%0.2f € -- \(text)", Double(amount))
+            self.styleChallengeLabel()
+        }
         // Tracking
         Flurry.logEvent("/newPostingTableViewController", timed: true)
         Answers.logCustomEvent(withName: "/newPostingTableViewController", customAttributes: [:])

@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Sweeft
 
 class ChallengesTableViewController: UITableViewController {
     
     var parentNewPostingTVC: NewPostingTableViewController?
+    var challenges = [Challenge]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +26,15 @@ class ChallengesTableViewController: UITableViewController {
         
         self.title = NSLocalizedString("challengeTitle", comment: "")
         
-//        do {
-//            try fetchedResultsController.performFetch()
-//        } catch {
-//            print("Error")
-//        }
+        let event = CurrentUser.shared.currentTeamId()
+        let team = CurrentUser.shared.currentTeamId()
+        Challenge.get(event: event, team: team).onSuccess { challenges in
+            self.challenges = challenges
+            self.tableView.reloadData()
+        }
+        .onError { error in
+            print(error)
+        }
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
@@ -42,17 +48,11 @@ class ChallengesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-//        if let sections = fetchedResultsController.sections {
-//            return sections.count
-//        }
-        return 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if let currSection = fetchedResultsController.sections?[section] {
-//            return currSection.numberOfObjects
-//        }
-        return 0
+        return challenges.count
     }
     
     
@@ -64,43 +64,39 @@ class ChallengesTableViewController: UITableViewController {
     
     func configureCell(_ cell: ChallengeTableViewCell, atIndexPath indexPath: IndexPath) {
         // Configure cell with the BOPost model
-//        guard let challenge = fetchedResultsController.object(at: indexPath) as? BOChallenge else {
-//            return
-//        }
-//        
-//        cell.challengeTitleLabel.text = String(format: "%.2f €", challenge.amount!.doubleValue)
-//        if let text = challenge.text {
-//             cell.challengeDescriptionLabel.text = text + text + text
-//        }
+        
+        let challenge = challenges[indexPath.row]
+        let title = String(format: "%.2f €", Double(challenge.amount.?))
+        cell.challengeTitleLabel.text = title
+        if let text = challenge.text {
+             cell.challengeDescriptionLabel.text = text
+        }
        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let challenge: BOChallenge? = fetchedResultsController.object(at: indexPath) as BOChallenge
-//        
-//        self.parentNewPostingTVC?.newChallenge = challenge
+        self.parentNewPostingTVC?.newChallenge = challenges[indexPath.row]
         
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        let challenge:BOChallenge = fetchedResultsController.object(at: indexPath) as! BOChallenge
-//        
-//        if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
-//            return true
-//        }
+        let challenge = challenges[indexPath.row]
+        if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
+            return true
+        }
         
         return false
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        let challenge:BOChallenge = fetchedResultsController.object(at: indexPath) as! BOChallenge
-//        
-//        if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
-//            cell.alpha = 1.0
-//        }else{
-//            cell.alpha = 0.5
-//        }
+        let challenge = challenges[indexPath.row]
+        
+        if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
+            cell.alpha = 1.0
+        }else{
+            cell.alpha = 0.5
+        }
     }
 
 }
