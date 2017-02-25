@@ -58,7 +58,7 @@ PODS:
   - SlideMenuControllerSwift (3.0.1)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - Sweeft (0.5.1)
+  - Sweeft (0.5.2)
   - Toaster (2.0.3)
   - TouchVisualizer (2.0.1)
 
@@ -107,7 +107,7 @@ SPEC CHECKSUMS:
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  Sweeft: 04ef2edffb566c07b64f2a4789825458f5275c85
+  Sweeft: ee3e9d5abda89595ae28001a61adec5b91923798
   Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
