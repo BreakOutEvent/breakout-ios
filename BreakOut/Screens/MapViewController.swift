@@ -145,35 +145,30 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadIdsOfAllEvents() {
-        BONetworkManager.get(.Event, arguments: [], parameters: nil, auth: false, success: { (response) in
-            for newEvent: NSDictionary in response as! Array {
-                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-                    self.loadAllTeamsForEvent(newEvent.value(forKey: "id")as! Int)
-                })
+        Event.all().onSuccess { events in
+            events.forEach {
+                self.loadAllTeamsForEvent($0.id)
             }
-        }) { (error, response) in
         }
     }
     
     func loadAllTeamsForEvent(_ eventId: Int) {
-        BONetworkManager.get(.EventTeam, arguments: [eventId], parameters: nil, auth: false, success: { (response) in
-            // response is an Array of Team Objects
-            for newTeam: NSDictionary in response as! Array {
-                let teamId: Int = newTeam.object(forKey: "id") as! Int
-                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-                    self.loadAllPostingsForTeam(eventId, teamId: teamId)
-                })
+        Team.all(for: eventId).onSuccess { teams in
+            teams.forEach {
+                self.loadAllLocationsForTeam(eventId, teamId: $0.id)
             }
-            //BOToast.log("Downloading all postings was successful \(numberOfAddedPosts)")
-            // Tracking
-            //Flurry.logEvent("/posting/download/completed_successful", withParameters: ["API-Path":"GET: posting/", "Number of downloaded Postings":numberOfAddedPosts])
-        }) { (error, response) in
-            // TODO: Handle Errors
-            //Flurry.logEvent("/posting/download/completed_error", withParameters: ["API-Path":"GET: posting/"])
         }
     }
     
     func loadAllPostingsForTeam(_ eventId: Int, teamId: Int) {
+        Post.get(team: teamId, event: eventId).onSuccess { posts in
+            print(posts)
+        }
+        .onError { error in
+            print(error)
+        }
+        
+        
 //        var teamLocationsArray: Array<Location> = Array()
 //        BONetworkManager.get(.PostingIdsForTeam, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
 //            
@@ -227,26 +222,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
-//        var teamLocationsArray: Array<Location> = Array()
-//        BONetworkManager.get(.EventTeamLocation, arguments: [eventId,teamId], parameters: nil, auth: false, success: { (response) in
-//            
-//            if let responseArray = response as? Array<NSDictionary> {
-//                for locationDict in responseArray {
-//                    let newLocation = Location(dict: locationDict)
-//                    teamLocationsArray.append(newLocation)
-//                }
-//                
-//                var coordinateArray : [CLLocationCoordinate2D] = []
-//                for location in teamLocationsArray{
-//                    let coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: (location.latitude?.doubleValue)!, longitude: (location.longitude?.doubleValue)!)
-//                    coordinateArray.append(coordinate)
-//                }
-//                let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
-//                DispatchQueue.main.async {
-//                    self.mapView.add(polyLine)
-//                }
-//            }
-//        })
+        Location.all(forTeam: teamId, event: eventId).onSuccess { locations in
+            let coordinateArray = locations.map { $0.coordinates }
+            let polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
+            DispatchQueue.main.async {
+                self.mapView.add(polyLine)
+            }
+        }
     }
     
     func locationDidUpdate() {

@@ -10,6 +10,7 @@ import Sweeft
 import AVFoundation
 import AFOAuth2Manager
 import UIKit
+import CoreLocation
 
 enum BOEndpoint: String, APIEndpoint {
     case user = "user/"
@@ -55,6 +56,36 @@ extension AFOAuthCredential: Auth {
     
 }
 
+struct Event {
+    let id: Int
+    let title: String
+    let city: String
+    let date: Date
+}
+
+extension Event: Deserializable {
+    
+    public init?(from json: JSON) {
+        guard let id = json["id"].int,
+            let title = json["title"].string,
+            let city = json["city"].string,
+            let date = json["date"].date() else {
+                
+            return nil
+        }
+        self.init(id: id, title: title, city: city, date: date)
+    }
+    
+}
+
+extension Event {
+    
+    static func all(using api: BreakOut = .shared) -> Event.Results {
+        return getAll(using: api, at: .event)
+    }
+    
+}
+
 final class Post: Observable {
     
     var listeners = [Listener]()
@@ -62,24 +93,18 @@ final class Post: Observable {
     let text: String?
     let date: Date
     let participant: Participant
-    let longitude: Double
-    let latitude: Double
-    let country: String?
-    let locality: String?
+    let location: Location
     let challenge: Challenge?
     let media: [MediaItem]
     var comments: [PostComment]
     let likes: Int
     
-    init(id: Int, text: String? = nil, date: Date, participant: Participant, longitude: Double, latitude: Double, country: String? = nil, locality: String? = nil, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [PostComment] = [], likes: Int = 0) {
+    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [PostComment] = [], likes: Int = 0) {
         self.id = id
         self.text = text
         self.date = date
         self.participant = participant
-        self.longitude = longitude
-        self.latitude = latitude
-        self.country = country
-        self.locality = locality
+        self.location = location
         self.challenge = challenge
         self.media = media
         self.comments = comments
@@ -95,16 +120,13 @@ extension Post: Deserializable {
     convenience init?(from json: JSON) {
         guard let id = json["id"].int,
             let date = json["date"].date(),
-            let longitude = json["postingLocation"]["longitude"].double,
-            let latitude = json["postingLocation"]["latitude"].double,
+            let location = json["postingLocation"].location,
             let participant = json["user"].participant else {
                 return nil
         }
         self.init(id: id, text: json["text"].string,
                   date: date, participant: participant,
-                  longitude: longitude, latitude: latitude,
-                  country: json["postingLocation"]["locationData"]["COUNTRY"].string,
-                  locality: json["postingLocation"]["locationData"]["LOCALITY"].string,
+                  location: location,
                   media: json["media"].media,
                   comments: json["comments"].comments,
                   likes: json["likes"].int.?)
@@ -118,12 +140,37 @@ extension Post {
         return getAll(using: api, at: .postings)
     }
     
-    static func postings(using api: BreakOut = .shared, since id: Int) -> Post.Results {
+    static func posting(with id: Int, using api: BreakOut = .shared) -> Post.Result {
+        return Post.get(using: api, method: .get, at: .postingByID, arguments: ["id": id])
+    }
+    
+    static func postings(with ids: [Int], using api: BreakOut = .shared) -> Post.Results {
+        return api.doObjectsRequest(with: .post, to: .notLoadedPostings, body: ids.json)
+    }
+    
+    static func postings(since id: Int, using api: BreakOut = .shared) -> Post.Results {
         return getAll(using: api, at: .postingsSince, arguments: ["id": id])
     }
     
     static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
         return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size])
+    }
+    
+    static func get(team: Int, event: Int, using api: BreakOut = .shared) -> Post.Results {
+        return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).onError { error in
+            switch error {
+            case .invalidStatus(_, let data):
+                if let string = data?.string {
+                    print(string)
+                }
+            default: break
+            }
+        }
+        .onSuccess { json -> Post.Results in
+            let ids = json["ids"].array ==> { $0.int }
+            return Post.postings(with: ids)
+        }
+        .future
     }
     
 }
@@ -360,8 +407,20 @@ extension Location: Deserializable {
 
 extension Location {
     
-    static func all(using api: BreakOut = .shared, for event: Int) -> Location.Results {
+    static func all(for event: Int, using api: BreakOut = .shared) -> Location.Results {
         return getAll(using: api, at: .eventAllLocations, arguments: ["event": event])
+    }
+    
+    static func all(forTeam team: Int, event: Int, using api: BreakOut = .shared) -> Location.Results {
+        return getAll(using: api, at: .eventTeamLocation, arguments: ["event": event, "team": team])
+    }
+    
+}
+
+extension Location {
+    
+    var coordinates: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
 }
@@ -424,10 +483,18 @@ struct Team {
 extension Team: Deserializable {
     
     public init?(from json: JSON) {
-        guard let id = json["teamId"].int, let name = json["teamName"].string else {
+        guard let id = json["teamId"].int ?? json["id"].int, let name = json["teamName"].string ?? json["name"].string else {
             return nil
         }
         self.init(id: id, name: name)
+    }
+    
+}
+
+extension Team {
+    
+    static func all(for event: Int, using api: BreakOut = .shared) -> Team.Results {
+        return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event])
     }
     
 }
@@ -436,6 +503,10 @@ extension JSON {
 
     var type: Type {
         return Type(from: self["type"]) ?? .none
+    }
+    
+    var location: Location? {
+        return Location(from: self)
     }
     
     var video: Video? {

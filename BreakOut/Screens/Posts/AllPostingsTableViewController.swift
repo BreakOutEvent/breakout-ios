@@ -165,10 +165,10 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         let date = posting.date
         cell.timestampLabel?.text = date.toString()
 
-        if (posting.locality != nil && posting.locality != "") {
-            cell.locationLabel?.text = posting.locality
-        } else if (Int(posting.latitude) != 0 && Int(posting.longitude) != 0) {
-                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", posting.latitude, posting.longitude)
+        if (posting.location.locality != nil && posting.location.locality != "") {
+            cell.locationLabel?.text = posting.location.locality
+        } else if (Int(posting.location.latitude) != 0 && Int(posting.location.longitude) != 0) {
+                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", posting.location.latitude, posting.location.longitude)
         } else {
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }

@@ -84,11 +84,11 @@ class PostingDetailsTableViewController: UITableViewController {
         cell.messageLabel?.text = self.posting!.text
         cell.timestampLabel?.text = self.posting!.date.toString()
         
-        if posting!.locality != nil && posting!.locality != "" {
-            cell.locationLabel?.text = posting!.locality
-        } else if posting.latitude != nil && posting.longitude != nil {
-            if Int(posting.latitude) != 0 && Int(posting.longitude) != 0 {
-                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.latitude, posting.longitude)
+        if posting!.location.locality != nil && posting!.location.locality != "" {
+            cell.locationLabel?.text = posting!.location.locality
+        } else if posting.location.latitude != nil && posting.location.longitude != nil {
+            if Int(posting.location.latitude) != 0 && Int(posting.location.longitude) != 0 {
+                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f",posting.location.latitude, posting.location.longitude)
             }
         } else {
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
