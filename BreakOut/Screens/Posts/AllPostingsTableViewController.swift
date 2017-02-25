@@ -30,9 +30,9 @@ class AllPostingsTableViewController: UITableViewController {
         Post.get(page: page).onSuccess { newPosts in
             newPosts >>> **self.tableView.reloadData
             self.allPostingsArray.append(contentsOf: newPosts)
+            self.lastLoadedPage = page
             self.tableView.reloadData()
             self.tableView.reloadInputViews()
-            self.lastLoadedPage = page
             self.loadingCell(false)
             BONetworkIndicator.si.decreaseLoading()
         }
@@ -93,7 +93,7 @@ class AllPostingsTableViewController: UITableViewController {
             }
         }
         
-        if (indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1 {
+        if !isLoading, (indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1 {
             self.loadNewPageOfPostings()
         }
     }

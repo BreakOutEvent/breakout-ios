@@ -132,7 +132,7 @@ class BONetworkManager {
             if let data = id.description.data(using: String.Encoding.utf8, allowLossyConversion: false) {
                 multipartFormData.append(data, withName: "id")
             }
-        }, usingThreshold: 10*1024*1024, to: "http://breakout-media.westeurope.cloudapp.azure.com:3001/", method: .post, headers: ["X-UPLOAD-TOKEN": token]) { encodingResult in
+        }, usingThreshold: 10*1024*1024, to: "https://media.break-out.org/", method: .post, headers: ["X-UPLOAD-TOKEN": token]) { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
                 upload.responseString() { (response) in

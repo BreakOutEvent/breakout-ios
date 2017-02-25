@@ -20,6 +20,13 @@ class CurrentUser: NSObject {
     var lastname: String?
     var email: String?
     var picture: UIImage?
+    var profilePic: Image? {
+        didSet {
+            profilePic >>> {
+                self.picture <- $0.image
+            }
+        }
+    }
     
     var gender: String? // "male"=0 or "female"=1
     var birthday: Date?
@@ -218,18 +225,9 @@ class CurrentUser: NSObject {
         shirtSize = json["tshirtsize"].string
         emergencyNumber = json["emergencynumber"].string
         phoneNumber = json[KEY_PHONENUMBER].string
-        if let imagePath = json["image"].string {
-            let imageFullPath = self.documentsPathForFileName(imagePath)
-            DispatchQueue(label: "Download") >>> {
-                let userImageData = try? Data(contentsOf: URL(fileURLWithPath: imageFullPath))
-                // here is your saved image:
-                if userImageData != nil {
-                    self.picture = UIImage(data: userImageData!)
-                }
-            }
-        }
-        teamid = json["teamId"].int
-        eventid = json["teamId"].int
+        profilePic = json["profilePic"].image
+        teamid = json["participant"]["teamId"].int
+        eventid = json["participant"]["teamId"].int
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
     }
