@@ -14,6 +14,9 @@ import Crashlytics
 
 import Sweeft
 
+// TODO: Remove all request code from here and rename this to LoginManager
+// TODO: We'll also need an upload manager
+
 class BONetworkManager {
     
     typealias SuccessHandler = (JSON) -> ()
