@@ -7,6 +7,7 @@
 //
 
 import Sweeft
+import AVFoundation
 import AFOAuth2Manager
 import UIKit
 
@@ -66,11 +67,11 @@ final class Post: Observable {
     let country: String?
     let locality: String?
     let challenge: Challenge?
-    let images: [Image]
+    let media: [MediaItem]
     let comments: [PostComment]
     let likes: Int
     
-    init(id: Int, text: String? = nil, date: Date, participant: Participant, longitude: Double, latitude: Double, country: String? = nil, locality: String? = nil, challenge: Challenge? = nil, images: [Image] = [], comments: [PostComment] = [], likes: Int = 0) {
+    init(id: Int, text: String? = nil, date: Date, participant: Participant, longitude: Double, latitude: Double, country: String? = nil, locality: String? = nil, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [PostComment] = [], likes: Int = 0) {
         self.id = id
         self.text = text
         self.date = date
@@ -80,10 +81,11 @@ final class Post: Observable {
         self.country = country
         self.locality = locality
         self.challenge = challenge
-        self.images = images
+        self.media = media
         self.comments = comments
         self.likes = likes
-        images >>> **self.hasChanged
+//        images >>> **self.hasChanged
+        participant >>> **self.hasChanged
     }
     
 }
@@ -103,7 +105,7 @@ extension Post: Deserializable {
                   longitude: longitude, latitude: latitude,
                   country: json["postingLocation"]["locationData"]["COUNTRY"].string,
                   locality: json["postingLocation"]["locationData"]["LOCALITY"].string,
-                  images: json["media"].images,
+                  media: json["media"].media,
                   comments: json["comments"].comments,
                   likes: json["likes"].int.?)
     }
@@ -122,6 +124,104 @@ extension Post {
     
     static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
         return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size])
+    }
+    
+}
+
+enum Type: String {
+    case image = "IMAGE"
+    case video = "VIDEO"
+    case none = "NONE"
+}
+
+extension Type: Deserializable {
+    
+    public init?(from json: JSON) {
+        guard let item = json.string | Type.init(rawValue:) ?? nil else {
+            self = .none
+            return
+        }
+        self = item
+    }
+
+}
+
+enum MediaItem {
+    case image(Image)
+    case video(Video)
+    
+    var video: AVPlayerItem? {
+        switch self {
+        case .video(let video):
+            return video.video
+        default:
+            return nil
+        }
+    }
+    
+    var image: UIImage? {
+        switch self {
+        case .image(let image):
+            return image.image
+        case .video(let video):
+            return video.image?.image
+        }
+    }
+}
+
+extension MediaItem: Deserializable {
+    
+    public init?(from json: JSON) {
+        switch json.type {
+        case .video:
+            guard let video = json.video else {
+                return nil
+            }
+            self = .video(video)
+        case .image:
+            guard let image = json.image else {
+                return nil
+            }
+            self = .image(image)
+        default:
+            return nil
+        }
+    }
+    
+}
+
+final class Video: Observable {
+    
+    var listeners = [Listener]()
+    let id: Int
+    var video: AVPlayerItem? {
+        didSet {
+            hasChanged()
+        }
+    }
+    var image: Image? {
+        didSet {
+            hasChanged()
+        }
+    }
+    
+    init(id: Int, image: Image?, url: String?) {
+        self.id = id
+        if let url = url | URL.init(string:) ?? nil {
+            self.video = AVPlayerItem(url: url)
+        }
+    }
+    
+}
+
+extension Video: Deserializable {
+    
+    convenience init?(from json: JSON) {
+        guard let id = json["id"].int else {
+            return nil
+        }
+        let sizes = json["sizes"].array |> { $0.type == .video }
+        self.init(id: id, image: json.image, url: sizes.first?["url"].string)
     }
     
 }
@@ -159,8 +259,8 @@ extension Image: Deserializable {
         guard let id = json["id"].int else {
             return nil
         }
-        let image = json["sizes"][0]
-        self.init(id: id, url: image["url"].string)
+        let sizes = json["sizes"].array |> { $0.type == .image }
+        self.init(id: id, url: sizes.first?["url"].string)
     }
     
 }
@@ -169,8 +269,7 @@ struct PostComment {
     let id: Int
     let date: Date
     let text: String?
-    let name: String?
-    let image: Image?
+    let participant: Participant?
 }
 
 extension PostComment: Deserializable {
@@ -180,13 +279,7 @@ extension PostComment: Deserializable {
             let date = json["date"].date() else {
                 return nil
         }
-        let name: String?
-        if let first = json["user"]["firstname"].string, let last = json["user"]["lastname"].string {
-            name = first + " " + last
-        } else {
-            name = nil
-        }
-        self.init(id: id, date: date, text: json["text"].string, name: name, image: json["profilePic"].image)
+        self.init(id: id, date: date, text: json["text"].string, participant: json["user"].participant)
     }
     
 }
@@ -196,8 +289,7 @@ struct Location {
     let date: Date
     let longitude: Double
     let latitude: Double
-    let teamID: Int?
-    let teamName: String?
+    let team: Team?
     let country: String?
     let locality: String?
 }
@@ -211,7 +303,7 @@ extension Location: Deserializable {
             let longitude = json["longitude"].double else {
                 return nil
         }
-        self.init(id: id, date: date, longitude: longitude, latitude: latitude, teamID: json["teamID"].int, teamName: json["team"].string, country: json["locationData"]["COUNTRY"].string, locality: json["locationData"]["LOCALITY"].string)
+        self.init(id: id, date: date, longitude: longitude, latitude: latitude, team: json.team, country: json["locationData"]["COUNTRY"].string, locality: json["locationData"]["LOCALITY"].string)
     }
     
 }
@@ -255,6 +347,7 @@ final class Participant: Observable {
         self.name = name
         self.team = team
         self.image = image
+        image >>> **self.hasChanged
     }
     
 }
@@ -290,13 +383,21 @@ extension Team: Deserializable {
 }
 
 extension JSON {
+
+    var type: Type {
+        return Type(from: self["type"]) ?? .none
+    }
+    
+    var video: Video? {
+        return Video(from: self)
+    }
     
     var image: Image? {
         return Image(from: self)
     }
     
-    var images: [Image] {
-        return array ==> Image.init
+    var media: [MediaItem] {
+        return array ==> MediaItem.init
     }
     
     var comments: [PostComment] {

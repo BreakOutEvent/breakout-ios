@@ -71,16 +71,10 @@ class PostingDetailsTableViewController: UITableViewController {
     
     func configureCommentCell(_ cell: PostingCommentTableViewCell, indexPath: IndexPath) {
         let comment = posting.comments[indexPath.row]
-        cell.teamNameLabel.text = comment.name ?? ""
+        cell.teamNameLabel.text = comment.participant?.name ?? ""
         cell.timestampLabel.text = comment.date.toString()
         cell.commentMessageLabel.text = comment.text ?? ""
-        //cell.teamPictureImageView.image = comments!.profilePic?.getImage() ?? UIImage(named: "emptyProfilePic")
-        if comment.image != nil {
-            cell.teamPictureImageView.image = comment.image?.image
-        } else {
-            cell.teamPictureImageView.image = UIImage(named: "emptyProfilePic")
-        }
-    
+        cell.teamPictureImageView.image = comment.participant?.image?.image ?? UIImage(named: "emptyProfilePic")
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()
     }
@@ -115,7 +109,7 @@ class PostingDetailsTableViewController: UITableViewController {
             cell.postingPictureImageViewHeightConstraint.constant = 0.0
         }*/
         
-        if let image = posting.images.flatMap({ $0.image }).first {
+        if let image = posting.media.flatMap({ $0.image }).first {
             cell.postingPictureImageView.image = image
             cell.postingPictureImageViewHeightConstraint.constant = 120.0
         } else {

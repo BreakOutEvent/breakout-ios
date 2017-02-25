@@ -174,7 +174,7 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
         }
 
         // Check if Posting has an attached media file
-        if let image = posting.images.first?.image {
+        if let image = posting.media.flatMap({ $0.image }).first {
             cell.postingPictureImageView.image = image
             cell.postingPictureImageViewHeightConstraint.constant = 120.0
         } else {
