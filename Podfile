@@ -3,7 +3,6 @@
 
 target 'BreakOut' do
 
-pod 'SwiftyJSON'
 pod 'Sweeft', '~> 0.3'
 
 pod 'Instabug', '~> 5.1.2'
@@ -19,8 +18,7 @@ platform :ios, '10.0'
 pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2'
 
 # Database
-pod 'MagicalRecord', '~> 2.3.2'
-pod 'Pantry' 
+pod 'Pantry'
 
 # Networking
 pod 'AFNetworking', '~> 3.0'
@@ -32,7 +30,6 @@ pod 'SpinKit', '~>1.2.0'
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'SlideMenuControllerSwift', '~> 3.0.0'
 pod 'LECropPictureViewController', '~> 0.1.2'
-pod 'SwiftDate', '~> 4.0'
 pod 'StaticDataTableViewController', '~> 2.0'
 pod 'GGFullscreenImageViewController', '~> 1.0'
 
@@ -41,10 +38,6 @@ pod 'TouchVisualizer', '~> 2.0.1'
 use_frameworks!
 
 pod 'Toaster', '~> 2.0'
-
-pod 'netfox', :git=> 'https://github.com/mathiasquintero/netfox.git'
-
-pod 'ReachabilitySwift', '~> 3'
 
 # Image Caching
 pod 'SDWebImage', '~>3.7'

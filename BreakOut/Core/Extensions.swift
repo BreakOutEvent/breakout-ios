@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SwiftyJSON
+import Sweeft
 
 public extension UIImage {
     public func hasContent() -> Bool {
@@ -79,20 +79,7 @@ extension Array {
 extension Date {
     
     func toString() -> String {
-        let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "hh:mm a, EEE dd MMM"
-        return dateformatter.string(from: self)
-    }
-    
-}
-
-extension JSON {
-    
-    var date: Date? {
-        guard let timestap = self.int else {
-            return nil
-        }
-        return Date(timeIntervalSince1970: Double(timestap))
+        return string(using: "hh:mm a, EEE dd MMM")
     }
     
 }

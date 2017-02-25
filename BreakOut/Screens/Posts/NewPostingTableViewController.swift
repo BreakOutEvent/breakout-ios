@@ -11,9 +11,6 @@ import CoreLocation
 
 import Sweeft
 
-// Database
-import MagicalRecord
-
 // Tracking
 import Flurry_iOS_SDK
 import Crashlytics

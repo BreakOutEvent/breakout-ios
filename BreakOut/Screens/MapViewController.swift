@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import CoreLocation
-import MagicalRecord
 
 import Flurry_iOS_SDK
 import Crashlytics
@@ -73,8 +72,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.done, target: self, action: #selector(showSideBar))
         navigationItem.rightBarButtonItem = rightButton
         navigationItem.leftBarButtonItem = leftButton
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(fetchLocations), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(locationDidUpdate), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_LOCATION_DID_UPDATE), object: nil)
         /*

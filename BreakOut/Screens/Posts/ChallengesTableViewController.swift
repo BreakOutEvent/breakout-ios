@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChallengesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class ChallengesTableViewController: UITableViewController {
     
     var parentNewPostingTVC: NewPostingTableViewController?
 

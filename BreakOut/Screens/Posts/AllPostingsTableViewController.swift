@@ -8,16 +8,12 @@
 
 import UIKit
 
-// Database
-import MagicalRecord
-
-import SwiftDate
 import Sweeft
     
 import Flurry_iOS_SDK
 import Crashlytics
 
-class AllPostingsTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class AllPostingsTableViewController: UITableViewController {
     
     var allPostingsArray = [Post]()
     var lastLoadedPage: Int = 0
@@ -119,11 +115,6 @@ class AllPostingsTableViewController: UITableViewController, NSFetchedResultsCon
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.reloadData()
-        self.tableView.reloadInputViews()
     }
 
     // MARK: - Table view data source

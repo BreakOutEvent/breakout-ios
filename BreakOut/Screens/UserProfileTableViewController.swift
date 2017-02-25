@@ -12,7 +12,6 @@ import UIKit
 import Flurry_iOS_SDK
 import Crashlytics
 
-import SwiftDate
 
 import StaticDataTableViewController
 

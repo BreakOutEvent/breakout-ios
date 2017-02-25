@@ -12,7 +12,6 @@
 #define BreakOut_bridging_header_h
 
 #define MR_SHORTHAND
-#import <MagicalRecord/MagicalRecord.h>
 #import <AFNetworking/AFNetworking.h>
 #import <AFOAuth2Manager/AFOAuth2Manager.h>
 

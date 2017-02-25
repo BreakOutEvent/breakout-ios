@@ -9,9 +9,6 @@
 import UIKit
 import CoreLocation
 
-// Database
-import MagicalRecord
-
 // Tracking
 import Flurry_iOS_SDK
 import Crashlytics

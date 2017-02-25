@@ -49,23 +49,16 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - Instabug (5.1.2)
   - LECropPictureViewController (0.1.2)
-  - MagicalRecord (2.3.2):
-    - MagicalRecord/Core (= 2.3.2)
-  - MagicalRecord/Core (2.3.2)
   - MBProgressHUD (0.9.2)
-  - netfox (1.8)
   - Pantry (0.3)
   - Protobuf (3.2.0)
-  - ReachabilitySwift (3)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - SlideMenuControllerSwift (3.0.1)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - Sweeft (0.4.0)
-  - SwiftDate (4.0.13)
-  - SwiftyJSON (3.1.4)
+  - Sweeft (0.5.1)
   - Toaster (2.0.3)
   - TouchVisualizer (2.0.1)
 
@@ -81,29 +74,15 @@ DEPENDENCIES:
   - GGFullscreenImageViewController (~> 1.0)
   - Instabug (~> 5.1.2)
   - LECropPictureViewController (~> 0.1.2)
-  - MagicalRecord (~> 2.3.2)
   - MBProgressHUD (~> 0.9.2)
-  - netfox (from `https://github.com/mathiasquintero/netfox.git`)
   - Pantry
-  - ReachabilitySwift (~> 3)
   - SDWebImage (~> 3.7)
   - SlideMenuControllerSwift (~> 3.0.0)
   - SpinKit (~> 1.2.0)
   - StaticDataTableViewController (~> 2.0)
   - Sweeft (~> 0.3)
-  - SwiftDate (~> 4.0)
-  - SwiftyJSON
   - Toaster (~> 2.0)
   - TouchVisualizer (~> 2.0.1)
-
-EXTERNAL SOURCES:
-  netfox:
-    :git: https://github.com/mathiasquintero/netfox.git
-
-CHECKOUT OPTIONS:
-  netfox:
-    :commit: 4d911346b6ada4980966bc140d93291da74f937a
-    :git: https://github.com/mathiasquintero/netfox.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -121,22 +100,17 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   Instabug: c315abe1a1c4cbd3ea1cc6ec8f9954d6c5371c39
   LECropPictureViewController: d64cd991d94d7804c0971f97adae6d1bc216a7b8
-  MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  netfox: b153c852b852453057f7ded304ff1678c9f4b15f
   Pantry: 98481849be65d2b2cb9658976533e84ebd266192
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
-  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  Sweeft: 2a7ea9634b69a6acdf6c4a805ff0a205320bb9b9
-  SwiftDate: 8ec416bb1b5129d1f35e8efaed720421f41d42df
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  Sweeft: 04ef2edffb566c07b64f2a4789825458f5275c85
   Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: 036aafce2382b8bb342558e9a537727359c39639
+PODFILE CHECKSUM: 4d7143e1e9d67a3666422a7be77fd8f3167bae43
 
 COCOAPODS: 1.2.0.beta.1

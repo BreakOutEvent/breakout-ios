@@ -17,12 +17,6 @@ import Firebase
 
 import TouchVisualizer
 
-// Database
-import MagicalRecord
-//import MagicalRecord
-
-// Network Debugging
-import netfox
 import Sweeft
 
 @UIApplicationMain
@@ -46,14 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Flurry Setup
         Flurry.startSession(PrivateConstants.flurryAPIToken);
         
-        
-        // Database
-        MagicalRecord.setupCoreDataStack(withStoreNamed: "BODataModel")
-        MagicalRecord.setLoggingLevel(MagicalRecordLoggingLevel.all) //All Events are logged to the console
-        
         // Network Debugging
         #if DEBUG
-            NFX.sharedInstance().start()
             Visualizer.start()
             
             NotificationCenter.default.addObserver(forName: nil,
@@ -123,9 +111,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        
-        // Database
-        MagicalRecord.cleanUp()
     }
 
 
