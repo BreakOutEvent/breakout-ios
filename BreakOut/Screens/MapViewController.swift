@@ -16,17 +16,24 @@ import Crashlytics
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    // Model
-    //    var locations: [MapLocation] = []{
-    //        didSet{
-    //            updateMap()
-    //        }
-    //    }
-    
+    // MARK: private properties
     private var locations = [MapLocation]()
-    var coordinateArray = [CLLocationCoordinate2D]()
-    var polyLineArray = [MKPolyline]()
+    private var coordinateArray = [CLLocationCoordinate2D]()
+    private var polyLineArray = [MKPolyline]()
+    private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00), 2: UIColor.red]
+    private var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
     
+    // MARK: Model
+    /**
+     Model for the MapView. This dictionary contains all locations for all events and all teams in a sorted fashion. First Int is eventId, second is teamId.
+     */
+    var eventDict = [Int:[Int:[MapLocation]]](){
+        didSet{
+            drawLocationsForAllEventsOnMap(eventDict)
+            
+        }
+    }
+
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!{
         didSet{
@@ -36,6 +43,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     
+    
+    // MARK: User Functions
     func showSideBar(){
         self.slideMenuController()?.toggleLeft()
     }
@@ -45,7 +54,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         print("fetch new BOLocations since last Id")
     }
     
-    func updateMap(){
+    // TO DO: show activation indicator
+    func fetchAllLocationsForEvents(){
         BONetworkManager.get(.Event, arguments: [], parameters: nil, auth: false, success: { [weak weakSelf = self](response) in
             for newEvent: NSDictionary in response as! Array {
                 if let id = newEvent.value(forKey: "id") as? Int{
@@ -60,16 +70,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     
-    private var test = [Int:[Int:[MapLocation]]]()
-    
+    // TO DO: Check if user still wants to see the locations or if he is already gone, then we don't need to draw at all.
     private func loadAllLocationsForEvent(id: Int){
         BONetworkManager.get(.EventAllLocations, arguments: [id], parameters: nil, auth: false) {[weak weakSelf = self](response) in
             if let response = response as? Array<NSDictionary>{
-                weakSelf?.locations = weakSelf!.convertNSDictionaryToMapLocation(response)
+                weakSelf?.locations = weakSelf!.convertNSDictionaryToMapLocation(response).enumerated().flatMap { index, element in index % 2 == 1 ? nil : element }
             }
             let locationDictForTeams = weakSelf!.locations.groupBy {$0.teamId!}
-            weakSelf?.test[id] = locationDictForTeams
-            weakSelf?.drawLocationsOnMap(weakSelf!.test)
+            weakSelf?.eventDict[id] = locationDictForTeams
         }
         
     }
@@ -94,20 +102,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     private func extractLocation(_ dict: NSDictionary) -> MapLocation? {
         let longitude = dict.value(forKey: "longitude") as! CLLocationDegrees
         let latitude = dict.value(forKey: "latitude") as! CLLocationDegrees
-        let title = dict.value(forKey: "team") as! String
+        let teamName = dict.value(forKey: "team") as! String
+        let teamId = dict.value(forKey: "teamId") as! Int
+        let distance = dict.value(forKey: "distance") as! Int
+        let title =  "# \(teamId): " + teamName
         let location = MapLocation(latitude: latitude, longitude: longitude, title: title)
-        location.teamId = dict.value(forKey: "teamId") as? Int
+        location.teamId = teamId
+        location.subtitle = "distance: \(distance) km"
         return location
     }
     
     /**
-     loops through all locations in location-Array and add them to MapView as Annotation.
-     - parameter location: Array of MapLocation
+     loops through event dictionary containing all locations for all events and teams and calls drawLocationsForTeamOnMap for each teamId.
+     - parameter locationsForEventsAndTeams: Dictionary with first parameter as eventId , second as teamId
      */
-    fileprivate func drawLocationsOnMap(_ locationsForEventsAndTeams:[Int:[Int:[MapLocation]]]){
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.removeOverlays(mapView.overlays)
+    private func drawLocationsForAllEventsOnMap(_ locationsForEventsAndTeams:[Int:[Int:[MapLocation]]]){
         for (eventIds, dictForTeams) in locationsForEventsAndTeams{
+            strokeColor = colorsForEvent[eventIds] ?? UIColor.black
             for (teamIds, locations) in dictForTeams{
                 print("==============================")
                 print("Event Id: ", eventIds)
@@ -115,51 +126,56 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 print("Number of Teams: ", dictForTeams.count)
                 print("Number of locations: ", locations.count)
                 print("==============================")
-                for location in locations{
-                    coordinateArray.append(location.coordinate)
-                }
-                
+                drawLocationsForTeamOnMap(locations)
             }
-            let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
-            polyLineArray.append(polyLine)
-            coordinateArray.removeAll()
-            
         }
-        for polyLine in polyLineArray{
-            mapView.add(polyLine)
-        }
-        polyLineArray.removeAll()
-        
-//        self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
+    /**
+     loops through all locations in location-Array and add them to MapView as Annotation.
+     - parameter location: Array of MapLocation
+     */
+    private func drawLocationsForTeamOnMap(_ locationArray:[MapLocation]){
+//        mapView.removeAnnotations(mapView.annotations)
+//        mapView.removeOverlays(mapView.overlays)
+        
+        for location in locationArray{
+            coordinateArray.append(location.coordinate)
+        }
+        
+        let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
+        coordinateArray.removeAll()
+        mapView.add(polyLine)
+        mapView.addAnnotation(locationArray.last!)
+    }
+
+
+   // MARK: Delegate Methods
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // 1
+
         let identifier = "Location"
         
-        // 2
         if annotation is MapLocation {
-            // 3
+
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
             
             if annotationView == nil {
-                //4
+
                 annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 annotationView!.canShowCallout = true
                 
-                // 5
+
                 let btn = UIButton(type: .detailDisclosure)
                 annotationView!.rightCalloutAccessoryView = btn
             } else {
-                // 6
+
                 annotationView!.annotation = annotation
             }
             
             return annotationView
         }
         
-        // 7
         return nil
     }
     
@@ -167,7 +183,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let pr = MKPolylineRenderer(overlay: overlay)
-        pr.strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00) // This is one of our CI colors
+        pr.strokeColor = strokeColor
         pr.lineWidth = 2
         return pr
     }
@@ -183,7 +199,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         self.title = "Map"
-        updateMap()
+        fetchAllLocationsForEvents()
         // Buttons in navigation bar
         let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(fetchNewBOLocationsSinceLastId))
         // switch button. Addes during event to reduce load.
