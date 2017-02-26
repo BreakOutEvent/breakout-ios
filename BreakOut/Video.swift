@@ -26,6 +26,7 @@ final class Video: Observable {
     
     init(id: Int, image: Image?, url: String?) {
         self.id = id
+        self.image = image
         if let url = url | URL.init(string:) ?? nil {
             self.video = AVPlayerItem(url: url)
         }

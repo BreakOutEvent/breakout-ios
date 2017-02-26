@@ -35,7 +35,7 @@ extension Participant: Deserializable {
                 
                 return nil
         }
-        self.init(id: id, name: "\(first) \(last)", team: json["participant"].team, image: json["profilePic"].image)
+        self.init(id: id, name: "\(first) \(last)", team: json["participant"].team, image: json.profilePic)
     }
     
 }

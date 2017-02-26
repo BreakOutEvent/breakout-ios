@@ -222,7 +222,7 @@ final class CurrentUser: NSObject {
         shirtSize = json["tshirtsize"].string
         emergencyNumber = json["emergencynumber"].string
         phoneNumber = json[KEY_PHONENUMBER].string
-        profilePic = json["profilePic"].image
+        profilePic = json.profilePic
         teamid = json["participant"]["teamId"].int
         eventid = json["participant"]["teamId"].int
         

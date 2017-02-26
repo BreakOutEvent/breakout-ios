@@ -7,6 +7,7 @@
 //
 
 import Sweeft
+import UIKit
 
 final class Image: Observable {
     
@@ -37,12 +38,20 @@ final class Image: Observable {
 
 extension Image: Deserializable {
     
-    convenience init?(from json: JSON) {
+    convenience init?(from json: JSON, height: Int) {
         guard let id = json["id"].int else {
             return nil
         }
-        let sizes = json["sizes"].array |> { $0.type == .image }
-        self.init(id: id, url: sizes.first?["url"].string)
+        let deviceWidth = UIScreen.main.bounds.width
+        print(deviceWidth)
+        let sizes = json["sizes"].array |> { $0.type == .image } |> { $0.isFitFor(height: height) }
+        let size = sizes.first ?? json["sizes"].array?.last
+        self.init(id: id, url: size?["url"].string)
+    }
+    
+    convenience init?(from json: JSON) {
+        let deviceHeight = Int(UIScreen.main.bounds.height)
+        self.init(from: json, height: deviceHeight)
     }
     
 }

@@ -35,6 +35,10 @@ extension JSON {
         return Image(from: self)
     }
     
+    var profilePic: Image? {
+        return Image(from: self["profilePic"], height: 100)
+    }
+    
     var media: [MediaItem] {
         return array ==> MediaItem.init
     }
@@ -49,6 +53,13 @@ extension JSON {
     
     var participant: Participant? {
         return Participant(from: self)
+    }
+    
+    func isFitFor(height requiredHeight: Int) -> Bool {
+        let height = self["width"].int.?
+        let width = self["width"].int.?
+        let size = max(width, height)
+        return size >= requiredHeight
     }
     
 }
