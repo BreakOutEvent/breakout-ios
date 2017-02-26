@@ -166,15 +166,10 @@ class AllPostingsTableViewController: UITableViewController {
         } else {
             cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
         }
-
-        // Check if Posting has an attached media file
-        if let image = posting.media.flatMap({ $0.image }).first {
-            cell.postingPictureImageView.image = image
-            cell.postingPictureImageViewHeightConstraint.constant = 120.0
-        } else {
-            cell.postingPictureImageView.image = UIImage()
-            cell.postingPictureImageViewHeightConstraint.constant = 0.0
-        }
+        
+        cell.images = posting.media
+                                .flatMap { $0.image }
+                                .filter { $0.hasContent() }
 
         // Set the team image & name
         if posting.participant.team?.name != nil {

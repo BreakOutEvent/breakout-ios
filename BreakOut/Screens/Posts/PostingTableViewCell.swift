@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-import GGFullscreenImageViewController
+import DTPhotoViewerController
 
 class PostingTableViewCell: UITableViewCell {
     
@@ -28,6 +27,17 @@ class PostingTableViewCell: UITableViewCell {
     @IBOutlet weak var challengeLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var challengeLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
+    
+    var images: [UIImage] = .empty {
+        didSet {
+            if let image = images.first {
+                postingPictureImageView.image = image
+                postingPictureImageViewHeightConstraint.constant = 200.0
+            } else {
+                postingPictureImageViewHeightConstraint.constant = 0.0
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,10 +67,10 @@ class PostingTableViewCell: UITableViewCell {
     }
     
     @IBAction func postingImageButtonPressed(_ sender: UIButton) {
-        let fullscreenImageViewController:GGFullscreenImageViewController = GGFullscreenImageViewController()
-        fullscreenImageViewController.liftedImageView = postingPictureImageView
-        //fullscreenImageViewController.liftedImageView.contentMode = UIViewContentMode.ScaleAspectFit
-        self.parentTableViewController?.present(fullscreenImageViewController, animated: true, completion: nil)
+        if let fullscreenImageViewController = DTPhotoViewerController(referencedView: postingPictureImageView, image: postingPictureImageView.image) {
+            fullscreenImageViewController.dataSource = self
+            self.parentTableViewController?.present(fullscreenImageViewController, animated: true, completion: nil)
+        }
     }
     
     @IBAction func likesButtonPressed(_ sender: UIButton) {
@@ -68,4 +78,20 @@ class PostingTableViewCell: UITableViewCell {
 
     @IBAction func commentsButtonPressed(_ sender: UIButton) {
     }
+}
+
+extension PostingTableViewCell: DTPhotoViewerControllerDataSource {
+    
+    func numberOfItems(in photoViewerController: DTPhotoViewerController) -> Int {
+        return images.count
+    }
+    
+    func photoViewerController(_ photoViewerController: DTPhotoViewerController, referencedViewForPhotoAt index: Int) -> UIView? {
+        return postingPictureImageView
+    }
+    
+    func photoViewerController(_ photoViewerController: DTPhotoViewerController, configurePhotoAt index: Int, withImageView imageView: UIImageView) {
+        imageView.image = images[index]
+    }
+    
 }

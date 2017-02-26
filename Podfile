@@ -31,7 +31,7 @@ pod 'MBProgressHUD', '~> 0.9.2'
 pod 'SlideMenuControllerSwift', '~> 3.0.0'
 pod 'LECropPictureViewController', '~> 0.1.2'
 pod 'StaticDataTableViewController', '~> 2.0'
-pod 'GGFullscreenImageViewController', '~> 1.0'
+pod 'DTPhotoViewerController'
 
 pod 'TouchVisualizer', '~> 2.0.1'
 
