@@ -44,7 +44,7 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
 // MARK: - Button Actions
 
     @IBAction func postButtonPressed(_ sender: UIButton) {
-        post.comment(commentInputTextField.text.?) { posted in
+        post.comment(commentInputTextField.text.?).onSuccess { comment in
             self.commentInputTextField.text = .empty
         }
     }

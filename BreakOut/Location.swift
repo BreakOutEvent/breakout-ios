@@ -41,6 +41,27 @@ extension Location: Deserializable {
 
 extension Location {
     
+    @discardableResult static func update(coordinates: CLLocationCoordinate2D,
+                                          event: Int,
+                                          team: Int,
+                                          using api: BreakOut = .shared) -> Location.Result {
+        let body: JSON = [
+            "latitude": coordinates.latitude.json,
+            "longitude": coordinates.longitude.json,
+            "date": Date.now.timeIntervalSince1970.json
+        ]
+        return api.doObjectRequest(with: .post,
+                                   to: .eventTeamLocation,
+                                   arguments: ["event": event, "team": team],
+                                   auth: LoginManager.auth,
+                                   body: body,
+                                   acceptableStatusCodes: [200, 201])
+    }
+    
+}
+
+extension Location {
+    
     static func all(for event: Int, using api: BreakOut = .shared) -> Location.Results {
         return getAll(using: api, at: .eventAllLocations, arguments: ["event": event])
     }

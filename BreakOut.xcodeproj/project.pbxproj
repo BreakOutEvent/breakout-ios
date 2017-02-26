@@ -24,7 +24,6 @@
 		0E3B87FC1E61F9B100C21AB9 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87FB1E61F9B100C21AB9 /* Challenge.swift */; };
 		0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6289231E623F7E00EF1FAD /* UploadManager.swift */; };
 		0EB81A381CD8AF8F00AEBA8C /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB81A371CD8AF8F00AEBA8C /* LoginManager.swift */; };
-		0EB81A3A1CD8AFE400AEBA8C /* BackendServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB81A391CD8AFE400AEBA8C /* BackendServices.swift */; };
 		0EF0FAE61E260A7F0049F878 /* BreakOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0FAE51E260A7F0049F878 /* BreakOut.swift */; };
 		260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */; };
 		260121421C78F6F20041EAA8 /* BOToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121411C78F6F20041EAA8 /* BOToast.swift */; };
@@ -112,7 +111,6 @@
 		0E6289231E623F7E00EF1FAD /* UploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		0E6E6A60DAADD446EC06104D /* Pods-BreakOutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOutTests/Pods-BreakOutTests.release.xcconfig"; sourceTree = "<group>"; };
 		0EB81A371CD8AF8F00AEBA8C /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
-		0EB81A391CD8AFE400AEBA8C /* BackendServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackendServices.swift; sourceTree = "<group>"; };
 		0EF0FAE51E260A7F0049F878 /* BreakOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreakOut.swift; sourceTree = "<group>"; };
 		2303591E0CC7FD81D5C88E41 /* Pods-BreakOut.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.debug.xcconfig"; sourceTree = "<group>"; };
 		2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeatureFlagManager.swift; path = Core/FeatureFlagManager.swift; sourceTree = "<group>"; };
@@ -365,7 +363,6 @@
 			children = (
 				0EB81A371CD8AF8F00AEBA8C /* LoginManager.swift */,
 				0E6289231E623F7E00EF1FAD /* UploadManager.swift */,
-				0EB81A391CD8AFE400AEBA8C /* BackendServices.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -698,7 +695,6 @@
 				0E3B87FA1E61F93900C21AB9 /* NewComment.swift in Sources */,
 				269AADC81C9483E10034F32C /* Constants.swift in Sources */,
 				0E3B87E51E61F7DF00C21AB9 /* Event.swift in Sources */,
-				0EB81A3A1CD8AFE400AEBA8C /* BackendServices.swift in Sources */,
 				26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
 				0EB81A381CD8AF8F00AEBA8C /* LoginManager.swift in Sources */,

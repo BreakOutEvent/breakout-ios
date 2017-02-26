@@ -61,16 +61,16 @@ extension Post {
         return getAll(using: api, at: .postings)
     }
     
+    static func all(since id: Int, using api: BreakOut = .shared) -> Post.Results {
+        return getAll(using: api, at: .postingsSince, arguments: ["id": id])
+    }
+    
     static func posting(with id: Int, using api: BreakOut = .shared) -> Post.Result {
         return Post.get(using: api, method: .get, at: .postingByID, arguments: ["id": id])
     }
     
     static func postings(with ids: [Int], using api: BreakOut = .shared) -> Post.Results {
         return api.doObjectsRequest(with: .post, to: .notLoadedPostings, body: ids.json)
-    }
-    
-    static func postings(since id: Int, using api: BreakOut = .shared) -> Post.Results {
-        return getAll(using: api, at: .postingsSince, arguments: ["id": id])
     }
     
     static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
@@ -144,19 +144,19 @@ extension Post {
 
 extension Post {
     
-    func comment(_ comment: String, using api: BreakOut = .shared, completion: @escaping () -> ()) {
+    @discardableResult func comment(_ comment: String, using api: BreakOut = .shared) -> PostComment.Result {
         let comment = NewComment(post: self, comment: comment, user: .shared, date: .now)
-        api.doObjectRequest(with: .post,
+        return api.doObjectRequest(with: .post,
                             to: .postComment,
                             arguments: ["id": self.id],
                             auth: LoginManager.auth,
                             body: comment.json,
-                            acceptableStatusCodes: [201]).onSuccess { (comment: PostComment) in
+                            acceptableStatusCodes: [201]).nested { (comment: PostComment) in
                                 
                                 comment >>> **self.hasChanged
                                 self.comments.append(comment)
                                 self.hasChanged()
-                                completion()
+                                return comment
         }
     }
     

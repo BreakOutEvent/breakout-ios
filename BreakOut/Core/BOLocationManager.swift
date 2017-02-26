@@ -27,7 +27,7 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         
         // aks user for permission
         let status = CLLocationManager.authorizationStatus()
-        if status == .denied || status == .notDetermined || status == .authorizedWhenInUse || status == .restricted{
+        if status == .denied || status == .notDetermined || status == .authorizedWhenInUse || status == .restricted {
             locationManager.requestAlwaysAuthorization()
         }
         
@@ -66,24 +66,14 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Update Locations")
         // only use last location
-        if let coordiante = locations.last?.coordinate{
-            print(coordiante)
-            // send to local Database with flag needsUpload
-//            let locationPost: BOLocation = BOLocation.mr_createEntity()! as BOLocation
-//            locationPost.flagNeedsUpload = true
-//            locationPost.timestamp = Date()
-//            locationPost.latitude = coordiante.latitude as NSNumber
-//            locationPost.longitude = coordiante.longitude as NSNumber
-//            if CurrentUser.shared.currentTeamId() > -1 {
-//                locationPost.teamId = CurrentUser.shared.currentTeamId()
-//            }else{
-//                locationPost.teamId = -1
-//            }
-//            // Save
-//            locationPost.save()
-//            
-//            self.lastKnownLocation = locations.last
-//            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_LOCATION_DID_UPDATE), object: nil)
+        if let coordiante = locations.last?.coordinate, CurrentUser.shared.currentTeamId() > -1 {
+            let event = CurrentUser.shared.currentEventId()
+            let team = CurrentUser.shared.currentTeamId()
+            Location.update(coordinates: coordiante, event: event, team: team).onSuccess { _ in
+                print("Location Sent!")
+            }
+            self.lastKnownLocation = locations.last
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_LOCATION_DID_UPDATE), object: nil)
             
             // ONLY FOR DEBUGGING
             #if DEBUG
