@@ -55,6 +55,13 @@ extension JSON {
         return Participant(from: self)
     }
     
+    var videoURL: String? {
+        guard let url = self["url"].string, url.contains(".mp4"), self.type == .video else {
+            return nil
+        }
+        return url
+    }
+    
     func isFitFor(height requiredHeight: Int) -> Bool {
         let height = self["width"].int.?
         let width = self["width"].int.?

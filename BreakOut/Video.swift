@@ -40,8 +40,8 @@ extension Video: Deserializable {
         guard let id = json["id"].int else {
             return nil
         }
-        let sizes = json["sizes"].array |> { $0.type == .video }
-        self.init(id: id, image: json.image, url: sizes.first?["url"].string)
+        let sizes = json["sizes"].array ==> { $0.videoURL }
+        self.init(id: id, image: json.image, url: sizes.first)
     }
     
 }
