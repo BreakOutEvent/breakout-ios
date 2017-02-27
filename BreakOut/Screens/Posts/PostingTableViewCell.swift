@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import AVFoundation
+import AVKit
+import Sweeft
 import DTPhotoViewerController
 
 class PostingTableViewCell: UITableViewCell {
@@ -27,6 +30,20 @@ class PostingTableViewCell: UITableViewCell {
     @IBOutlet weak var challengeLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var challengeLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
+    
+    var videoController: AVPlayerViewController = AVPlayerViewController()
+    var playImageView = UIImageView()
+    
+    var video: URL? {
+        didSet {
+            guard video != oldValue else {
+                return
+            }
+            videoController.player?.pause()
+            videoController.player = nil
+            videoController.view.removeFromSuperview()
+        }
+    }
     
     var images: [UIImage] = .empty {
         didSet {
@@ -51,6 +68,8 @@ class PostingTableViewCell: UITableViewCell {
         
         // Styling of the Posting Picture
         self.postingPictureImageView.layer.cornerRadius = 4.0
+        self.videoController.view.layer.cornerRadius = 4.0
+        self.videoController.view.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -64,10 +83,32 @@ class PostingTableViewCell: UITableViewCell {
         
         // Styling of the Team Picture
         self.teamPictureImageView.layer.cornerRadius = self.teamPictureImageView.frame.size.width/2.0
+        
+        playImageView.removeFromSuperview()
+        if video != nil {
+            playImageView.image = #imageLiteral(resourceName: "play_Icon")
+            playImageView.frame = CGRect(x: postingPictureImageView.bounds.width/2 - 24,
+                                         y: postingPictureImageView.bounds.height/2 - 24,
+                                         width: 48,
+                                         height: 48)
+            postingPictureImageView.addSubview(playImageView)
+        }
+        
     }
     
     @IBAction func postingImageButtonPressed(_ sender: UIButton) {
-        if let fullscreenImageViewController = DTPhotoViewerController(referencedView: postingPictureImageView, image: postingPictureImageView.image) {
+        if let video = video {
+            guard videoController.player == nil else {
+                return
+            }
+            videoController.videoGravity = AVLayerVideoGravityResizeAspect
+            videoController.view.frame = postingPictureImageView.frame
+            videoController.player = AVPlayer(url: video)
+            videoController.view.isUserInteractionEnabled = true
+            contentView.addSubview(videoController.view)
+            videoController.player?.play()
+            postingPictureImageView.image = nil
+        } else if let fullscreenImageViewController = DTPhotoViewerController(referencedView: postingPictureImageView, image: postingPictureImageView.image) {
             fullscreenImageViewController.dataSource = self
             self.parentTableViewController?.present(fullscreenImageViewController, animated: true, completion: nil)
         }

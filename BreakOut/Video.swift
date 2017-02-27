@@ -7,17 +7,12 @@
 //
 
 import Sweeft
-import AVFoundation
 
 final class Video: Observable {
     
     var listeners = [Listener]()
     let id: Int
-    var video: AVPlayerItem? {
-        didSet {
-            hasChanged()
-        }
-    }
+    var video: URL?
     var image: Image? {
         didSet {
             hasChanged()
@@ -27,9 +22,7 @@ final class Video: Observable {
     init(id: Int, image: Image?, url: String?) {
         self.id = id
         self.image = image
-        if let url = url | URL.init(string:) ?? nil {
-            self.video = AVPlayerItem(url: url)
-        }
+        video = url | URL.init(string:) ?? nil
     }
     
 }

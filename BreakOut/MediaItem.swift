@@ -7,13 +7,12 @@
 //
 
 import Sweeft
-import AVFoundation
 
 enum MediaItem {
     case image(Image)
     case video(Video)
     
-    var video: AVPlayerItem? {
+    var video: URL? {
         switch self {
         case .video(let video):
             return video.video

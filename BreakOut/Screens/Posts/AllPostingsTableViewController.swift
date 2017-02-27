@@ -44,8 +44,6 @@ class AllPostingsTableViewController: UITableViewController {
     
     func loadingCell(_ isLoading: Bool = false) {
         self.isLoading = isLoading
-        let indexPath = IndexPath(row: self.tableView.numberOfRows(inSection: 0)-1, section: 0)
-        self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.fade)
     }
 
     override func viewDidLoad() {
@@ -88,13 +86,19 @@ class AllPostingsTableViewController: UITableViewController {
         if cell.isKind(of: LoadingTableViewCell.self) {
             if self.isLoading {
                 cell.alpha = 0
-            }else{
+            } else {
                 cell.alpha = 1
             }
         }
         
         if !isLoading, (indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1 {
             self.loadNewPageOfPostings()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? PostingTableViewCell {
+            cell.videoController.player?.pause() // Pause video when you're not it's not on screen
         }
     }
     
@@ -138,7 +142,7 @@ class AllPostingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if ((indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath) as! LoadingTableViewCell
-            
+            cell.activityIndicator.startAnimating()
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath) as! PostingTableViewCell
@@ -171,12 +175,14 @@ class AllPostingsTableViewController: UITableViewController {
                                 .flatMap { $0.image }
                                 .filter { $0.hasContent() }
 
+        cell.video = posting.media.flatMap({ $0.video }).first
+        
         // Set the team image & name
         if posting.participant.team?.name != nil {
             cell.teamNameLabel.text = posting.participant.team?.name
         }
         cell.teamPictureImageView.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
-
+        
 
         // Check if Posting has an attached challenge
         if posting.challenge != nil {
