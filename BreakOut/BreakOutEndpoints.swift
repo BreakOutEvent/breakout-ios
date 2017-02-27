@@ -8,7 +8,7 @@
 
 import Sweeft
 
-enum BOEndpoint: String, APIEndpoint {
+enum BreakOutEndpoint: String, APIEndpoint {
     case user = "user/"
     case userData = "user/{id}/"
     case currentUser = "me/"

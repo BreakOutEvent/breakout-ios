@@ -96,7 +96,7 @@ final class CurrentUser: NSObject {
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
                 case .invalidStatus(401, _):
-                    self.tryToRefresh(call: self.uploadUserData)
+                    self.tryToRefresh(with: api, call: self.uploadUserData)
                 default: break
                 }
             }

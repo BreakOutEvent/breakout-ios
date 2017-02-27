@@ -16,7 +16,7 @@ enum UploadManager {
             if let data = id.description.data(using: String.Encoding.utf8, allowLossyConversion: false) {
                 multipartFormData.append(data, withName: "id")
             }
-        }, usingThreshold: 10*1024*1024, to: "https://media.break-out.org/", method: .post, headers: ["X-UPLOAD-TOKEN": token]) { encodingResult in
+        }, usingThreshold: UInt64(10*1024*1024), to: "https://media.break-out.org/", method: .post, headers: ["X-UPLOAD-TOKEN": token]) { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
                 upload.responseString() { (response) in
@@ -29,6 +29,28 @@ enum UploadManager {
                 // Queue it again here
             }
         }
+    }
+    
+}
+
+extension UIImage {
+    
+    func upload(itemWith id: Int, using token: String) {
+        guard let data = UIImageJPEGRepresentation(self, 0.75) else {
+            return
+        }
+        UploadManager.upload(data: data, id: id, token: token, filename: "Image.jpg", type: "image/jpg")
+    }
+    
+}
+
+extension URL {
+    
+    func uploadVideo(with id: Int, using token: String) {
+        guard let data = try? Data(contentsOf: self) else {
+            return
+        }
+        UploadManager.upload(data: data, id: id, token: token, filename: "Video.mp4", type: "video/mp4")
     }
     
 }
