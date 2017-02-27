@@ -48,6 +48,7 @@ extension Post: Deserializable {
         self.init(id: id, text: json["text"].string,
                   date: date, participant: participant,
                   location: json["postingLocation"].location,
+                  challenge: json["challenge"].challenge,
                   media: json["media"].media,
                   comments: json["comments"].comments,
                   likes: json["likes"].int.?)
@@ -78,16 +79,7 @@ extension Post {
     }
     
     static func get(team: Int, event: Int, using api: BreakOut = .shared) -> Post.Results {
-        return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).onError { error in
-            switch error {
-            case .invalidStatus(_, let data):
-                if let string = data?.string {
-                    print(string)
-                }
-            default: break
-            }
-        }
-        .onSuccess { json -> Post.Results in
+        return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).onSuccess { json -> Post.Results in
             let ids = json.array ==> { $0.int }
             return Post.postings(with: ids)
         }
@@ -106,33 +98,22 @@ extension Post {
                      media: [NewMedia],
                      api: BreakOut = .shared) -> Post.Result {
         
-        let body: JSON = [
-            "text": text.json,
-            "date": Date.now.timeIntervalSince1970.json,
-            "postingLocation": [
-                "latitude": latitude.json,
-                "longitude": longitude.json,
-            ].json,
-            "uploadMediaTypes": (media => { $0.type }).json
-        ]
-        let promise = api.doJSONRequest(with: .post,
-                                        to: .postings,
-                                        auth: LoginManager.auth,
-                                        body: body,
-                                        acceptableStatusCodes: [200, 201])
-        
-        promise.onSuccess { json in
-            media => { item, index in
-                guard let id = json["media"][index]["id"].int,
-                    let token = json["media"][index]["uploadToken"].string else {
-                        
-                        return
-                }
-                item.upload(id: id, token: token)
-            }
-        }
-        return promise.nested { json, promise in
+        let post = NewPost(text: text, date: .now, latitude: latitude, longitude: longitude, media: media)
+        return api.doJSONRequest(with: .post,
+                                 to: .postings,
+                                 auth: LoginManager.auth,
+                                 body: post.json,
+                                 acceptableStatusCodes: [200, 201]).nested { json, promise in
+
             if let team = Post(from: json) {
+                media => { item, index in
+                    guard let id = json["media"][index]["id"].int,
+                        let token = json["media"][index]["uploadToken"].string else {
+                            
+                            return
+                    }
+                    item.upload(id: id, token: token)
+                }
                 promise.success(with: team)
             } else {
                 promise.error(with: .mappingError(json: json))

@@ -55,6 +55,10 @@ extension JSON {
         return Participant(from: self)
     }
     
+    var challenge: Challenge? {
+        return Challenge(from: self)
+    }
+    
     var videoURL: String? {
         guard let url = self["url"].string, url.contains(".mp4"), self.type == .video else {
             return nil
