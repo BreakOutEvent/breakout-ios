@@ -19,6 +19,39 @@ struct BreakOut: API {
 
 extension BreakOut {
     
+    struct BreakOutAuth: OptionalStatus {
+        typealias Value = OAuth
+        static var key: AppDefaults = .login
+    }
+    
+    var auth: Auth {
+        get {
+            return BreakOutAuth.value ?? NoAuth.standard
+        }
+    }
+    
+    func login(email: String, password: String) -> OAuth.Result {
+        let manager = self.oauthManager(clientID: "breakout_app", secret: PrivateConstants().oAuthSecret())
+        return manager.authenticate(at: .login, username: email, password: password, scope: "read", "write").nested { (auth: OAuth) in
+            BreakOutAuth.value = auth
+            return auth
+        }
+    }
+    
+    func refreshToken() -> OAuth.Result {
+        guard let auth = self.auth as? OAuth else {
+            let promise = Promise<OAuth, APIError>()
+            promise.error(with: .noData)
+            return promise
+        }
+        let manager = self.oauthManager(clientID: "breakout_app", secret: PrivateConstants().oAuthSecret())
+        return manager.refresh(at: .login, with: auth)
+    }
+    
+}
+
+extension BreakOut {
+    
     init() {
         self.init(baseURL: PrivateConstants().backendURL())
     }

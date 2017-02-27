@@ -3,8 +3,10 @@
 
 target 'BreakOut' do
 
+# Model and API Calls
 pod 'Sweeft', '~> 0.5'
 
+# Analytics
 pod 'Instabug', '~> 5.1.2'
 pod 'Fabric', '~> 1.6.7'
 pod 'Crashlytics', '~> 3.7.0'
@@ -15,14 +17,12 @@ pod 'Firebase/Messaging'
 # Flurry -> App Analytics (Funnel, ...)
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
-pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2'
+pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2' # Thinking about removing it...
 
 # Database
 pod 'Pantry'
 
 # Networking
-pod 'AFNetworking', '~> 3.0'
-pod 'AFOAuth2Manager', '~> 3.0'
 pod 'Alamofire', '~> 4.0'
 
 # UI
@@ -32,11 +32,11 @@ pod 'SlideMenuControllerSwift', '~> 3.0.0'
 pod 'LECropPictureViewController', '~> 0.1.2'
 pod 'StaticDataTableViewController', '~> 2.0'
 pod 'DTPhotoViewerController'
-
 pod 'TouchVisualizer', '~> 2.0.1'
 
 use_frameworks!
 
+# Will soon be removed
 pod 'Toaster', '~> 2.0'
 
 # Image Caching

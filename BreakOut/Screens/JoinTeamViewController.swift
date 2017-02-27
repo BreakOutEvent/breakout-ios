@@ -14,8 +14,6 @@ import SpinKit
 
 import LECropPictureViewController
 
-import AFOAuth2Manager
-
 class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     

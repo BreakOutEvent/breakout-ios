@@ -101,7 +101,7 @@ extension Post {
         let post = NewPost(text: text, date: .now, latitude: latitude, longitude: longitude, media: media)
         return api.doJSONRequest(with: .post,
                                  to: .postings,
-                                 auth: LoginManager.auth,
+                                 auth: api.auth,
                                  body: post.json,
                                  acceptableStatusCodes: [200, 201]).nested { json, promise in
 
@@ -130,7 +130,7 @@ extension Post {
         return api.doObjectRequest(with: .post,
                             to: .postComment,
                             arguments: ["id": self.id],
-                            auth: LoginManager.auth,
+                            auth: api.auth,
                             body: comment.json,
                             acceptableStatusCodes: [201]).nested { (comment: PostComment) in
                                 

@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import Sweeft
 import Flurry_iOS_SDK
 
 import MBProgressHUD
 import SpinKit
 
 import LECropPictureViewController
-
-import AFOAuth2Manager
 
 class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -395,22 +394,8 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     func getGenderByFirstname() {
-        let requestManager = AFHTTPSessionManager.init(baseURL: URL(string: "https://api.genderize.io/"))
-        
-        let params: NSDictionary = ["name":self.firstNameTextfield.text!]
-        
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.get("", parameters: params, success: { (operation, response) -> Void in
-                // Successful retrival of name attributes
-                let dict: NSDictionary = response as! NSDictionary
-                if dict.value(forKey: "gender") as! String == "male" {
-                    self.genderSegmentedControl.selectedSegmentIndex = 0
-                }else{
-                    self.genderSegmentedControl.selectedSegmentIndex = 1
-                }
-            }) { (operation, error) -> Void in
-                //BOToast.log("Error during genderize.io request", level: .Error)
+        Gender.gender(for: self.firstNameTextfield.text.?).onSuccess { gender in
+            self.genderSegmentedControl.selectedSegmentIndex = gender.hashValue
         }
     }
     

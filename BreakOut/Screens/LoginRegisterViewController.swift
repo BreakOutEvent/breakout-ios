@@ -10,11 +10,6 @@ import UIKit
 import Flurry_iOS_SDK
 import Crashlytics
 
-// Networking
-import AFNetworking
-import AFOAuth2Manager
-//import Answers
-
 import MBProgressHUD
 import SpinKit
 
@@ -258,8 +253,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             self.setupLoadingHUD("loginLoading")
             self.enableInputs(false)
             
-            LoginManager.login(email, pass: pass, success: { () in
-                
+            BreakOut.shared.login(email: email, password: pass).onSuccess { _ in
                 CurrentUser.get().onSuccess { user in
                     // Empty Textinputs
                     self.emailTextField.text = ""
@@ -274,11 +268,12 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     
                     self.dismiss(animated: true, completion: nil)
                 }
-            }, error:
-            { () in
+            }
+            .onError { error in
                 self.loadingHUD.hide(true)
                 self.enableInputs(true)
-            })
+            }
+
         } else {
             //TODO: Handle no text entered
         }

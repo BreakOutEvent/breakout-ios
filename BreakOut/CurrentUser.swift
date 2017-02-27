@@ -9,8 +9,6 @@
 import UIKit
 import Sweeft
 
-import AFOAuth2Manager
-
 // TODO: Refactor this huge singleton too. It's a mess => Use StatusSerializable for persisntance
 
 final class CurrentUser: NSObject {
@@ -73,6 +71,15 @@ final class CurrentUser: NSObject {
     
 // MARK: - Sync with Backend
     
+    func tryToRefresh(with api: BreakOut = .shared, call handler: @escaping (BreakOut) -> ()) {
+        api.refreshToken().onSuccess { _ in
+            handler(api)
+        }
+        .onError { _ in
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
+        }
+    }
+    
     func uploadUserData(to api: BreakOut = .shared) {
         
         if let id = self.userid {
@@ -82,14 +89,14 @@ final class CurrentUser: NSObject {
             let json = JSON(from: dictionary) // Small hack
             BONetworkIndicator.si.increaseLoading()
             
-            api.doJSONRequest(with: .post, to: .userData, arguments: ["id": id], auth: LoginManager.auth, body: json).onSuccess { response in
+            api.doJSONRequest(with: .post, to: .userData, arguments: ["id": id], auth: api.auth, body: json).onSuccess { response in
                  BONetworkIndicator.si.decreaseLoading()
             }
             .onError { error in
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
                 case .invalidStatus(401, _):
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
+                    self.tryToRefresh(call: self.uploadUserData)
                 default: break
                 }
             }
@@ -108,7 +115,7 @@ final class CurrentUser: NSObject {
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
                 case .invalidStatus(401, _):
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
+                    self.tryToRefresh(call: **self.downloadUserData)
                 default: break
                 }
             }
@@ -394,7 +401,7 @@ extension CurrentUser: Deserializable {
 extension CurrentUser {
     
     static func get(using api: BreakOut = .shared) -> CurrentUser.Result {
-        return get(using: api, at: .currentUser, auth: LoginManager.auth)
+        return get(using: api, at: .currentUser, auth: api.auth)
     }
     
 }

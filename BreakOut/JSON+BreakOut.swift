@@ -7,15 +7,6 @@
 //
 
 import Sweeft
-import AFOAuth2Manager
-
-extension AFOAuthCredential: Auth {
-    
-    public func apply(to request: inout URLRequest) {
-        request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-    }
-    
-}
 
 extension JSON {
     

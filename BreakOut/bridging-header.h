@@ -12,8 +12,6 @@
 #define BreakOut_bridging_header_h
 
 #define MR_SHORTHAND
-#import <AFNetworking/AFNetworking.h>
-#import <AFOAuth2Manager/AFOAuth2Manager.h>
 
 #import <LECropPictureViewController/LECropPictureViewController.h>
 

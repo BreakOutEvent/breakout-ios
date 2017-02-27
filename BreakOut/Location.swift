@@ -53,7 +53,7 @@ extension Location {
         return api.doObjectRequest(with: .post,
                                    to: .eventTeamLocation,
                                    arguments: ["event": event, "team": team],
-                                   auth: LoginManager.auth,
+                                   auth: api.auth,
                                    body: body,
                                    acceptableStatusCodes: [200, 201])
     }

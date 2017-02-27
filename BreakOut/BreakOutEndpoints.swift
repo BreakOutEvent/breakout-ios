@@ -26,4 +26,5 @@ enum BOEndpoint: String, APIEndpoint {
     case postingByID = "posting/{id}/"
     case eventTeamChallenge = "event/{event}/team/{team}/challenge/"
     case challengeStatus = "event/{event}/team/{team}/challenge/{challenge}/status/"
+    case login = "oauth/token"
 }

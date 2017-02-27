@@ -8,8 +8,6 @@
 
 import UIKit
 
-import AFOAuth2Manager
-
 import Flurry_iOS_SDK
 
 import MBProgressHUD
