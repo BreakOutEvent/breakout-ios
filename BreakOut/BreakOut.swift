@@ -19,14 +19,16 @@ struct BreakOut: API {
 
 extension BreakOut {
     
-    private struct BreakOutAuth: OptionalStatus {
+    fileprivate struct BreakOutAuth: OptionalStatus {
         typealias Value = OAuth
         static var key: AppDefaults = .login
     }
     
     var auth: Auth {
         get {
-            return BreakOutAuth.value ?? NoAuth.standard
+            let oauth = BreakOutAuth.value
+            oauth?.delegate = self
+            return oauth ?? NoAuth.standard
         }
     }
     
@@ -38,14 +40,12 @@ extension BreakOut {
         }
     }
     
-    func refreshToken() -> OAuth.Result {
-        guard let auth = self.auth as? OAuth else {
-            let promise = Promise<OAuth, APIError>()
-            promise.error(with: .noData)
-            return promise
-        }
-        let manager = self.oauthManager(clientID: "breakout_app", secret: PrivateConstants().oAuthSecret())
-        return manager.refresh(at: .login, with: auth)
+}
+
+extension BreakOut: OAuthDelegate {
+    
+    func didRefresh(replace old: OAuth, with new: OAuth) {
+        BreakOutAuth.value = new
     }
     
 }

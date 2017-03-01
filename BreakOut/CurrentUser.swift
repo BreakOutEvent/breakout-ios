@@ -71,15 +71,6 @@ final class CurrentUser: NSObject {
     
 // MARK: - Sync with Backend
     
-    func tryToRefresh(with api: BreakOut = .shared, call handler: @escaping (BreakOut) -> ()) {
-        api.refreshToken().onSuccess { _ in
-            handler(api)
-        }
-        .onError { _ in
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
-        }
-    }
-    
     func uploadUserData(to api: BreakOut = .shared) {
         
         if let id = self.userid {
@@ -96,7 +87,7 @@ final class CurrentUser: NSObject {
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
                 case .invalidStatus(401, _):
-                    self.tryToRefresh(with: api, call: self.uploadUserData)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
                 default: break
                 }
             }
@@ -115,7 +106,7 @@ final class CurrentUser: NSObject {
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
                 case .invalidStatus(401, _):
-                    self.tryToRefresh(call: **self.downloadUserData)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
                 default: break
                 }
             }

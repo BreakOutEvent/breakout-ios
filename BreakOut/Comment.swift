@@ -8,14 +8,14 @@
 
 import Sweeft
 
-struct PostComment {
+struct Comment {
     let id: Int
     let date: Date
     let text: String?
     let participant: Participant
 }
 
-extension PostComment: Deserializable {
+extension Comment: Deserializable {
     
     init?(from json: JSON) {
         guard let id = json["id"].int,
@@ -29,7 +29,7 @@ extension PostComment: Deserializable {
     
 }
 
-extension PostComment: ObservableContainer {
+extension Comment: ObservableContainer {
     
     var observable: Participant {
         return participant

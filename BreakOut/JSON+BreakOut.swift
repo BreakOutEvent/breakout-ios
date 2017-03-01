@@ -34,8 +34,8 @@ extension JSON {
         return array ==> MediaItem.init
     }
     
-    var comments: [PostComment] {
-        return array ==> PostComment.init
+    var comments: [Comment] {
+        return array ==> Comment.init
     }
     
     var team: Team? {

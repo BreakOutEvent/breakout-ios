@@ -4,7 +4,7 @@
 target 'BreakOut' do
 
 # Model and API Calls
-pod 'Sweeft', '~> 0.5'
+pod 'Sweeft', '~> 0.6'
 
 # Analytics
 pod 'Instabug', '~> 5.1.2'

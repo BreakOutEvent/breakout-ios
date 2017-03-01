@@ -18,10 +18,10 @@ final class Post: Observable {
     let location: Location?
     let challenge: Challenge?
     let media: [MediaItem]
-    var comments: [PostComment]
+    var comments: [Comment]
     let likes: Int
     
-    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location?, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [PostComment] = [], likes: Int = 0) {
+    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location?, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [Comment] = [], likes: Int = 0) {
         self.id = id
         self.text = text
         self.date = date
@@ -125,14 +125,14 @@ extension Post {
 
 extension Post {
     
-    @discardableResult func comment(_ comment: String, using api: BreakOut = .shared) -> PostComment.Result {
+    @discardableResult func comment(_ comment: String, using api: BreakOut = .shared) -> Comment.Result {
         let comment = NewComment(post: self, comment: comment, user: .shared, date: .now)
         return api.doObjectRequest(with: .post,
                             to: .postComment,
                             arguments: ["id": self.id],
                             auth: api.auth,
                             body: comment.json,
-                            acceptableStatusCodes: [201]).nested { (comment: PostComment) in
+                            acceptableStatusCodes: [201]).nested { (comment: Comment) in
                                 
                                 comment >>> **self.hasChanged
                                 self.comments.append(comment)
