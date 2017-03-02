@@ -51,12 +51,12 @@ class AllPostingsTableViewController: UITableViewController {
         
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("allPostingsTitle", comment: "")
+        self.title = "allPostingsTitle".local
         
         // Create menu buttons for navigation item
         let barButtonImage = UIImage(named: "menu_Icon_white")
@@ -168,7 +168,7 @@ class AllPostingsTableViewController: UITableViewController {
         } else if (Int(latitude) != 0 && Int(longitude) != 0) {
                 cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", latitude, longitude)
         } else {
-            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
+            cell.locationLabel?.text = "unknownLocation".localized(with: "unknown location")
         }
         
         cell.images = posting.media
@@ -197,7 +197,7 @@ class AllPostingsTableViewController: UITableViewController {
         }
         
         // Add count for comments
-        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
+        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, "comments".localized(with: "Comments")), for: UIControlState())
         
         cell.setNeedsUpdateConstraints()
         cell.updateConstraintsIfNeeded()

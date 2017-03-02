@@ -45,19 +45,19 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         
-        self.loginButton.backgroundColor = Style.mainOrange
+        self.loginButton.backgroundColor = .mainOrange
         self.loginButton.layer.cornerRadius = 25.0
         
         self.registerButton.backgroundColor = UIColor.white
         self.registerButton.alpha = 0.8
         self.registerButton.layer.cornerRadius = 25.0
         
-        self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.passwordTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("password", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.emailTextField.attributedPlaceholder = .localized("email", with: .lightTransparentWhite)
+        self.passwordTextField.attributedPlaceholder = .localized("password", with: .lightTransparentWhite)
         
         // Set localized Button titles
-        self.loginButton.setTitle(NSLocalizedString("login", comment: ""), for: UIControlState())
-        self.registerButton.setTitle(NSLocalizedString("register", comment: ""), for: UIControlState())
+        self.loginButton.setTitle("login".local, for: .normal)
+        self.registerButton.setTitle("register".local, for: .normal)
     }
     
     override func didReceiveMemoryWarning() {
@@ -127,7 +127,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
 // MARK: - Button Actions
     
     /**
-    Checks wether both textfields (E-Mail & Password) are filled in with correct style. If this is ok, the keyboard will be hide and the registration request is started
+    Checks wether both textfields (E-Mail & Password) are filled in with correct . If this is ok, the keyboard will be hide and the registration request is started
     
     :param: sender      UIButton which triggers the function
     
@@ -194,7 +194,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.loadingHUD.isSquare = true
         self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
         spinner.startAnimating()
     }
     

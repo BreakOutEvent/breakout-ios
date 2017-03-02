@@ -55,12 +55,12 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("userProfileTitle", comment: "")
+        self.title = "userProfileTitle".local
         
         // Create save button for navigation item
         let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(saveChanges))
@@ -137,7 +137,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
             self.cell(self.participateButtonTableViewCell, setHidden: true)
             self.cells(self.eventInformationTableViewCellCollection, setHidden: false)
             self.cell(self.birthdayTableViewCell, setHidden: false)
-        }else{
+        } else {
             self.cell(self.participateButtonTableViewCell, setHidden: true) // Always hidden as long as we haven't this function ready
             self.cells(self.eventInformationTableViewCellCollection, setHidden: true)
             self.cell(self.birthdayTableViewCell, setHidden: true)
@@ -192,7 +192,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UserProfileTableViewController.shirtSizePickerToolbarDoneButtonPressed))
@@ -211,7 +211,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UserProfileTableViewController.birthdayDatePickerToolbarDoneButtonPressed))
@@ -276,17 +276,17 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     }
     
     @IBAction func profilePictureButtonPressed(_ sender: UIButton) {
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: "sourceOfImage".local, preferredStyle: .actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: .default) { alert in
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
             self.imagePicker.sourceType = .photoLibrary
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
-        })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        }
+        let cameraOption = UIAlertAction(title: "takeAPhoto".local, style: .default) { alert in
             print("take a photo")
             //shows the camera
             self.imagePicker.allowsEditing = true
@@ -295,17 +295,16 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
             
-        })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
-            (alert: UIAlertAction!) -> Void in
+        }
+        let cancelOption = UIAlertAction(title: "cancel".local, style: .cancel) { alert in
             print("Cancel")
             self.dismiss(animated: true, completion: nil)
-        })
+        }
         
         //Adding the actions to the action sheet. Here, camera will only show up as an option if the camera is available in the first place.
         optionMenu.addAction(photoLibraryOption)
         optionMenu.addAction(cancelOption)
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
             optionMenu.addAction(cameraOption)} else {
             print ("I don't have a camera.")
         }

@@ -20,12 +20,12 @@ class HelpTableViewController: StaticDataTableViewController {
 
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("helpViewTitle", comment: "")
+        self.title = "helpViewTitle".local
         
         // Create menu buttons for navigation item
         let barButtonImage = UIImage(named: "menu_Icon_white")

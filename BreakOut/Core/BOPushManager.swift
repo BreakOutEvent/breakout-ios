@@ -32,24 +32,24 @@ class BOPushManager: NSObject {
         
         print("BOPushManager: EventStartDate: ", self.eventStartDate?.description)
         if self.eventStartDate != nil {
-            self.registerPush((eventStartDate?.addingTimeInterval(-self.oneDay))!, text: NSLocalizedString("Push_24h_before_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(-self.oneDay))!, text: "Push_24h_before_Start".localized(with: "push"))
             
-            self.registerPush((eventStartDate?.addingTimeInterval(-self.oneHour))!, text: NSLocalizedString("Push_1h_before_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(-self.oneHour))!, text: "Push_1h_before_Start".localized(with: "push"))
             
-            self.registerPush((eventStartDate?.addingTimeInterval(self.oneHour))!, text: NSLocalizedString("Push_1h_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(self.oneHour))!, text: "Push_1h_after_Start".localized(with: "push"))
             
-            self.registerPush((eventStartDate?.addingTimeInterval(18*self.oneHour))!, text: NSLocalizedString("Push_18h_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(18*self.oneHour))!, text: "Push_18h_after_Start".localized(with: "push"))
             
-            self.registerPush((eventStartDate?.addingTimeInterval(35*self.oneHour))!, text: NSLocalizedString("Push_35h_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(35*self.oneHour))!, text: "Push_35h_after_Start".localized(with: "push"))
             
-            self.registerPush((eventStartDate?.addingTimeInterval(2*self.oneDay))!, text: NSLocalizedString("Push_2d_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(2*self.oneDay))!, text: "Push_2d_after_Start".localized(with: "push"))
             
-            self.registerPush((eventStartDate?.addingTimeInterval(7*self.oneDay))!, text: NSLocalizedString("Push_7d_after_Start", comment: "push"))
+            self.registerPush((eventStartDate?.addingTimeInterval(7*self.oneDay))!, text: "Push_7d_after_Start".localized(with: "push"))
             
             if defaults.object(forKey: "lastPostingSent") != nil {
                 let lastPostingSentDate: Date = defaults.object(forKey: "lastPostingSent") as! Date
                 
-                self.registerPush(lastPostingSentDate.addingTimeInterval(self.oneHour), text: NSLocalizedString("Push_1h_after_last_Posting", comment: "push"))
+                self.registerPush(lastPostingSentDate.addingTimeInterval(self.oneHour), text: "Push_1h_after_last_Posting".localized(with: "push"))
             }
         }
     }

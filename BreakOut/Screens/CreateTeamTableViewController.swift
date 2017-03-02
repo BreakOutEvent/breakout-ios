@@ -40,12 +40,12 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         self.imagePicker.delegate = self
 
         // Set color for placeholder text
-        self.teamNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("teamname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.eventSelectionTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("eventselection", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.teamNameTextfield.attributedPlaceholder = .localized("teamname", with: .lightTransparentWhite)
+        self.emailTextField.attributedPlaceholder = .localized("email", with: .lightTransparentWhite)
+        self.eventSelectionTextfield.attributedPlaceholder = .localized("eventselection", with: .lightTransparentWhite)
 
         // Set localized Button Texts
-        self.createTeamButton.setTitle(NSLocalizedString("createTeamButton", comment: ""), for: UIControlState())
+        self.createTeamButton.setTitle("createTeamButton".local, for: UIControlState())
         
         self.addTeampictureButton.layer.cornerRadius = self.addTeampictureButton.frame.size.width / 2.0
         
@@ -62,7 +62,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CreateTeamTableViewController.eventPickerToolbarDoneButtonPressed))
@@ -124,9 +124,9 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - Button functions
     @IBAction func addTeampictureButtonPressed(_ sender: UIButton) {
         
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: "sourceOfImage".local, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
@@ -134,7 +134,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
         })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let cameraOption = UIAlertAction(title: "takeAPhoto".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("take a photo")
             //shows the camera
             self.imagePicker.allowsEditing = true
@@ -144,7 +144,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
             self.present(self.imagePicker, animated: true, completion: nil)
             
         })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
+        let cancelOption = UIAlertAction(title: "cancel".local, style: UIAlertActionStyle.cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Cancel")
             self.dismiss(animated: true, completion: nil)
@@ -200,7 +200,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD.isSquare = true
         self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
         spinner.startAnimating()
     }
     
@@ -237,7 +237,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         self.loadingHUD.isSquare = false
         self.loadingHUD.mode = MBProgressHUDMode.customView
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
     }
     
 // TODO: Move these to the either The SynchronizationController or the NetworkManager

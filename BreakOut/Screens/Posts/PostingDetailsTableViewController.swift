@@ -25,7 +25,7 @@ class PostingDetailsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = NSLocalizedString("postingDetailsTitle", comment: "")
+        self.title = "postingDetailsTitle".local
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
     }
@@ -94,7 +94,7 @@ class PostingDetailsTableViewController: UITableViewController {
                 cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", latitude, longitude)
             }
         } else {
-            cell.locationLabel?.text = NSLocalizedString("unknownLocation", comment: "unknown location")
+            cell.locationLabel?.text = "unknownLocation".localized(with: "unknown location")
         }
         
         cell.images = posting.media
@@ -123,7 +123,7 @@ class PostingDetailsTableViewController: UITableViewController {
         }
         
         // Add count for comments
-        cell.commentsButton?.setTitle(String(format: "%i %@", posting.comments.count, NSLocalizedString("comments", comment: "Comments")), for: UIControlState())
+        cell.commentsButton?.setTitle(String(format: "%i %@", posting.comments.count, "comments".localized(with: "Comments")), for: .normal)
         
         cell.parentTableViewController = self
         

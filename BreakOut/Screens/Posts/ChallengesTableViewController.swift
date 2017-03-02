@@ -19,12 +19,12 @@ class ChallengesTableViewController: UITableViewController {
 
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("challengeTitle", comment: "")
+        self.title = "challengeTitle".local
         
         let event = CurrentUser.shared.currentTeamId()
         let team = CurrentUser.shared.currentTeamId()

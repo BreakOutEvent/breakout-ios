@@ -50,12 +50,12 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("newPostingTitle", comment: "")
+        self.title = "newPostingTitle".local
         
         // Create posting button for navigation item
         let rightButton = UIBarButtonItem(image: UIImage(named: "checkmark_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sendPostingButtonPressed))
@@ -73,11 +73,11 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 
         self.imagePicker.delegate = self
         
-        self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
-        self.challengeLabel.text = NSLocalizedString("newPostingEmptyChallenge", comment: "Empty")
+        self.messageTextView.text = "newPostingEmptyMessage".localized(with: "Empty")
+        self.challengeLabel.text = "newPostingEmptyChallenge".localized(with: "Empty")
         self.styleMessageInput(true)
         
-        self.locationLabel.text = NSLocalizedString("retrievingCurrentLocation", comment: "Empty Location")
+        self.locationLabel.text = "retrievingCurrentLocation".localized(with: "Empty Location")
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
@@ -128,7 +128,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.postingPictureImageView.image = UIImage()
         
         self.messageTextView.resignFirstResponder()
-        self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
+        self.messageTextView.text = "newPostingEmptyMessage".localized(with: "Empty")
         self.styleMessageInput(true)
     }
     
@@ -139,7 +139,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         //TODO: Add Done image
         
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
     }
     
     func styleMessageInput(_ placeholder: Bool) {
@@ -151,9 +151,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     func styleChallengeLabel() {
-        if self.challengeLabel.text == NSLocalizedString("newPostingEmptyChallenge", comment: "Empty") {
+        if self.challengeLabel.text == "newPostingEmptyChallenge".localized(with: "Empty") {
             self.challengeLabel.textColor = UIColor.lightGray
-        }else{
+        } else {
             self.challengeLabel.textColor = UIColor.black
         }
     }
@@ -161,7 +161,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
 // MARK: - UITextViewDelegate
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text == NSLocalizedString("newPostingEmptyMessage", comment: "Empty") {
+        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") {
             self.styleMessageInput(true)
         }else{
             self.styleMessageInput(false)
@@ -169,7 +169,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == NSLocalizedString("newPostingEmptyMessage", comment: "Empty") {
+        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") {
             textView.text = ""
         }
     }
@@ -207,9 +207,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     @IBAction func addAttachementButtonPressed(_ sender: UIButton) {
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: "sourceOfImage".local, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
@@ -217,7 +217,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
         })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let cameraOption = UIAlertAction(title: "takeAPhoto".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("take a photo")
             //shows the camera
             self.imagePicker.allowsEditing = true
@@ -227,7 +227,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.present(self.imagePicker, animated: true, completion: nil)
             
         })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
+        let cancelOption = UIAlertAction(title: "cancel".local, style: UIAlertActionStyle.cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Cancel")
             self.dismiss(animated: true, completion: nil)

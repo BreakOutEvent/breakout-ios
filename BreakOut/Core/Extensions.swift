@@ -10,6 +10,7 @@ import UIKit
 import Sweeft
 
 public extension UIImage {
+    
     public func hasContent() -> Bool {
         let cgref = self.cgImage
         let cim = self.ciImage
@@ -19,6 +20,58 @@ public extension UIImage {
             return true
         }
     }
+    
+}
+
+extension UIImageView {
+    
+    public override func set(color: UIColor) {
+        self.image = self.image?.withRenderingMode(.alwaysTemplate)
+        self.tintColor = color
+    }
+    
+}
+
+extension UIView {
+
+    public func set(color: UIColor) {
+        subviews
+            .flatMap { $0 as? UILabel }
+            .forEach { $0.textColor = color }
+        subviews
+            .flatMap { $0 as? UIImageView }
+            .forEach { $0.set(color: color) }
+    }
+    
+}
+
+extension UITableViewCell {
+    
+    public override func set(color: UIColor) {
+        contentView.set(color: color)
+    }
+    
+}
+
+
+extension NSAttributedString {
+    
+    static func localized(_ string: String, comment: String = .empty, with color: UIColor) -> NSAttributedString {
+        return NSAttributedString(string: string.localized(with: comment), attributes: [NSForegroundColorAttributeName : color])
+    }
+    
+}
+
+extension String {
+    
+    var local: String {
+        return localized(with: .empty)
+    }
+    
+    func localized(with comment: String) -> String {
+        return NSLocalizedString(self, comment: comment)
+    }
+    
 }
 
 extension UILabel {
@@ -26,7 +79,7 @@ extension UILabel {
     @IBInspectable var localizedText: String {
         get { return "" }
         set {
-            self.text = NSLocalizedString(newValue, comment: "")
+            self.text = newValue.local
         }
     }
 }
@@ -36,7 +89,7 @@ extension UITextView {
     @IBInspectable var localizedText: String {
         get { return "" }
         set {
-            self.text = NSLocalizedString(newValue, comment: "")
+            self.text = newValue.local
         }
     }
 }
