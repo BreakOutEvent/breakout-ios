@@ -213,7 +213,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .photoLibrary
+            self.imagePicker.sourceType = .savedPhotosAlbum
+            self.imagePicker.mediaTypes <- UIImagePickerController.availableMediaTypes(for: .savedPhotosAlbum)
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
         })
@@ -224,6 +225,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.imagePicker.sourceType = .camera
             self.imagePicker.cameraDevice = .front
             self.imagePicker.modalPresentationStyle = .popover
+            self.imagePicker.mediaTypes <- UIImagePickerController.availableMediaTypes(for: .camera)
             self.present(self.imagePicker, animated: true, completion: nil)
             
         })

@@ -149,14 +149,31 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         }
     }
     
+    func viewController(for identifier: String) -> UIViewController! {
+        let controller = storyboard!.instantiateViewController(withIdentifier: identifier)
+        if let type = type(of: controller) as? PersistentViewController.Type {
+            return type.viewController(using: controller)
+        }
+        return controller
+    }
+    
 // MARK: - TableView Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         
-        selected = indexPath
+        if indexPath != IndexPath(row: 1, section: 1) {
+            selected = indexPath
+        }
+        if indexPath.section == 0 {
+            if CurrentUser.shared.isLoggedIn() {
+                selected = IndexPath(row: 2, section: 1)
+            } else {
+                selected = IndexPath(row: 0, section: 0)
+            }
+        }
         
         if let slideMenuController = self.slideMenuController() {
-            let controller = self.storyboard?.instantiateViewController(withIdentifier: cell.reuseIdentifier!)
+            let controller = viewController(for: cell.reuseIdentifier!)
             
             let navigationController = UINavigationController(rootViewController: controller!)
             

@@ -13,10 +13,12 @@ import Sweeft
 import Flurry_iOS_SDK
 import Crashlytics
 
-class AllPostingsTableViewController: UITableViewController {
+class AllPostingsTableViewController: UITableViewController, PersistentViewController {
+    
+    static var shared: UIViewController?
     
     var allPostingsArray = [Post]()
-    var lastLoadedPage: Int = 0
+    var lastLoadedPage: Int = -1
     var isLoading: Bool = false
     
     func loadNewPageOfPostings() {
@@ -49,13 +51,6 @@ class AllPostingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Style the navigation bar
-        self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = .mainOrange
-        self.navigationController!.navigationBar.backgroundColor = .mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        
         self.title = "allPostingsTitle".local
         
         // Create menu buttons for navigation item
@@ -64,12 +59,21 @@ class AllPostingsTableViewController: UITableViewController {
             self.addLeftBarButtonWithImage(barButtonImage!)
         }
         
-        self.loadPostingsFromBackend(0)
-        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
         
         self.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Style the navigation bar
+        self.navigationController!.navigationBar.isTranslucent = false
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
+        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {

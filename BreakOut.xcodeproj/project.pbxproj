@@ -24,6 +24,7 @@
 		0E3B87FC1E61F9B100C21AB9 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87FB1E61F9B100C21AB9 /* Challenge.swift */; };
 		0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6289231E623F7E00EF1FAD /* UploadManager.swift */; };
 		0E8663361E63A99900B5738D /* NewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8663351E63A99900B5738D /* NewPost.swift */; };
+		0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8990581E6871E00080E123 /* PersistentViewController.swift */; };
 		0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A25111E6440F60011082D /* AppDefaults.swift */; };
 		0EC3F3FC1E64B7F800908372 /* GenderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */; };
 		0EF0FAE61E260A7F0049F878 /* BreakOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0FAE51E260A7F0049F878 /* BreakOut.swift */; };
@@ -113,6 +114,7 @@
 		0E6289231E623F7E00EF1FAD /* UploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		0E6E6A60DAADD446EC06104D /* Pods-BreakOutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOutTests/Pods-BreakOutTests.release.xcconfig"; sourceTree = "<group>"; };
 		0E8663351E63A99900B5738D /* NewPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPost.swift; sourceTree = "<group>"; };
+		0E8990581E6871E00080E123 /* PersistentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentViewController.swift; sourceTree = "<group>"; };
 		0E9A25111E6440F60011082D /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
 		0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderAPI.swift; sourceTree = "<group>"; };
 		0EF0FAE51E260A7F0049F878 /* BreakOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreakOut.swift; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				26AA75241C8318A20023D009 /* CreateTeamTableViewController.swift */,
 				263BAE461C63B59900271EF0 /* JoinTeamByInvitationTableViewController.swift */,
 				265FF0461C64AB4900176F3B /* WelcomeScreenViewController.swift */,
+				0E8990581E6871E00080E123 /* PersistentViewController.swift */,
 				26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */,
 				26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */,
 			);
@@ -709,6 +712,7 @@
 				0E3B87FA1E61F93900C21AB9 /* NewComment.swift in Sources */,
 				269AADC81C9483E10034F32C /* Constants.swift in Sources */,
 				0E3B87E51E61F7DF00C21AB9 /* Event.swift in Sources */,
+				0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */,
 				26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
 				0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */,
