@@ -46,8 +46,8 @@
 
 // UIImagePicker
 "sourceOfImage" = "Choose a photo for your post";
-"photoLibrary" = "Archive";
-"takeAPhoto" = "Take picture";
+"photoLibrary" = "Photo Library";
+"takeAPhoto" = "Camera";
 
 // Local Pushes
 "Push_24h_before_Start" = "⏱ Tomorrow is the day! Share your preparation with us!";

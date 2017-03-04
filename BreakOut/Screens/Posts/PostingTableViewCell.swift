@@ -16,8 +16,8 @@ class PostingTableViewCell: UITableViewCell {
     
     weak var parentTableViewController: UITableViewController?
 
+    @IBOutlet weak var postingMediaView: UIView!
     @IBOutlet weak var postingPictureImageView: UIImageView!
-    @IBOutlet weak var postingPictureImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var teamPictureImageView: UIImageView!
     @IBOutlet weak var teamNameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
@@ -26,10 +26,8 @@ class PostingTableViewCell: UITableViewCell {
     @IBOutlet weak var likesButton: UIButton!
     @IBOutlet weak var commentsButton: UIButton!
     @IBOutlet weak var challengeView: UIView!
-    @IBOutlet weak var challengeViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var challengeLabelHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var challengeLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var playOverlay: UIView!
     
     var videoController: AVPlayerViewController = AVPlayerViewController()
     var posting: Post! {
@@ -37,8 +35,6 @@ class PostingTableViewCell: UITableViewCell {
             populate()
         }
     }
-    
-    var playImageView = UIImageView()
     
     var video: Video? {
         didSet {
@@ -54,9 +50,9 @@ class PostingTableViewCell: UITableViewCell {
         didSet {
             if let image = images.first {
                 postingPictureImageView.image = image
-                postingPictureImageViewHeightConstraint.constant = 200.0
+                postingMediaView.isHidden = false
             } else {
-                postingPictureImageViewHeightConstraint.constant = 0.0
+                postingMediaView.isHidden = true
             }
         }
     }
@@ -92,14 +88,12 @@ class PostingTableViewCell: UITableViewCell {
         // Check if Posting has an attached challenge
         if posting.challenge != nil {
             challengeLabel.text = posting.challenge?.text
-            challengeLabelHeightConstraint.constant = 34.0
             challengeView.isHidden = false
         } else {
-            challengeLabel.text = ""
-            challengeLabelHeightConstraint.constant = 0.0
-            challengeViewHeightConstraint.constant = 0.0
             challengeView.isHidden = true
         }
+        
+        playOverlay.isHidden = video == nil
         
         if (video?.playbackSessionOpen).? {
             addVideoView()
@@ -118,10 +112,9 @@ class PostingTableViewCell: UITableViewCell {
             likesButton.setTitleColor(.lightGray, for: .normal)
             likesButton.imageView?.set(image: #imageLiteral(resourceName: "post-like_Icon"), with: .lightGray)
         }
+        commentsButton.imageView?.set(image: #imageLiteral(resourceName: "post-comment_Icon"), with: .lightGray)
         
         likesButton.isEnabled = CurrentUser.shared.isLoggedIn()
-        
-        commentsButton.imageView?.set(image: #imageLiteral(resourceName: "post-comment_Icon"), with: .lightGray)
         
         // Add count for comments
         commentsButton.setTitle(String(format: "%i %@", posting.comments.count, "comments".localized(with: "Comments")), for: .normal)
@@ -139,7 +132,16 @@ class PostingTableViewCell: UITableViewCell {
         self.challengeView.layer.cornerRadius = 4.0
         self.challengeView.backgroundColor = UIColor.white
         
+        let effect = UIBlurEffect(style: .light)
+        let effectView = UIVisualEffectView(effect: effect)
+        effectView.clipsToBounds = true
+        effectView.frame = playOverlay.bounds
+        playOverlay.layer.cornerRadius = 22
+        playOverlay.clipsToBounds = true
+        playOverlay.insertSubview(effectView, at: 0)
+        
         // Styling of the Posting Picture
+        commentsButton.imageView?.alpha = 0.201
         self.postingPictureImageView.layer.cornerRadius = 4.0
         
         videoController.view.layer.cornerRadius = 4.0
@@ -160,24 +162,14 @@ class PostingTableViewCell: UITableViewCell {
         
         // Styling of the Team Picture
         self.teamPictureImageView.layer.cornerRadius = self.teamPictureImageView.frame.size.width/2.0
-        
-        playImageView.removeFromSuperview()
-        if video != nil {
-            playImageView.image = #imageLiteral(resourceName: "play_Icon")
-            playImageView.frame = CGRect(x: postingPictureImageView.bounds.width/2 - 24,
-                                         y: postingPictureImageView.bounds.height/2 - 24,
-                                         width: 48,
-                                         height: 48)
-            postingPictureImageView.addSubview(playImageView)
-        }
     }
     
     func addVideoView() {
         videoController.videoGravity = AVLayerVideoGravityResizeAspect
-        videoController.view.frame = postingPictureImageView.frame
+        videoController.view.frame = postingMediaView.bounds
         videoController.view.isUserInteractionEnabled = true
         videoController.player = video?.videoPlayer
-        contentView.addSubview(videoController.view)
+        postingMediaView.addSubview(videoController.view)
         postingPictureImageView.image = nil
     }
     
@@ -199,6 +191,7 @@ class PostingTableViewCell: UITableViewCell {
     }
 
     @IBAction func commentsButtonPressed(_ sender: UIButton) {
+        loadInterface()
     }
 }
 
