@@ -12,9 +12,7 @@ sudo: required
 notifications:
   slack:
     rooms:
-      - breakoutevent:kV9edN91PBbtZA3sjA2ChnuP
-    on_success: change
-    on_failure: change
+      - breakoutevent:ZzPC3qTcc6jalaX2mJcBDg0n
 
 before_install:
   - pod repo update > /dev/null
