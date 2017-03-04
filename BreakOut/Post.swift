@@ -18,10 +18,12 @@ final class Post: Observable {
     let location: Location?
     let challenge: Challenge?
     let media: [MediaItem]
+    let hashtags: [String]
     var comments: [Comment]
-    let likes: Int
+    var liked: Bool
+    var likes: Int
     
-    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location?, challenge: Challenge? = nil, media: [MediaItem] = [], comments: [Comment] = [], likes: Int = 0) {
+    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location?, challenge: Challenge? = nil, media: [MediaItem] = [], hashtags: [String] = [], comments: [Comment] = [], liked: Bool = false, likes: Int = 0) {
         self.id = id
         self.text = text
         self.date = date
@@ -29,7 +31,9 @@ final class Post: Observable {
         self.location = location
         self.challenge = challenge
         self.media = media
+        self.hashtags = hashtags
         self.comments = comments
+        self.liked = liked
         self.likes = likes
         comments >>> **self.hasChanged
         participant >>> **self.hasChanged
@@ -50,7 +54,9 @@ extension Post: Deserializable {
                   location: json["postingLocation"].location,
                   challenge: json["challenge"].challenge,
                   media: json["media"].media,
+                  hashtags: json["hashtags"].array ==> { $0.string },
                   comments: json["comments"].comments,
+                  liked: json["hasLiked"].bool.?,
                   likes: json["likes"].int.?)
     }
     
@@ -59,23 +65,33 @@ extension Post: Deserializable {
 extension Post {
     
     static func all(using api: BreakOut = .shared) -> Post.Results {
-        return getAll(using: api, at: .postings)
+        let user = CurrentUser.shared.id
+        return getAll(using: api, at: .postings, queries: ["userid": user])
     }
     
     static func all(since id: Int, using api: BreakOut = .shared) -> Post.Results {
-        return getAll(using: api, at: .postingsSince, arguments: ["id": id])
+        let user = CurrentUser.shared.id
+        return getAll(using: api, at: .postingsSince, arguments: ["id": id], queries: ["userid": user])
     }
     
     static func posting(with id: Int, using api: BreakOut = .shared) -> Post.Result {
-        return Post.get(using: api, method: .get, at: .postingByID, arguments: ["id": id])
+        let user = CurrentUser.shared.id
+        return Post.get(using: api, method: .get, at: .postingByID, arguments: ["id": id], queries: ["userid": user])
     }
     
     static func postings(with ids: [Int], using api: BreakOut = .shared) -> Post.Results {
-        return api.doObjectsRequest(with: .post, to: .notLoadedPostings, body: ids.json)
+        let user = CurrentUser.shared.id
+        return api.doObjectsRequest(with: .post, to: .notLoadedPostings, queries: ["userid": user], body: ids.json)
+    }
+    
+    static func postings(with hashtag: String, usign api: BreakOut = .shared) -> Post.Results {
+        let user = CurrentUser.shared.id
+        return getAll(using: api, at: .postingsForHashtag, arguments: ["hashtag": hashtag], queries: ["userid": user])
     }
     
     static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
-        return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size])
+        let user = CurrentUser.shared.id
+        return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size, "userid": user])
     }
     
     static func get(team: Int, event: Int, using api: BreakOut = .shared) -> Post.Results {
@@ -124,6 +140,40 @@ extension Post {
 }
 
 extension Post {
+    
+    @discardableResult func toggleLike(using api: BreakOut = .shared) -> JSON.Result {
+        return (liked ? self.unlike : self.like)(api)
+    }
+    
+    @discardableResult func like(using api: BreakOut = .shared) -> JSON.Result {
+        let body: JSON = [
+            "date": Date.now.timeIntervalSince1970.json
+        ]
+        return api.doJSONRequest(with: .post,
+                                 to: .likePosting,
+                                 arguments: ["id": id],
+                                 auth: api.auth,
+                                 body: body,
+                                 acceptableStatusCodes: [200, 201]).nested { (json: JSON) in
+                self.likes += 1
+                self.liked = true
+                self.hasChanged()
+                return json
+        }
+    }
+    
+    @discardableResult func unlike(using api: BreakOut = .shared) -> JSON.Result {
+        return api.doJSONRequest(with: .delete,
+                                 to: .likePosting,
+                                 arguments: ["id": id],
+                                 auth: api.auth).nested { (json: JSON) in
+            
+            self.likes -= 1
+            self.liked = false
+            self.hasChanged()
+            return json
+        }
+    }
     
     @discardableResult func comment(_ comment: String, using api: BreakOut = .shared) -> Comment.Result {
         let comment = NewComment(post: self, comment: comment, user: .shared, date: .now)

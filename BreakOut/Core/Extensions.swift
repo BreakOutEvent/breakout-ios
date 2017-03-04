@@ -25,9 +25,13 @@ public extension UIImage {
 
 extension UIImageView {
     
-    public override func set(color: UIColor) {
-        self.image = self.image?.withRenderingMode(.alwaysTemplate)
+    public func set(image: UIImage?, with color: UIColor) {
+        self.image = image?.withRenderingMode(.alwaysTemplate)
         self.tintColor = color
+    }
+    
+    public override func set(color: UIColor) {
+        set(image: self.image, with: color)
     }
     
 }

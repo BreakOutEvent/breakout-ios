@@ -7,22 +7,60 @@
 //
 
 import Sweeft
+import AVFoundation
+import AVKit
 
 final class Video: Observable {
     
     var listeners = [Listener]()
     let id: Int
     var video: URL?
+    private var player: AVPlayer?
     var image: Image? {
         didSet {
             hasChanged()
         }
     }
     
+    var videoPlayer: AVPlayer? {
+        if let player = player {
+            return player
+        }
+        if let video = video {
+            player = AVPlayer(url: video)
+            return player
+        }
+        return nil
+    }
+    
+    var isPlaying: Bool {
+        if let player = player {
+            return player.rate != 0
+        }
+        return false
+    }
+    
+    var playbackSessionOpen: Bool {
+        return player != nil
+    }
+    
     init(id: Int, image: Image?, url: String?) {
         self.id = id
         self.image = image
         video = url | URL.init(string:) ?? nil
+    }
+    
+    func play() {
+        player?.play()
+    }
+    
+    func pause() {
+        player?.pause()
+    }
+    
+    func stop() {
+        player?.pause()
+        player = nil
     }
     
 }
@@ -35,6 +73,14 @@ extension Video: Deserializable {
         }
         let sizes = json["sizes"].array ==> { $0.videoURL }
         self.init(id: id, image: json.image, url: sizes.first)
+    }
+    
+}
+
+extension Video: Equatable {
+    
+    static func ==(lhs: Video, rhs: Video) -> Bool {
+        return lhs.id == rhs.id && lhs.video == rhs.video
     }
     
 }

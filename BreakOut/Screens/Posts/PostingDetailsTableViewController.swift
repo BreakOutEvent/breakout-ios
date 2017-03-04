@@ -80,56 +80,14 @@ class PostingDetailsTableViewController: UITableViewController {
     }
     
     func configurePostingCell(_ cell: PostingTableViewCell) {
-        // Configure cell with the BOPost model
-        cell.messageLabel?.text = self.posting!.text
-        cell.timestampLabel?.text = self.posting!.date.toString()
-        
-        let latitude = (posting?.location?.latitude).?
-        let longitude = (posting?.location?.longitude).?
-        
-        if posting?.location?.locality != nil && posting?.location?.locality != "" {
-            cell.locationLabel?.text = posting!.location?.locality
-        } else if posting.location?.latitude != nil && posting.location?.longitude != nil {
-            if Int(latitude) != 0 && Int(longitude) != 0 {
-                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", latitude, longitude)
-            }
-        } else {
-            cell.locationLabel?.text = "unknownLocation".localized(with: "unknown location")
-        }
-        
-        cell.images = posting.media
-                                .flatMap { $0.image }
-                                .filter { $0.hasContent() }
-        
-        // Set the team image & name
-        if posting.participant.team != nil {
-            cell.teamNameLabel.text = posting.participant.team?.name
-        }
-        
-        cell.teamPictureImageView?.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
-        
-        
-        // Check if Posting has an attached challenge
-        if posting!.challenge != nil {
-            // Challenge is attached -> Show the challenge box
-            cell.challengeLabel.text = posting!.challenge?.text
-            cell.challengeLabelHeightConstraint?.constant = 34.0
-            cell.challengeView?.isHidden = false
-        } else {
-            cell.challengeLabel.text = ""
-            cell.challengeLabelHeightConstraint.constant = 0.0
-            cell.challengeViewHeightConstraint.constant = 0.0
-            cell.challengeView.isHidden = true
-        }
-        
-        // Add count for comments
-        cell.commentsButton?.setTitle(String(format: "%i %@", posting.comments.count, "comments".localized(with: "Comments")), for: .normal)
-        
+        cell.posting = posting
         cell.parentTableViewController = self
-        
-        
-        cell.setNeedsUpdateConstraints()
-        cell.updateConstraintsIfNeeded()
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? PostingTableViewCell {
+            cell.loadInterface()
+        }
     }
 
     
@@ -138,7 +96,7 @@ class PostingDetailsTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath) as! PostingTableViewCell
             configurePostingCell(cell)
             return cell
-        }else if indexPath.section == 1 {
+        } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingCommentTableViewCell", for: indexPath) as! PostingCommentTableViewCell
             configureCommentCell(cell, indexPath: indexPath)
             return cell
@@ -155,6 +113,9 @@ class PostingDetailsTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.section != 0
+    }
 
     /*
     // Override to support conditional editing of the table view.

@@ -98,11 +98,15 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
         if !isLoading, (indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1 {
             self.loadNewPageOfPostings()
         }
+        
+        if let cell = cell as? PostingTableViewCell {
+            cell.loadInterface()
+        }
     }
     
     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? PostingTableViewCell {
-            cell.videoController.player?.pause() // Pause video when you're not it's not on screen
+            cell.video?.pause() // Pause video when you're not it's not on screen
         }
     }
     
@@ -159,55 +163,11 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
     
     func configureCellFromDict(_ cell: PostingTableViewCell, atIndexPath indexPath: IndexPath) {
         let posting = self.allPostingsArray[indexPath.row]
-        cell.messageLabel?.text = posting.text
-
-        let date = posting.date
-        
-        let latitude = (posting.location?.latitude).?
-        let longitude = (posting.location?.longitude).?
-        cell.timestampLabel?.text = date.toString()
-
-        if (posting.location?.locality != nil && posting.location?.locality != "") {
-            cell.locationLabel?.text = posting.location?.locality
-        } else if (Int(latitude) != 0 && Int(longitude) != 0) {
-                cell.locationLabel?.text = String(format: "lat: %3.3f long: %3.3f", latitude, longitude)
-        } else {
-            cell.locationLabel?.text = "unknownLocation".localized(with: "unknown location")
-        }
-        
-        cell.images = posting.media
-                                .flatMap { $0.image }
-                                .filter { $0.hasContent() }
-
-        cell.video = posting.media.flatMap({ $0.video }).first
-        
-        // Set the team image & name
-        if posting.participant.team?.name != nil {
-            cell.teamNameLabel.text = posting.participant.team?.name
-        }
-        cell.teamPictureImageView.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
-        
-
-        // Check if Posting has an attached challenge
-        if posting.challenge != nil {
-            cell.challengeLabel.text = posting.challenge?.text
-            cell.challengeLabelHeightConstraint.constant = 34.0
-            cell.challengeView.isHidden = false
-        } else {
-            cell.challengeLabel.text = ""
-            cell.challengeLabelHeightConstraint.constant = 0.0
-            cell.challengeViewHeightConstraint.constant = 0.0
-            cell.challengeView.isHidden = true
-        }
-        
-        // Add count for comments
-        cell.commentsButton.setTitle(String(format: "%i %@", posting.comments.count, "comments".localized(with: "Comments")), for: UIControlState())
-        
-        cell.setNeedsUpdateConstraints()
-        cell.updateConstraintsIfNeeded()
+        cell.posting = posting
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController

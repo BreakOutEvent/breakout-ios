@@ -23,6 +23,10 @@ extension UIColor {
         return UIColor(red:0.17, green:0.18, blue:0.23, alpha:1)
     }
     
+    static var brick: UIColor {
+        return UIColor(red: 204 / 255, green: 31 / 355, blue: 31 / 255, alpha: 1)
+    }
+    
     static var lightBackgroundColor: UIColor {
         return UIColor(red:0.24, green:0.24, blue:0.3, alpha:1)
     }

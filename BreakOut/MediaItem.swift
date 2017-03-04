@@ -12,10 +12,10 @@ enum MediaItem {
     case image(Image)
     case video(Video)
     
-    var video: URL? {
+    var video: Video? {
         switch self {
         case .video(let video):
-            return video.video
+            return video
         default:
             return nil
         }

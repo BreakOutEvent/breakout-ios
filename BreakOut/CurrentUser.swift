@@ -47,6 +47,10 @@ final class CurrentUser: NSObject {
     var teamid: NSInteger?
     var eventid: NSInteger?
     
+    var id: Int {
+        return userid ?? -1
+    }
+    
     static var shared = CurrentUser()
     
     override fileprivate init() {
