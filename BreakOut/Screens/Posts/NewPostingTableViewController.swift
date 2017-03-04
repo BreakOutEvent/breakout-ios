@@ -35,6 +35,12 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     @IBOutlet weak var messageTextView: UITextView!
     var imagePicker: UIImagePickerController = UIImagePickerController()
     
+    var media: NewMedia? {
+        didSet {
+            postingPictureImageView.image = media?.previewImage
+        }
+    }
+    
     let locationManager = CLLocationManager()
     var newLongitude: Double = 0.0
     var newLatitude: Double = 0.0
@@ -144,17 +150,17 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     func styleMessageInput(_ placeholder: Bool) {
         if placeholder {
-            self.messageTextView.textColor = UIColor.lightGray
-        }else{
-            self.messageTextView.textColor = UIColor.black
+            self.messageTextView.textColor = .lightGray
+        } else {
+            self.messageTextView.textColor = .black
         }
     }
     
     func styleChallengeLabel() {
         if self.challengeLabel.text == "newPostingEmptyChallenge".localized(with: "Empty") {
-            self.challengeLabel.textColor = UIColor.lightGray
+            self.challengeLabel.textColor = .lightGray
         } else {
-            self.challengeLabel.textColor = UIColor.black
+            self.challengeLabel.textColor = .black
         }
     }
 
@@ -163,7 +169,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     func textViewDidChange(_ textView: UITextView) {
         if textView.text == "newPostingEmptyMessage".localized(with: "Empty") {
             self.styleMessageInput(true)
-        }else{
+        } else {
             self.styleMessageInput(false)
         }
     }
@@ -179,8 +185,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - Button Actions
     
     func sendPostingButtonPressed() {
-        let image = postingPictureImageView.image | NewMedia.image
-        let media = [image].flatMap { $0 }
+        let media = ![self.media]
         Post.post(text: messageTextView.text, latitude: newLatitude, longitude: newLongitude, city: newCity, challenge: newChallenge, media: media).onSuccess { post in
             
             self.setupLoadingHUD("New Posting sent!")
@@ -212,21 +217,12 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("from library")
             //shows the library
-            self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .savedPhotosAlbum
-            self.imagePicker.mediaTypes <- UIImagePickerController.availableMediaTypes(for: .savedPhotosAlbum)
-            self.imagePicker.modalPresentationStyle = .popover
-            self.present(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.present(over: self, with: .photoLibrary)
         })
         let cameraOption = UIAlertAction(title: "takeAPhoto".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("take a photo")
             //shows the camera
-            self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .camera
-            self.imagePicker.cameraDevice = .front
-            self.imagePicker.modalPresentationStyle = .popover
-            self.imagePicker.mediaTypes <- UIImagePickerController.availableMediaTypes(for: .camera)
-            self.present(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.present(over: self, with: .camera)
             
         })
         let cancelOption = UIAlertAction(title: "cancel".local, style: UIAlertActionStyle.cancel, handler: {
@@ -239,7 +235,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         optionMenu.addAction(photoLibraryOption)
         optionMenu.addAction(cancelOption)
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
-            optionMenu.addAction(cameraOption)} else {
+            optionMenu.addAction(cameraOption)
+        } else {
             print ("I don't have a camera.")
         }
         
@@ -295,18 +292,13 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
 // MARK: - Image Picker Delegate
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        let choosenImage: UIImage = image
-        
-        self.postingPictureImageView.image = choosenImage
-        
-        self.dismiss(animated: true, completion: nil)
-        
-        return
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        self.media = NewMedia(from: info)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 
     /*
@@ -321,8 +313,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).row == 1 {
-            let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        if indexPath.row == 1 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
             let challengesTableViewController: ChallengesTableViewController = storyboard.instantiateViewController(withIdentifier: "ChallengesTableViewController") as! ChallengesTableViewController
             challengesTableViewController.parentNewPostingTVC = self

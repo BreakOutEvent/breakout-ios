@@ -73,13 +73,11 @@
 		26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */; };
 		26F29BEB1CF2111E003DB37E /* ChallengeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */; };
 		26F29BED1CF21137003DB37E /* ChallengesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */; };
-		26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */; };
 		26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */; };
 		47A166F481A5147BD339A76A /* Pods_BreakOut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A5BB60249B97E779246C647 /* Pods_BreakOut.framework */; };
 		6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6153CCB81CD7FA1900E9CAE6 /* BasicLocationController.swift */; };
 		61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE791CD6B32A0069DAEC /* MapViewController.swift */; };
 		61D0BE7E1CD6B3D50069DAEC /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */; };
-		61D0BE801CD6BB670069DAEC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE7F1CD6BB670069DAEC /* User.swift */; };
 		61E86D791CE77082000CD707 /* MapLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E86D781CE77082000CD707 /* MapLocation.swift */; };
 		FBBBAFDA27E4425141A37497 /* libPods-BreakOutTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B71AF1E445DCA931DA163E5 /* libPods-BreakOutTests.a */; };
 /* End PBXBuildFile section */
@@ -172,12 +170,10 @@
 		26DA0DA71C316317009AB1B7 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileTableViewController.swift; path = Screens/UserProfileTableViewController.swift; sourceTree = "<group>"; };
 		26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengeTableViewCell.swift; path = Screens/Posts/ChallengeTableViewCell.swift; sourceTree = "<group>"; };
 		26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChallengesTableViewController.swift; path = Screens/Posts/ChallengesTableViewController.swift; sourceTree = "<group>"; };
-		26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BOImageController.swift; path = Core/BOImageController.swift; sourceTree = "<group>"; };
 		26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleInformation.swift; sourceTree = "<group>"; };
 		6153CCB81CD7FA1900E9CAE6 /* BasicLocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicLocationController.swift; sourceTree = "<group>"; };
 		61D0BE791CD6B32A0069DAEC /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Screens/MapViewController.swift; sourceTree = "<group>"; };
 		61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateConstants.swift; sourceTree = "<group>"; };
-		61D0BE7F1CD6BB670069DAEC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		61E86D781CE77082000CD707 /* MapLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapLocation.swift; sourceTree = "<group>"; };
 		6B71AF1E445DCA931DA163E5 /* libPods-BreakOutTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BreakOutTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A5BB60249B97E779246C647 /* Pods_BreakOut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BreakOut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -327,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				61D0BE791CD6B32A0069DAEC /* MapViewController.swift */,
-				61D0BE7F1CD6BB670069DAEC /* User.swift */,
 				61E86D781CE77082000CD707 /* MapLocation.swift */,
 			);
 			name = Map;
@@ -406,7 +401,6 @@
 			children = (
 				26FD9E5F1C0A3CD700BF9EFD /* Database */,
 				26FD9E5E1C0A3CCD00BF9EFD /* Network */,
-				26FD9E6C1C0B9E3700BF9EFD /* BOImageController.swift */,
 				26985F2C1C4301A600C5FA0C /* CurrentUser.swift */,
 				2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */,
 				260121411C78F6F20041EAA8 /* BOToast.swift */,
@@ -521,7 +515,7 @@
 				TargetAttributes = {
 					2678A5791B7E4BB4000CF85A = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = S9987XBGX5;
+						DevelopmentTeam = ZGV2PY25EN;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -727,13 +721,11 @@
 				0E3B87F81E61F8A500C21AB9 /* JSON+BreakOut.swift in Sources */,
 				2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */,
 				26AA75251C8318A20023D009 /* CreateTeamTableViewController.swift in Sources */,
-				26FD9E6D1C0B9E3700BF9EFD /* BOImageController.swift in Sources */,
 				260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */,
 				260121461C78FE650041EAA8 /* BOImageView.swift in Sources */,
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
 				262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */,
 				262FA8FB1CCD1BF70094B810 /* AllPostingsTableViewController.swift in Sources */,
-				61D0BE801CD6BB670069DAEC /* User.swift in Sources */,
 				2649F80B1C652AF4005AA763 /* TeamProfileViewController.swift in Sources */,
 				0E8663361E63A99900B5738D /* NewPost.swift in Sources */,
 				26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */,
@@ -908,12 +900,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZGV2PY25EN;
 				INFOPLIST_FILE = BreakOut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-DDEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fingercoding.Breakout;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fingercoding.BreakoutMathias;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
@@ -930,10 +923,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ZGV2PY25EN;
 				INFOPLIST_FILE = BreakOut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fingercoding.Breakout;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fingercoding.BreakoutMathias;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";

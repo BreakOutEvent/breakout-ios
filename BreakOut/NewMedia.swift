@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Sweeft
+import AVFoundation
 
 enum NewMedia {
     case image(UIImage)
@@ -21,6 +23,18 @@ enum NewMedia {
         }
     }
     
+    var previewImage: UIImage? {
+        switch self {
+        case .image(let image):
+            return image
+        case .video(let url):
+            let asset = AVAsset(url: url)
+            let generator = AVAssetImageGenerator(asset: asset)
+            let time = CMTime(seconds: 0, preferredTimescale: 60)
+            return try? generator.copyCGImage(at: time, actualTime: nil) | UIImage.init(cgImage:)
+        }
+    }
+    
     func upload(id: Int, token: String) {
         switch self {
         case .image(let image):
@@ -29,4 +43,25 @@ enum NewMedia {
             url.uploadVideo(with: id, using: token)
         }
     }
+}
+
+extension NewMedia {
+    
+    init?(from info: [String:Any]) {
+        switch info[UIImagePickerControllerMediaType] as? String ?? "" {
+        case "public.image":
+                guard let image = info[UIImagePickerControllerEditedImage] as? UIImage else {
+                    return nil
+                }
+                self = .image(image)
+        case "public.movie":
+            guard let url = info[UIImagePickerControllerMediaURL] as? URL else {
+                return nil
+            }
+            self = .video(url)
+        default:
+            return nil
+        }
+    }
+    
 }

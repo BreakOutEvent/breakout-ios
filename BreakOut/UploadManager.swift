@@ -6,6 +6,7 @@
 //  Copyright © 2017 BreakOut. All rights reserved.
 //
 
+import AVFoundation
 import Alamofire
 
 enum UploadManager {
@@ -23,6 +24,7 @@ enum UploadManager {
                     if response.result.error != nil {
                         // TODO: Find a way to queue it again
                     }
+                    print(response.data?.string ?? "")
                 }
             case .failure(let encodingError):
                 print(encodingError)
@@ -47,10 +49,17 @@ extension UIImage {
 extension URL {
     
     func uploadVideo(with id: Int, using token: String) {
-        guard let data = try? Data(contentsOf: self) else {
-            return
+        let asset = AVAsset(url: self)
+        let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Video.mp4")
+        exporter?.outputFileType = AVFileTypeMPEG4
+        exporter?.outputURL = url
+        exporter?.exportAsynchronously {
+            guard let data = try? Data(contentsOf: url) else {
+                return
+            }
+            UploadManager.upload(data: data, id: id, token: token, filename: "Video.mp4", type: "video/mp4")
         }
-        UploadManager.upload(data: data, id: id, token: token, filename: "Video.mp4", type: "video/mp4")
     }
     
 }

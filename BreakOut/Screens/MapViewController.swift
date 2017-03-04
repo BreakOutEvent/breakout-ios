@@ -28,7 +28,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
     var lastCurrentLocation = CLLocation()
     let regionRadius : CLLocationDistance = 5000
-    var users = [User]()
     var coordinateArray : [CLLocationCoordinate2D] = []
     var polyLineArray : [MKPolyline] = []
     //let locationManager = CLLocationManager()

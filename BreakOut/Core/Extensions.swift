@@ -32,6 +32,26 @@ extension UIImageView {
     
 }
 
+extension UIImagePickerController {
+    
+    func present(over controller: UIViewController,
+                 with source: UIImagePickerControllerSourceType,
+                 mediaTypes: [String]? = nil) {
+        
+        .main >>> {
+            self.allowsEditing = true
+            self.sourceType = source
+            if source == .camera {
+                self.cameraDevice = .front
+            }
+            self.modalPresentationStyle = .popover
+            self.mediaTypes = mediaTypes ?? UIImagePickerController.availableMediaTypes(for: source) ?? .empty
+            controller.present(self, animated: true, completion: nil)
+        }
+    }
+    
+}
+
 extension UIView {
 
     public func set(color: UIColor) {
