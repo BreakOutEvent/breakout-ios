@@ -7,6 +7,7 @@
 //
 
 import AVFoundation
+import Sweeft
 import Alamofire
 
 enum UploadManager {
@@ -42,6 +43,15 @@ extension UIImage {
             return
         }
         UploadManager.upload(data: data, id: id, token: token, filename: "Image.jpg", type: "image/jpg")
+    }
+    
+    func upload(using json: JSON) {
+        guard let id = json["id"].int,
+            let token = json["uploadToken"].string else {
+
+            return
+        }
+        upload(itemWith: id, using: token)
     }
     
 }

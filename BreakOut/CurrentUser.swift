@@ -84,8 +84,16 @@ final class CurrentUser: NSObject {
             let json = JSON(from: dictionary) // Small hack
             BONetworkIndicator.si.increaseLoading()
             
-            api.doJSONRequest(with: .post, to: .userData, arguments: ["id": id], auth: api.auth, body: json).onSuccess { response in
-                 BONetworkIndicator.si.decreaseLoading()
+            api.doJSONRequest(with: .put,
+                              to: .userData,
+                              arguments: ["id": id],
+                              auth: api.auth,
+                              body: json).onSuccess { response in
+                
+                if self.profilePic?.image != self.picture {
+                    self.picture?.upload(using: response["profilePic"])
+                }
+                BONetworkIndicator.si.decreaseLoading()
             }
             .onError { error in
                 BONetworkIndicator.si.decreaseLoading()
@@ -122,7 +130,11 @@ final class CurrentUser: NSObject {
             "email": email.json,
             "password": password.json
         ]
-        return api.doJSONRequest(with: .post, to: .user, body: body, acceptableStatusCodes: [200, 201]).nested { (json: JSON) in
+        return api.doJSONRequest(with: .post,
+                                 to: .user,
+                                 body: body,
+                                 acceptableStatusCodes: [200, 201]).nested { (json: JSON) in
+                                    
             self.set(with: json)
             self.email = email
             self.storeInNSUserDefaults()

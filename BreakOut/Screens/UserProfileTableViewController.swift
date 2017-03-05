@@ -54,11 +54,11 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         NotificationCenter.default.addObserver(self, selector: #selector(notificationCurrentUserUpdated), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
         
         // Style the navigation bar
-        self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = .mainOrange
-        self.navigationController!.navigationBar.backgroundColor = .mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barTintColor = .mainOrange
+        self.navigationController?.navigationBar.backgroundColor = .mainOrange
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         self.title = "userProfileTitle".local
         
@@ -158,7 +158,6 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         self.profilePictureImageView.image = choosenImage
         
         CurrentUser.shared.picture = choosenImage
-        CurrentUser.shared.storeInNSUserDefaults()
         
         self.dismiss(animated: true, completion: nil)
         
@@ -270,7 +269,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         CurrentUser.shared.phoneNumber = self.phonenumberTextfield.text
         CurrentUser.shared.emergencyNumber = self.emergencyNumberTextfield.text
         
-        CurrentUser.shared.storeInNSUserDefaults()
+        CurrentUser.shared.uploadUserData()
         
         //BOToast.log("Stored all Input Values to CurrentUser Object")
     }
