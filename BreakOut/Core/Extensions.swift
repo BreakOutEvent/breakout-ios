@@ -48,6 +48,7 @@ extension UIImagePickerController {
             if source == .camera {
                 self.cameraDevice = .front
             }
+            self.videoQuality = .typeHigh
             self.modalPresentationStyle = .popover
             self.mediaTypes = mediaTypes ?? UIImagePickerController.availableMediaTypes(for: source) ?? .empty
             controller.present(self, animated: true, completion: nil)

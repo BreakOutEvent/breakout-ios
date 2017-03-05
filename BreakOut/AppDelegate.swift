@@ -43,26 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Network Debugging
         #if DEBUG
             Visualizer.start()
-            
-            NotificationCenter.default.addObserver(forName: nil,
-                object: nil,
-                queue: nil) {
-                    note in
-//                    if note.name.containsString("BONotification_") {
-//                        print("Notification: " + note.name + "\r\n")
-//                    }
-            }
-            
         #endif
-
-        //BONetworkerTest().postObjectFromJSON()
-        
-        //TESTING persistence of not yet loaded postings IDs
-        //BOSynchronizeController.shared.downloadAllPostings()
-        //BOSynchronizeController.shared.downloadNotYetLoadedPostings()
-        //BOSynchronizeController.shared.downloadArrayOfNewPostingIDsSinceLastKnownPostingID()
-        //BOSynchronizeController.shared.downloadIdsOfAllEvents()
-        //BOSynchronizeController.shared.downloadChallengesForCurrentUser()
         
         BOLocationManager.shared.start()
         

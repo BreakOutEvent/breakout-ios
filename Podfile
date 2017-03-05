@@ -7,7 +7,6 @@ target 'BreakOut' do
 pod 'Sweeft', '~> 0.6'
 
 # Analytics
-pod 'Instabug', '~> 5.1.2'
 pod 'Fabric', '~> 1.6.7'
 pod 'Crashlytics', '~> 3.7.0'
 
