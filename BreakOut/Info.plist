@@ -22,6 +22,8 @@
 	<string>14</string>
 	<key>Fabric</key>
 	<dict>
+		<key>APIKey</key>
+		<string>1c0980d1b003b77f0ea981400d725dab7fef673b</string>
 		<key>Kits</key>
 		<array>
 			<dict>
@@ -39,14 +41,14 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Break Out uses your camera to upload pictures you way take.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Bitte gib uns die Freigabe ;) So könnt ihr die Positionen aller Teams auf der Karte sehen.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Break Out uses your location to track how far you&apos;ve come.</string>
+	<string>Break Out uses your location to track how far you've come.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Break Out uses your microphone to take videos.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Break Out uses your camera to upload pictures you way take.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Break Out wants to be able to choose a picture to upload with your posts</string>
 	<key>UIBackgroundModes</key>

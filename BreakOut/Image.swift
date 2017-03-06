@@ -42,8 +42,6 @@ extension Image: Deserializable {
         guard let id = json["id"].int else {
             return nil
         }
-        let deviceWidth = UIScreen.main.bounds.width
-        print(deviceWidth)
         let sizes = json["sizes"].array |> { $0.type == .image }
         let fit = sizes |> { $0.isFitFor(height: height) }
         let size = fit.first ?? sizes.last

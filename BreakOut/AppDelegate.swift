@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Fabric Setup
         //Fabric.with([Crashlytics.self()])
-        Fabric.with([Crashlytics.start(withAPIKey: PrivateConstants.crashlyticsAPIToken)])
+        Fabric.with([Crashlytics.self()])
         
         //Flurry Setup
         Flurry.startSession(PrivateConstants.flurryAPIToken);
