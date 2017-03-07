@@ -9,6 +9,7 @@
 import Sweeft
 import CoreLocation
 
+/// Location of a Team
 struct Location {
     let id: Int
     let date: Date
@@ -41,6 +42,16 @@ extension Location: Deserializable {
 
 extension Location {
     
+    /**
+     Update the backend on your location
+     
+     - Parameter coordinates: Coordinates of the user
+     - Parameter event: id of the event
+     - Parameter team: id of the team
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the generated Location
+     */
     @discardableResult static func update(coordinates: CLLocationCoordinate2D,
                                           event: Int,
                                           team: Int,
@@ -62,10 +73,27 @@ extension Location {
 
 extension Location {
     
+    /**
+     Fetch all the locations in an event
+     
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
     static func all(for event: Int, using api: BreakOut = .shared) -> Location.Results {
         return getAll(using: api, at: .eventAllLocations, arguments: ["event": event])
     }
     
+    /**
+     Fetch all the locations in an event by a team
+     
+     - Parameter team: id of the team
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
     static func all(forTeam team: Int, event: Int, using api: BreakOut = .shared) -> Location.Results {
         return getAll(using: api, at: .eventTeamLocation, arguments: ["event": event, "team": team])
     }
@@ -74,6 +102,7 @@ extension Location {
 
 extension Location {
     
+    /// Coordinates of this location
     var coordinates: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }

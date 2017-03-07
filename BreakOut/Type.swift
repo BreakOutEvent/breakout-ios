@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Type of a media item
 enum Type: String {
     case image = "IMAGE"
     case video = "VIDEO"
@@ -17,11 +18,11 @@ enum Type: String {
 extension Type: Deserializable {
     
     public init?(from json: JSON) {
-        guard let item = json.string | Type.init(rawValue:) ?? nil else {
-            self = .none
+        guard let item = json.string else {
+            self.init(rawValue: "NONE")
             return
         }
-        self = item
+        self.init(rawValue: item)
     }
     
 }

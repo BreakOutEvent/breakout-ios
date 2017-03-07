@@ -10,6 +10,7 @@ import Sweeft
 import AVFoundation
 import AVKit
 
+/// Video
 final class Video: Observable {
     
     var listeners = [Listener]()
@@ -22,6 +23,7 @@ final class Video: Observable {
         }
     }
     
+    /// Current Video Player with the video inside
     var videoPlayer: AVPlayer? {
         if let player = player {
             return player
@@ -33,6 +35,7 @@ final class Video: Observable {
         return nil
     }
     
+    /// Returns whether or not the video is playing
     var isPlaying: Bool {
         if let player = player {
             return player.rate != 0
@@ -40,6 +43,7 @@ final class Video: Observable {
         return false
     }
     
+    /// Returns whether or not there's an open session for the video
     var playbackSessionOpen: Bool {
         return player != nil
     }
@@ -50,14 +54,17 @@ final class Video: Observable {
         video = url | URL.init(string:) ?? nil
     }
     
+    /// Play the video
     func play() {
         player?.play()
     }
     
+    /// Pause the video
     func pause() {
         player?.pause()
     }
     
+    /// Stop the video and the session
     func stop() {
         player?.pause()
         player = nil

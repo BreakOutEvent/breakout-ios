@@ -42,6 +42,20 @@ extension Participant: Deserializable {
 
 extension Participant {
     
+    /**
+     Register a user as a Participant and set the info to the Current User
+     
+     - Parameter firstName: first name
+     - Parameter lastName: last name
+     - Parameter gender: gender
+     - Parameter email: email address
+     - Parameter emergencyNumber: emergency contact phone number
+     - Parameter phone: phone number
+     - Parameter shirtSize: size of the t-shirt for the user
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the JSON
+     */
     static func become(firstName: String,
                        lastName: String,
                        gender: String,

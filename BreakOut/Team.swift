@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Representation of a team
 struct Team {
     let id: Int
     let name: String
@@ -26,6 +27,15 @@ extension Team: Deserializable {
 
 extension Team {
     
+    /**
+     Invite someone to your team
+     
+     - Parameter name: name of the person
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
     func invite(name: String, to event: Int, using api: BreakOut = .shared) -> JSON.Result {
         let body: JSON = [
             "event": event.json,
@@ -43,10 +53,28 @@ extension Team {
 
 extension Team {
     
+    /**
+     Fetch all the teams in an event
+     
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the teams
+     */
     static func all(for event: Int, using api: BreakOut = .shared) -> Team.Results {
         return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event])
     }
     
+    /**
+     Register a team
+     
+     - Parameter name: name of the team
+     - Parameter event: id of the event
+     - Parameter image: profile picture of the team
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the generated Team
+     */
     static func create(name: String, event: Int, image: UIImage?, using api: BreakOut = .shared) -> Team.Result {
         let body: JSON = [
             "event": event.json,

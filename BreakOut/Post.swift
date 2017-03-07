@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Represents a Posting
 final class Post: Observable {
     
     var listeners = [Listener]()
@@ -64,37 +65,41 @@ extension Post: Deserializable {
 
 extension Post {
     
+    /**
+     Fetches **ALL** of the postings
+     
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings
+     */
     static func all(using api: BreakOut = .shared) -> Post.Results {
         let user = CurrentUser.shared.id
         return getAll(using: api, at: .postings, queries: ["userid": user])
     }
     
+    /**
+     Fetches postings after a certain id
+     
+     - Parameter id: id last fetched
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings
+     */
     static func all(since id: Int, using api: BreakOut = .shared) -> Post.Results {
         let user = CurrentUser.shared.id
         return getAll(using: api, at: .postingsSince, arguments: ["id": id], queries: ["userid": user])
     }
     
-    static func posting(with id: Int, using api: BreakOut = .shared) -> Post.Result {
-        let user = CurrentUser.shared.id
-        return Post.get(using: api, method: .get, at: .postingByID, arguments: ["id": id], queries: ["userid": user])
-    }
-    
-    static func postings(with ids: [Int], using api: BreakOut = .shared) -> Post.Results {
-        let user = CurrentUser.shared.id
-        return api.doObjectsRequest(with: .post, to: .notLoadedPostings, queries: ["userid": user], body: ids.json)
-    }
-    
-    static func postings(with hashtag: String, usign api: BreakOut = .shared) -> Post.Results {
-        let user = CurrentUser.shared.id
-        return getAll(using: api, at: .postingsForHashtag, arguments: ["hashtag": hashtag], queries: ["userid": user])
-    }
-    
-    static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
-        let user = CurrentUser.shared.id
-        return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size, "userid": user])
-    }
-    
-    static func get(team: Int, event: Int, using api: BreakOut = .shared) -> Post.Results {
+    /**
+     Fetches postings from a team in an event
+     
+     - Parameter team: id of the team
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings
+     */
+    static func all(by team: Int, in event: Int, using api: BreakOut = .shared) -> Post.Results {
         return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).onSuccess { json -> Post.Results in
             let ids = json.array ==> { $0.int }
             return Post.postings(with: ids)
@@ -102,16 +107,82 @@ extension Post {
         .future
     }
     
+    /**
+     Fetches a specific posting
+     
+     - Parameter id: id of the posting
+     - Parameter api: Break Out backend from which it should fetch it
+     
+     - Returns: Promise of the Posting
+     */
+    static func posting(with id: Int, using api: BreakOut = .shared) -> Post.Result {
+        let user = CurrentUser.shared.id
+        return Post.get(using: api, method: .get, at: .postingByID, arguments: ["id": id], queries: ["userid": user])
+    }
+    
+    /**
+     Fetches postings with certain ids
+     
+     - Parameter ids: Array of ids you want to fetch
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings
+     */
+    static func postings(with ids: [Int], using api: BreakOut = .shared) -> Post.Results {
+        let user = CurrentUser.shared.id
+        return api.doObjectsRequest(with: .post, to: .notLoadedPostings, queries: ["userid": user], body: ids.json)
+    }
+    
+    /**
+     Fetches postings that use a hashtag
+     
+     - Parameter hashtag: hashtag you're looking for
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings
+     */
+    static func postings(with hashtag: String, usign api: BreakOut = .shared) -> Post.Results {
+        let user = CurrentUser.shared.id
+        return getAll(using: api, at: .postingsForHashtag, arguments: ["hashtag": hashtag], queries: ["userid": user])
+    }
+    
+    /**
+     Fetches postings in a page
+     
+     - Parameter page: index of the page
+     - Parameter size: size of the page
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings
+     */
+    static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
+        let user = CurrentUser.shared.id
+        return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size, "userid": user])
+    }
+    
 }
 
 extension Post {
     
+    /**
+     Posts a new posting
+     
+     - Parameter text: text content in the posting
+     - Parameter latitude: current latitude
+     - Parameter longitude: current longitude
+     - Parameter city: current location
+     - Parameter challenge: challenge being completed
+     - Parameter media: media items that should be uploaded
+     - Parameter api: Break Out backend it should send the posting to
+     
+     - Returns: Promise of the generated Post
+     */
     static func post(text: String,
                      latitude: Double,
                      longitude: Double,
                      city: String?,
                      challenge: Challenge?,
-                     media: [NewMedia],
+                     media: [NewMedia] = .empty,
                      api: BreakOut = .shared) -> Post.Result {
         
         let post = NewPost(text: text, date: .now, latitude: latitude, longitude: longitude, media: media)
@@ -123,12 +194,7 @@ extension Post {
 
             if let team = Post(from: json) {
                 media => { item, index in
-                    guard let id = json["media"][index]["id"].int,
-                        let token = json["media"][index]["uploadToken"].string else {
-                            
-                            return
-                    }
-                    item.upload(id: id, token: token)
+                    item.upload(using: json["media"][index])
                 }
                 promise.success(with: team)
             } else {
@@ -141,10 +207,24 @@ extension Post {
 
 extension Post {
     
+    /**
+     Toggles the current status of the like
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the JSON
+     */
     @discardableResult func toggleLike(using api: BreakOut = .shared) -> JSON.Result {
         return (liked ? self.unlike : self.like)(api)
     }
     
+    /**
+     Like the posting
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the JSON
+     */
     @discardableResult func like(using api: BreakOut = .shared) -> JSON.Result {
         let body: JSON = [
             "date": Date.now.timeIntervalSince1970.json
@@ -162,6 +242,13 @@ extension Post {
         }
     }
     
+    /**
+     Unlike the posting
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the JSON
+     */
     @discardableResult func unlike(using api: BreakOut = .shared) -> JSON.Result {
         return api.doJSONRequest(with: .delete,
                                  to: .likePosting,
@@ -175,6 +262,14 @@ extension Post {
         }
     }
     
+    /**
+     Post a comment to the posting
+     
+     - Parameter comment: Comment you want to post
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the generated Comment
+     */
     @discardableResult func comment(_ comment: String, using api: BreakOut = .shared) -> Comment.Result {
         let comment = NewComment(post: self, comment: comment, user: .shared, date: .now)
         return api.doObjectRequest(with: .post,

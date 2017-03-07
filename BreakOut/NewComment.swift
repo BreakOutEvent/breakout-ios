@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Helper struct for a locally defined comment
 struct NewComment {
     let post: Post
     let comment: String

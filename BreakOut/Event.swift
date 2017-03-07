@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Representation of an Event
 struct Event {
     let id: Int
     let title: String
@@ -32,6 +33,13 @@ extension Event: Deserializable {
 
 extension Event {
     
+    /**
+     Fetch all Events
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
     static func all(using api: BreakOut = .shared) -> Event.Results {
         return getAll(using: api, at: .event)
     }

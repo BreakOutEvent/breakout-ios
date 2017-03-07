@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Challenge on a Posting
 struct Challenge {
     let id: Int
     let text: String?
@@ -28,6 +29,15 @@ extension Challenge: Deserializable {
 
 extension Challenge {
     
+    /**
+     Fetch the Challenges for a team
+     
+     - Parameter event: id of the event
+     - Parameter team: id of the team
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the JSON
+     */
     static func get(event: Int, team: Int, using api: BreakOut = .shared) -> Challenge.Results {
         return getAll(using: api, method: .get, at: .eventTeamChallenge, arguments: ["event": event, "team": team], auth: api.auth)
     }

@@ -12,6 +12,16 @@ import Alamofire
 
 enum UploadManager {
     
+    /**
+     Upload a piece of data to the media-uploader
+     
+     - Parameter data: Data of the file you want to upload
+     - Parameter id: Id given to it by the backend
+     - Parameter token: Upload Token given by the backend
+     - Parameter filename: name of the file
+     - Parameter type: Mime Type
+     
+     */
     static func upload(data: Data, id: Int, token: String, filename: String, type: String) {
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(data, withName: "file", fileName: filename, mimeType: type)

@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Endpoint provided by the BreakOut Backend
 enum BreakOutEndpoint: String, APIEndpoint {
     case user = "user/"
     case userData = "user/{id}/"

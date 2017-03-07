@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Comment on a posting
 struct Comment {
     let id: Int
     let date: Date

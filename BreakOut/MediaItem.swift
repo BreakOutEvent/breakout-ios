@@ -12,6 +12,7 @@ enum MediaItem {
     case image(Image)
     case video(Video)
     
+    /// Video contained
     var video: Video? {
         switch self {
         case .video(let video):
@@ -21,6 +22,7 @@ enum MediaItem {
         }
     }
     
+    /// Image that can be displayed
     var image: UIImage? {
         switch self {
         case .image(let image):

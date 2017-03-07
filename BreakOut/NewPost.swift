@@ -8,6 +8,7 @@
 
 import Sweeft
 
+/// Helper struct for locally defined postings
 struct NewPost {
     let text: String
     let date: Date

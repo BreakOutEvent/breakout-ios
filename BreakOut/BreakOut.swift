@@ -9,11 +9,13 @@
 import Sweeft
 import UIKit
 
+/// Main Part Of Our API
 struct BreakOut: API {
     typealias Endpoint = BreakOutEndpoint
     
     var baseURL: String
     
+    /// Shared instance of the API
     static let shared = BreakOut(baseURL: PrivateConstants().backendURL())
 }
 
@@ -24,6 +26,7 @@ extension BreakOut {
         static var key: AppDefaults = .login
     }
     
+    /// Current Authentication
     var auth: Auth {
         get {
             let oauth = BreakOutAuth.value
@@ -32,6 +35,15 @@ extension BreakOut {
         }
     }
     
+    /**
+     Will Login using OAuth and store it for persistance.
+     It can later be accessed from .auth or as the result of the Promise
+     
+     - Parameter email: email of the user
+     - Parameter password: password of the user
+     
+     - Returns: Promise of the Auth Object
+     */
     func login(email: String, password: String) -> OAuth.Result {
         let manager = self.oauthManager(clientID: "breakout_app", secret: PrivateConstants().oAuthSecret())
         return manager.authenticate(at: .login, username: email, password: password, scope: "read", "write").nested { (auth: OAuth) in

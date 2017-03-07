@@ -40,6 +40,13 @@ extension Gender: Deserializable {
 
 extension Gender {
     
+    /**
+     Fetch the gender of a name
+     
+     - Parameter name: Name of the person
+     
+     - Returns: Promise of the guessed gender
+     */
     static func gender(for name: String) -> Gender.Result {
         return get(using: GenderAPI.shared, at: .standard)
     }

@@ -9,6 +9,7 @@
 import Sweeft
 import UIKit
 
+/// Image
 final class Image: Observable {
     
     var listeners = [Listener]()

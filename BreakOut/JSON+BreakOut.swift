@@ -10,46 +10,47 @@ import Sweeft
 
 extension JSON {
     
+    /// Type of media item
     var type: Type {
         return Type(from: self["type"]) ?? .none
     }
     
+    /// Location
     var location: Location? {
         return Location(from: self)
     }
     
+    /// Video
     var video: Video? {
         return Video(from: self)
     }
     
+    /// Image
     var image: Image? {
         return Image(from: self)
     }
     
+    /// Slightly smaller image for profile pictures
     var profilePic: Image? {
         return Image(from: self["profilePic"], height: 100)
     }
     
-    var media: [MediaItem] {
-        return array ==> MediaItem.init
-    }
-    
-    var comments: [Comment] {
-        return array ==> Comment.init
-    }
-    
+    /// Team
     var team: Team? {
         return Team(from: self)
     }
     
+    /// Participant
     var participant: Participant? {
         return Participant(from: self)
     }
     
+    /// Challenge
     var challenge: Challenge? {
         return Challenge(from: self)
     }
     
+    /// URL of the video compatible if with the device
     var videoURL: String? {
         guard let url = self["url"].string, url.contains(".mp4"), self.type == .video else {
             return nil
@@ -57,6 +58,23 @@ extension JSON {
         return url
     }
     
+    /// Array of media items
+    var media: [MediaItem] {
+        return array ==> MediaItem.init
+    }
+    
+    /// Array of comments
+    var comments: [Comment] {
+        return array ==> Comment.init
+    }
+    
+    /**
+     Returns if the size is of acceptable quality
+     
+     - Parameter requiredHeight: height of the view it will be displayed in
+     
+     - Returns: true if image is bigger
+     */
     func isFitFor(height requiredHeight: Int) -> Bool {
         let height = self["width"].int.?
         let width = self["width"].int.?

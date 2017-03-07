@@ -23,6 +23,7 @@ enum NewMedia {
         }
     }
     
+    /// Preview image that can be displayed
     var previewImage: UIImage? {
         switch self {
         case .image(let image):
@@ -35,6 +36,7 @@ enum NewMedia {
         }
     }
     
+    /// Upload a media item using an id and a token
     func upload(id: Int, token: String) {
         switch self {
         case .image(let image):
@@ -43,10 +45,22 @@ enum NewMedia {
             url.uploadVideo(with: id, using: token)
         }
     }
+    
+    /// Upload a media item using the id and token from json
+    func upload(using json: JSON) {
+        guard let id = json["id"].int,
+            let token = json["uploadToken"].string else {
+                
+                return
+        }
+        upload(id: id, token: token)
+    }
+    
 }
 
 extension NewMedia {
     
+    /// Initialize from the info from UIImagePickerController
     init?(from info: [String:Any]) {
         switch info[UIImagePickerControllerMediaType] as? String ?? "" {
         case "public.image":

@@ -159,7 +159,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadAllPostingsForTeam(_ eventId: Int, teamId: Int) {
-        Post.get(team: teamId, event: eventId).onSuccess { posts in
+        Post.all(by: teamId, in: eventId).onSuccess { posts in
             let coordinateArray = posts ==> { $0.location?.coordinates }
             let locations = posts ==> { ($0, $0?.location?.coordinates) } >>> iff => { (post: Post, coordinate: CLLocationCoordinate2D) -> MapLocation in
                 let location = MapLocation(coordinate: coordinate, title: post.participant.team?.name, subtitle: post.date.toString())
