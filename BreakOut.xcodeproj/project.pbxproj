@@ -519,6 +519,7 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = KJPP698PR3;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -911,7 +912,8 @@
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = io.quintero.breakout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "c19d1991-453d-4310-8988-4c09da62bcaf";
+				PROVISIONING_PROFILE_SPECIFIER = "BreakOut-Develop";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -926,14 +928,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BreakOut/BreakOut.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KJPP698PR3;
 				INFOPLIST_FILE = BreakOut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.quintero.breakout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cab14407-1bfc-4455-ba47-7fa64ec2a98a";
+				PROVISIONING_PROFILE_SPECIFIER = "BreakOut-Release";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
