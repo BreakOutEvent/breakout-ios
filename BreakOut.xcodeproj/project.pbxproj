@@ -935,8 +935,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.quintero.breakout;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cab14407-1bfc-4455-ba47-7fa64ec2a98a";
-				PROVISIONING_PROFILE_SPECIFIER = "BreakOut-Release";
+				PROVISIONING_PROFILE = "444f41e3-965d-41fd-9b01-812a3de4a906";
+				PROVISIONING_PROFILE_SPECIFIER = "BreakOut-Beta";
 				SWIFT_OBJC_BRIDGING_HEADER = "BreakOut/bridging-header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
