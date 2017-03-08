@@ -22,6 +22,15 @@ enum MediaItem {
         }
     }
     
+    var internalImage: Image? {
+        switch self {
+        case .image(let image):
+            return image
+        default:
+            return nil
+        }
+    }
+    
     /// Image that can be displayed
     var image: UIImage? {
         switch self {

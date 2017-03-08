@@ -17,11 +17,7 @@ final class Video: Observable {
     let id: Int
     var video: URL?
     private var player: AVPlayer?
-    var image: Image? {
-        didSet {
-            hasChanged()
-        }
-    }
+    var image: Image?
     
     /// Current Video Player with the video inside
     var videoPlayer: AVPlayer? {
@@ -52,6 +48,9 @@ final class Video: Observable {
         self.id = id
         self.image = image
         video = url | URL.init(string:) ?? nil
+        if let image = image {
+            image >>> **self.hasChanged
+        }
     }
     
     /// Play the video

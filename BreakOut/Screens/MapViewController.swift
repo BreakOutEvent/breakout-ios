@@ -159,14 +159,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadAllPostingsForTeam(_ eventId: Int, teamId: Int) {
-        Post.all(by: teamId, in: eventId).onSuccess { posts in
-            let coordinateArray = posts ==> { $0.location?.coordinates }
-            let locations = posts ==> { ($0, $0?.location?.coordinates) } >>> iff => { (post: Post, coordinate: CLLocationCoordinate2D) -> MapLocation in
-                let location = MapLocation(coordinate: coordinate, title: post.participant.team?.name, subtitle: post.date.toString())
-                location.posting = post
-                return location
-            }
-            
+        MapLocation.inPostings(by: teamId, in: eventId).onSuccess { locations in
+            let coordinateArray = locations => { $0.coordinate }
             self.arrayOfAllPostingAnnotations.append(contentsOf: locations)
             self.arrayOfAllLastPostingAnnotations += [locations.first].flatMap { $0 }
             
@@ -179,7 +173,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
         Location.all(forTeam: teamId, event: eventId).onSuccess { locations in
-            let coordinateArray = locations => { $0.coordinates }
+            let coordinateArray = locations.including(oneInEvery: 45) => { $0.coordinates }
             let polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
             DispatchQueue.main.async {
                 self.mapView.add(polyLine)
@@ -275,13 +269,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let mapLocationAnnotation = view.annotation as! MapLocation
         
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        mapLocationAnnotation.post().onSuccess { posting in
+            let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController
+            
+            postingDetailsTableViewController.posting = posting
+            
+            self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
+        }
         
-        let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController
-        
-        postingDetailsTableViewController.posting = mapLocationAnnotation.posting
-        
-        self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
     }
     
     @IBAction func currentLocationButtonPressed(_ sender: UIButton) {

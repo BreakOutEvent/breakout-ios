@@ -24,7 +24,18 @@ final class Post: Observable {
     var liked: Bool
     var likes: Int
     
-    init(id: Int, text: String? = nil, date: Date, participant: Participant, location: Location?, challenge: Challenge? = nil, media: [MediaItem] = [], hashtags: [String] = [], comments: [Comment] = [], liked: Bool = false, likes: Int = 0) {
+    init(id: Int,
+         text: String? = nil,
+         date: Date,
+         participant: Participant,
+         location: Location?,
+         challenge: Challenge? = nil,
+         media: [MediaItem] = .empty,
+         hashtags: [String] = .empty,
+         comments: [Comment] = .empty,
+         liked: Bool = false,
+         likes: Int = 0) {
+        
         self.id = id
         self.text = text
         self.date = date
@@ -36,6 +47,8 @@ final class Post: Observable {
         self.comments = comments
         self.liked = liked
         self.likes = likes
+        (media ==> { $0.video }) >>> **self.hasChanged
+        (media ==> { $0.internalImage}) >>> **self.hasChanged
         comments >>> **self.hasChanged
         participant >>> **self.hasChanged
     }
@@ -100,11 +113,13 @@ extension Post {
      - Returns: Promise of the Postings
      */
     static func all(by team: Int, in event: Int, using api: BreakOut = .shared) -> Post.Results {
-        return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).onSuccess { json -> Post.Results in
-            let ids = json.array ==> { $0.int }
-            return Post.postings(with: ids)
+        return ids(by: team, in: event).onSuccess(call: Post.postings <** api).future
+    }
+    
+    static func ids(by team: Int, in event: Int, using api: BreakOut = .shared) -> Promise<[Int], APIError> {
+        return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).nested { json in
+            return json.array ==> { $0.int }
         }
-        .future
     }
     
     /**

@@ -145,11 +145,12 @@ extension UIButton {
 
 extension Array {
     
-    func first(_ bound: Int) -> [Element] {
-        guard let upper = [count, bound].min() else {
-            return []
-        }
-        return (0..<upper).map { self[$0] }
+    func skipping(oneInEvery n: Int) -> [Element] {
+        return self |> { $1 % n != 0 }
+    }
+    
+    func including(oneInEvery n: Int) -> [Element] {
+        return self |> { $1 % n == 0 }
     }
     
 }
