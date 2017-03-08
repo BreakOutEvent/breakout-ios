@@ -6,10 +6,6 @@ if [ ! -z "$TRAVIS_TAG" ]; then
 
     echo "This will be released to Fabric"
 
-    # Decode Provisioning Profile
-
-    openssl aes-256-cbc -K $encrypted_7cb16b9c01f6_key -iv $encrypted_7cb16b9c01f6_iv -in BreakOutBeta.mobileprovision.enc -out BreakOutBeta.mobileprovision -d
-
     # Add provisioning profile to xcode
 
     uuid=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`

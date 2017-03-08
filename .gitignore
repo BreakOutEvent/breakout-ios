@@ -33,6 +33,7 @@ Pods/
 Carthage/Build
 PrivatConstants.swift
 PrivateConstants.swift
+secrets.tar
 BreakOutBeta.mobileprovision
 Screencasts
 *.pages
