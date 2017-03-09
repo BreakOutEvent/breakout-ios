@@ -10,15 +10,12 @@ import UIKit
 import Flurry_iOS_SDK
 import Crashlytics
 
-// Networking
-import AFNetworking
-import AFOAuth2Manager
-//import Answers
-
 import MBProgressHUD
 import SpinKit
 
 import Toaster
+
+import Sweeft
 
 
 class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
@@ -48,19 +45,19 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         
-        self.loginButton.backgroundColor = Style.mainOrange
+        self.loginButton.backgroundColor = .mainOrange
         self.loginButton.layer.cornerRadius = 25.0
         
         self.registerButton.backgroundColor = UIColor.white
         self.registerButton.alpha = 0.8
         self.registerButton.layer.cornerRadius = 25.0
         
-        self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.passwordTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("password", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.emailTextField.attributedPlaceholder = .localized("email", with: .lightTransparentWhite)
+        self.passwordTextField.attributedPlaceholder = .localized("password", with: .lightTransparentWhite)
         
         // Set localized Button titles
-        self.loginButton.setTitle(NSLocalizedString("login", comment: ""), for: UIControlState())
-        self.registerButton.setTitle(NSLocalizedString("register", comment: ""), for: UIControlState())
+        self.loginButton.setTitle("login".local, for: .normal)
+        self.registerButton.setTitle("register".local, for: .normal)
     }
     
     override func didReceiveMemoryWarning() {
@@ -130,7 +127,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
 // MARK: - Button Actions
     
     /**
-    Checks wether both textfields (E-Mail & Password) are filled in with correct style. If this is ok, the keyboard will be hide and the registration request is started
+    Checks wether both textfields (E-Mail & Password) are filled in with correct . If this is ok, the keyboard will be hide and the registration request is started
     
     :param: sender      UIButton which triggers the function
     
@@ -197,7 +194,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.loadingHUD.isSquare = true
         self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
         spinner.startAnimating()
     }
     
@@ -220,35 +217,25 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         self.setupLoadingHUD("registrationLoading")
         self.enableInputs(false)
         
-        let params: NSDictionary = ["email":self.emailTextField.text!, "password":self.passwordTextField.text!]
-        
-        BONetworkManager.post(.User, arguments: [], parameters: params, auth: false, success: { (response) in
-            let userID = response.value(forKey: "id")
-            CurrentUser.shared.userid = userID as? Int
-            CurrentUser.shared.email = self.emailTextField.text
-            CurrentUser.shared.storeInNSUserDefaults()
-            
+        CurrentUser.shared.register(email: self.emailTextField.text.?, password: self.passwordTextField.text.?).onSuccess { _ in
             // Tracking
             Flurry.logEvent("/registration/completed_successful")
             Answers.logSignUp(withMethod: "e-mail",
-                success: true,
-                customAttributes: [:])
+                              success: true,
+                              customAttributes: [:])
             
             self.loadingHUD.hide(true)
-            // Try to Login with new account
             self.startLoginRequest()
-
-        }) { (error, response) in
-            // TODO: Show detailed errors to the user
-            
+        }
+        .onError { error in
             self.enableInputs(true)
             self.loadingHUD.hide(true)
             
             // Tracking
             Flurry.logEvent("/registration/completed_error")
             Answers.logSignUp(withMethod: "e-mail",
-                                        success: false,
-                                        customAttributes: [:])
+                              success: false,
+                              customAttributes: [:])
         }
     }
 
@@ -266,13 +253,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             self.setupLoadingHUD("loginLoading")
             self.enableInputs(false)
             
-            BONetworkManager.loginRequest(email, pass: pass, success: { () in
-                
-                BONetworkManager.get(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
-                    CurrentUser.resetUser()
-                    CurrentUser.shared.setAttributesWithJSON(response as! NSDictionary)
-                    CurrentUser.shared.storeInNSUserDefaults()
-                    
+            BreakOut.shared.login(email: email, password: pass).onSuccess { _ in
+                CurrentUser.get().onSuccess { user in
                     // Empty Textinputs
                     self.emailTextField.text = ""
                     self.passwordTextField.text = ""
@@ -285,13 +267,13 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     Answers.logLogin(withMethod: "e-mail", success: true, customAttributes: [:])
                     
                     self.dismiss(animated: true, completion: nil)
-                })
-                
-            }, error:
-            { () in
+                }
+            }
+            .onError { error in
                 self.loadingHUD.hide(true)
                 self.enableInputs(true)
-            })
+            }
+
         } else {
             //TODO: Handle no text entered
         }

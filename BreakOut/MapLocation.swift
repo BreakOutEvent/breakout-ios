@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Sweeft
 import MapKit
 
 /**
@@ -21,12 +22,12 @@ import MapKit
  TODO: add image to Annotation and maybe other accessory views
  
 */
-class MapLocation: NSObject, MKAnnotation{
+final class MapLocation: NSObject, MKAnnotation{
     
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
-    var posting: Posting?
+    var posting: Int?
     
     init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?){
         self.coordinate = coordinate
@@ -35,5 +36,37 @@ class MapLocation: NSObject, MKAnnotation{
         super.init()
     }
     
+    
+}
+
+extension MapLocation: Deserializable {
+    
+    public convenience init?(from json: JSON) {
+        guard let location = json["postingLocation"].location, let id = json["id"].int else {
+            return nil
+        }
+        self.init(coordinate: location.coordinates, title: json["user"]["participant"].team?.name, subtitle: json["date"].date()?.toString())
+        posting = id
+    }
+    
+}
+
+extension MapLocation {
+    
+    static func inPostings(with ids: [Int], using api: BreakOut = .shared) -> MapLocation.Results {
+        return api.doObjectsRequest(with: .post, to: .notLoadedPostings, body: ids.json)
+    }
+    
+    static func inPostings(by team: Int, in event: Int, using api: BreakOut = .shared) -> MapLocation.Results {
+        /// TODO: Find a way to ease the load without skipping 4 in 5 posts
+        return Post.ids(by: team, in: event).onSuccess(call: (Array.including ** 5) >>> (MapLocation.inPostings <** api)).future
+    }
+    
+    func post() -> Post.Result {
+        guard let id = posting else {
+            return .errored(with: .cannotPerformRequest)
+        }
+        return Post.posting(with: id)
+    }
     
 }

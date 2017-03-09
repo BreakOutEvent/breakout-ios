@@ -1,145 +1,92 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
-    - AFNetworking/NSURLSession
-  - AFOAuth2Manager (3.0.0):
-    - AFNetworking/NSURLSession (~> 3.0)
-  - Alamofire (4.0.0)
-  - Crashlytics (3.7.0):
+  - Alamofire (4.4.0)
+  - Crashlytics (3.7.3):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.7)
-  - Firebase (3.2.1):
-    - Firebase/Core (= 3.2.1)
-  - Firebase/Analytics (3.2.1):
-    - FirebaseAnalytics (= 3.2.0)
-  - Firebase/Core (3.2.1):
-    - Firebase/Analytics (= 3.2.1)
-  - Firebase/Messaging (3.2.1):
-    - Firebase/Analytics (= 3.2.1)
-    - FirebaseMessaging (= 1.1.0)
-  - FirebaseAnalytics (3.2.0):
+  - DTPhotoViewerController (1.0.6)
+  - Fabric (1.6.11)
+  - Firebase (3.14.0):
+    - Firebase/Core (= 3.14.0)
+  - Firebase/Core (3.14.0):
+    - FirebaseAnalytics (= 3.7.0)
+    - FirebaseCore (= 3.5.1)
+  - Firebase/Messaging (3.14.0):
+    - Firebase/Core
+    - FirebaseMessaging (= 1.2.2)
+  - FirebaseAnalytics (3.7.0):
+    - FirebaseCore (~> 3.5)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
-    - GoogleUtilities (~> 1.3)
-  - FirebaseInstanceID (1.0.6)
-  - FirebaseMessaging (1.1.0):
-    - FirebaseAnalytics (~> 3.2)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleIPhoneUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.5.1):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.9)
+  - FirebaseMessaging (1.2.2):
+    - FirebaseAnalytics (~> 3.7)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleToolboxForMac/Logger (~> 2.1)
+    - Protobuf (~> 3.1)
   - Flurry-iOS-SDK/FlurrySDK (7.5.2)
-  - GGFullscreenImageViewController (1.0.0)
-  - GoogleInterchangeUtilities (1.2.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleIPhoneUtilities (1.2.1):
-    - GoogleSymbolUtilities (~> 1.0)
-    - GoogleUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.1.1)
-  - GoogleUtilities (1.3.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - Instabug (5.1.2)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/Logger (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
   - LECropPictureViewController (0.1.2)
-  - MagicalRecord (2.3.2):
-    - MagicalRecord/Core (= 2.3.2)
-  - MagicalRecord/Core (2.3.2)
   - MBProgressHUD (0.9.2)
-  - netfox (1.8)
-  - Pantry (0.2.1)
-  - ReachabilitySwift (3)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
-  - SlideMenuControllerSwift (3.0.0)
+  - Pantry (0.3)
+  - Protobuf (3.2.0)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
+  - SlideMenuControllerSwift (3.0.1)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - SwiftDate (4.0.7)
-  - Toaster (2.0.0)
+  - Sweeft (0.6.5)
+  - Toaster (2.0.3)
   - TouchVisualizer (2.0.1)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.0)
-  - AFOAuth2Manager (~> 3.0)
   - Alamofire (~> 4.0)
   - Crashlytics (~> 3.7.0)
+  - DTPhotoViewerController
   - Fabric (~> 1.6.7)
   - Firebase
   - Firebase/Messaging
   - Flurry-iOS-SDK/FlurrySDK (~> 7.5.2)
-  - GGFullscreenImageViewController (~> 1.0)
-  - Instabug (~> 5.1.2)
   - LECropPictureViewController (~> 0.1.2)
-  - MagicalRecord (~> 2.3.2)
   - MBProgressHUD (~> 0.9.2)
-  - netfox (from `https://github.com/mathiasquintero/netfox.git`)
-  - Pantry (from `https://github.com/andreyz/Pantry.git`, branch `swift3`)
-  - ReachabilitySwift (~> 3)
+  - Pantry
   - SDWebImage (~> 3.7)
   - SlideMenuControllerSwift (~> 3.0.0)
   - SpinKit (~> 1.2.0)
   - StaticDataTableViewController (~> 2.0)
-  - SwiftDate (~> 4.0)
+  - Sweeft (~> 0.6)
   - Toaster (~> 2.0)
   - TouchVisualizer (~> 2.0.1)
 
-EXTERNAL SOURCES:
-  netfox:
-    :git: https://github.com/mathiasquintero/netfox.git
-  Pantry:
-    :branch: swift3
-    :git: https://github.com/andreyz/Pantry.git
-
-CHECKOUT OPTIONS:
-  netfox:
-    :commit: 261697c1784b1a9a7380d83b75315a7fbfa3f459
-    :git: https://github.com/mathiasquintero/netfox.git
-  Pantry:
-    :commit: 97f82ad403f21215f93027d4135e8230f9bfc010
-    :git: https://github.com/andreyz/Pantry.git
-
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  AFOAuth2Manager: 0566da1be64883e339813d411229fdc9a84dab7c
-  Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
-  Firebase: 6c80ac28d59d06bfd9152a7b6ea17625ca93183d
-  FirebaseAnalytics: 6f75b04e6bfb8e0b6e9ef298e04c24eea3b13863
-  FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
-  FirebaseMessaging: 8a92e9ea70673605aa7d1803d2d5aa3eb946009c
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
+  DTPhotoViewerController: a152edf67d0c67f93515201aab2ba68620c45660
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
+  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
+  FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
+  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
+  FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
   Flurry-iOS-SDK: 8c87c4eab6008184ad9f63afabd79ec0d109c82e
-  GGFullscreenImageViewController: 17935922bc80806eba3c9a0c22a22ecedc260510
-  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
-  GoogleIPhoneUtilities: 63f25e93a3ddcb66884d182aab3a660d98f1479b
-  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
-  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
-  Instabug: c315abe1a1c4cbd3ea1cc6ec8f9954d6c5371c39
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   LECropPictureViewController: d64cd991d94d7804c0971f97adae6d1bc216a7b8
-  MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  netfox: b153c852b852453057f7ded304ff1678c9f4b15f
-  Pantry: 433931c8f545dd3426ca7d09a4edd5afa89c6e01
-  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
-  SlideMenuControllerSwift: 9c0a84f9a3fba51681debd7be77617094562ebcc
+  Pantry: 98481849be65d2b2cb9658976533e84ebd266192
+  Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  SwiftDate: 0efb04a6751b1ab804049b2b09a69848cd304c12
-  Toaster: 25101e968655aa991fa72ad888029e8d515c6237
+  Sweeft: 8d7b07b2d31af52dbe8b25a423906ef1d2e32ccf
+  Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: 2687679a15fce4c189e5085151e81af9d03a8294
+PODFILE CHECKSUM: 94356f7c0ea0f1d7701ae64eba889604a1b0da9c
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.2.0

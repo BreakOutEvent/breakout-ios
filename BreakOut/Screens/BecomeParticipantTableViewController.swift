@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import Sweeft
 import Flurry_iOS_SDK
 
 import MBProgressHUD
 import SpinKit
 
 import LECropPictureViewController
-
-import AFOAuth2Manager
 
 class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -62,16 +61,16 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.tableView.backgroundView = backgroundImageView
         
         // Set color for placeholder text
-        self.firstNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("firstname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.lastNameTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("lastname", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.emailTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("email", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.shirtSizeTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("shirtSize", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.birthdayTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("birthday", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.phonenumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phonenumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
-        self.emergencyNumberTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("emergencyNumber", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        self.firstNameTextfield.attributedPlaceholder = .localized("firstname", with: .lightTransparentWhite)
+        self.lastNameTextfield.attributedPlaceholder = .localized("lastname", with: .lightTransparentWhite)
+        self.emailTextField.attributedPlaceholder = .localized("email", with: .lightTransparentWhite)
+        self.shirtSizeTextfield.attributedPlaceholder = .localized("shirtSize", with: .lightTransparentWhite)
+        self.birthdayTextField.attributedPlaceholder = .localized("birthday", with: .lightTransparentWhite)
+        self.phonenumberTextfield.attributedPlaceholder = .localized("phonenumber", with: .lightTransparentWhite)
+        self.emergencyNumberTextfield.attributedPlaceholder = .localized("emergencyNumber", with: .lightTransparentWhite)
         
         // Set localized Button Texts
-        self.participateButton.setTitle(NSLocalizedString("participateButton", comment: ""), for: UIControlState())
+        self.participateButton.setTitle("participateButton".local, for: .normal)
         
         self.addUserpictureButton.layer.cornerRadius = self.addUserpictureButton.frame.size.width / 2.0
         
@@ -123,7 +122,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BecomeParticipantTableViewController.birthdayDatePickerToolbarDoneButtonPressed))
@@ -146,7 +145,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BecomeParticipantTableViewController.textFieldToolbarDoneButtonPressed(_:)))
@@ -172,7 +171,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(BecomeParticipantTableViewController.shirtSizePickerToolbarDoneButtonPressed))
@@ -239,9 +238,9 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     
     @IBAction func addUserpictureButtonPressed(_ sender: UIButton) {
         
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: "sourceOfImage".local, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
@@ -249,7 +248,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
         })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let cameraOption = UIAlertAction(title: "takeAPhoto".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("take a photo")
             //shows the camera
             self.imagePicker.allowsEditing = true
@@ -259,7 +258,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
             self.present(self.imagePicker, animated: true, completion: nil)
             
         })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
+        let cancelOption = UIAlertAction(title: "cancel".local, style: UIAlertActionStyle.cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Cancel")
             self.dismiss(animated: true, completion: nil)
@@ -316,7 +315,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.loadingHUD.isSquare = true
         self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
         spinner.startAnimating()
     }
     
@@ -324,7 +323,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
         self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         self.loadingHUD.isSquare = false
         self.loadingHUD.mode = MBProgressHUDMode.customView
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
     }
     
     func setAllInputsToEnabled(_ enabled: Bool) {
@@ -395,22 +394,8 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     func getGenderByFirstname() {
-        let requestManager = AFHTTPSessionManager.init(baseURL: URL(string: "https://api.genderize.io/"))
-        
-        let params: NSDictionary = ["name":self.firstNameTextfield.text!]
-        
-        requestManager.requestSerializer = AFJSONRequestSerializer()
-        
-        requestManager.get("", parameters: params, success: { (operation, response) -> Void in
-                // Successful retrival of name attributes
-                let dict: NSDictionary = response as! NSDictionary
-                if dict.value(forKey: "gender") as! String == "male" {
-                    self.genderSegmentedControl.selectedSegmentIndex = 0
-                }else{
-                    self.genderSegmentedControl.selectedSegmentIndex = 1
-                }
-            }) { (operation, error) -> Void in
-                //BOToast.log("Error during genderize.io request", level: .Error)
+        Gender.gender(for: self.firstNameTextfield.text.?).onSuccess { gender in
+            self.genderSegmentedControl.selectedSegmentIndex = gender.hashValue
         }
     }
     
@@ -439,18 +424,20 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
 
         if let emergency = emergencyNumberTextfield.text, let phone = phonenumberTextfield.text, let shirt = shirtSizeTextfield.text, let first = firstNameTextfield.text, let last = lastNameTextfield.text, let email = emailTextField.text {
             
-            BOSynchronizeController.teams.becomeParticipant(firstName: first, lastname: last, gender: genderAsString, email: email, emergencyNumber: emergency, phone: phone, shirtSize: shirt, success: { () in
-                self.setAllInputsToEnabled(true)
-                
-                self.loadingHUD.hide(true)
-                self.performSegue(withIdentifier: "showJoinTeamViewController", sender: self)
-            }) { () in
-                
-                // Activate Inputs again
-                self.setAllInputsToEnabled(true)
-                
-                self.loadingHUD.hide(true)
-            }
+            Participant.become(firstName: first, lastName: last, gender: genderAsString,
+                               email: email, emergencyNumber: emergency,
+                               phone: phone, shirtSize: shirt).onSuccess { _ in
+                    
+                    self.setAllInputsToEnabled(true)
+                    self.loadingHUD.hide(true)
+                    self.performSegue(withIdentifier: "showJoinTeamViewController", sender: self)
+                }
+                .onError { _ in
+                    // Activate Inputs again
+                    self.setAllInputsToEnabled(true)
+                    
+                    self.loadingHUD.hide(true)
+                }
         }
         
     }

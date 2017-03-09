@@ -23,8 +23,8 @@ class TeamProfileViewController: UIViewController {
         
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
@@ -47,7 +47,7 @@ class TeamProfileViewController: UIViewController {
         self.subMenuSelectionBarView.frame.origin.x = 0.0
         self.subMenuSelectionBarView.frame.origin.y = self.subMenuPostingsButton.frame.size.height-2.0
         self.subMenuSelectionBarView.frame.size.height = 2.0
-        self.subMenuSelectionBarView.backgroundColor = Style.mainOrange
+        self.subMenuSelectionBarView.backgroundColor = .mainOrange
         self.subMenuView.addSubview(self.subMenuSelectionBarView)
     }
     

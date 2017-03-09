@@ -7,45 +7,33 @@
 //
 
 import UIKit
+import Sweeft
 
-class ChallengesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class ChallengesTableViewController: UITableViewController {
     
     var parentNewPostingTVC: NewPostingTableViewController?
-    
-    lazy var fetchedResultsController: NSFetchedResultsController<BOChallenge> = { [unowned self] in
-        
-        let fetchRequest = NSFetchRequest<BOChallenge>(entityName: "BOChallenge")
-        fetchRequest.fetchLimit = 100
-        fetchRequest.fetchBatchSize = 20
-        
-        // Filter Food where type is breastmilk
-        /*var predicate = NSPredicate(format: "%K == %@", "type", "breastmilk")
-         fetchRequest.predicate = predicate*/
-        
-        // Sort by createdAt
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "amount", ascending: false)]
-        
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: NSManagedObjectContext.mr_default(), sectionNameKeyPath: nil, cacheName: nil)
-        frc.delegate = self
-        return frc
-    }()
+    var challenges = [Challenge]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("challengeTitle", comment: "")
+        self.title = "challengeTitle".local
         
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            print("Error")
+        let event = CurrentUser.shared.currentTeamId()
+        let team = CurrentUser.shared.currentTeamId()
+        Challenge.get(event: event, team: team).onSuccess { challenges in
+            self.challenges = challenges
+            self.tableView.reloadData()
+        }
+        .onError { error in
+            print(error)
         }
         
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -60,17 +48,11 @@ class ChallengesTableViewController: UITableViewController, NSFetchedResultsCont
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if let sections = fetchedResultsController.sections {
-            return sections.count
-        }
-        return 0
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let currSection = fetchedResultsController.sections?[section] {
-            return currSection.numberOfObjects
-        }
-        return 0
+        return challenges.count
     }
     
     
@@ -82,28 +64,24 @@ class ChallengesTableViewController: UITableViewController, NSFetchedResultsCont
     
     func configureCell(_ cell: ChallengeTableViewCell, atIndexPath indexPath: IndexPath) {
         // Configure cell with the BOPost model
-        guard let challenge = fetchedResultsController.object(at: indexPath) as? BOChallenge else {
-            return
-        }
         
-        cell.challengeTitleLabel.text = String(format: "%.2f €", challenge.amount!.doubleValue)
+        let challenge = challenges[indexPath.row]
+        let title = String(format: "%.2f €", Double(challenge.amount.?))
+        cell.challengeTitleLabel.text = title
         if let text = challenge.text {
-             cell.challengeDescriptionLabel.text = text + text + text
+             cell.challengeDescriptionLabel.text = text
         }
        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let challenge: BOChallenge? = fetchedResultsController.object(at: indexPath) as BOChallenge
+        self.parentNewPostingTVC?.newChallenge = challenges[indexPath.row]
         
-        self.parentNewPostingTVC?.newChallenge = challenge
-        
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        let challenge:BOChallenge = fetchedResultsController.object(at: indexPath) as! BOChallenge
-        
+        let challenge = challenges[indexPath.row]
         if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
             return true
         }
@@ -112,7 +90,7 @@ class ChallengesTableViewController: UITableViewController, NSFetchedResultsCont
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let challenge:BOChallenge = fetchedResultsController.object(at: indexPath) as! BOChallenge
+        let challenge = challenges[indexPath.row]
         
         if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
             cell.alpha = 1.0

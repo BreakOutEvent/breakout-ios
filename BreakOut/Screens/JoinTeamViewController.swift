@@ -14,8 +14,6 @@ import SpinKit
 
 import LECropPictureViewController
 
-import AFOAuth2Manager
-
 class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     
@@ -44,7 +42,7 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
         
         // Set color for placeholder text
         
-        /*self.teamInvitationSelectionTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("teaminvitationselection", comment: ""), attributes:[NSForegroundColorAttributeName: Style.lightTransparentWhite])
+        /*self.teamInvitationSelectionTextfield.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("teaminvitationselection", comment: ""), attributes:[NSForegroundColorAttributeName: .lightTransparentWhite])
         
         // Set localized Button Texts
  
@@ -65,7 +63,7 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(JoinTeamViewController.invitationPickerToolbarDoneButtonPressed))
@@ -161,7 +159,7 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
         self.loadingHUD.isSquare = true
         self.loadingHUD.mode = MBProgressHUDMode.customView
         self.loadingHUD.customView = spinner
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
         spinner.startAnimating()
     }
     
@@ -177,6 +175,9 @@ class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigatio
     :returns: No return value
     */
     func startCreateTeamRequest() {
+        
+        // TODO: Redo this request
+        
         //self.setAllInputsToEnabled(false)
         
 //        let requestManager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager.init(baseURL: NSURL(string: PrivateConstants.backendURL))

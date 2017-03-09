@@ -9,8 +9,7 @@
 import UIKit
 import CoreLocation
 
-// Database
-import MagicalRecord
+import Sweeft
 
 // Tracking
 import Flurry_iOS_SDK
@@ -36,13 +35,19 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     @IBOutlet weak var messageTextView: UITextView!
     var imagePicker: UIImagePickerController = UIImagePickerController()
     
+    var media: NewMedia? {
+        didSet {
+            postingPictureImageView.image = media?.previewImage
+        }
+    }
+    
     let locationManager = CLLocationManager()
     var newLongitude: Double = 0.0
     var newLatitude: Double = 0.0
     var newCity: String?
     
     @IBOutlet weak var challengeLabel: UILabel!
-    var newChallenge:BOChallenge?
+    var newChallenge: Challenge?
     
     var loadingHUD: MBProgressHUD = MBProgressHUD()
 
@@ -51,12 +56,12 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
+        self.navigationController!.navigationBar.barTintColor = .mainOrange
+        self.navigationController!.navigationBar.backgroundColor = .mainOrange
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("newPostingTitle", comment: "")
+        self.title = "newPostingTitle".local
         
         // Create posting button for navigation item
         let rightButton = UIBarButtonItem(image: UIImage(named: "checkmark_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sendPostingButtonPressed))
@@ -74,11 +79,11 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 
         self.imagePicker.delegate = self
         
-        self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
-        self.challengeLabel.text = NSLocalizedString("newPostingEmptyChallenge", comment: "Empty")
+        self.messageTextView.text = "newPostingEmptyMessage".localized(with: "Empty")
+        self.challengeLabel.text = "newPostingEmptyChallenge".localized(with: "Empty")
         self.styleMessageInput(true)
         
-        self.locationLabel.text = NSLocalizedString("retrievingCurrentLocation", comment: "Empty Location")
+        self.locationLabel.text = "retrievingCurrentLocation".localized(with: "Empty Location")
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
@@ -106,8 +111,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if newChallenge != nil {
-            self.challengeLabel.text = String(format: "%0.2f € -- %@", (newChallenge?.amount?.doubleValue)!, (newChallenge?.text)!)
+        if let amount = newChallenge?.amount, let text = newChallenge?.text {
+            self.challengeLabel.text = String(format: "%0.2f € -- \(text)", Double(amount))
             self.styleChallengeLabel()
         }
         // Tracking
@@ -129,7 +134,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.postingPictureImageView.image = UIImage()
         
         self.messageTextView.resignFirstResponder()
-        self.messageTextView.text = NSLocalizedString("newPostingEmptyMessage", comment: "Empty")
+        self.messageTextView.text = "newPostingEmptyMessage".localized(with: "Empty")
         self.styleMessageInput(true)
     }
     
@@ -140,37 +145,37 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         
         //TODO: Add Done image
         
-        self.loadingHUD.labelText = NSLocalizedString(localizedKey, comment: "loading")
+        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
     }
     
     func styleMessageInput(_ placeholder: Bool) {
         if placeholder {
-            self.messageTextView.textColor = UIColor.lightGray
-        }else{
-            self.messageTextView.textColor = UIColor.black
+            self.messageTextView.textColor = .lightGray
+        } else {
+            self.messageTextView.textColor = .black
         }
     }
     
     func styleChallengeLabel() {
-        if self.challengeLabel.text == NSLocalizedString("newPostingEmptyChallenge", comment: "Empty") {
-            self.challengeLabel.textColor = UIColor.lightGray
-        }else{
-            self.challengeLabel.textColor = UIColor.black
+        if self.challengeLabel.text == "newPostingEmptyChallenge".localized(with: "Empty") {
+            self.challengeLabel.textColor = .lightGray
+        } else {
+            self.challengeLabel.textColor = .black
         }
     }
 
     
 // MARK: - UITextViewDelegate
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text == NSLocalizedString("newPostingEmptyMessage", comment: "Empty") {
+        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") {
             self.styleMessageInput(true)
-        }else{
+        } else {
             self.styleMessageInput(false)
         }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == NSLocalizedString("newPostingEmptyMessage", comment: "Empty") {
+        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") {
             textView.text = ""
         }
     }
@@ -180,82 +185,47 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - Button Actions
     
     func sendPostingButtonPressed() {
-        let newPosting: BOPost = BOPost.mr_createEntity()! as BOPost
-        
-        newPosting.flagNeedsUpload = true
-        newPosting.flagNeedsDownload = false
-        newPosting.text = self.messageTextView.text
-        newPosting.latitude = NSNumber(value: self.newLatitude)
-        newPosting.longitude = NSNumber(value: self.newLongitude)
-        newPosting.date = Date()
-        
-        if self.newCity == nil {
-            newPosting.city = nil
-        }else{
-            newPosting.city = self.newCity
-        }
-        
-
-        var withImage:Bool = false
-        if let image = postingPictureImageView.image {
-            // User selected Image for this post
-            let newImage:BOImage = BOImage.createWithImage(image)
-            newImage.flagNeedsUpload = true
-        
-            newPosting.images.insert(newImage)
+        let media = ![self.media]
+        Post.post(text: messageTextView.text, latitude: newLatitude, longitude: newLongitude, city: newCity, challenge: newChallenge, media: media).onSuccess { post in
             
-            withImage = true
+            self.setupLoadingHUD("New Posting sent!")
+            self.loadingHUD.hide(true, afterDelay: 3.0)
+            self.resetAllInputs()
+            
+            
+            let withImage = !media.isEmpty
+            
+            // Tracking
+            Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])
+            Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage": withImage.description])
+            
+            let defaults = UserDefaults.standard
+            defaults.set(Date(), forKey: "lastPostingSent")
+            defaults.synchronize()
+            BOPushManager.shared.setupAllLocalPushNotifications()
+            
+            self.closeView(true)
         }
-        
-        // Check wether a challenge is connected to the posting
-        if self.newChallenge != nil {
-            newPosting.challenge = self.newChallenge
-        }
-        
-        // Save
-        NSManagedObjectContext.mr_default().mr_saveToPersistentStoreAndWait()
-        
-        BOSynchronizeController.shared.triggerUpload()
         
         // After Saving throw User message and reset inputs
-        self.setupLoadingHUD("New Posting saved!")
-        self.loadingHUD.hide(true, afterDelay: 3.0)
-        self.resetAllInputs()
         
-        // Tracking
-        Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage":withImage])
-        Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage":withImage.description])
-        
-        let defaults = UserDefaults.standard
-        defaults.set(Date(), forKey: "lastPostingSent")
-        defaults.synchronize()
-        BOPushManager.shared.setupAllLocalPushNotifications()
-        
-        self.closeView(true)
     }
     
     @IBAction func addAttachementButtonPressed(_ sender: UIButton) {
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: "sourceOfImage".local, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("from library")
             //shows the library
-            self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .photoLibrary
-            self.imagePicker.modalPresentationStyle = .popover
-            self.present(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.present(over: self, with: .photoLibrary)
         })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let cameraOption = UIAlertAction(title: "takeAPhoto".local, style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
             print("take a photo")
             //shows the camera
-            self.imagePicker.allowsEditing = true
-            self.imagePicker.sourceType = .camera
-            self.imagePicker.cameraDevice = .front
-            self.imagePicker.modalPresentationStyle = .popover
-            self.present(self.imagePicker, animated: true, completion: nil)
+            self.imagePicker.present(over: self, with: .camera)
             
         })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
+        let cancelOption = UIAlertAction(title: "cancel".local, style: UIAlertActionStyle.cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Cancel")
             self.dismiss(animated: true, completion: nil)
@@ -265,7 +235,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         optionMenu.addAction(photoLibraryOption)
         optionMenu.addAction(cancelOption)
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
-            optionMenu.addAction(cameraOption)} else {
+            optionMenu.addAction(cameraOption)
+        } else {
             print ("I don't have a camera.")
         }
         
@@ -321,18 +292,13 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
 // MARK: - Image Picker Delegate
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        let choosenImage: UIImage = image
-        
-        self.postingPictureImageView.image = choosenImage
-        
-        self.dismiss(animated: true, completion: nil)
-        
-        return
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        self.media = NewMedia(from: info)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 
     /*
@@ -347,8 +313,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).row == 1 {
-            let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        if indexPath.row == 1 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
             let challengesTableViewController: ChallengesTableViewController = storyboard.instantiateViewController(withIdentifier: "ChallengesTableViewController") as! ChallengesTableViewController
             challengesTableViewController.parentNewPostingTVC = self

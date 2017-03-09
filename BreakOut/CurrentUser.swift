@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import Sweeft
 
-import AFOAuth2Manager
+// TODO: Refactor this huge singleton too. It's a mess => Use StatusSerializable for persisntance
 
-class CurrentUser: NSObject {
+final class CurrentUser: NSObject {
     var userid: NSInteger?
     let KEY_USERID: String = "userid"
     
@@ -19,6 +20,13 @@ class CurrentUser: NSObject {
     var lastname: String?
     var email: String?
     var picture: UIImage?
+    var profilePic: Image? {
+        didSet {
+            profilePic >>> {
+                self.picture <- $0.image
+            }
+        }
+    }
     
     var gender: String? // "male"=0 or "female"=1
     var birthday: Date?
@@ -38,6 +46,10 @@ class CurrentUser: NSObject {
     var flagParticipant: Bool = false
     var teamid: NSInteger?
     var eventid: NSInteger?
+    
+    var id: Int {
+        return userid ?? -1
+    }
     
     static var shared = CurrentUser()
     
@@ -63,66 +75,71 @@ class CurrentUser: NSObject {
     
 // MARK: - Sync with Backend
     
-    func uploadUserDataToBackend() {
+    func uploadUserData(to api: BreakOut = .shared) {
         
         if let id = self.userid {
-            let params: NSMutableDictionary = self.attributesAsDictionary()
+            let params = self.attributesAsDictionary()
             
-            //params.setValue(self.attributesAsDictionary(), forKey: "participant")
-            
+            let dictionary = params.dictionaryWithValues(forKeys: params.allKeys ==> { $0 as? String })
+            let json = JSON(from: dictionary) // Small hack
             BONetworkIndicator.si.increaseLoading()
             
-            BONetworkManager.put(.UserData, arguments: [id], parameters: params, auth: true, success: { (response) in
+            api.doJSONRequest(with: .put,
+                              to: .userData,
+                              arguments: ["id": id],
+                              auth: api.auth,
+                              body: json).onSuccess { response in
+                
+                if self.profilePic?.image != self.picture {
+                    self.picture?.upload(using: response["profilePic"])
+                }
                 BONetworkIndicator.si.decreaseLoading()
-            }) { (error, response) in
+            }
+            .onError { error in
                 BONetworkIndicator.si.decreaseLoading()
-                if response?.statusCode == 401 {
+                switch error {
+                case .invalidStatus(401, _):
                     NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
+                default: break
                 }
             }
+            print("Got it!")
         }
     }
     
     func downloadUserData() {
-        
         if self.isLoggedIn() {
             BONetworkIndicator.si.increaseLoading()
             
-            BONetworkManager.get(.CurrentUser, arguments: [], parameters: nil, auth: true, success: { (response) in
-                // Successful
+            CurrentUser.get().onSuccess { _ in
                 BONetworkIndicator.si.decreaseLoading()
-                
-                let basicUserDict: NSDictionary = response as! NSDictionary
-                
-                print("---------------------------------")
-                print("CurrentUser: ")
-                print(basicUserDict)
-                print("---------------------------------")
-                
-                self.setAttributesWithJSON(basicUserDict)
-                
-                // If the user is also an participant we should store the participants information
-                if (basicUserDict.object(forKey: "participant") != nil) {
-                    if let participantDictionary: NSDictionary = basicUserDict.value(forKey: "participant") as? NSDictionary {
-                        self.setAttributesWithJSON(participantDictionary)
-                        // Participant Information is connected to the user -> Mark him as Participant
-                        self.flagParticipant = true
-                    }else{
-                        // No participant Information is connected to the user -> Mark him as NO Participant
-                        self.flagParticipant = false
-                    }
-                }else{
-                    // No participant Information is connected to the user -> Mark him as NO Participant
-                    self.flagParticipant = false
-                }
-                self.storeInNSUserDefaults()
-            }) { (error, response) in
+            }
+            .onError { error in
                 BONetworkIndicator.si.decreaseLoading()
-                if response?.statusCode == 401 {
+                switch error {
+                case .invalidStatus(401, _):
                     NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
+                default: break
                 }
             }
         }        
+    }
+    
+    func register(email: String, password: String, using api: BreakOut = .shared) -> CurrentUser.Result {
+        let body: JSON = [
+            "email": email.json,
+            "password": password.json
+        ]
+        return api.doJSONRequest(with: .post,
+                                 to: .user,
+                                 body: body,
+                                 acceptableStatusCodes: [200, 201]).nested { (json: JSON) in
+                                    
+            self.set(with: json)
+            self.email = email
+            self.storeInNSUserDefaults()
+            return self
+        }
     }
     
     
@@ -195,7 +212,7 @@ class CurrentUser: NSObject {
         defaults.set(selfDictionary, forKey: "userDictionary")
         defaults.synchronize()
         
-        self.uploadUserDataToBackend()
+        self.uploadUserData()
     }
     
     func retrieveFromNSUserDefaults() {
@@ -206,6 +223,24 @@ class CurrentUser: NSObject {
             self.setAttributesWithJSON(selfDictionary)
             //self.setValuesForKeysWithDictionary(selfDictionary as! [String : AnyObject])
         }
+    }
+    
+    func set(with json: JSON) {
+        userid = json["id"].int
+        firstname = json["firstname"].string
+        lastname = json["lastname"].string
+        email = json["email"].string
+        gender = json["gender"].string
+        birthday = json["birthday"].date()
+        hometown = json["hometown"].string
+        shirtSize = json["tshirtsize"].string
+        emergencyNumber = json["emergencynumber"].string
+        phoneNumber = json[KEY_PHONENUMBER].string
+        profilePic = json.profilePic
+        teamid = json["participant"]["teamId"].int
+        eventid = json["participant"]["teamId"].int
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
     }
     
     func setAttributesWithJSON(_ jsonDictionary: NSDictionary) {
@@ -255,8 +290,6 @@ class CurrentUser: NSObject {
                 }
             }
         }
-        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
     }
     
 // MARK: - Return Value Helpers
@@ -347,4 +380,35 @@ class CurrentUser: NSObject {
         return fileInDocumentsDirectory(name)
 
     }
+}
+
+extension CurrentUser: Serializable {
+    
+    var json: JSON {
+        return [
+            "firstname": (firstname.?).json,
+            "lastname": (lastname.?).json
+        ]
+    }
+    
+}
+
+extension CurrentUser: Deserializable {
+    
+    public convenience init?(from json: JSON) {
+        // Not my best work, I admit ;)
+        self.init()
+        set(with: json)
+        storeInNSUserDefaults()
+        CurrentUser.shared = self
+    }
+    
+}
+
+extension CurrentUser {
+    
+    static func get(using api: BreakOut = .shared) -> CurrentUser.Result {
+        return get(using: api, at: .currentUser, auth: api.auth)
+    }
+    
 }
