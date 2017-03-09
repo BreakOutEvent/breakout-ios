@@ -9,6 +9,10 @@ xcode_sdk: iphonesimulator10.2
 
 sudo: required
 
+branches:
+  only:
+    - master
+
 notifications:
   slack:
     rooms:
