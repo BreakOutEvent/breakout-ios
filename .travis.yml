@@ -19,13 +19,13 @@ notifications:
       - breakoutevent:ZzPC3qTcc6jalaX2mJcBDg0n
 
 before_install:
-  - rvm get stable || echo "RVM Up to Date"
   - pod repo update > /dev/null
   - openssl aes-256-cbc -K $encrypted_7cb16b9c01f6_key -iv $encrypted_7cb16b9c01f6_iv -in secrets.tar.enc -out secrets.tar -d
   - tar xvf secrets.tar
 
 script:
-  - xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests -destination 'platform=iOS Simulator,id=22FA2149-1241-469C-BF6D-462D3837DB72,OS=10.2' CODE_SIGNING_REQUIRED=NO | xcpretty -s && ${PIPESTATUS[0]}
+  - ((xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests -destination 'platform=iOS Simulator,id=22FA2149-1241-469C-BF6D-462D3837DB72,OS=10.2' CODE_SIGNING_REQUIRED=NO | xcpretty -s) || echo "Tests Failed") && ${PIPESTATUS[0]}
+
 
 deploy:
   provider: script

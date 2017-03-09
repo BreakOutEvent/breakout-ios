@@ -17,7 +17,7 @@ if [ ! -z "$TRAVIS_TAG" ]; then
 
     # Run submit
 
-    "Pods/Crashlytics/submit" 1c0980d1b003b77f0ea981400d725dab7fef673b 0fdd77bc7fcb1d472997f39a62c7399a604d22d98dddebb29e0b49f161bbadb1
+    "Pods/Crashlytics/submit" 1c0980d1b003b77f0ea981400d725dab7fef673b 0fdd77bc7fcb1d472997f39a62c7399a604d22d98dddebb29e0b49f161bbadb1 -groupAliases "Development"
 
     # Delete provisioning profile
 
