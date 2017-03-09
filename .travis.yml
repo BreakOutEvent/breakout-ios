@@ -24,7 +24,7 @@ before_install:
   - tar xvf secrets.tar
 
 script:
-  - ((xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests -destination 'platform=iOS Simulator,id=22FA2149-1241-469C-BF6D-462D3837DB72,OS=10.2' CODE_SIGNING_REQUIRED=NO | xcpretty -s) || echo "Tests Failed") && ${PIPESTATUS[0]}
+  - set -o pipefail && xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests -destination 'platform=iOS Simulator,id=22FA2149-1241-469C-BF6D-462D3837DB72,OS=10.2' CODE_SIGNING_REQUIRED=NO | xcpretty
 
 
 deploy:
