@@ -29,15 +29,17 @@ class WelcomeScreenViewController: UIViewController {
             self.eventStartDate = Date(timeIntervalSince1970: (defaults.object(forKey: "eventStartTimestamp") as! Double))
         }
         
-        self.headlineLabel.text = NSLocalizedString("welcomeScreenHeadline", comment: "")
-        self.descriptionTextLabel.text = NSLocalizedString("welcomeScreenDescriptionText", comment: "")
+        self.headlineLabel.text = "welcomeScreenHeadline".local
+        self.descriptionTextLabel.text = "welcomeScreenDescriptionText".local
         
-        if CurrentUser.sharedInstance.isLoggedIn() {
+        self.participateButton.backgroundColor = .mainOrange
+        
+        if CurrentUser.shared.isLoggedIn() {
             // User is logged in
-            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonShareLocation", comment: ""), for: UIControlState())
+            self.participateButton.setTitle("welcomeScreenParticipateButtonShareLocation".local, for: .normal)
         }else{
             // User is not logged in
-            self.participateButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), for: UIControlState())
+            self.participateButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: .normal)
         }
         
         
@@ -55,7 +57,7 @@ class WelcomeScreenViewController: UIViewController {
         // Tracking
         Flurry.logEvent("/welcomeScreen", timed: true)
         
-        if CurrentUser.sharedInstance.isLoggedIn() && CurrentUser.sharedInstance.currentTeamId() < 0 {
+        if CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() < 0 {
             self.participateButton.isEnabled = false
         }
     }
@@ -81,7 +83,7 @@ class WelcomeScreenViewController: UIViewController {
         
         self.presentViewController(becomeParticipantTVC, animated: true, completion: nil)*/
         
-        if CurrentUser.sharedInstance.isLoggedIn() {
+        if CurrentUser.shared.isLoggedIn() {
             // User is logged in -> Show NewPostingsTVC
             if let slideMenuController = self.slideMenuController() {
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewPostingTableViewController")

@@ -29,14 +29,13 @@ class ContainerViewController: SlideMenuController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewDidLoad() {
         // Check UserDefaults for already logged in user
         let defaults = UserDefaults.standard
         if defaults.object(forKey: "userDictionary") == nil {
             // User is NOT logged in
-            //self.presentLoginScreen()
-        }else{
-            CurrentUser.sharedInstance.downloadUserData()
+        } else {
+            CurrentUser.shared.downloadUserData()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(presentLoginScreen), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)

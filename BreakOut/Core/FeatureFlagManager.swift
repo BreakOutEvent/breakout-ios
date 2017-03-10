@@ -10,12 +10,43 @@ import UIKit
 import Pantry
 
 import Toaster
+import Sweeft
 
 // Tracking
 import Flurry_iOS_SDK
 
+struct Feature {
+    let key: String
+    let enabled: Bool
+    
+    func pack() {
+        Pantry.pack(enabled, key: key)
+    }
+}
+
+extension Feature: Deserializable {
+    
+    public init?(from json: JSON) {
+        guard let key = json["description"].string,
+            let enabled = json["enabled"].bool else {
+                
+            return nil
+        }
+        self.init(key: key, enabled: enabled)
+    }
+    
+}
+
+extension Feature {
+    
+    static func all(using api: BreakOut = .shared) -> Feature.Results {
+        return getAll(using: api, at: .featureFlags)
+    }
+    
+}
+
 class FeatureFlagManager: NSObject {
-    static let sharedInstance = FeatureFlagManager()
+    static let shared = FeatureFlagManager()
     
     func isActivated(_ featureFlag: String) -> Bool {
         if let retrieveFeatureFlag: Bool = Pantry.unpack(featureFlag) {
@@ -31,19 +62,13 @@ class FeatureFlagManager: NSObject {
     }
     
     func downloadCurrentFeatureFlagSetup() {
-        
-        BONetworkManager.doJSONRequestGET(.FeatureFlags, arguments: [], parameters: nil, auth: false, success: { (response) in
-            for featureFlagConfig: NSDictionary in response as! Array {
-                let key: String = featureFlagConfig.value(forKey: "description") as! String
-                Pantry.pack(featureFlagConfig.value(forKey: "enabled") as! Bool, key: key)
-            }
-            
-            Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful":true])
-        }) { (_,_) in
-            //Tracking
-            Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful":false])
+        Feature.all().onSuccess { features in
+            features => Feature.pack
+            Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful": true])
         }
-        
+        .onError { error in
+            Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful": false])
+        }
         Pantry.pack(true, key: "featureFlag")
     }
 }

@@ -23,6 +23,8 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     @IBOutlet weak var newsTableViewCell: UITableViewCell!
     @IBOutlet weak var settingsTableViewCell: UITableViewCell!
     
+    var selected: IndexPath?
+    
 // MARK: - Screen Actions
     
     override func viewDidLoad() {
@@ -42,7 +44,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         
         if self.userPictureImageView.image == nil {
             self.addUserpictureButton.isHidden = false
-        }else{
+        } else {
             self.addUserpictureButton.isHidden = true
         }
         
@@ -51,7 +53,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.cell(self.allTeamsTableViewCell, setHidden: true)
         self.cell(self.settingsTableViewCell, setHidden: true)
         
-        self.loginAndRegisterButton.setTitle(NSLocalizedString("welcomeScreenParticipateButtonLoginAndRegister", comment: ""), for: UIControlState())
+        self.loginAndRegisterButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: UIControlState())
         
         NotificationCenter.default.addObserver(self, selector: #selector(showAllPostingsTVC), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showWelcomeScreen), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)
@@ -66,7 +68,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.fillInputsWithCurrentUserInfo()
         tableView.reloadData()
         
-        if CurrentUser.sharedInstance.isLoggedIn() {
+        if CurrentUser.shared.isLoggedIn() {
             self.userPictureImageView.isHidden = false
             self.usernameLabel.isHidden = false
             self.userDistanceRemainingTimeLabel.isHidden = false
@@ -95,9 +97,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     }
     
     func fillInputsWithCurrentUserInfo() {
-        self.usernameLabel.text = CurrentUser.sharedInstance.username()
+        self.usernameLabel.text = CurrentUser.shared.username()
         
-        self.userPictureImageView.image = CurrentUser.sharedInstance.picture
+        self.userPictureImageView.image = CurrentUser.shared.picture
         if self.userPictureImageView.image != nil {
             self.addUserpictureButton.isHidden = true
         }
@@ -121,9 +123,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+        if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             return false
-        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
+        } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
             return false
         }
         
@@ -131,21 +133,47 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.sharedInstance.currentTeamId() < 0 {
+        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
-        }else if((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2 && CurrentUser.sharedInstance.isLoggedIn() == false) {
+        } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
             cell.alpha = 0.5
-        }else{
+        } else {
             cell.alpha = 1.0
         }
+        if indexPath.section != 0 {
+            if indexPath == selected {
+                cell.set(color: .mainOrange)
+            } else {
+                cell.set(color: .black)
+            }
+        }
+    }
+    
+    func viewController(for identifier: String) -> UIViewController! {
+        let controller = storyboard!.instantiateViewController(withIdentifier: identifier)
+        if let type = type(of: controller) as? PersistentViewController.Type {
+            return type.viewController(using: controller)
+        }
+        return controller
     }
     
 // MARK: - TableView Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         
+        if indexPath != IndexPath(row: 1, section: 1) {
+            selected = indexPath
+        }
+        if indexPath.section == 0 {
+            if CurrentUser.shared.isLoggedIn() {
+                selected = IndexPath(row: 2, section: 1)
+            } else {
+                selected = IndexPath(row: 0, section: 0)
+            }
+        }
+        
         if let slideMenuController = self.slideMenuController() {
-            let controller = self.storyboard?.instantiateViewController(withIdentifier: cell.reuseIdentifier!)
+            let controller = viewController(for: cell.reuseIdentifier!)
             
             let navigationController = UINavigationController(rootViewController: controller!)
             

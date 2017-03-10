@@ -6,26 +6,57 @@
 //  Copyright © 2015 BreakOut. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-struct Style {
+extension UIColor {
     
-    static let mainOrange: UIColor = UIColor(red:0.968, green:0.58, blue:0.117, alpha:1)
+    static var mainOrange: UIColor {
+        return UIColor(red: 230.0 / 255.0, green: 130.0 / 255.0, blue: 60.0 / 255.0, alpha: 1.0)
+    }
     
-    static let lightTransparentWhite: UIColor = UIColor(red:1.0, green:1.0, blue:1.0, alpha:0.5) //For Placeholder Texts
+    static var lightTransparentWhite: UIColor {
+        return UIColor(red:1.0, green:1.0, blue:1.0, alpha:0.5) //For Placeholder Texts
+    }
     
     //TODO: @alexkaessner -> Update this information.    
-    static let mainBackgroundColor: UIColor = UIColor(red:0.17, green:0.18, blue:0.23, alpha:1)
-    static let lightBackgroundColor: UIColor = UIColor(red:0.24, green:0.24, blue:0.3, alpha:1)
+    static var mainBackgroundColor: UIColor {
+        return UIColor(red:0.17, green:0.18, blue:0.23, alpha:1)
+    }
     
-    static let navigationBarGrey: UIColor = UIColor(red:0.57, green:0.58, blue:0.62, alpha:1)
+    static var brick: UIColor {
+        return UIColor(red: 204 / 255, green: 31 / 355, blue: 31 / 255, alpha: 1)
+    }
     
-    static let normalButtonColor: UIColor = UIColor(red:0.77, green:0.29, blue:0.96, alpha:1)
-    static let greyButtonColor: UIColor = UIColor(red:0.57, green:0.58, blue:0.62, alpha:1)
-    static let barButtonColor: UIColor = UIColor(red:0.57, green:0.58, blue:0.62, alpha:1)
+    static var lightBackgroundColor: UIColor {
+        return UIColor(red:0.24, green:0.24, blue:0.3, alpha:1)
+    }
     
-    static let graphLineColor: UIColor = UIColor(red:0.77, green:0.29, blue:0.96, alpha:1)
-    static let graphGradientColor: UIColor = UIColor(red:0.77, green:0.29, blue:0.96, alpha:0.05)
+    static var navigationBarGrey: UIColor {
+        return UIColor(red:0.57, green:0.58, blue:0.62, alpha:1)
+    }
     
-    static let normalTextColor: UIColor = UIColor.white
+    static var normalButtonColor: UIColor {
+        return UIColor(red:0.77, green:0.29, blue:0.96, alpha:1)
+    }
+    
+    static var greyButtonColor: UIColor {
+        return UIColor(red:0.57, green:0.58, blue:0.62, alpha:1)
+    }
+    
+    static var barButtonColor: UIColor {
+        return UIColor(red:0.57, green:0.58, blue:0.62, alpha:1)
+    }
+    
+    static var graphLineColor: UIColor {
+        return UIColor(red:0.77, green:0.29, blue:0.96, alpha:1)
+    }
+    
+    static var graphGradientColor: UIColor {
+        return UIColor(red:0.77, green:0.29, blue:0.96, alpha:0.05)
+    }
+    
+    static var normalTextColor: UIColor {
+        return UIColor.white
+    }
+    
 }

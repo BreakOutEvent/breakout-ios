@@ -12,7 +12,6 @@ import UIKit
 import Flurry_iOS_SDK
 import Crashlytics
 
-import SwiftDate
 
 import StaticDataTableViewController
 
@@ -51,17 +50,17 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CurrentUser.sharedInstance.downloadUserData()
+        CurrentUser.shared.downloadUserData()
         NotificationCenter.default.addObserver(self, selector: #selector(notificationCurrentUserUpdated), name: NSNotification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
         
         // Style the navigation bar
-        self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = Style.mainOrange
-        self.navigationController!.navigationBar.backgroundColor = Style.mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barTintColor = .mainOrange
+        self.navigationController?.navigationBar.backgroundColor = .mainOrange
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
-        self.title = NSLocalizedString("userProfileTitle", comment: "")
+        self.title = "userProfileTitle".local
         
         // Create save button for navigation item
         let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.save, target: self, action: #selector(saveChanges))
@@ -119,26 +118,26 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     }
     
     func fillInputsWithCurrentUserInfo() {
-        self.firstnameTextfield.text = CurrentUser.sharedInstance.firstname
-        self.familynameTextfield.text = CurrentUser.sharedInstance.lastname
+        self.firstnameTextfield.text = CurrentUser.shared.firstname
+        self.familynameTextfield.text = CurrentUser.shared.lastname
         
-        self.emailTextfield.text = CurrentUser.sharedInstance.email
+        self.emailTextfield.text = CurrentUser.shared.email
         
-        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.sharedInstance.genderAsInt()
-        self.birthdayTextfield.text = CurrentUser.sharedInstance.birthday?.toString()
-        self.shirtSizeTextfield.text = CurrentUser.sharedInstance.shirtSize
-        self.hometownTextfield.text = CurrentUser.sharedInstance.hometown
-        self.phonenumberTextfield.text = CurrentUser.sharedInstance.phoneNumber
-        self.emergencyNumberTextfield.text = CurrentUser.sharedInstance.emergencyNumber
+        self.genderSegmentedControl.selectedSegmentIndex = CurrentUser.shared.genderAsInt()
+        self.birthdayTextfield.text = CurrentUser.shared.birthday?.toString()
+        self.shirtSizeTextfield.text = CurrentUser.shared.shirtSize
+        self.hometownTextfield.text = CurrentUser.shared.hometown
+        self.phonenumberTextfield.text = CurrentUser.shared.phoneNumber
+        self.emergencyNumberTextfield.text = CurrentUser.shared.emergencyNumber
         
-        self.profilePictureImageView.image = CurrentUser.sharedInstance.picture
+        self.profilePictureImageView.image = CurrentUser.shared.picture
         
         // Check if current user is already participate
-        if CurrentUser.sharedInstance.flagParticipant == true {
+        if CurrentUser.shared.flagParticipant == true {
             self.cell(self.participateButtonTableViewCell, setHidden: true)
             self.cells(self.eventInformationTableViewCellCollection, setHidden: false)
             self.cell(self.birthdayTableViewCell, setHidden: false)
-        }else{
+        } else {
             self.cell(self.participateButtonTableViewCell, setHidden: true) // Always hidden as long as we haven't this function ready
             self.cells(self.eventInformationTableViewCellCollection, setHidden: true)
             self.cell(self.birthdayTableViewCell, setHidden: true)
@@ -158,8 +157,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         
         self.profilePictureImageView.image = choosenImage
         
-        CurrentUser.sharedInstance.picture = choosenImage
-        CurrentUser.sharedInstance.storeInNSUserDefaults()
+        CurrentUser.shared.picture = choosenImage
         
         self.dismiss(animated: true, completion: nil)
         
@@ -193,7 +191,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UserProfileTableViewController.shirtSizePickerToolbarDoneButtonPressed))
@@ -212,7 +210,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = Style.mainOrange
+        toolBar.tintColor = .mainOrange
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UserProfileTableViewController.birthdayDatePickerToolbarDoneButtonPressed))
@@ -261,33 +259,33 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
 // MARK: - Button Actions
     
     func saveChanges() {
-        CurrentUser.sharedInstance.firstname = self.firstnameTextfield.text
-        CurrentUser.sharedInstance.lastname = self.familynameTextfield.text
+        CurrentUser.shared.firstname = self.firstnameTextfield.text
+        CurrentUser.shared.lastname = self.familynameTextfield.text
         
-        CurrentUser.sharedInstance.email = self.emailTextfield.text
+        CurrentUser.shared.email = self.emailTextfield.text
         
-        CurrentUser.sharedInstance.setGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
-        CurrentUser.sharedInstance.hometown = self.hometownTextfield.text
-        CurrentUser.sharedInstance.phoneNumber = self.phonenumberTextfield.text
-        CurrentUser.sharedInstance.emergencyNumber = self.emergencyNumberTextfield.text
+        CurrentUser.shared.setGenderFromInt(self.genderSegmentedControl.selectedSegmentIndex)
+        CurrentUser.shared.hometown = self.hometownTextfield.text
+        CurrentUser.shared.phoneNumber = self.phonenumberTextfield.text
+        CurrentUser.shared.emergencyNumber = self.emergencyNumberTextfield.text
         
-        CurrentUser.sharedInstance.storeInNSUserDefaults()
+        CurrentUser.shared.uploadUserData()
         
         //BOToast.log("Stored all Input Values to CurrentUser Object")
     }
     
     @IBAction func profilePictureButtonPressed(_ sender: UIButton) {
-        let optionMenu: UIAlertController = UIAlertController(title: nil, message: NSLocalizedString("sourceOfImage", comment: ""), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let optionMenu: UIAlertController = UIAlertController(title: nil, message: "sourceOfImage".local, preferredStyle: .actionSheet)
         
-        let photoLibraryOption = UIAlertAction(title: NSLocalizedString("photoLibrary", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: .default) { alert in
             print("from library")
             //shows the library
             self.imagePicker.allowsEditing = true
             self.imagePicker.sourceType = .photoLibrary
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
-        })
-        let cameraOption = UIAlertAction(title: NSLocalizedString("takeAPhoto", comment: ""), style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) -> Void in
+        }
+        let cameraOption = UIAlertAction(title: "takeAPhoto".local, style: .default) { alert in
             print("take a photo")
             //shows the camera
             self.imagePicker.allowsEditing = true
@@ -296,17 +294,16 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
             self.imagePicker.modalPresentationStyle = .popover
             self.present(self.imagePicker, animated: true, completion: nil)
             
-        })
-        let cancelOption = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: UIAlertActionStyle.cancel, handler: {
-            (alert: UIAlertAction!) -> Void in
+        }
+        let cancelOption = UIAlertAction(title: "cancel".local, style: .cancel) { alert in
             print("Cancel")
             self.dismiss(animated: true, completion: nil)
-        })
+        }
         
         //Adding the actions to the action sheet. Here, camera will only show up as an option if the camera is available in the first place.
         optionMenu.addAction(photoLibraryOption)
         optionMenu.addAction(cancelOption)
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) == true {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
             optionMenu.addAction(cameraOption)} else {
             print ("I don't have a camera.")
         }
