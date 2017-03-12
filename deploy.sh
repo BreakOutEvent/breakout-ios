@@ -6,6 +6,12 @@ tags="$(git tag --contains)"
 
 if [ ! -z "$tags" ]; then
 
+    echo "This will be released to Fabric"
+
+    echo "First set up the certificates!"
+    echo "Damn you Apple!"
+    echo "All HAIL Steve Jobs and his Minions"
+
     # Create a custom keychain
     security create-keychain -p travis ios-build.keychain
 
@@ -18,12 +24,15 @@ if [ ! -z "$tags" ]; then
     # Add certificates to keychain and allow codesign to access them
     security import ./apple.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
     security import ./dist.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
-    security import ./travis/certs/ios_distribution.p12 -k ~/Library/Keychains/ios-build.keychain -P $DIST_PWD -T /usr/bin/codesign
+    security import ./dist.p12 -k ~/Library/Keychains/ios-build.keychain -P $DIST_PWD -T /usr/bin/codesign
 
     # Set keychain to default
     security default-keychain -s ios-build.keychain
 
     # Add provisioning profile to xcode
+
+    echo "Setting up the Provisioning Profile"
+    echo "Pray it was the right one, dummy!"
 
     sudo mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
     UUID=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
@@ -34,9 +43,9 @@ if [ ! -z "$tags" ]; then
     APP_NAME="BreakOut"
     PROVISIONING_PROFILE="$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
 
-    echo "This will be released to Fabric"
+    # Clean Build & Archive
 
-    echo "First do a clean build"
+    echo "Clean Build & Archive"
 
     xcodebuild -workspace BreakOut.xcworkspace \
         -scheme BreakOut \
@@ -44,6 +53,10 @@ if [ ! -z "$tags" ]; then
         -destination "generic/platform=iOS" \
         -configuration Release \
         archive | xcpretty
+
+    echo "Build Process Finished. Ready or not: SHIP IT!"
+
+    echo "Ship it like it's HOT!"
 
     # Run submit
 
@@ -53,6 +66,8 @@ if [ ! -z "$tags" ]; then
         -groupAliases Development
 
     # Delete provisioning profile
+
+    echo "Clean up (AKA nuke everything and leave)."
 
     sudo rm -f ~/Library/MobileDevice/Provisioning\ Profiles/*
 
