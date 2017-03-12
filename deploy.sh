@@ -18,6 +18,7 @@ if [ ! -z "$tags" ]; then
     # Add certificates to keychain and allow codesign to access them
     security import ./apple.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
     security import ./dist.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+    security import ./travis/certs/ios_distribution.p12 -k ~/Library/Keychains/ios-build.keychain -P $DIST_PWD -T /usr/bin/codesign
 
     # Set keychain to default
     security default-keychain -s ios-build.keychain

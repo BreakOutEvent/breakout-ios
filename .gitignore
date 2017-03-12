@@ -35,6 +35,7 @@ PrivatConstants.swift
 PrivateConstants.swift
 secrets.tar
 dist.cer
+dist.p12
 apple.cer
 BreakOutBeta.mobileprovision
 Screencasts
