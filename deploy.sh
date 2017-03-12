@@ -26,9 +26,11 @@ if [ ! -z "$tags" ]; then
 
     # Add provisioning profile to xcode
 
-    sudo mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-    uuid=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
-    sudo mv BreakOutBeta.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+    # sudo mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+    # uuid=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
+    # sudo mv BreakOutBeta.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+
+    open BreakOutBeta.mobileprovision
 
     # Build & Archive
 
@@ -37,8 +39,6 @@ if [ ! -z "$tags" ]; then
         -scheme BreakOut \
         -destination "generic/platform=iOS" \
         -configuration Release \
-        PROVISIONING_PROFILE="$uuid" \
-        CODE_SIGN_IDENTITY="iPhone Distribution: Mathias Quintero (KJPP698PR3)" \
         ONLY_ACTIVE_ARCH=NO 'CODE_SIGN_RESOURCE_RULES_PATH=$(SDKROOT)/ResourceRules.plist' \
         archive | xcpretty
 
@@ -48,7 +48,7 @@ if [ ! -z "$tags" ]; then
 
     # Delete provisioning profile
 
-    sudo rm ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+    sudo rm ~/Library/MobileDevice/Provisioning\ Profiles/*
 
     sudo security delete-keychain ios-build.keychain
 
