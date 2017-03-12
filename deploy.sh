@@ -32,40 +32,22 @@ if [ ! -z "$tags" ]; then
     DEVELOPER_NAME="iPhone Distribution: Mathias Quintero (KJPP698PR3)"
     APP_NAME="BreakOut"
     PROVISIONING_PROFILE="$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
-    OUTPUTDIR="$PWD/build/Release-iphoneos"
 
     echo "This will be released to Fabric"
 
     echo "First do a clean build"
 
-    xcodebuild clean build \
-        -workspace BreakOut.xcworkspace \
+    xcodebuild -workspace BreakOut.xcworkspace \
         -scheme BreakOut \
         -sdk "iphoneos" \
         -destination "generic/platform=iOS" \
         -configuration Release \
-        OBJROOT=$PWD/build \
-        SYMROOT=$PWD/build \
-        ONLY_ACTIVE_ARCH=NO \
-        'CODE_SIGN_RESOURCE_RULES_PATH=$(SDKROOT)/ResourceRules.plist' \
-        | xcpretty
-
-    echo "Sign using: $PROVISIONING_PROFILE"
-    echo "To: $OUTPUTDIR"
-
-    xcrun -log -sdk iphoneos PackageApplication \
-        "$OUTPUTDIR/$APP_NAME.app" \
-        -o "$OUTPUTDIR/$APP_NAME.ipa" \
-        -sign "$DEVELOPER_NAME" \
-        -embed "$PROVISIONING_PROFILE"
-
-    IPA_PATH="$OUTPUTDIR/$APP_NAME.ipa"
+        archive | xcpretty
 
     # Run submit
 
     "Pods/Crashlytics/submit" 1c0980d1b003b77f0ea981400d725dab7fef673b \
         0fdd77bc7fcb1d472997f39a62c7399a604d22d98dddebb29e0b49f161bbadb1 \
-        -ipaPath $IPA_PATH \
         -notesPath "Built by travis for $tags" \
         -groupAliases Development
 
