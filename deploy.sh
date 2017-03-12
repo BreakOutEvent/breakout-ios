@@ -16,7 +16,15 @@ if [ ! -z "$tags" ]; then
 
     # Build & Archive
 
-    xcodebuild -workspace BreakOut.xcworkspace -scheme BreakOut -destination "generic/platform=iOS" -configuration Release ONLY_ACTIVE_ARCH=NO 'CODE_SIGN_RESOURCE_RULES_PATH=$(SDKROOT)/ResourceRules.plist' archive | xcpretty
+    xcodebuild \
+        -workspace BreakOut.xcworkspace \
+        -scheme BreakOut \
+        -destination "generic/platform=iOS" \
+        -configuration Release \
+        PROVISIONING_PROFILE="$uuid" \
+        CODE_SIGN_IDENTITY="iPhone Distribution: Mathias Quintero (KJPP698PR3)" \
+        ONLY_ACTIVE_ARCH=NO 'CODE_SIGN_RESOURCE_RULES_PATH=$(SDKROOT)/ResourceRules.plist' \
+        archive | xcpretty
 
     # Run submit
 
@@ -24,7 +32,7 @@ if [ ! -z "$tags" ]; then
 
     # Delete provisioning profile
 
-    rm ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+    sudo rm ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
 
 else
     echo "This will not be released, there is no tag"
