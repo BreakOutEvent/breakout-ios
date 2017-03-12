@@ -6,6 +6,22 @@ tags="$(git tag --contains)"
 
 if [ ! -z "$tags" ]; then
 
+    # Create a custom keychain
+    sudo security create-keychain -p travis ios-build.keychain
+
+    # Make the custom keychain default, so xcodebuild will use it for signing
+    sudo security default-keychain -s ios-build.keychain
+
+    # Unlock the keychain
+    sudo security unlock-keychain -p travis ios-build.keychain
+
+    # Set keychain timeout to 1 hour for long builds
+    sudo security set-keychain-settings -t 3600 -l ~/Library/Keychains/ios-build.keychain
+
+    # Add certificates to keychain and allow codesign to access them
+    sudo security import ./apple.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+    sudo security import ./dist.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+
     echo "This will be released to Fabric"
 
     # Add provisioning profile to xcode
@@ -33,6 +49,8 @@ if [ ! -z "$tags" ]; then
     # Delete provisioning profile
 
     sudo rm ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+
+    sudo security delete-keychain ios-build.keychain
 
 else
     echo "This will not be released, there is no tag"

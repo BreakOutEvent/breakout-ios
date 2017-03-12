@@ -34,6 +34,8 @@ Carthage/Build
 PrivatConstants.swift
 PrivateConstants.swift
 secrets.tar
+dist.cer
+apple.cer
 BreakOutBeta.mobileprovision
 Screencasts
 *.pages
