@@ -7,58 +7,71 @@ tags="$(git tag --contains)"
 if [ ! -z "$tags" ]; then
 
     # Create a custom keychain
-    sudo security create-keychain -p travis ios-build.keychain
+    security create-keychain -p travis ios-build.keychain
 
     # Unlock the keychain
-    sudo security unlock-keychain -p travis ios-build.keychain
-
-    #
-    sudo security default-keychain -s ios-build.keychain
+    security unlock-keychain -p travis ios-build.keychain
 
     # Set keychain timeout to 1 hour for long builds
-    sudo security set-keychain-settings -t 3600 -l ~/Library/Keychains/ios-build.keychain
+    security set-keychain-settings -t 3600 -l ~/Library/Keychains/ios-build.keychain
 
     # Add certificates to keychain and allow codesign to access them
-    sudo security import ./apple.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
-    sudo security import ./dist.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+    security import ./apple.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
+    security import ./dist.cer -k ~/Library/Keychains/ios-build.keychain -T /usr/bin/codesign
 
-    echo "This will be released to Fabric"
+    # Set keychain to default
+    security default-keychain -s ios-build.keychain
 
     # Add provisioning profile to xcode
 
     sudo mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-    uuid=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
-    sudo mv BreakOutBeta.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+    UUID=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
+    sudo mv BreakOutBeta.mobileprovision \
+        $HOME/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
 
-    xctool -workspace BreakOut.xcworkspace -scheme BreakOut -configuration Release build archive
-
-    PROVISIONING_PROFILE="$HOME/Library/MobileDevice/Provisioning Profiles/$uuid.mobileprovision"
-    RELEASE_DATE=`date '+%Y-%m-%d %H:%M:%S'`
+    DEVELOPER_NAME="iPhone Distribution: Mathias Quintero (KJPP698PR3)"
+    APP_NAME="BreakOut"
+    PROVISIONING_PROFILE="$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
     OUTPUTDIR="$PWD/build/Release-iphoneos"
 
-    mkdir -p $OUTPUTDIR
+    echo "This will be released to Fabric"
 
-    LATEST_ARCHIVE_PATH=`find ~/Library/Developer/Xcode/Archives -type d -Btime -60m -name '*.xcarchive' | head -1`
-    echo $LATEST_ARCHIVE_PATH
+    echo "First do a clean build"
 
-    PRODUCT_PATH="$LATEST_ARCHIVE_PATH/Products/Applications/$APPNAME.app"
-    DSYM_PATH="$LATEST_ARCHIVE_PATH/dSYMs/$APPNAME.app.dSYM"
-    echo $PRODUCT_PATH
-    echo $DSYM_PATH
+    xcodebuild clean build \
+        -workspace BreakOut.xcworkspace \
+        -scheme BreakOut \
+        -sdk "iphoneos" \
+        -destination "generic/platform=iOS" \
+        -configuration Release \
+        OBJROOT=$PWD/build \
+        SYMROOT=$PWD/build \
+        ONLY_ACTIVE_ARCH=NO \
+        'CODE_SIGN_RESOURCE_RULES_PATH=$(SDKROOT)/ResourceRules.plist' \
+        | xcpretty
 
+    echo "Sign using: $PROVISIONING_PROFILE"
+    echo "To: $OUTPUTDIR"
 
-    echo "********************"
-    echo "*     Signing      *"
-    echo "********************"
-    xcrun -log -sdk iphoneos PackageApplication -v "$PRODUCT_PATH" -o "$OUTPUTDIR/BreakOut.ipa" -sign "iPhone Distribution: Mathias Quintero (KJPP698PR3)" -embed "$PROVISIONING_PROFILE"
+    xcrun -log -sdk iphoneos PackageApplication \
+        "$OUTPUTDIR/$APP_NAME.app" \
+        -o "$OUTPUTDIR/$APP_NAME.ipa" \
+        -sign "$DEVELOPER_NAME" \
+        -embed "$PROVISIONING_PROFILE"
+
+    IPA_PATH="$OUTPUTDIR/$APP_NAME.ipa"
 
     # Run submit
 
-    "Pods/Crashlytics/submit" 1c0980d1b003b77f0ea981400d725dab7fef673b 0fdd77bc7fcb1d472997f39a62c7399a604d22d98dddebb29e0b49f161bbadb1
+    "Pods/Crashlytics/submit" 1c0980d1b003b77f0ea981400d725dab7fef673b \
+        0fdd77bc7fcb1d472997f39a62c7399a604d22d98dddebb29e0b49f161bbadb1 \
+        -ipaPath $IPA_PATH \
+        -notesPath "Built by travis for $tags" \
+        -groupAliases Development
 
     # Delete provisioning profile
 
-    sudo rm ~/Library/MobileDevice/Provisioning\ Profiles/*
+    sudo rm -f ~/Library/MobileDevice/Provisioning\ Profiles/*
 
     sudo security delete-keychain ios-build.keychain
 
