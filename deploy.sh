@@ -9,10 +9,11 @@ if [ ! -z "$tags" ]; then
     # Create a custom keychain
     sudo security create-keychain -p travis ios-build.keychain
 
-    sudo security set-keychain-settings -s -p travis os-build.keychain
-
     # Unlock the keychain
     sudo security unlock-keychain -p travis ios-build.keychain
+
+    #
+    sudo security default-keychain -s ios-build.keychain
 
     # Set keychain timeout to 1 hour for long builds
     sudo security set-keychain-settings -t 3600 -l ~/Library/Keychains/ios-build.keychain
@@ -25,24 +26,31 @@ if [ ! -z "$tags" ]; then
 
     # Add provisioning profile to xcode
 
-    # sudo mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-    # uuid=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
-    # sudo mv BreakOutBeta.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
+    sudo mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+    uuid=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
+    sudo mv BreakOutBeta.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision
 
-    open BreakOutBeta.mobileprovision
+    xctool -workspace BreakOut.xcworkspace -scheme BreakOut -configuration Release build archive
 
-    ls Library/MobileDevice/Provisioning\ Profiles
+    PROVISIONING_PROFILE="$HOME/Library/MobileDevice/Provisioning Profiles/$uuid.mobileprovision"
+    RELEASE_DATE=`date '+%Y-%m-%d %H:%M:%S'`
+    OUTPUTDIR="$PWD/build/Release-iphoneos"
 
-    # Build & Archive
+    mkdir -p $OUTPUTDIR
 
-    xcodebuild \
-        -workspace BreakOut.xcworkspace \
-        -scheme BreakOut \
-        -destination "generic/platform=iOS" \
-        -configuration Release \
-        CODE_SIGN_RESOURCE_RULES_PATH='$(SDKROOT)/ResourceRules.plist' \
-        OTHER_CODE_SIGN_FLAGS='--keychain ~/Library/Keychains/ios-build.keychain' \
-        archive | xcpretty
+    LATEST_ARCHIVE_PATH=`find ~/Library/Developer/Xcode/Archives -type d -Btime -60m -name '*.xcarchive' | head -1`
+    echo $LATEST_ARCHIVE_PATH
+
+    PRODUCT_PATH="$LATEST_ARCHIVE_PATH/Products/Applications/$APPNAME.app"
+    DSYM_PATH="$LATEST_ARCHIVE_PATH/dSYMs/$APPNAME.app.dSYM"
+    echo $PRODUCT_PATH
+    echo $DSYM_PATH
+
+
+    echo "********************"
+    echo "*     Signing      *"
+    echo "********************"
+    xcrun -log -sdk iphoneos PackageApplication -v "$PRODUCT_PATH" -o "$OUTPUTDIR/BreakOut.ipa" -sign "iPhone Distribution: Mathias Quintero (KJPP698PR3)" -embed "$PROVISIONING_PROFILE"
 
     # Run submit
 
