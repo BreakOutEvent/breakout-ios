@@ -2,7 +2,7 @@
 
 # Check if this commit is tagged
 
-tags="git tag --contains"
+tags="$(git tag --contains)"
 
 if [ ! -z "$tags" ]; then
 
