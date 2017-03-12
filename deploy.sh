@@ -10,7 +10,7 @@ if [ ! -z "$tags" ]; then
 
     # Add provisioning profile to xcode
 
-    "mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles"
+    sudo mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
     uuid=`grep UUID -A1 -a BreakOutBeta.mobileprovision | grep -io "[-A-Z0-9]\{36\}"`
     "mv BreakOutBeta.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$uuid.mobileprovision"
 
