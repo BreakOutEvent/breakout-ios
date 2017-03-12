@@ -9,9 +9,6 @@ if [ ! -z "$tags" ]; then
     # Create a custom keychain
     sudo security create-keychain -p travis ios-build.keychain
 
-    # Make the custom keychain default, so xcodebuild will use it for signing
-    sudo security default-keychain -s ios-build.keychain
-
     # Unlock the keychain
     sudo security unlock-keychain -p travis ios-build.keychain
 
@@ -40,6 +37,7 @@ if [ ! -z "$tags" ]; then
         -destination "generic/platform=iOS" \
         -configuration Release \
         ONLY_ACTIVE_ARCH=NO 'CODE_SIGN_RESOURCE_RULES_PATH=$(SDKROOT)/ResourceRules.plist' \
+        "OTHER_CODE_SIGN_FLAGS=--keychain ~/Library/Keychains/ios-build.keychain" \
         archive | xcpretty
 
     # Run submit
