@@ -9,6 +9,8 @@ if [ ! -z "$tags" ]; then
     # Create a custom keychain
     sudo security create-keychain -p travis ios-build.keychain
 
+    sudo security set-keychain-settings -s -p travis os-build.keychain
+
     # Unlock the keychain
     sudo security unlock-keychain -p travis ios-build.keychain
 
@@ -29,6 +31,8 @@ if [ ! -z "$tags" ]; then
 
     open BreakOutBeta.mobileprovision
 
+    ls Library/MobileDevice/Provisioning\ Profiles
+
     # Build & Archive
 
     xcodebuild \
@@ -36,8 +40,8 @@ if [ ! -z "$tags" ]; then
         -scheme BreakOut \
         -destination "generic/platform=iOS" \
         -configuration Release \
-        ONLY_ACTIVE_ARCH=NO 'CODE_SIGN_RESOURCE_RULES_PATH=$(SDKROOT)/ResourceRules.plist' \
-        "OTHER_CODE_SIGN_FLAGS=--keychain ~/Library/Keychains/ios-build.keychain" \
+        CODE_SIGN_RESOURCE_RULES_PATH='$(SDKROOT)/ResourceRules.plist' \
+        OTHER_CODE_SIGN_FLAGS='--keychain ~/Library/Keychains/ios-build.keychain' \
         archive | xcpretty
 
     # Run submit
