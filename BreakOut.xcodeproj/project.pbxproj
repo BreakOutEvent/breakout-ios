@@ -27,8 +27,6 @@
 		0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8990581E6871E00080E123 /* PersistentViewController.swift */; };
 		0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A25111E6440F60011082D /* AppDefaults.swift */; };
 		0EC3F3FC1E64B7F800908372 /* GenderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */; };
-		0ECBE49F1E71809800D5451B /* deploy.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0ECBE49E1E71809800D5451B /* deploy.sh */; };
-		0ECBE4A11E7180A800D5451B /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0ECBE4A01E7180A800D5451B /* .travis.yml */; };
 		0EF0FAE61E260A7F0049F878 /* BreakOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0FAE51E260A7F0049F878 /* BreakOut.swift */; };
 		260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */; };
 		260121421C78F6F20041EAA8 /* BOToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260121411C78F6F20041EAA8 /* BOToast.swift */; };
@@ -568,8 +566,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				26985F1A1C42974D00C5FA0C /* Localizable.strings in Resources */,
-				0ECBE49F1E71809800D5451B /* deploy.sh in Resources */,
-				0ECBE4A11E7180A800D5451B /* .travis.yml in Resources */,
 				2678A5871B7E4BB4000CF85A /* Main.storyboard in Resources */,
 				2678A58C1B7E4BB4000CF85A /* LaunchScreen.xib in Resources */,
 				265DEB641BAC48B90076F222 /* Podfile in Resources */,
