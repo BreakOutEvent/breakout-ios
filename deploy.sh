@@ -12,11 +12,13 @@ if [ ! -z "$tags" ]; then
     echo "Damn you Apple!"
     echo "All HAIL Steve Jobs and his Minions"
 
+    KPWD="totally-secure-password"
+
     # Create a custom keychain
-    security create-keychain -p travis ios-build.keychain
+    security create-keychain -p $KPWD ios-build.keychain
 
     # Unlock the keychain
-    security unlock-keychain -p travis ios-build.keychain
+    security unlock-keychain -p $KPWD ios-build.keychain
 
     # Set keychain timeout to 1 hour for long builds
     security set-keychain-settings -t 3600 -l ~/Library/Keychains/ios-build.keychain

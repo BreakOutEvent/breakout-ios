@@ -10,10 +10,6 @@ env:
   global:
     secure: gjmEXQ3hklmD74+XZ31vGg4OEwGRl1mMHwYK2SNsm6yaX3Rap7dyDVzLO8rAPeR1l1AHfsDzb2LRBWspgb2BiNtSZDEhIiDrZcR4A5UFMr/u+C/YnuvIUzIHhmU+eyghw757Z4eKR7YzGj/eec0SN8z1NJqwEM0C5l5eO0HokNQDxv8Uyf4OvoVhIQ7koqMynjbZ3oa5vAP2SNJrd9Gdd879OELzeSZBAJccyrH9upsebOGXbGq2/B7vY5vSI35uaCYaJatBgyFNxdmd6ectDJQR974wgZZ0s0mPw/OXmAr1PtXY6QGB2f4h4rlImuxsyPN64RibYV6+O1rhtA16SJEnYTfLFZJCSotXrcObevSzDuSY2VUOV+sueGzxD+ix8gC9w9rU6e9FKZGy29vivWjON0F6Rqz7YuQ2hDvQsAK0brK5AyeNw0MP2gesVHCcXLTXdyP1434gzjJdNP6cyPV/jIE2k/v3vlJMHnkjVhkktc/ic5jmbACtzpO4I2WvdfcpmkE/m+npARpBAaw76zylAStfo+hcb0h81p/p5se6v9XoAnvaeFV/2skyIdgnPVf6k/twU/W++ADWPOSycAr+L4xzaFwYHA8jJ3XNDDCO4hITNr8OZkK35CQT9pZxEXhZAvJxW/tyqq4HJBvu01TxsSjOZq0YS7Xj8kmISQg=
 
-branches:
-  only:
-  - master
-
 notifications:
   slack:
     rooms:

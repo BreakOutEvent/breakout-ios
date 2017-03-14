@@ -16,7 +16,9 @@ struct BreakOut: API {
     var baseURL: String
     
     /// Shared instance of the API
-    static let shared = BreakOut(baseURL: PrivateConstants().backendURL())
+    static var shared: BreakOut {
+        return BreakOut(baseURL: PrivateConstants().backendURL())
+    }
 }
 
 extension BreakOut {

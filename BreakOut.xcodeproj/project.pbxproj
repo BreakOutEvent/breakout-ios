@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E31C5831E772260008E9C9C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0E31C5821E772260008E9C9C /* Settings.bundle */; };
 		0E3B87DF1E61F7C400C21AB9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87DE1E61F7C400C21AB9 /* Post.swift */; };
 		0E3B87E11E61F7CC00C21AB9 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87E01E61F7CC00C21AB9 /* Location.swift */; };
 		0E3B87E31E61F7D600C21AB9 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87E21E61F7D600C21AB9 /* Team.swift */; };
@@ -94,6 +95,7 @@
 
 /* Begin PBXFileReference section */
 		05FB01B2A32B991368F6CE98 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
+		0E31C5821E772260008E9C9C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0E3B87DE1E61F7C400C21AB9 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		0E3B87E01E61F7CC00C21AB9 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		0E3B87E21E61F7D600C21AB9 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 		2678A5711B7E4BB4000CF85A = {
 			isa = PBXGroup;
 			children = (
+				0E31C5821E772260008E9C9C /* Settings.bundle */,
 				2678A57C1B7E4BB4000CF85A /* BreakOut */,
 				2678A5941B7E4BB4000CF85A /* BreakOutTests */,
 				2678A57B1B7E4BB4000CF85A /* Products */,
@@ -571,6 +574,7 @@
 				265DEB641BAC48B90076F222 /* Podfile in Resources */,
 				2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */,
 				263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */,
+				0E31C5831E772260008E9C9C /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
