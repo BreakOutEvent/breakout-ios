@@ -48,7 +48,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             self.addUserpictureButton.isHidden = true
         }
         
-        self.cell(self.yourTeamTableViewCell, setHidden: true)
+//        self.cell(self.yourTeamTableViewCell, setHidden: true)
         self.cell(self.newsTableViewCell, setHidden: true)
         self.cell(self.allTeamsTableViewCell, setHidden: true)
         self.cell(self.settingsTableViewCell, setHidden: true)
@@ -127,15 +127,19 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             return false
         } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
             return false
+        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
+            return false
         }
         
         return true
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.shared.currentTeamId() < 0 {
+        if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
         } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
+            cell.alpha = 0.5
+        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
         } else {
             cell.alpha = 1.0

@@ -32,6 +32,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var polyLineArray : [MKPolyline] = []
     //let locationManager = CLLocationManager()
     
+    var teamController: TeamViewController?
+    
     var arrayOfAllPostingAnnotations: [MapLocation] = [MapLocation]()
     var arrayOfAllLastPostingAnnotations: [MapLocation] = [MapLocation]()
     
@@ -52,19 +54,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Fetch locations
-        fetchLocations()
-        
+        if let teamController = teamController {
+            if let team = teamController.team {
+                set(team: team)
+            } else {
+                teamController >>> { $0.team | self.set }
+            }
+        } else {
+            // Fetch locations
+            fetchLocations()
+        }
+    
         // Style the navigation bar
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.navigationController!.navigationBar.barTintColor = .mainOrange
-        self.navigationController!.navigationBar.backgroundColor = .mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.barTintColor = .mainOrange
+        self.navigationController?.navigationBar.backgroundColor = .mainOrange
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         self.title = "Map"
         
         self.switchButton = UISwitch()
-        self.switchButton!.addTarget(self, action: #selector(drawAllPostingsToMap), for: UIControlEvents.touchUpInside)
+        self.switchButton?.addTarget(self, action: #selector(drawAllPostingsToMap), for: UIControlEvents.touchUpInside)
         
         // Create refresh button for navigation item
         //let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(drawAllPostingsToMap))
@@ -111,22 +121,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func viewDidAppear(_ animated: Bool) {
         // Tracking
+        super.viewDidAppear(animated)
         Flurry.logEvent("/MapViewController", timed: true)
         Answers.logCustomEvent(withName: "/MapViewController", customAttributes: [:])
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        Flurry.endTimedEvent("/MapViewController", withParameters: nil)
-    }
-    
     func drawAllPostingsToMap() {
         self.mapView.removeAnnotations(self.mapView.annotations)
-        if self.switchButton!.isOn {
+        if self.switchButton?.isOn ?? false {
             self.mapView.addAnnotations(self.arrayOfAllPostingAnnotations)
-        }else{
+        } else {
             self.mapView.addAnnotations(self.arrayOfAllLastPostingAnnotations)
         }
         
+    }
+    
+    func set(team: Team) {
+        loadAllLocationsForTeam(team.event, teamId: team.id)
     }
     
     func getRandomColor() -> UIColor{
@@ -153,7 +164,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         Team.all(for: eventId).onSuccess { teams in
             teams => {
                 self.loadAllPostingsForTeam(eventId, teamId: $0.id)
-//                self.loadAllLocationsForTeam(eventId, teamId: $0.id)
             }
         }
     }

@@ -31,6 +31,8 @@ class PostingDetailsTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.alpha = 1.0
         // Tracking
         Flurry.logEvent("/PostingDetailsTVC", timed: true)
         Answers.logCustomEvent(withName: "/PostingDetailsTVC", customAttributes: [:])

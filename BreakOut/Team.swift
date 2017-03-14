@@ -11,16 +11,30 @@ import Sweeft
 /// Representation of a team
 struct Team {
     let id: Int
+    let event: Int
     let name: String
+    let description: String?
+    let distance: Double?
+    let sum: Double?
+    let image: Image?
 }
 
 extension Team: Deserializable {
     
     public init?(from json: JSON) {
-        guard let id = json["teamId"].int ?? json["id"].int, let name = json["teamName"].string ?? json["name"].string else {
+        guard let id = json["teamId"].int ?? json["id"].int,
+            let name = json["teamName"].string ?? json["name"].string,
+            let event = json["eventId"].int ?? json["event"].int else {
+                
             return nil
         }
-        self.init(id: id, name: name)
+        self.init(id: id,
+                  event: event,
+                  name: name,
+                  description: json["description"].string,
+                  distance: json["distance"]["linear_distance"].double,
+                  sum: json["donateSum"]["full_sum"].double,
+                  image: json["profilePic"].image)
     }
     
 }
@@ -49,9 +63,34 @@ extension Team {
                                  acceptableStatusCodes: [200, 201])
     }
     
+    func posts(using api: BreakOut = .shared) -> Post.Results {
+        return Post.all(by: id, in: event, using: api)
+    }
+    
 }
 
 extension Team {
+    
+    func fetch() -> Team.Result {
+        return Team.team(with: id, in: event)
+    }
+    
+}
+
+extension Team {
+    
+    /**
+     Fetch a team
+     
+     - Parameter id: id of the team
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the teams
+     */
+    static func team(with id: Int, in event: Int, using api: BreakOut = .shared) -> Team.Result {
+        return get(using: api, at: .teamByID, arguments: ["event": event, "id": id])
+    }
     
     /**
      Fetch all the teams in an event

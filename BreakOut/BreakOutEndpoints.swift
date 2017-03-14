@@ -27,6 +27,7 @@ enum BreakOutEndpoint: String, APIEndpoint {
     case eventTeamLocation = "event/{event}/team/{team}/location/"
     case featureFlags = "featureFlags/"
     case postingByID = "posting/{id}/"
+    case teamByID = "event/{event}/team/{id}/"
     case eventTeamChallenge = "event/{event}/team/{team}/challenge/"
     case challengeStatus = "event/{event}/team/{team}/challenge/{challenge}/status/"
     case login = "oauth/token"

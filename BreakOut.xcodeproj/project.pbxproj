@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E31C5831E772260008E9C9C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0E31C5821E772260008E9C9C /* Settings.bundle */; };
+		0E31C5851E7747C4008E9C9C /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E31C5841E7747C4008E9C9C /* TeamViewController.swift */; };
 		0E3B87DF1E61F7C400C21AB9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87DE1E61F7C400C21AB9 /* Post.swift */; };
 		0E3B87E11E61F7CC00C21AB9 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87E01E61F7CC00C21AB9 /* Location.swift */; };
 		0E3B87E31E61F7D600C21AB9 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87E21E61F7D600C21AB9 /* Team.swift */; };
@@ -94,6 +96,8 @@
 
 /* Begin PBXFileReference section */
 		05FB01B2A32B991368F6CE98 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
+		0E31C5821E772260008E9C9C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		0E31C5841E7747C4008E9C9C /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		0E3B87DE1E61F7C400C21AB9 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		0E3B87E01E61F7CC00C21AB9 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		0E3B87E21E61F7D600C21AB9 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
@@ -362,6 +366,7 @@
 			children = (
 				2649F80A1C652AF4005AA763 /* TeamProfileViewController.swift */,
 				2649F80C1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift */,
+				0E31C5841E7747C4008E9C9C /* TeamViewController.swift */,
 			);
 			name = Teams;
 			sourceTree = "<group>";
@@ -728,6 +733,7 @@
 				0E3B87F81E61F8A500C21AB9 /* JSON+BreakOut.swift in Sources */,
 				2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */,
 				26AA75251C8318A20023D009 /* CreateTeamTableViewController.swift in Sources */,
+				0E31C5851E7747C4008E9C9C /* TeamViewController.swift in Sources */,
 				260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */,
 				260121461C78FE650041EAA8 /* BOImageView.swift in Sources */,
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
