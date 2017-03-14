@@ -24,7 +24,7 @@ class TeamProfilePostingsTableViewController: UITableViewController {
         extendedLayoutIncludesOpaqueBars = true
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
-        tableView.parallaxHeader.height = 200
+        tableView.parallaxHeader.height = 250
         tableView.parallaxHeader.mode = .fill
         let barHeight = teamProfileController?.navigationController?.navigationBar.frame.height ?? 0
         let menuHeight = teamProfileController?.subMenu.frame.height ?? 0

@@ -17,7 +17,7 @@ final class TeamViewController: PageboyViewController, Observable {
     }()
     
     var imageHeight: CGFloat {
-        return 200 - barHeight
+        return postingsViewController.tableView.parallaxHeader.height - barHeight
     }
     
     @IBOutlet weak var subMenu: UIView!
@@ -98,10 +98,16 @@ final class TeamViewController: PageboyViewController, Observable {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !animated {
-            did(set: previousConstant < 0)
+            hasChanged(showNavbar: previousConstant < 0)
         } else {
+            // Now comes the fucked up autolayout part
             buttonsToTopConstraint.constant -= barHeight
-            barHeight = 0
+            if previousConstant > 0 {
+                hasChanged(showNavbar: false)
+                hasScrolled(to: postingsViewController.tableView.contentOffset.y + barHeight)
+            } else {
+                barHeight = 0
+            }
         }
     }
     
@@ -175,6 +181,7 @@ extension TeamViewController: PageboyViewControllerDelegate {
     
     func pageboyViewController(_ pageboyViewController: PageboyViewController, willScrollToPageAtIndex index: Int, direction: PageboyViewController.NavigationDirection, animated: Bool) {
         
+        selectButton(at: index)
         if index != 0 {
             hasCurrentPosition(at: 0)
         } else {
@@ -196,10 +203,10 @@ extension TeamViewController {
         let constant = -offset - subMenu.frame.height - UIApplication.shared.statusBarFrame.height
         self.buttonsToTopConstraint.constant = max(constant, barHeight)
         if previousConstant > 0 && constant <= 0 {
-            did(set: true)
+            hasChanged(showNavbar: true)
         }
         if previousConstant <= 0 && constant > 0 {
-            did(set: false)
+            hasChanged(showNavbar: false)
         }
         previousConstant = constant
     }
@@ -208,11 +215,12 @@ extension TeamViewController {
         let constant = -offset - subMenu.frame.height - UIApplication.shared.statusBarFrame.height
         if previousConstant > 0 && constant <= 0 {
             previousConstant = constant
-            did(set: true, includeConstant: true)
-        }
-        if previousConstant <= 0 && constant > 0 {
+            hasChanged(showNavbar: true, includeConstant: true)
+        } else if previousConstant <= 0 && constant > 0 {
             previousConstant = constant
-            did(set: false, includeConstant: true)
+            hasChanged(showNavbar: false, includeConstant: true)
+        } else {
+            previousConstant = constant
         }
     }
     
@@ -220,10 +228,10 @@ extension TeamViewController {
 
 extension TeamViewController {
     
-    func did(set showPosition: Bool, includeConstant: Bool = false) {
-        let alpha: CGFloat = showPosition ? 1.0 : 0
-        let selectedColor: UIColor = showPosition ? .mainOrange : .white
-        let color: UIColor = showPosition ? .lightGray : .white
+    func hasChanged(showNavbar: Bool, includeConstant: Bool = false) {
+        let alpha: CGFloat = showNavbar ? 1.0 : 0
+        let selectedColor: UIColor = showNavbar ? .mainOrange : .white
+        let color: UIColor = showNavbar ? .lightGray : .white
         barHeight = self.navigationController?.navigationBar.frame.height ?? 0
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
