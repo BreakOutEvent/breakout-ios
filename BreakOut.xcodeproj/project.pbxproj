@@ -30,6 +30,8 @@
 		0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A25111E6440F60011082D /* AppDefaults.swift */; };
 		0EBE9D5C1E787E0700355E1E /* TeamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */; };
 		0EBE9D5E1E787F6600355E1E /* TeamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */; };
+		0EBE9D601E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5F1E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift */; };
+		0EBE9D621E78982500355E1E /* TeamInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D611E78982500355E1E /* TeamInfoTableViewController.swift */; };
 		0EC3F3FC1E64B7F800908372 /* GenderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */; };
 		0EF0FAE61E260A7F0049F878 /* BreakOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0FAE51E260A7F0049F878 /* BreakOut.swift */; };
 		260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */; };
@@ -122,6 +124,8 @@
 		0E9A25111E6440F60011082D /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
 		0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamHeaderView.xib; sourceTree = "<group>"; };
 		0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamHeaderView.swift; sourceTree = "<group>"; };
+		0EBE9D5F1E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamChallengesOverviewTableViewController.swift; sourceTree = "<group>"; };
+		0EBE9D611E78982500355E1E /* TeamInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamInfoTableViewController.swift; sourceTree = "<group>"; };
 		0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderAPI.swift; sourceTree = "<group>"; };
 		0EC543261E6DDB6E0023DD91 /* BreakOut.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BreakOut.entitlements; sourceTree = "<group>"; };
 		0ECBE49E1E71809800D5451B /* deploy.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = deploy.sh; path = ../deploy.sh; sourceTree = "<group>"; };
@@ -371,7 +375,9 @@
 			children = (
 				2649F80A1C652AF4005AA763 /* TeamProfileViewController.swift */,
 				2649F80C1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift */,
+				0EBE9D5F1E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift */,
 				0E31C5841E7747C4008E9C9C /* TeamViewController.swift */,
+				0EBE9D611E78982500355E1E /* TeamInfoTableViewController.swift */,
 				0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */,
 				0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */,
 			);
@@ -742,9 +748,11 @@
 				0EC3F3FC1E64B7F800908372 /* GenderAPI.swift in Sources */,
 				0E3B87F81E61F8A500C21AB9 /* JSON+BreakOut.swift in Sources */,
 				2678B0441C39CBA800136507 /* ContainerViewController.swift in Sources */,
+				0EBE9D621E78982500355E1E /* TeamInfoTableViewController.swift in Sources */,
 				26AA75251C8318A20023D009 /* CreateTeamTableViewController.swift in Sources */,
 				0E31C5851E7747C4008E9C9C /* TeamViewController.swift in Sources */,
 				260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */,
+				0EBE9D601E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift in Sources */,
 				260121461C78FE650041EAA8 /* BOImageView.swift in Sources */,
 				26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */,
 				262FA8FD1CCD1C210094B810 /* PostingTableViewCell.swift in Sources */,

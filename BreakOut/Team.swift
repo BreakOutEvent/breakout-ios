@@ -65,8 +65,26 @@ extension Team {
                                  acceptableStatusCodes: [200, 201])
     }
     
+    /**
+     Fecth all posts for a team
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the posts
+     */
     func posts(using api: BreakOut = .shared) -> Post.Results {
         return Post.all(by: id, in: event, using: api)
+    }
+    
+    /**
+     Fecth all challenges for a team
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the posts
+     */
+    func challenges(using api: BreakOut = .shared) -> Challenge.Results {
+        return Challenge.get(event: event, team: id, using: api)
     }
     
 }

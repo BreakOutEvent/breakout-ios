@@ -54,10 +54,24 @@ final class TeamViewController: PageboyViewController, Observable {
         return controller
     }()
     
+    lazy var infoViewController: TeamInfoTableViewController = {
+        let controller: TeamInfoTableViewController = self.create()
+        controller.teamProfileController = self
+        return controller
+    }()
+    
+    lazy var challengesViewController: TeamChallengesOverviewTableViewController = {
+        let controller: TeamChallengesOverviewTableViewController = self.create()
+        controller.teamProfileController = self
+        return controller
+    }()
+    
     lazy var controllers: [UIViewController] = {
         return [
             self.postingsViewController,
             self.mapViewController,
+            self.infoViewController,
+            self.challengesViewController,
         ]
     }()
     
@@ -90,6 +104,9 @@ final class TeamViewController: PageboyViewController, Observable {
         self.subMenuSelectionBarView.frame.size.height = 2.0
         self.subMenuSelectionBarView.backgroundColor = .mainOrange
         self.subMenu.addSubview(self.subMenuSelectionBarView)
+        
+        self.subMenu.layer.borderWidth = 1
+        self.subMenu.layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
         
         self.select(button: postingsButton)
         

@@ -10,10 +10,32 @@ import Sweeft
 
 /// Challenge on a Posting
 struct Challenge {
+    
+    enum Status: String {
+        case proposed = "PROPOSED"
+        case accepted = "ACCEPTED"
+        case proven = "WITH_PROOF"
+    }
+    
     let id: Int
     let text: String?
-    let status: String?
-    let amount: Int?
+    let status: Status?
+    let amount: Double?
+    
+    var completed: Bool {
+        return status == .proven
+    }
+}
+
+extension Challenge.Status: Deserializable {
+    
+    public init?(from json: JSON) {
+        guard let value = json.string else {
+            return nil
+        }
+        self.init(rawValue: value)
+    }
+    
 }
 
 extension Challenge: Deserializable {
@@ -22,7 +44,7 @@ extension Challenge: Deserializable {
         guard let id = json["id"].int else {
             return nil
         }
-        self.init(id: id, text: json["description"].string, status: json["status"].string, amount: json["amount"].int)
+        self.init(id: id, text: json["description"].string, status: json["status"].challengeStatus, amount: json["amount"].double)
     }
     
 }
