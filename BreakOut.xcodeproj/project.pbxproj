@@ -253,6 +253,7 @@
 		2678A5711B7E4BB4000CF85A = {
 			isa = PBXGroup;
 			children = (
+				0E31C5821E772260008E9C9C /* Settings.bundle */,
 				2678A57C1B7E4BB4000CF85A /* BreakOut */,
 				2678A5941B7E4BB4000CF85A /* BreakOutTests */,
 				2678A57B1B7E4BB4000CF85A /* Products */,
@@ -576,6 +577,7 @@
 				265DEB641BAC48B90076F222 /* Podfile in Resources */,
 				2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */,
 				263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */,
+				0E31C5831E772260008E9C9C /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
