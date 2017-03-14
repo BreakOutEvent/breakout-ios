@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Sweeft
 import MXParallaxHeader
 
 class TeamProfilePostingsTableViewController: UITableViewController {
@@ -24,7 +25,7 @@ class TeamProfilePostingsTableViewController: UITableViewController {
         extendedLayoutIncludesOpaqueBars = true
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
-        tableView.parallaxHeader.height = 250
+        tableView.parallaxHeader.height = 300
         tableView.parallaxHeader.mode = .fill
         let barHeight = teamProfileController?.navigationController?.navigationBar.frame.height ?? 0
         let menuHeight = teamProfileController?.subMenu.frame.height ?? 0
@@ -40,17 +41,14 @@ class TeamProfilePostingsTableViewController: UITableViewController {
         profilePic?.onChange { _ in
             self.setImage()
         }
-        let image = team?.image?.image ?? UIImage(named: "breakoutDefaultBackground_600x600")
-        let imageView = UIImageView()
-        imageView.image = image
-        imageView.contentMode = .scaleAspectFill
-        tableView.parallaxHeader.view = imageView
+        tableView.parallaxHeader.view = TeamHeaderView.create(for: team)
     }
     
     func load() {
         setImage()
         team?.posts().onSuccess { posts in
             self.posts = posts
+            posts >>> **self.tableView.reloadData
             self.tableView.reloadData()
         }
     }
@@ -85,6 +83,12 @@ class TeamProfilePostingsTableViewController: UITableViewController {
         postingDetailsTableViewController.posting = posts[indexPath.row]
         teamProfileController?.navigationController?.navigationBar.alpha = 1.0
         teamProfileController?.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? PostingTableViewCell {
+            cell.video?.pause() // Pause video when you're not it's not on screen
+        }
     }
 
 }

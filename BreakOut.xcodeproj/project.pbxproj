@@ -28,6 +28,8 @@
 		0E8663361E63A99900B5738D /* NewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8663351E63A99900B5738D /* NewPost.swift */; };
 		0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8990581E6871E00080E123 /* PersistentViewController.swift */; };
 		0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A25111E6440F60011082D /* AppDefaults.swift */; };
+		0EBE9D5C1E787E0700355E1E /* TeamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */; };
+		0EBE9D5E1E787F6600355E1E /* TeamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */; };
 		0EC3F3FC1E64B7F800908372 /* GenderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */; };
 		0EF0FAE61E260A7F0049F878 /* BreakOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0FAE51E260A7F0049F878 /* BreakOut.swift */; };
 		260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2601213F1C7892620041EAA8 /* FeatureFlagManager.swift */; };
@@ -118,6 +120,8 @@
 		0E8663351E63A99900B5738D /* NewPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPost.swift; sourceTree = "<group>"; };
 		0E8990581E6871E00080E123 /* PersistentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentViewController.swift; sourceTree = "<group>"; };
 		0E9A25111E6440F60011082D /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
+		0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamHeaderView.xib; sourceTree = "<group>"; };
+		0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamHeaderView.swift; sourceTree = "<group>"; };
 		0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderAPI.swift; sourceTree = "<group>"; };
 		0EC543261E6DDB6E0023DD91 /* BreakOut.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BreakOut.entitlements; sourceTree = "<group>"; };
 		0ECBE49E1E71809800D5451B /* deploy.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = deploy.sh; path = ../deploy.sh; sourceTree = "<group>"; };
@@ -368,6 +372,8 @@
 				2649F80A1C652AF4005AA763 /* TeamProfileViewController.swift */,
 				2649F80C1C652C15005AA763 /* TeamProfilePostingsTableViewController.swift */,
 				0E31C5841E7747C4008E9C9C /* TeamViewController.swift */,
+				0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */,
+				0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */,
 			);
 			name = Teams;
 			sourceTree = "<group>";
@@ -577,6 +583,7 @@
 				265DEB641BAC48B90076F222 /* Podfile in Resources */,
 				2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */,
 				263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */,
+				0EBE9D5C1E787E0700355E1E /* TeamHeaderView.xib in Resources */,
 				0E31C5831E772260008E9C9C /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -727,6 +734,7 @@
 				26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */,
 				260121421C78F6F20041EAA8 /* BOToast.swift in Sources */,
 				2643F5F51CC2B94500031038 /* NewPostingTableViewController.swift in Sources */,
+				0EBE9D5E1E787F6600355E1E /* TeamHeaderView.swift in Sources */,
 				260121481C79008E0041EAA8 /* BOButton.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */,

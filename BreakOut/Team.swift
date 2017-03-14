@@ -17,6 +17,7 @@ struct Team {
     let distance: Double?
     let sum: Double?
     let image: Image?
+    let names: [(firstname: String, lastname: String)]
 }
 
 extension Team: Deserializable {
@@ -34,7 +35,8 @@ extension Team: Deserializable {
                   description: json["description"].string,
                   distance: json["distance"]["linear_distance"].double,
                   sum: json["donateSum"]["full_sum"].double,
-                  image: json["profilePic"].image)
+                  image: json["profilePic"].image,
+                  names: json["members"].array ==> { ($0["firstname"].string, $0["lastname"].string) } >>> iff)
     }
     
 }
