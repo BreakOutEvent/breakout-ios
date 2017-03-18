@@ -98,7 +98,7 @@ final class CurrentUser: NSObject {
             .onError { error in
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
-                case .invalidStatus(401, _):
+                case .invalidStatus(401, let data):
                     NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
                 default: break
                 }

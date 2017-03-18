@@ -50,7 +50,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         
 //        self.cell(self.yourTeamTableViewCell, setHidden: true)
         self.cell(self.newsTableViewCell, setHidden: true)
-        self.cell(self.allTeamsTableViewCell, setHidden: true)
+//        self.cell(self.allTeamsTableViewCell, setHidden: true)
         self.cell(self.settingsTableViewCell, setHidden: true)
         
         self.loginAndRegisterButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: UIControlState())

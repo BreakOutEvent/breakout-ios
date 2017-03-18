@@ -20,6 +20,8 @@ final class TeamViewController: PageboyViewController, Observable {
         return postingsViewController.tableView.parallaxHeader.height - barHeight
     }
     
+    var wasLoadedBefore = false
+    
     @IBOutlet weak var subMenu: UIView!
     @IBOutlet weak var buttonsToTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var postingsButton: UIButton!
@@ -86,6 +88,8 @@ final class TeamViewController: PageboyViewController, Observable {
             }
         }
         
+        title = team?.name
+        
         extendedLayoutIncludesOpaqueBars = true
         
         subMenu.backgroundColor = .white
@@ -105,7 +109,6 @@ final class TeamViewController: PageboyViewController, Observable {
         self.subMenuSelectionBarView.backgroundColor = .mainOrange
         self.subMenu.addSubview(self.subMenuSelectionBarView)
         
-        self.subMenu.layer.borderWidth = 1
         self.subMenu.layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
         
         self.select(button: postingsButton)
@@ -117,15 +120,22 @@ final class TeamViewController: PageboyViewController, Observable {
         if !animated {
             hasChanged(showNavbar: previousConstant < 0)
         } else {
-            // Now comes the fucked up autolayout part
-            buttonsToTopConstraint.constant -= barHeight
-            if previousConstant > 0 {
-                hasChanged(showNavbar: false)
-                hasScrolled(to: postingsViewController.tableView.contentOffset.y + barHeight)
+            if wasLoadedBefore {
+                // Now comes the fucked up autolayout part
+                buttonsToTopConstraint.constant -= barHeight
+                view.layoutIfNeeded()
+                if previousConstant > 0 {
+                    hasChanged(showNavbar: false)
+                    hasScrolled(to: postingsViewController.tableView.contentOffset.y + barHeight)
+                } else {
+                    barHeight = 0
+                }
+                view.layoutIfNeeded()
             } else {
-                barHeight = 0
+                hasChanged(showNavbar: false)
             }
         }
+        wasLoadedBefore = true
     }
     
     @IBAction func didPressButton(_ sender: UIButton) {
@@ -249,6 +259,7 @@ extension TeamViewController {
         let alpha: CGFloat = showNavbar ? 1.0 : 0
         let selectedColor: UIColor = showNavbar ? .mainOrange : .white
         let color: UIColor = showNavbar ? .lightGray : .white
+        let menuBorder: CGFloat = showNavbar ? 1.0 : 0.0
         barHeight = self.navigationController?.navigationBar.frame.height ?? 0
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -256,6 +267,7 @@ extension TeamViewController {
                 button.set(color: button.isSelected ? selectedColor : color)
             }
             self.subMenu.backgroundColor = self.subMenu.backgroundColor?.withAlphaComponent(alpha)
+            self.subMenu.layer.borderWidth = menuBorder
             self.subMenuSelectionBarView.backgroundColor = selectedColor
             
             if includeConstant && self.navigationController?.navigationBar.alpha != alpha {

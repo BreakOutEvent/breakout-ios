@@ -91,8 +91,15 @@ extension Team {
 
 extension Team {
     
-    func fetch() -> Team.Result {
-        return Team.team(with: id, in: event)
+    /**
+     Fecth all the data for the Team
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the posts
+     */
+    func fetch(using api: BreakOut) -> Team.Result {
+        return Team.team(with: id, in: event, using: api)
     }
     
 }
@@ -122,6 +129,22 @@ extension Team {
      */
     static func all(for event: Int, using api: BreakOut = .shared) -> Team.Results {
         return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event])
+    }
+    
+    /**
+     Fetch all the teams ever
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the teams
+     */
+    static func all(using api: BreakOut = .shared) -> Team.Results {
+        return api.doJSONRequest(to: .event).onSuccess { json -> Team.Results in
+            let ids = json.array ==> { $0["id"].int }
+            return api.doFlatBulkObjectRequest(to: ids => **{ .eventTeam },
+                                               arguments: ids => { ["event": $0] })
+        }
+        .future
     }
     
     /**

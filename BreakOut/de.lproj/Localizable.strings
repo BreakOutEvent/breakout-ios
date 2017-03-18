@@ -35,6 +35,13 @@
 "welcomeScreenParticipateButtonShareLocation" = "Teile deinen Ort";
 "welcomeScreenParticipateButtonLoginAndRegister" = "ANMELDEN & EINLOGGEN";
 
+// Sidemenu items
+
+"allTeamsTitle" = "Alle Teams";
+"mapTitle" = "Map";
+"postStatusTitle" = "Status Posten";
+"yourTeamTitle" = "Dein Team";
+
 // Screen Titles
 "newPostingTitle" = "Neuer Post";
 "allPostingsTitle" = "Alle Posts";
