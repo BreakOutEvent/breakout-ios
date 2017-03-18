@@ -207,11 +207,12 @@ extension Post {
                                  body: post.json,
                                  acceptableStatusCodes: [200, 201]).nested { json, promise in
 
-            if let team = Post(from: json) {
+            if let post = Post(from: json) {
                 media => { item, index in
                     item.upload(using: json["media"][index])
                 }
-                promise.success(with: team)
+                challenge?.set(status: .proven, for: post)
+                promise.success(with: post)
             } else {
                 promise.error(with: .mappingError(json: json))
             }

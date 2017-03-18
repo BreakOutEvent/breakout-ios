@@ -52,6 +52,34 @@ extension Challenge: Deserializable {
 extension Challenge {
     
     /**
+     Set the Status related to a posting
+     
+     - Parameter status: New Status
+     - Parameter post: post that is related to the challenge
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the JSON
+     */
+    @discardableResult func set(status: Status, for post: Post, using api: BreakOut = .shared) -> Challenge.Result {
+        guard let team = post.participant.team?.id, let event = post.participant.team?.event else {
+            return .errored(with: .cannotPerformRequest)
+        }
+        let body: JSON = [
+            "postingId": post.id.json,
+            "status": status.rawValue.json,
+        ]
+        return api.doObjectRequest(with: .put,
+                                   to: .challengeStatus,
+                                   arguments: ["event": event, "team": team, "challenge": id],
+                                   auth: api.auth,
+                                   body: body)
+    }
+    
+}
+
+extension Challenge {
+    
+    /**
      Fetch the Challenges for a team
      
      - Parameter event: id of the event
