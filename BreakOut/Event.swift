@@ -34,6 +34,21 @@ extension Event: Deserializable {
 extension Event {
     
     /**
+     Fetch all Teams participating in the Event
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
+    func teams(using api: BreakOut = .shared) -> Team.Results {
+        return Team.all(for: id, using: api)
+    }
+    
+}
+
+extension Event {
+    
+    /**
      Fetch all Events
      
      - Parameter api: Break Out backend

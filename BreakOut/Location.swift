@@ -57,9 +57,9 @@ extension Location {
                                           team: Int,
                                           using api: BreakOut = .shared) -> Location.Result {
         let body: JSON = [
-            "latitude": coordinates.latitude.json,
-            "longitude": coordinates.longitude.json,
-            "date": Date.now.timeIntervalSince1970.json
+            "latitude": coordinates.latitude,
+            "longitude": coordinates.longitude,
+            "date": Date.now.timeIntervalSince1970
         ]
         return api.doObjectRequest(with: .post,
                                    to: .eventTeamLocation,

@@ -28,9 +28,8 @@ final class Image: Observable {
     init(id: Int, url: String?) {
         self.id = id
         if let url = url | URL.init(string:) ?? nil {
-            DispatchQueue(label: "Download").async {
-                let data = try? Data(contentsOf: url)
-                self.image <- data | UIImage.init
+            ImageDownloader.download(from: url).onSuccess { image in
+                self.image = image
             }
         }
     }

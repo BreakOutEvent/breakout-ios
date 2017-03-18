@@ -54,8 +54,8 @@ extension Team {
      */
     func invite(name: String, to event: Int, using api: BreakOut = .shared) -> JSON.Result {
         let body: JSON = [
-            "event": event.json,
-            "name": name.json
+            "event": event,
+            "name": name,
         ]
         return api.doJSONRequest(with: .post,
                                  to: .eventInvitation,
@@ -147,6 +147,20 @@ extension Team {
         .future
     }
     
+    static func current(using api: BreakOut = .shared) -> Team.Results {
+        let event = CurrentUser.shared.currentEventId()
+        if event > -1 {
+            return all(for: event, using: api)
+        }
+        return Event.all(using: api).onSuccess { events -> Team.Results in
+            guard let event = events.argmax({ $0.date }) else {
+                return .errored(with: .cannotPerformRequest)
+            }
+            return event.teams(using: api)
+        }
+        .future
+    }
+    
     /**
      Register a team
      
@@ -159,8 +173,8 @@ extension Team {
      */
     static func create(name: String, event: Int, image: UIImage?, using api: BreakOut = .shared) -> Team.Result {
         let body: JSON = [
-            "event": event.json,
-            "name": name.json
+            "event": event,
+            "name": name,
         ]
         let promise = api.doJSONRequest(with: .post, to: .eventTeam, arguments: ["event": event], auth: api.auth, body: body, acceptableStatusCodes: [200, 201])
         promise.onSuccess { json in

@@ -19,6 +19,8 @@ class TeamProfilePostingsTableViewController: UITableViewController {
     }
     
     var posts = [Post]()
+    
+    var isLoading = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +49,7 @@ class TeamProfilePostingsTableViewController: UITableViewController {
     func load() {
         setImage()
         team?.posts().onSuccess { posts in
+            self.isLoading = false
             self.posts = posts
             posts >>> **self.tableView.reloadData
             self.tableView.reloadData()
@@ -59,20 +62,32 @@ class TeamProfilePostingsTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        switch section {
+        case 0:
+            return posts.count
+        case 1:
+            return isLoading ? 1 : 0
+        default:
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath)
-        if let cell = cell as? PostingTableViewCell {
-            cell.posting = posts[indexPath.row]
-            cell.parentTableViewController = self
+        switch indexPath.section {
+        case 1:
+            return tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath)
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath)
+            if let cell = cell as? PostingTableViewCell {
+                cell.posting = posts[indexPath.row]
+                cell.parentTableViewController = self
+            }
+            return cell
         }
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

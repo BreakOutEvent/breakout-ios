@@ -252,7 +252,7 @@ extension Post {
      */
     @discardableResult func like(using api: BreakOut = .shared) -> JSON.Result {
         let body: JSON = [
-            "date": Date.now.timeIntervalSince1970.json
+            "date": Date.now.timeIntervalSince1970
         ]
         return api.doJSONRequest(with: .post,
                                  to: .likePosting,

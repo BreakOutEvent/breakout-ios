@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E31C5831E772260008E9C9C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0E31C5821E772260008E9C9C /* Settings.bundle */; };
 		0E31C5851E7747C4008E9C9C /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E31C5841E7747C4008E9C9C /* TeamViewController.swift */; };
+		0E3477D11E7D5A70004CBEB3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3477D01E7D5A70004CBEB3 /* ImageDownloader.swift */; };
 		0E3B87DF1E61F7C400C21AB9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87DE1E61F7C400C21AB9 /* Post.swift */; };
 		0E3B87E11E61F7CC00C21AB9 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87E01E61F7CC00C21AB9 /* Location.swift */; };
 		0E3B87E31E61F7D600C21AB9 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87E21E61F7D600C21AB9 /* Team.swift */; };
@@ -104,6 +105,7 @@
 		05FB01B2A32B991368F6CE98 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		0E31C5821E772260008E9C9C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0E31C5841E7747C4008E9C9C /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
+		0E3477D01E7D5A70004CBEB3 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		0E3B87DE1E61F7C400C21AB9 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		0E3B87E01E61F7CC00C21AB9 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		0E3B87E21E61F7D600C21AB9 /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				0E3B87EA1E61F81C00C21AB9 /* Image.swift */,
+				0E3477D01E7D5A70004CBEB3 /* ImageDownloader.swift */,
 				0E3B87EC1E61F82200C21AB9 /* Video.swift */,
 				0E3B87EE1E61F82900C21AB9 /* MediaItem.swift */,
 				0E3B87F31E61F85100C21AB9 /* Type.swift */,
@@ -769,6 +772,7 @@
 				0E8663361E63A99900B5738D /* NewPost.swift in Sources */,
 				26985F2D1C4301A600C5FA0C /* CurrentUser.swift in Sources */,
 				0E3B87E11E61F7CC00C21AB9 /* Location.swift in Sources */,
+				0E3477D11E7D5A70004CBEB3 /* ImageDownloader.swift in Sources */,
 				265FF0471C64AB4900176F3B /* WelcomeScreenViewController.swift in Sources */,
 				26B3272F1CF63E060039FB66 /* BOLocationManager.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,

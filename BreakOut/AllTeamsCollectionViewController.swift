@@ -6,11 +6,14 @@
 //  Copyright © 2017 BreakOut. All rights reserved.
 //
 
+import Sweeft
 import UIKit
 
 private let reuseIdentifier = "Cell"
 
 class AllTeamsCollectionViewController: UICollectionViewController {
+    
+    @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
     
     var teams = [Team]()
 
@@ -34,8 +37,15 @@ class AllTeamsCollectionViewController: UICollectionViewController {
         collectionView?.backgroundColor = .ultraLightBackgroundColor
         
         title = "All Teams"
-        
-        Team.all().onSuccess { teams in
+        // Only fetch the latest instead of everything...
+        loadingActivityIndicator.startAnimating()
+        Team.current().onSuccess { teams in
+            let images = teams ==> { $0.image }
+            images >>> **{
+                self.collectionView?.reloadData()
+            }
+            self.loadingActivityIndicator.stopAnimating()
+            self.loadingActivityIndicator.isHidden = true
             self.teams = teams
             self.collectionView?.reloadData()
         }

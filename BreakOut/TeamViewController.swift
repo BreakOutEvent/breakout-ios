@@ -81,6 +81,13 @@ final class TeamViewController: PageboyViewController, Observable {
         super.viewDidLoad()
         
         if team == nil {
+            
+            // Create menu buttons for navigation item
+            let barButtonImage = UIImage(named: "menu_Icon_white")
+            if barButtonImage != nil {
+                self.addLeftBarButtonWithImage(barButtonImage!)
+            }
+            
             Team.team(with: CurrentUser.shared.currentTeamId(), in: CurrentUser.shared.currentEventId()).onSuccess { team in
                 self.team = team
                 self.title = team.name
@@ -121,16 +128,18 @@ final class TeamViewController: PageboyViewController, Observable {
             hasChanged(showNavbar: previousConstant < 0)
         } else {
             if wasLoadedBefore {
-                // Now comes the fucked up autolayout part
-                buttonsToTopConstraint.constant -= barHeight
-                view.layoutIfNeeded()
-                if previousConstant > 0 {
-                    hasChanged(showNavbar: false)
-                    hasScrolled(to: postingsViewController.tableView.contentOffset.y + barHeight)
-                } else {
-                    barHeight = 0
+                if currentIndex == 0 {
+                    // Now comes the fucked up autolayout part
+                    buttonsToTopConstraint.constant -= barHeight
+                    view.layoutIfNeeded()
+                    if previousConstant > 0 {
+                        hasChanged(showNavbar: false)
+                        hasScrolled(to: postingsViewController.tableView.contentOffset.y + barHeight)
+                    } else {
+                        barHeight = 0
+                    }
+                    view.layoutIfNeeded()
                 }
-                view.layoutIfNeeded()
             } else {
                 hasChanged(showNavbar: false)
             }

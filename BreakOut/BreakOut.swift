@@ -31,8 +31,10 @@ extension BreakOut {
     /// Current Authentication
     var auth: Auth {
         get {
-            let oauth = BreakOutAuth.value
-            oauth?.delegate = self
+            var oauth = BreakOutAuth.value
+            oauth?.onChange { oauth in
+                BreakOutAuth.value = oauth
+            }
             return oauth ?? NoAuth.standard
         }
     }
@@ -52,14 +54,6 @@ extension BreakOut {
             BreakOutAuth.value = auth
             return auth
         }
-    }
-    
-}
-
-extension BreakOut: OAuthDelegate {
-    
-    func didRefresh(replace old: OAuth, with new: OAuth) {
-        BreakOutAuth.value = new
     }
     
 }

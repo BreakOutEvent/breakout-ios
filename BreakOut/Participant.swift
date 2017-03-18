@@ -66,15 +66,15 @@ extension Participant {
                        using api: BreakOut = .shared) -> JSON.Result {
         
         let body: JSON = [
-            "firstname": firstName.json,
-            "lastname": lastName.json,
-            "email": email.json,
-            "gender": gender.json,
+            "firstname": firstName,
+            "lastname": lastName,
+            "email": email,
+            "gender": gender,
             "participant": [
-                "emergencynumber": emergencyNumber.json,
-                "phonenumber": phone.json,
-                "tshirtsize": shirtSize.json
-            ]
+                "emergencynumber": emergencyNumber,
+                "phonenumber": phone,
+                "tshirtsize": shirtSize
+            ].json
         ]
         let promise = api.doJSONRequest(with: .post, to: .userData, auth: api.auth, body: body, acceptableStatusCodes: [200, 201])
         promise.onSuccess(call: CurrentUser.shared.set)

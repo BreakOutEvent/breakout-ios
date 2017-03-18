@@ -54,6 +54,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.switchButton = UISwitch()
+        self.switchButton?.addTarget(self, action: #selector(drawAllPostingsToMap), for: UIControlEvents.touchUpInside)
+        
         if let teamController = teamController {
             if let team = teamController.team {
                 set(team: team)
@@ -72,9 +75,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         self.title = "Map"
-        
-        self.switchButton = UISwitch()
-        self.switchButton?.addTarget(self, action: #selector(drawAllPostingsToMap), for: UIControlEvents.touchUpInside)
         
         // Create refresh button for navigation item
         //let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(drawAllPostingsToMap))
@@ -137,7 +137,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func set(team: Team) {
-        loadAllLocationsForTeam(team.event, teamId: team.id)
+        switchButton?.isOn = true
+        loadAllPostingsForTeam(team.event, teamId: team.id)
+//        loadAllLocationsForTeam(team.event, teamId: team.id)
     }
     
     func getRandomColor() -> UIColor{
@@ -178,12 +180,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             DispatchQueue.main.async {
                 self.mapView.add(polyLine)
             }
+            self.drawAllPostingsToMap()
         }
     }
     
     func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
         Location.all(forTeam: teamId, event: eventId).onSuccess { locations in
-            let coordinateArray = locations.including(oneInEvery: 45) => { $0.coordinates }
+            let coordinateArray = locations => { $0.coordinates }
             let polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
             DispatchQueue.main.async {
                 self.mapView.add(polyLine)
@@ -286,7 +289,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             postingDetailsTableViewController.posting = posting
             
-            self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
+            (self.navigationController ?? self.teamController?.navigationController)?.pushViewController(postingDetailsTableViewController, animated: true)
         }
         
     }

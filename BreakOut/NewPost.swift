@@ -21,12 +21,12 @@ extension NewPost: Serializable {
     
     var json: JSON {
         return [
-            "text": text.json,
-            "date": date.timeIntervalSince1970.json,
+            "text": text,
+            "date": date.timeIntervalSince1970,
             "postingLocation": [
-                "latitude": latitude.json,
-                "longitude": longitude.json,
-                ].json,
+                "latitude": latitude,
+                "longitude": longitude,
+            ].json,
             "uploadMediaTypes": (media => { $0.type }).json
         ]
     }

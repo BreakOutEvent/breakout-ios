@@ -73,7 +73,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             self.usernameLabel.isHidden = false
             self.userDistanceRemainingTimeLabel.isHidden = false
             self.loginAndRegisterButton.isHidden = true
-        }else{
+        } else {
             self.userPictureImageView.isHidden = true
             self.usernameLabel.isHidden = true
             self.userDistanceRemainingTimeLabel.isHidden = true

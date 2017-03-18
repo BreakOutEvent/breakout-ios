@@ -1202,6 +1202,10 @@ line two</string>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="3" minY="3" maxX="3" maxY="3"/>
                         </collectionViewFlowLayout>
+                        <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="xzu-hH-Ze2">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </activityIndicatorView>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="C4U-uf-hlc" customClass="TeamCollectionViewCell" customModule="BreakOut" customModuleProvider="target">
                                 <rect key="frame" x="3" y="3" width="182" height="248"/>
@@ -1223,7 +1227,7 @@ line two</string>
                                                     <rect key="frame" x="0.0" y="192" width="182" height="56"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="nSt-Md-yRp">
-                                                            <rect key="frame" x="18" y="0.0" width="146" height="30.5"/>
+                                                            <rect key="frame" x="18" y="0.0" width="146" height="31"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Team" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bq-65-FC6">
                                                                     <rect key="frame" x="0.0" y="0.0" width="146" height="16"/>
@@ -1232,7 +1236,7 @@ line two</string>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfg-ib-p5y">
-                                                                    <rect key="frame" x="0.0" y="16" width="146" height="14.5"/>
+                                                                    <rect key="frame" x="0.0" y="16" width="146" height="15"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -1275,6 +1279,9 @@ line two</string>
                             <outlet property="delegate" destination="F15-3i-Nx7" id="NmK-6t-ttV"/>
                         </connections>
                     </collectionView>
+                    <connections>
+                        <outlet property="loadingActivityIndicator" destination="xzu-hH-Ze2" id="Xda-Wz-U4Y"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fdS-2N-QH0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -4733,6 +4740,43 @@ line two</string>
                                     <outlet property="teamNameLabel" destination="2M8-ni-6di" id="ob8-oO-vrs"/>
                                     <outlet property="teamPictureImageView" destination="hNy-cC-Axt" id="TTa-Gf-VFa"/>
                                     <outlet property="timestampLabel" destination="oKB-Eo-m2r" id="pD4-Cl-y54"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadingTableViewCell" rowHeight="40" id="p4l-Du-qWR" customClass="LoadingTableViewCell" customModule="BreakOut" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="430" width="375" height="40"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p4l-Du-qWR" id="i4R-VX-C3i">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="39"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8if-ge-MyN">
+                                            <rect key="frame" x="20" y="10" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovS-kR-zmb">
+                                            <rect key="frame" x="48" y="10" width="99" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="99" id="NQL-x8-qVp"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
+                                            <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="ovS-kR-zmb" firstAttribute="leading" secondItem="8if-ge-MyN" secondAttribute="trailing" constant="8" id="RbJ-bv-CHX"/>
+                                        <constraint firstItem="8if-ge-MyN" firstAttribute="centerX" secondItem="i4R-VX-C3i" secondAttribute="centerX" id="ZLl-3a-OYk"/>
+                                        <constraint firstItem="8if-ge-MyN" firstAttribute="centerY" secondItem="i4R-VX-C3i" secondAttribute="centerY" id="d7f-RX-yCe"/>
+                                        <constraint firstItem="8if-ge-MyN" firstAttribute="leading" secondItem="i4R-VX-C3i" secondAttribute="leading" constant="20" id="rxs-Ko-RvR"/>
+                                        <constraint firstItem="ovS-kR-zmb" firstAttribute="centerY" secondItem="i4R-VX-C3i" secondAttribute="centerY" id="uYu-S9-4Pn"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="ZLl-3a-OYk"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="activityIndicator" destination="8if-ge-MyN" id="clq-xX-cTo"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -65,8 +65,8 @@ extension Challenge {
             return .errored(with: .cannotPerformRequest)
         }
         let body: JSON = [
-            "postingId": post.id.json,
-            "status": status.rawValue.json,
+            "postingId": post.id,
+            "status": status.rawValue,
         ]
         return api.doObjectRequest(with: .put,
                                    to: .challengeStatus,
