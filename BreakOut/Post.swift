@@ -116,6 +116,15 @@ extension Post {
         return ids(by: team, in: event).onSuccess(call: Post.postings <** api).future
     }
     
+    /**
+     IDs of all the Posts by a team
+     
+     - Parameter team: id of the team
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings IDs
+     */
     static func ids(by team: Int, in event: Int, using api: BreakOut = .shared) -> Promise<[Int], APIError> {
         return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).nested { json in
             return json.array ==> { $0.int }
