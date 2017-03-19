@@ -36,7 +36,7 @@ class AllTeamsCollectionViewController: UICollectionViewController {
         self.view.backgroundColor = .ultraLightBackgroundColor
         collectionView?.backgroundColor = .ultraLightBackgroundColor
         
-        title = "All Teams"
+        title = "allTeamsTitle".local
         // Only fetch the latest instead of everything...
         loadingActivityIndicator.startAnimating()
         Team.current().onSuccess { teams in

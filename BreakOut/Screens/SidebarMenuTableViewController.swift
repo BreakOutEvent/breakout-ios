@@ -6,6 +6,7 @@
 //  Copyright © 2016 BreakOut. All rights reserved.
 //
 
+import Sweeft
 import UIKit
 
 import StaticDataTableViewController
@@ -73,6 +74,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             self.usernameLabel.isHidden = false
             self.userDistanceRemainingTimeLabel.isHidden = false
             self.loginAndRegisterButton.isHidden = true
+            CurrentUser.shared.profilePic?.onChange(do: **self.fillInputsWithCurrentUserInfo)
         } else {
             self.userPictureImageView.isHidden = true
             self.usernameLabel.isHidden = true
@@ -99,7 +101,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     func fillInputsWithCurrentUserInfo() {
         self.usernameLabel.text = CurrentUser.shared.username()
         
-        self.userPictureImageView.image = CurrentUser.shared.picture
+        self.userPictureImageView.image = CurrentUser.shared.picture ?? #imageLiteral(resourceName: "emptyProfilePic")
         if self.userPictureImageView.image != nil {
             self.addUserpictureButton.isHidden = true
         }

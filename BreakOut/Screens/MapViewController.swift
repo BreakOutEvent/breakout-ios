@@ -69,12 +69,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     
         // Style the navigation bar
-        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barTintColor = .mainOrange
         self.navigationController?.navigationBar.backgroundColor = .mainOrange
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        self.title = "Map"
+        self.title = "mapTitle".local
         
         // Create refresh button for navigation item
         //let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(drawAllPostingsToMap))
@@ -226,14 +226,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     fileprivate func drawLocationsOnMap(_ locationsForTeams:[[MapLocation]]){
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
-        for locations in locationsForTeams{
-            print("==============================")
-            print("Number of locations for Teams: ", locationsForTeams.count)
-            print("Number of locations: ", locations.count)
-            print("First location title: ", locations.first!.title)
-            print("First location coordinates: ", locations.first!.coordinate)
-            print("==============================")
-            //mapView.addAnnotation(locations.first!)
+        for locations in locationsForTeams {
             for location in locations{
                 coordinateArray.append(location.coordinate)
             }

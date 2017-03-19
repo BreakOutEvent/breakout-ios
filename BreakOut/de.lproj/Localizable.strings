@@ -38,9 +38,10 @@
 // Sidemenu items
 
 "allTeamsTitle" = "Alle Teams";
-"mapTitle" = "Map";
+"mapTitle" = "Karte";
 "postStatusTitle" = "Status Posten";
 "yourTeamTitle" = "Dein Team";
+"aboutBreakout" = "Über BreakOut";
 
 // Screen Titles
 "newPostingTitle" = "Neuer Post";
