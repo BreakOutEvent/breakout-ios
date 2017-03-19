@@ -1,4 +1,4 @@
-![BreakOut-Logo](/images/breakout_header_monitor.jpg?raw=true "BreakOut")
+![BreakOut-Logo](https://static.break-out.org/breakout-logo.png "BreakOut")
 
 This is the official github project for the _BreakOut_ iOS-App.
 
