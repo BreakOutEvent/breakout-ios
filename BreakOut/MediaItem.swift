@@ -32,12 +32,12 @@ enum MediaItem {
     }
     
     /// Image that can be displayed
-    var image: UIImage? {
+    var image: Image? {
         switch self {
         case .image(let image):
-            return image.image
+            return image
         case .video(let video):
-            return video.image?.image
+            return video.image
         }
     }
 }

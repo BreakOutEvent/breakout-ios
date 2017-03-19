@@ -116,6 +116,15 @@ extension Post {
         return ids(by: team, in: event).onSuccess(call: Post.postings <** api).future
     }
     
+    /**
+     IDs of all the Posts by a team
+     
+     - Parameter team: id of the team
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend from which it should fetch them
+     
+     - Returns: Promise of the Postings IDs
+     */
     static func ids(by team: Int, in event: Int, using api: BreakOut = .shared) -> Promise<[Int], APIError> {
         return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).nested { json in
             return json.array ==> { $0.int }
@@ -207,11 +216,12 @@ extension Post {
                                  body: post.json,
                                  acceptableStatusCodes: [200, 201]).nested { json, promise in
 
-            if let team = Post(from: json) {
+            if let post = Post(from: json) {
                 media => { item, index in
                     item.upload(using: json["media"][index])
                 }
-                promise.success(with: team)
+                challenge?.set(status: .proven, for: post)
+                promise.success(with: post)
             } else {
                 promise.error(with: .mappingError(json: json))
             }
@@ -242,7 +252,7 @@ extension Post {
      */
     @discardableResult func like(using api: BreakOut = .shared) -> JSON.Result {
         let body: JSON = [
-            "date": Date.now.timeIntervalSince1970.json
+            "date": Date.now.timeIntervalSince1970
         ]
         return api.doJSONRequest(with: .post,
                                  to: .likePosting,

@@ -49,6 +49,7 @@ class TeamProfileViewController: UIViewController {
         self.subMenuSelectionBarView.frame.size.height = 2.0
         self.subMenuSelectionBarView.backgroundColor = .mainOrange
         self.subMenuView.addSubview(self.subMenuSelectionBarView)
+        showSubmenu()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,16 +75,17 @@ class TeamProfileViewController: UIViewController {
         
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.postingsTableViewControllerContainer.frame.origin.y = self.view.frame.size.height
-            }, completion: { (done: Bool) -> Void in
+        }, completion: { (done: Bool) -> Void in
                 self.showSubmenu()
         }) 
     }
+    
     @IBAction func swipeUpInSubMenu(_ sender: AnyObject) {
         self.hideSubmenu()
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.postingsTableViewControllerContainer.frame.origin.y = 0
-            }, completion: { (done: Bool) -> Void in
-                self.subMenuView.frame.origin.y = (self.navigationController?.navigationBar.frame.size.height)!
+        }, completion: { (done: Bool) -> Void in
+            self.subMenuView.frame.origin.y = (self.navigationController?.navigationBar.frame.size.height)!
         }) 
     }
     
@@ -107,12 +109,10 @@ class TeamProfileViewController: UIViewController {
     }
 
     func animateSubMenuSelectionBarViewToButton(_ button: UIButton) {
-        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3) {
             self.subMenuSelectionBarView.frame.origin.x = button.frame.origin.x
             self.subMenuSelectionBarView.frame.size.width = button.frame.size.width
-            }, completion: { (finished: Bool) -> Void in
-                //
-        }) 
+        }
     }
 // MARK: - Navigation
 
@@ -121,7 +121,7 @@ class TeamProfileViewController: UIViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "EmbedTeamProfilePostingsTableViewController" {
             let destinationController:TeamProfilePostingsTableViewController = segue.destination as! TeamProfilePostingsTableViewController
-            destinationController.parentTeamProfileViewController = self
+//            destinationController.parentTeamProfileViewController = self
         }
     }
 }

@@ -17,6 +17,11 @@
 "comments" = "Kommentare";
 "likes" = "Likes";
 
+"about_us" = "Über uns:";
+
+"pending_challenges" = "NOCH NICHT GESCHAFFT";
+"completed_challenges" = "GESCHAFFT";
+
 // Loading Texts
 "registrationLoading" = "Hab etwas geduld während wir dich für BreakOut registrieren";
 "loginLoading" = "Gleich bist du eingelogged";
@@ -29,6 +34,14 @@
 
 "welcomeScreenParticipateButtonShareLocation" = "Teile deinen Ort";
 "welcomeScreenParticipateButtonLoginAndRegister" = "ANMELDEN & EINLOGGEN";
+
+// Sidemenu items
+
+"allTeamsTitle" = "Alle Teams";
+"mapTitle" = "Karte";
+"postStatusTitle" = "Status Posten";
+"yourTeamTitle" = "Dein Team";
+"aboutBreakout" = "Über BreakOut";
 
 // Screen Titles
 "newPostingTitle" = "Neuer Post";

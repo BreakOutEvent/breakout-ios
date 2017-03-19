@@ -6,6 +6,7 @@
 //  Copyright © 2016 BreakOut. All rights reserved.
 //
 
+import Sweeft
 import UIKit
 
 import StaticDataTableViewController
@@ -48,9 +49,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             self.addUserpictureButton.isHidden = true
         }
         
-        self.cell(self.yourTeamTableViewCell, setHidden: true)
+//        self.cell(self.yourTeamTableViewCell, setHidden: true)
         self.cell(self.newsTableViewCell, setHidden: true)
-        self.cell(self.allTeamsTableViewCell, setHidden: true)
+//        self.cell(self.allTeamsTableViewCell, setHidden: true)
         self.cell(self.settingsTableViewCell, setHidden: true)
         
         self.loginAndRegisterButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: UIControlState())
@@ -73,7 +74,8 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             self.usernameLabel.isHidden = false
             self.userDistanceRemainingTimeLabel.isHidden = false
             self.loginAndRegisterButton.isHidden = true
-        }else{
+            CurrentUser.shared.profilePic?.onChange(do: **self.fillInputsWithCurrentUserInfo)
+        } else {
             self.userPictureImageView.isHidden = true
             self.usernameLabel.isHidden = true
             self.userDistanceRemainingTimeLabel.isHidden = true
@@ -99,7 +101,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     func fillInputsWithCurrentUserInfo() {
         self.usernameLabel.text = CurrentUser.shared.username()
         
-        self.userPictureImageView.image = CurrentUser.shared.picture
+        self.userPictureImageView.image = CurrentUser.shared.picture ?? #imageLiteral(resourceName: "emptyProfilePic")
         if self.userPictureImageView.image != nil {
             self.addUserpictureButton.isHidden = true
         }
@@ -127,15 +129,19 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             return false
         } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
             return false
+        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
+            return false
         }
         
         return true
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 1 && CurrentUser.shared.currentTeamId() < 0 {
+        if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
         } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
+            cell.alpha = 0.5
+        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
         } else {
             cell.alpha = 1.0

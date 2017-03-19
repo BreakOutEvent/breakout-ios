@@ -32,6 +32,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var polyLineArray : [MKPolyline] = []
     //let locationManager = CLLocationManager()
     
+    var teamController: TeamViewController?
+    
     var arrayOfAllPostingAnnotations: [MapLocation] = [MapLocation]()
     var arrayOfAllLastPostingAnnotations: [MapLocation] = [MapLocation]()
     
@@ -52,19 +54,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Fetch locations
-        fetchLocations()
-        
-        // Style the navigation bar
-        self.navigationController!.navigationBar.isTranslucent = true
-        self.navigationController!.navigationBar.barTintColor = .mainOrange
-        self.navigationController!.navigationBar.backgroundColor = .mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        self.title = "Map"
-        
         self.switchButton = UISwitch()
-        self.switchButton!.addTarget(self, action: #selector(drawAllPostingsToMap), for: UIControlEvents.touchUpInside)
+        self.switchButton?.addTarget(self, action: #selector(drawAllPostingsToMap), for: UIControlEvents.touchUpInside)
+        
+        if let teamController = teamController {
+            if let team = teamController.team {
+                set(team: team)
+            } else {
+                teamController >>> { $0.team | self.set }
+            }
+        } else {
+            // Fetch locations
+            fetchLocations()
+        }
+    
+        // Style the navigation bar
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barTintColor = .mainOrange
+        self.navigationController?.navigationBar.backgroundColor = .mainOrange
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        self.title = "mapTitle".local
         
         // Create refresh button for navigation item
         //let rightButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: #selector(drawAllPostingsToMap))
@@ -111,22 +121,25 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func viewDidAppear(_ animated: Bool) {
         // Tracking
+        super.viewDidAppear(animated)
         Flurry.logEvent("/MapViewController", timed: true)
         Answers.logCustomEvent(withName: "/MapViewController", customAttributes: [:])
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        Flurry.endTimedEvent("/MapViewController", withParameters: nil)
-    }
-    
     func drawAllPostingsToMap() {
         self.mapView.removeAnnotations(self.mapView.annotations)
-        if self.switchButton!.isOn {
+        if self.switchButton?.isOn ?? false {
             self.mapView.addAnnotations(self.arrayOfAllPostingAnnotations)
-        }else{
+        } else {
             self.mapView.addAnnotations(self.arrayOfAllLastPostingAnnotations)
         }
         
+    }
+    
+    func set(team: Team) {
+        switchButton?.isOn = true
+        loadAllPostingsForTeam(team.event, teamId: team.id)
+//        loadAllLocationsForTeam(team.event, teamId: team.id)
     }
     
     func getRandomColor() -> UIColor{
@@ -153,7 +166,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         Team.all(for: eventId).onSuccess { teams in
             teams => {
                 self.loadAllPostingsForTeam(eventId, teamId: $0.id)
-//                self.loadAllLocationsForTeam(eventId, teamId: $0.id)
             }
         }
     }
@@ -168,12 +180,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             DispatchQueue.main.async {
                 self.mapView.add(polyLine)
             }
+            self.drawAllPostingsToMap()
         }
     }
     
     func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
         Location.all(forTeam: teamId, event: eventId).onSuccess { locations in
-            let coordinateArray = locations.including(oneInEvery: 45) => { $0.coordinates }
+            let coordinateArray = locations => { $0.coordinates }
             let polyLine = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
             DispatchQueue.main.async {
                 self.mapView.add(polyLine)
@@ -213,14 +226,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     fileprivate func drawLocationsOnMap(_ locationsForTeams:[[MapLocation]]){
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
-        for locations in locationsForTeams{
-            print("==============================")
-            print("Number of locations for Teams: ", locationsForTeams.count)
-            print("Number of locations: ", locations.count)
-            print("First location title: ", locations.first!.title)
-            print("First location coordinates: ", locations.first!.coordinate)
-            print("==============================")
-            //mapView.addAnnotation(locations.first!)
+        for locations in locationsForTeams {
             for location in locations{
                 coordinateArray.append(location.coordinate)
             }
@@ -276,7 +282,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             postingDetailsTableViewController.posting = posting
             
-            self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
+            (self.navigationController ?? self.teamController?.navigationController)?.pushViewController(postingDetailsTableViewController, animated: true)
         }
         
     }

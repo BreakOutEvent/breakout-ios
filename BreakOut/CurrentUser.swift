@@ -98,7 +98,7 @@ final class CurrentUser: NSObject {
             .onError { error in
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
-                case .invalidStatus(401, _):
+                case .invalidStatus(401, let data):
                     NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
                 default: break
                 }
@@ -127,8 +127,8 @@ final class CurrentUser: NSObject {
     
     func register(email: String, password: String, using api: BreakOut = .shared) -> CurrentUser.Result {
         let body: JSON = [
-            "email": email.json,
-            "password": password.json
+            "email": email,
+            "password": password
         ]
         return api.doJSONRequest(with: .post,
                                  to: .user,
@@ -238,7 +238,7 @@ final class CurrentUser: NSObject {
         phoneNumber = json[KEY_PHONENUMBER].string
         profilePic = json.profilePic
         teamid = json["participant"]["teamId"].int
-        eventid = json["participant"]["teamId"].int
+        eventid = json["participant"]["eventId"].int
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_CURRENT_USER_UPDATED), object: nil)
     }
@@ -386,8 +386,8 @@ extension CurrentUser: Serializable {
     
     var json: JSON {
         return [
-            "firstname": (firstname.?).json,
-            "lastname": (lastname.?).json
+            "firstname": (firstname.?),
+            "lastname": (lastname.?)
         ]
     }
     

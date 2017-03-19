@@ -68,6 +68,10 @@ extension JSON {
         return array ==> Comment.init
     }
     
+    var challengeStatus: Challenge.Status? {
+        return Challenge.Status(from: self)
+    }
+    
     /**
      Returns if the size is of acceptable quality
      

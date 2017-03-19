@@ -66,7 +66,7 @@ class ChallengesTableViewController: UITableViewController {
         // Configure cell with the BOPost model
         
         let challenge = challenges[indexPath.row]
-        let title = String(format: "%.2f €", Double(challenge.amount.?))
+        let title = String(format: "%.2f €", challenge.amount.?)
         cell.challengeTitleLabel.text = title
         if let text = challenge.text {
              cell.challengeDescriptionLabel.text = text
@@ -82,19 +82,15 @@ class ChallengesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         let challenge = challenges[indexPath.row]
-        if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
-            return true
-        }
-        
-        return false
+        return !challenge.completed
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let challenge = challenges[indexPath.row]
         
-        if challenge.status?.lowercased() == "proposed" || challenge.status?.lowercased() == "accepted" {
+        if !challenge.completed {
             cell.alpha = 1.0
-        }else{
+        } else {
             cell.alpha = 0.5
         }
     }

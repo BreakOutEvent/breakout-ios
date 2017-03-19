@@ -17,6 +17,11 @@
 "comments" = "Comments";
 "likes" = "Likes";
 
+"about_us" = "About us:";
+
+"pending_challenges" = "PENDING";
+"completed_challenges" = "COMPLETED";
+
 // Loading Texts
 "registrationLoading" = "Please wait while we register you for BreakOut";
 "loginLoading" = "You are very close to get logged in";
@@ -29,6 +34,14 @@
 
 "welcomeScreenParticipateButtonShareLocation" = "Share your location";
 "welcomeScreenParticipateButtonLoginAndRegister" = "REGISTER & LOGIN";
+
+// Sidemenu items
+
+"allTeamsTitle" = "All Teams";
+"mapTitle" = "Map";
+"postStatusTitle" = "Post Status";
+"yourTeamTitle" = "Your Team";
+"aboutBreakout" = "About BreakOut";
 
 // Screen Titles
 "newPostingTitle" = "New Post";

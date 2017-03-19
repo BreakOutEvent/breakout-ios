@@ -20,10 +20,10 @@ extension NewComment: Serializable {
     
     var json: JSON {
         return [
-            "date": date.timeIntervalSince1970.json,
-            "text": comment.json,
-            "postID": post.id.json,
-            "user": user.json
+            "date": date.timeIntervalSince1970,
+            "text": comment,
+            "postID": post.id,
+            "user": user
         ]
     }
     

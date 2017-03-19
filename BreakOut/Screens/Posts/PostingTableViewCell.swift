@@ -46,10 +46,10 @@ class PostingTableViewCell: UITableViewCell {
         }
     }
     
-    var images: [UIImage] = .empty {
+    var images: [Image] = .empty {
         didSet {
             if let image = images.first {
-                postingPictureImageView.image = image
+                postingPictureImageView.image = image.image ?? #imageLiteral(resourceName: "image_placeholder")
                 postingMediaView.isHidden = false
             } else {
                 postingMediaView.isHidden = true
@@ -74,7 +74,6 @@ class PostingTableViewCell: UITableViewCell {
         
         images = posting.media
             .flatMap { $0.image }
-            .filter { $0.hasContent() }
         
         video = posting.media.flatMap({ $0.video }).first
         
@@ -206,7 +205,7 @@ extension PostingTableViewCell: DTPhotoViewerControllerDataSource {
     }
     
     func photoViewerController(_ photoViewerController: DTPhotoViewerController, configurePhotoAt index: Int, withImageView imageView: UIImageView) {
-        imageView.image = images[index]
+        imageView.image = images[index].image
     }
     
 }

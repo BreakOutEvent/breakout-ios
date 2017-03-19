@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16E175b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TeamHeaderView" customModule="BreakOut" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RQ5-C6-DES">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Names" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xCc-2H-b7M">
+                    <rect key="frame" x="16" y="609" width="48" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gzv-fL-gPN">
+                    <rect key="frame" x="16" y="587" width="94.5" height="20"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ct-vo-GEd">
+                    <rect key="frame" x="299" y="588" width="60" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Money" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXR-KC-Zwu">
+                    <rect key="frame" x="312.5" y="609" width="46.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="RQ5-C6-DES" secondAttribute="bottom" id="08J-Ka-FTr"/>
+                <constraint firstItem="Gzv-fL-gPN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="LIK-hT-K0W"/>
+                <constraint firstAttribute="bottom" secondItem="xCc-2H-b7M" secondAttribute="bottom" constant="40" id="MBm-cO-GYf"/>
+                <constraint firstAttribute="trailing" secondItem="ZXR-KC-Zwu" secondAttribute="trailing" constant="16" id="V3B-cJ-gcx"/>
+                <constraint firstAttribute="trailing" secondItem="RQ5-C6-DES" secondAttribute="trailing" id="Vdp-Cq-XGf"/>
+                <constraint firstItem="xCc-2H-b7M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="cb2-tS-deo"/>
+                <constraint firstItem="ZXR-KC-Zwu" firstAttribute="centerY" secondItem="xCc-2H-b7M" secondAttribute="centerY" id="cks-qM-uCi"/>
+                <constraint firstItem="5ct-vo-GEd" firstAttribute="centerY" secondItem="Gzv-fL-gPN" secondAttribute="centerY" id="gvJ-56-9zi"/>
+                <constraint firstItem="RQ5-C6-DES" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="hd1-g9-Vql"/>
+                <constraint firstItem="RQ5-C6-DES" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="l7w-dl-kW9"/>
+                <constraint firstItem="xCc-2H-b7M" firstAttribute="top" secondItem="Gzv-fL-gPN" secondAttribute="bottom" constant="2" id="s12-zc-NpL"/>
+                <constraint firstAttribute="trailing" secondItem="5ct-vo-GEd" secondAttribute="trailing" constant="16" id="yt2-4V-lCc"/>
+            </constraints>
+            <connections>
+                <outlet property="distanceLabel" destination="5ct-vo-GEd" id="dJc-Fg-OoF"/>
+                <outlet property="moneyLabel" destination="ZXR-KC-Zwu" id="bDe-zp-hH6"/>
+                <outlet property="namesLabel" destination="xCc-2H-b7M" id="B1m-2h-Cdv"/>
+                <outlet property="profilePicView" destination="RQ5-C6-DES" id="8il-IL-uvt"/>
+                <outlet property="teamNameLabel" destination="Gzv-fL-gPN" id="OZe-jE-5xK"/>
+            </connections>
+            <point key="canvasLocation" x="33.5" y="54.5"/>
+        </view>
+    </objects>
+</document>

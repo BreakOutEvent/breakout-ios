@@ -33,6 +33,10 @@ pod 'StaticDataTableViewController', '~> 2.0'
 pod 'DTPhotoViewerController'
 pod 'TouchVisualizer', '~> 2.0.1'
 
+# Team UI
+pod 'Pageboy'
+pod 'MXParallaxHeader'
+
 use_frameworks!
 
 # Will soon be removed

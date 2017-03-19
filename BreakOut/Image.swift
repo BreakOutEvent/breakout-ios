@@ -28,9 +28,8 @@ final class Image: Observable {
     init(id: Int, url: String?) {
         self.id = id
         if let url = url | URL.init(string:) ?? nil {
-            DispatchQueue(label: "Download").async {
-                let data = try? Data(contentsOf: url)
-                self.image <- data | UIImage.init
+            ImageDownloader.download(from: url).onSuccess { image in
+                self.image = image
             }
         }
     }
@@ -40,13 +39,14 @@ final class Image: Observable {
 extension Image: Deserializable {
     
     convenience init?(from json: JSON, height: Int) {
-        guard let id = json["id"].int else {
-            return nil
-        }
         let sizes = json["sizes"].array |> { $0.type == .image }
         let fit = sizes |> { $0.isFitFor(height: height) }
-        let size = fit.first ?? sizes.last
-        self.init(id: id, url: size?["url"].string)
+        guard let id = json["id"].int,
+            let size = fit.first ?? sizes.last else {
+                
+            return nil
+        }
+        self.init(id: id, url: size["url"].string)
     }
     
     convenience init?(from json: JSON) {
