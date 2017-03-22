@@ -49,6 +49,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     var newLatitude: Double = 0.0
     var newCity: String?
     
+    var rightButton: UIBarButtonItem!
+    
     var isShowingMenu = true
     
     @IBOutlet weak var challengeLabel: UILabel!
@@ -73,7 +75,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.title = "newPostingTitle".local
         
         // Create posting button for navigation item
-        let rightButton = UIBarButtonItem(image: UIImage(named: "checkmark_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sendPostingButtonPressed))
+        rightButton = UIBarButtonItem(image: UIImage(named: "checkmark_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sendPostingButtonPressed))
         navigationItem.rightBarButtonItem = rightButton
         
         let cancelButton = UIBarButtonItem(image: UIImage(named: "cancel_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(closeView))
@@ -166,6 +168,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     func styleMessageInput(_ placeholder: Bool) {
+        rightButton.isEnabled = !placeholder
         if placeholder {
             self.messageTextView.textColor = .lightGray
         } else {
@@ -184,7 +187,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
 // MARK: - UITextViewDelegate
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") {
+        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") || textView.text == "" {
             self.styleMessageInput(true)
         } else {
             self.styleMessageInput(false)
