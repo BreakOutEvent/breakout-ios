@@ -47,6 +47,7 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
         postButton.isLoading = true
         post.comment(commentInputTextField.text.?).onSuccess { comment in
             self.commentInputTextField.text = .empty
+            self.postButton.isEnabled = false
             self.postButton.isLoading = false
         }
         .onError { _ in

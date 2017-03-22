@@ -109,7 +109,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if isShowingMenu {
+        if isShowingMenu && navigationController?.isBeingDismissed ?? false {
             UIApplication.shared.keyWindow?.windowLevel = UIWindowLevelStatusBar + 1
         }
     }
@@ -127,8 +127,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if let amount = newChallenge?.amount, let text = newChallenge?.text {
-            self.challengeLabel.text = String(format: "%0.2f € -- \(text)", Double(amount))
+        if let text = newChallenge?.text {
+            self.challengeLabel.text = text
+            self.challengeImageView.setImage(#imageLiteral(resourceName: "team-challanges_Icon"), for: .normal)
             self.styleChallengeLabel()
         }
         // Tracking

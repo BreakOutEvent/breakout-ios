@@ -853,15 +853,15 @@ line two</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qtk-3K-tyP">
-                                                    <rect key="frame" x="20" y="24" width="22" height="22"/>
+                                                    <rect key="frame" x="20" y="19" width="22" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="22" id="u2d-ai-oJt"/>
+                                                        <constraint firstAttribute="height" constant="32" id="u2d-ai-oJt"/>
                                                         <constraint firstAttribute="width" constant="22" id="ycA-M0-hLm"/>
                                                     </constraints>
                                                     <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wähle eine Challenge aus (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJN-Cg-fkb">
-                                                    <rect key="frame" x="57" y="24" width="298" height="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wähle eine Challenge aus (optional)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJN-Cg-fkb">
+                                                    <rect key="frame" x="57" y="16.5" width="298" height="37"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -871,7 +871,7 @@ line two</string>
                                                 <constraint firstItem="LJN-Cg-fkb" firstAttribute="centerY" secondItem="xUd-BY-w18" secondAttribute="centerY" id="0Uw-YZ-3V6"/>
                                                 <constraint firstItem="Qtk-3K-tyP" firstAttribute="centerY" secondItem="xUd-BY-w18" secondAttribute="centerY" id="J7a-xm-5FW"/>
                                                 <constraint firstItem="LJN-Cg-fkb" firstAttribute="leading" secondItem="Qtk-3K-tyP" secondAttribute="trailing" constant="15" id="NE7-dz-bEK"/>
-                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="height" secondItem="Qtk-3K-tyP" secondAttribute="height" id="ZVd-OE-BU5"/>
+                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="height" secondItem="Qtk-3K-tyP" secondAttribute="height" constant="5" id="ZVd-OE-BU5"/>
                                                 <constraint firstAttribute="trailing" secondItem="LJN-Cg-fkb" secondAttribute="trailing" constant="20" id="s5t-oG-sMF"/>
                                                 <constraint firstItem="Qtk-3K-tyP" firstAttribute="leading" secondItem="xUd-BY-w18" secondAttribute="leading" constant="20" id="y8w-zz-WYp"/>
                                             </constraints>
