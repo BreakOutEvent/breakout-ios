@@ -170,13 +170,13 @@ extension TeamViewController {
     
     func selectButton(at index: Int) {
         select(button: buttons[index])
+        setButtonColors()
+        animateSubMenuSelectionBarView(to: buttons[index])
     }
     
     func select(button: UIButton) {
         self.deselectAllSubMenuButtons()
         button.isSelected = true
-        button.set(color: previousConstant > 0 ? .white : .mainOrange)
-        self.animateSubMenuSelectionBarView(to: button)
     }
     
     func deselectAllSubMenuButtons() {
@@ -264,6 +264,21 @@ extension TeamViewController {
 
 extension TeamViewController {
     
+    func setButtonColors(selectedColor: UIColor, unselectedColor: UIColor) {
+        self.buttons.forEach { button in
+            button.set(color: button.isSelected ? selectedColor : unselectedColor)
+        }
+    }
+    
+    func setButtonColors() {
+        let showNavbar = previousConstant <= 0
+        let selectedColor: UIColor = showNavbar ? .mainOrange : .white
+        let color: UIColor = showNavbar ? .lightGray : .white
+        UIView.animate(withDuration: 0.3) {
+            self.setButtonColors(selectedColor: selectedColor, unselectedColor: color)
+        }
+    }
+    
     func hasChanged(showNavbar: Bool, includeConstant: Bool = false) {
         let alpha: CGFloat = showNavbar ? 1.0 : 0
         let selectedColor: UIColor = showNavbar ? .mainOrange : .white
@@ -272,13 +287,10 @@ extension TeamViewController {
         barHeight = self.navigationController?.navigationBar.frame.height ?? 0
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
-            self.buttons.forEach { button in
-                button.set(color: button.isSelected ? selectedColor : color)
-            }
+            self.setButtonColors(selectedColor: selectedColor, unselectedColor: color)
             self.subMenu.backgroundColor = self.subMenu.backgroundColor?.withAlphaComponent(alpha)
             self.subMenu.layer.borderWidth = menuBorder
             self.subMenuSelectionBarView.backgroundColor = selectedColor
-            
             if includeConstant && self.navigationController?.navigationBar.alpha != alpha {
                 self.buttonsToTopConstraint.constant = max(self.previousConstant, 0)
             }

@@ -111,6 +111,7 @@ class PostingTableViewCell: UITableViewCell {
             likesButton.setTitleColor(.lightGray, for: .normal)
             likesButton.imageView?.set(image: #imageLiteral(resourceName: "post-like_Icon"), with: .lightGray)
         }
+        commentsButton.setTitleColor(.lightGray, for: .normal)
         commentsButton.imageView?.set(image: #imageLiteral(resourceName: "post-comment_Icon"), with: .lightGray)
         
         likesButton.isEnabled = CurrentUser.shared.isLoggedIn()
@@ -138,6 +139,8 @@ class PostingTableViewCell: UITableViewCell {
         playOverlay.layer.cornerRadius = 22
         playOverlay.clipsToBounds = true
         playOverlay.insertSubview(effectView, at: 0)
+        
+        commentsButton.isEnabled = false
         
         // Styling of the Posting Picture
         commentsButton.imageView?.alpha = 0.201
