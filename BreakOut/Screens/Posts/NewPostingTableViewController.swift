@@ -202,7 +202,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         Post.post(text: messageTextView.text, latitude: newLatitude, longitude: newLongitude, city: newCity, challenge: newChallenge, media: media).onSuccess { post in
             
             self.setupLoadingHUD("New Posting sent!")
-            self.loadingHUD.hide(true, afterDelay: 3.0)
+            self.loadingHUD.hide(true, afterDelay: 1.0)
             self.resetAllInputs()
             
             
@@ -217,7 +217,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             defaults.synchronize()
             BOPushManager.shared.setupAllLocalPushNotifications()
             
-            self.closeView(true)
+            1.0 >>> {
+                self.closeView(true)
+            }
+            
         }
         
         // After Saving throw User message and reset inputs
