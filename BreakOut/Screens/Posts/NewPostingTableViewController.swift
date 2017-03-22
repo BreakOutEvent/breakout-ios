@@ -49,6 +49,8 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     var newLatitude: Double = 0.0
     var newCity: String?
     
+    var isShowingMenu = true
+    
     @IBOutlet weak var challengeLabel: UILabel!
     var newChallenge: Challenge?
     
@@ -56,6 +58,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIApplication.shared.keyWindow?.windowLevel = UIWindowLevelNormal
+        
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
@@ -98,6 +104,13 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isShowingMenu {
+            UIApplication.shared.keyWindow?.windowLevel = UIWindowLevelStatusBar + 1
         }
     }
     
@@ -205,6 +218,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.loadingHUD.hide(true, afterDelay: 1.0)
             self.resetAllInputs()
             
+            self.isShowingMenu = false
             
             let withImage = !media.isEmpty
             
