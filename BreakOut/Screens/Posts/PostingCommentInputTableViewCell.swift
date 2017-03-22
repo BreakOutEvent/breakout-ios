@@ -22,6 +22,7 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
         super.awakeFromNib()
         // Initialization code
         
+        self.commentInputTextField.placeholder = "new_comment".local
         self.postButton.isEnabled = false
     }
 

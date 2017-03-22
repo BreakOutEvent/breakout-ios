@@ -7,6 +7,7 @@
 //
 
 import Sweeft
+import MXParallaxHeader
 import UIKit
 
 import StaticDataTableViewController
@@ -19,6 +20,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     @IBOutlet weak var userDistanceRemainingTimeLabel: UILabel!
     @IBOutlet weak var addUserpictureButton: UIButton!
     
+    @IBOutlet weak var profileHeaderTableViewCell: UITableViewCell!
     @IBOutlet weak var yourTeamTableViewCell: UITableViewCell!
     @IBOutlet weak var allTeamsTableViewCell: UITableViewCell!
     @IBOutlet weak var newsTableViewCell: UITableViewCell!
@@ -69,13 +71,23 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.fillInputsWithCurrentUserInfo()
         tableView.reloadData()
         
+        self.cell(self.profileHeaderTableViewCell, setHidden: CurrentUser.shared.isLoggedIn())
+        
         if CurrentUser.shared.isLoggedIn() {
+            
+            ProfileHeaderView.shared.populate()
+            tableView.parallaxHeader.view = ProfileHeaderView.shared
+            tableView.parallaxHeader.minimumHeight = 0
+            tableView.parallaxHeader.height = 200
+            tableView.parallaxHeader.mode = .fill
+            
             self.userPictureImageView.isHidden = false
             self.usernameLabel.isHidden = false
             self.userDistanceRemainingTimeLabel.isHidden = false
             self.loginAndRegisterButton.isHidden = true
             CurrentUser.shared.profilePic?.onChange(do: **self.fillInputsWithCurrentUserInfo)
         } else {
+            tableView.parallaxHeader.height = 0
             self.userPictureImageView.isHidden = true
             self.usernameLabel.isHidden = true
             self.userDistanceRemainingTimeLabel.isHidden = true

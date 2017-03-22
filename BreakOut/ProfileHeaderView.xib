@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16E191a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ProfileHeaderView" customModule="BreakOut" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="breakoutDefaultBackground_600x600" translatesAutoresizingMaskIntoConstraints="NO" id="9jA-Rr-luo">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How far can you go?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhs-Bg-APg">
+                    <rect key="frame" x="10" y="630" width="132" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwX-U8-cvB">
+                    <rect key="frame" x="10" y="603" width="78.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NJe-EQ-Gfv">
+                    <rect key="frame" x="10" y="519" width="64" height="64"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="NJe-EQ-Gfv" secondAttribute="height" multiplier="1:1" id="OfE-Fj-4cp"/>
+                        <constraint firstAttribute="height" constant="64" id="gKv-fJ-oL2"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Lhs-Bg-APg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="8vh-oU-Jul"/>
+                <constraint firstItem="NJe-EQ-Gfv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Bzg-h8-kEk"/>
+                <constraint firstAttribute="bottom" secondItem="Lhs-Bg-APg" secondAttribute="bottom" constant="20" id="DfD-MP-GXJ"/>
+                <constraint firstItem="Lhs-Bg-APg" firstAttribute="top" secondItem="NwX-U8-cvB" secondAttribute="bottom" constant="10" id="Hbt-4G-um8"/>
+                <constraint firstItem="9jA-Rr-luo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="SRb-KG-Gka"/>
+                <constraint firstItem="NwX-U8-cvB" firstAttribute="top" secondItem="NJe-EQ-Gfv" secondAttribute="bottom" constant="20" id="UlO-KD-Ho3"/>
+                <constraint firstItem="9jA-Rr-luo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="YjL-EW-TD3"/>
+                <constraint firstAttribute="bottom" secondItem="9jA-Rr-luo" secondAttribute="bottom" id="ec7-Wc-NHN"/>
+                <constraint firstAttribute="trailing" secondItem="9jA-Rr-luo" secondAttribute="trailing" id="lUW-0g-OU5"/>
+                <constraint firstItem="NwX-U8-cvB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="rvH-Ln-vgI"/>
+            </constraints>
+            <connections>
+                <outlet property="nameLabel" destination="NwX-U8-cvB" id="wau-9R-8gR"/>
+                <outlet property="profileImageView" destination="NJe-EQ-Gfv" id="5Ta-hY-QnE"/>
+                <outlet property="statsLabel" destination="Lhs-Bg-APg" id="SG8-Cp-cHU"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="breakoutDefaultBackground_600x600" width="600" height="600"/>
+    </resources>
+</document>

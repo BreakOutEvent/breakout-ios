@@ -27,6 +27,7 @@ class CommentButton: UIButton {
     }
     
     private func startSpining() {
+        isEnabled = false
         activityIndicator.activityIndicatorViewStyle = .gray
         activityIndicator.color = .mainOrange
         previousText = (titleLabel?.text).?
@@ -40,6 +41,7 @@ class CommentButton: UIButton {
     }
     
     private func stopSpinning() {
+        isEnabled = true
         activityIndicator.stopAnimating()
         activityIndicator.removeFromSuperview()
         setTitle(previousText, for: .normal)

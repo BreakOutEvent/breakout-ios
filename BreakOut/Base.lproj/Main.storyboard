@@ -3055,6 +3055,7 @@ line two</string>
                         <outlet property="allTeamsTableViewCell" destination="7Ly-0J-CTK" id="A9U-OL-2Dt"/>
                         <outlet property="loginAndRegisterButton" destination="ykX-BV-Z1W" id="bsu-X5-H6W"/>
                         <outlet property="newsTableViewCell" destination="MMV-q6-f1c" id="LfJ-Nf-zfQ"/>
+                        <outlet property="profileHeaderTableViewCell" destination="RCg-hM-kSl" id="ybe-lz-7Hr"/>
                         <outlet property="settingsTableViewCell" destination="MqO-xY-U65" id="zxd-7x-5LG"/>
                         <outlet property="userDistanceRemainingTimeLabel" destination="xu6-c6-ncK" id="FU4-a8-sJU"/>
                         <outlet property="userPictureImageView" destination="DL6-y1-wxv" id="9mN-fp-fFy"/>

@@ -27,6 +27,8 @@
 		0E3B87FC1E61F9B100C21AB9 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87FB1E61F9B100C21AB9 /* Challenge.swift */; };
 		0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6289231E623F7E00EF1FAD /* UploadManager.swift */; };
 		0E7E230B1E832384002BAD97 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7E230A1E832384002BAD97 /* CommentButton.swift */; };
+		0E7E230D1E833B22002BAD97 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7E230C1E833B22002BAD97 /* ProfileHeaderView.swift */; };
+		0E7E230F1E833B2C002BAD97 /* ProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E7E230E1E833B2C002BAD97 /* ProfileHeaderView.xib */; };
 		0E8663361E63A99900B5738D /* NewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8663351E63A99900B5738D /* NewPost.swift */; };
 		0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8990581E6871E00080E123 /* PersistentViewController.swift */; };
 		0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A25111E6440F60011082D /* AppDefaults.swift */; };
@@ -125,6 +127,8 @@
 		0E6289231E623F7E00EF1FAD /* UploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		0E6E6A60DAADD446EC06104D /* Pods-BreakOutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOutTests/Pods-BreakOutTests.release.xcconfig"; sourceTree = "<group>"; };
 		0E7E230A1E832384002BAD97 /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
+		0E7E230C1E833B22002BAD97 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		0E7E230E1E833B2C002BAD97 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
 		0E8663351E63A99900B5738D /* NewPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPost.swift; sourceTree = "<group>"; };
 		0E8990581E6871E00080E123 /* PersistentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentViewController.swift; sourceTree = "<group>"; };
 		0E9A25111E6440F60011082D /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
@@ -470,6 +474,8 @@
 				0E8990581E6871E00080E123 /* PersistentViewController.swift */,
 				26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */,
 				26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */,
+				0E7E230C1E833B22002BAD97 /* ProfileHeaderView.swift */,
+				0E7E230E1E833B2C002BAD97 /* ProfileHeaderView.xib */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -602,6 +608,7 @@
 				2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */,
 				263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */,
 				0EBE9D5C1E787E0700355E1E /* TeamHeaderView.xib in Resources */,
+				0E7E230F1E833B2C002BAD97 /* ProfileHeaderView.xib in Resources */,
 				0E31C5831E772260008E9C9C /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -756,6 +763,7 @@
 				2643F5F51CC2B94500031038 /* NewPostingTableViewController.swift in Sources */,
 				0EBE9D5E1E787F6600355E1E /* TeamHeaderView.swift in Sources */,
 				260121481C79008E0041EAA8 /* BOButton.swift in Sources */,
+				0E7E230D1E833B22002BAD97 /* ProfileHeaderView.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */,
 				0E3B87FC1E61F9B100C21AB9 /* Challenge.swift in Sources */,
