@@ -14,6 +14,11 @@
 
 "cancel" = "Abbrechen";
 
+"just_now" = "Vor Kurzem";
+"time" = "vor %@";
+"hours" = "std.";
+"days" = "t";
+
 "commentsSingular" = "Kommentar";
 "commentsPlural" = "Kommentare";
 "likesSingular" = "Like";

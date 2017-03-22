@@ -173,10 +173,52 @@ extension Array {
     
 }
 
+extension Calendar.Component {
+    
+    var local: String {
+        switch self {
+        case .day: return "days".local
+        case .hour: return "hours".local
+        case .minute: return "min"
+        default: return .empty
+        }
+    }
+    
+    func localized(amount: Int) -> String {
+        let format = "time".local
+        let timeString = "\(amount) \(self.local)"
+        return String(format: format, timeString)
+    }
+    
+}
+
 extension Date {
     
     func toString() -> String {
-        return string(using: "hh:mm a, EEE dd MMM")
+        let diff = Date.now - self
+        let diffs: [(Int, Calendar.Component)] = [(diff.days, .day),
+                                                  (diff.hours, .hour),
+                                                  (diff.minutes, .minute)]
+        
+        let reduced = diffs ==> nil ** { (result, diff: (Int, Calendar.Component)) in
+            return result ?? (diff.0 > 0 ? diff : nil)
+        }
+        
+        guard let relevant = reduced else {
+            return "just_now".local // Just now...
+        }
+        
+        switch relevant.1 {
+        case .day:
+            if relevant.0 > 3 {
+                return string(using: "dd MMM, YYYY")
+            }
+            fallthrough
+        default:
+            return relevant.1.localized(amount: relevant.0)
+        }
+        
+        
     }
     
 }
