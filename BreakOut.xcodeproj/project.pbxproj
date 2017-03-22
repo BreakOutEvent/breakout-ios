@@ -26,6 +26,7 @@
 		0E3B87FA1E61F93900C21AB9 /* NewComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87F91E61F93900C21AB9 /* NewComment.swift */; };
 		0E3B87FC1E61F9B100C21AB9 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87FB1E61F9B100C21AB9 /* Challenge.swift */; };
 		0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6289231E623F7E00EF1FAD /* UploadManager.swift */; };
+		0E7E230B1E832384002BAD97 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7E230A1E832384002BAD97 /* CommentButton.swift */; };
 		0E8663361E63A99900B5738D /* NewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8663351E63A99900B5738D /* NewPost.swift */; };
 		0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8990581E6871E00080E123 /* PersistentViewController.swift */; };
 		0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A25111E6440F60011082D /* AppDefaults.swift */; };
@@ -123,6 +124,7 @@
 		0E3B87FB1E61F9B100C21AB9 /* Challenge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		0E6289231E623F7E00EF1FAD /* UploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		0E6E6A60DAADD446EC06104D /* Pods-BreakOutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOutTests/Pods-BreakOutTests.release.xcconfig"; sourceTree = "<group>"; };
+		0E7E230A1E832384002BAD97 /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
 		0E8663351E63A99900B5738D /* NewPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPost.swift; sourceTree = "<group>"; };
 		0E8990581E6871E00080E123 /* PersistentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentViewController.swift; sourceTree = "<group>"; };
 		0E9A25111E6440F60011082D /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */,
 				26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */,
 				263874BE1D01940B008BF00E /* LoadingTableViewCell.swift */,
+				0E7E230A1E832384002BAD97 /* CommentButton.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -784,6 +787,7 @@
 				0E3B87F61E61F88400C21AB9 /* NewMedia.swift in Sources */,
 				262955AC1CE789B4004D3213 /* PostingCommentTableViewCell.swift in Sources */,
 				0E3B87E91E61F7F900C21AB9 /* BreakOutEndpoints.swift in Sources */,
+				0E7E230B1E832384002BAD97 /* CommentButton.swift in Sources */,
 				0E3B87E31E61F7D600C21AB9 /* Team.swift in Sources */,
 				61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */,
 				26B327311CFB6C050039FB66 /* BOPushManager.swift in Sources */,

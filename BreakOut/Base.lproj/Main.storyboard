@@ -2390,7 +2390,7 @@ line two</string>
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N7z-NZ-W87">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N7z-NZ-W87" customClass="CommentButton" customModule="BreakOut" customModuleProvider="target">
                                             <rect key="frame" x="307" y="7" width="60" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="6oJ-y7-lBf"/>
@@ -2401,8 +2401,8 @@ line two</string>
                                                 <action selector="postButtonPressed:" destination="R6C-Ji-Dr3" eventType="touchUpInside" id="bLS-My-w1c"/>
                                             </connections>
                                         </button>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comment…" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h8d-1P-DWY">
-                                            <rect key="frame" x="8" y="8" width="516" height="28"/>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comment…" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h8d-1P-DWY">
+                                            <rect key="frame" x="8" y="8" width="291" height="28"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
                                             <connections>
