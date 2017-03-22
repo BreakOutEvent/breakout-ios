@@ -40,6 +40,8 @@ class TeamHeaderView: UIView {
         }
         if let team = team {
             header.use(team: team)
+        } else {
+            header.profilePicView.image = UIImage(named: "breakoutDefaultBackground_600x600")
         }
         return header
     }
