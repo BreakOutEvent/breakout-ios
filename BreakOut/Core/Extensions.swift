@@ -93,6 +93,22 @@ extension String {
         return localized(with: .empty)
     }
     
+    var singularLocal: String {
+        return "\(self)Singular".local
+    }
+
+    var pluralLocal: String {
+        return "\(self)Plural".local
+    }
+    
+    func localized(amount: Int) -> String {
+        if amount == 1 {
+            return "\(amount) \(singularLocal)"
+        } else {
+            return "\(amount) \(pluralLocal)"
+        }
+    }
+    
     func localized(with comment: String) -> String {
         return NSLocalizedString(self, comment: comment)
     }
@@ -120,6 +136,7 @@ extension UITextView {
 }
 
 extension UIImageView {
+    
     @IBInspectable var cornerRadius: CGFloat {
         get {
             return layer.cornerRadius
@@ -129,6 +146,7 @@ extension UIImageView {
             layer.masksToBounds = newValue > 0
         }
     }
+    
 }
 
 extension UIButton {

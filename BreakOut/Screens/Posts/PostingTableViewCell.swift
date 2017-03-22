@@ -102,7 +102,7 @@ class PostingTableViewCell: UITableViewCell {
     }
     
     func loadInterface() {
-        likesButton.setTitle(String(format: "%i %@", posting.likes, "likes".local), for: .normal)
+        likesButton.setTitle("likes".localized(amount: posting.likes), for: .normal)
         
         if posting.liked {
             likesButton.setTitleColor(.brick, for: .normal)
@@ -116,7 +116,7 @@ class PostingTableViewCell: UITableViewCell {
         likesButton.isEnabled = CurrentUser.shared.isLoggedIn()
         
         // Add count for comments
-        commentsButton.setTitle(String(format: "%i %@", posting.comments.count, "comments".localized(with: "Comments")), for: .normal)
+        commentsButton.setTitle("comments".localized(amount: posting.comments.count), for: .normal)
         setNeedsUpdateConstraints()
         updateConstraintsIfNeeded()
     }

@@ -14,8 +14,10 @@
 
 "cancel" = "Abbrechen";
 
-"comments" = "Kommentare";
-"likes" = "Likes";
+"commentsSingular" = "Kommentar";
+"commentsPlural" = "Kommentare";
+"likesSingular" = "Like";
+"likesPlural" = "Likes";
 
 "about_us" = "Über uns:";
 
