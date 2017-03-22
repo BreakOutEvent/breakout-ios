@@ -845,8 +845,40 @@ line two</string>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="70" id="CyY-M4-HoM">
+                                        <rect key="frame" x="0.0" y="200" width="375" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CyY-M4-HoM" id="xUd-BY-w18">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qtk-3K-tyP">
+                                                    <rect key="frame" x="20" y="24" width="22" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="22" id="u2d-ai-oJt"/>
+                                                        <constraint firstAttribute="width" constant="22" id="ycA-M0-hLm"/>
+                                                    </constraints>
+                                                    <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wähle eine Challenge aus (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJN-Cg-fkb">
+                                                    <rect key="frame" x="57" y="24" width="298" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="centerY" secondItem="xUd-BY-w18" secondAttribute="centerY" id="0Uw-YZ-3V6"/>
+                                                <constraint firstItem="Qtk-3K-tyP" firstAttribute="centerY" secondItem="xUd-BY-w18" secondAttribute="centerY" id="J7a-xm-5FW"/>
+                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="leading" secondItem="Qtk-3K-tyP" secondAttribute="trailing" constant="15" id="NE7-dz-bEK"/>
+                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="height" secondItem="Qtk-3K-tyP" secondAttribute="height" id="ZVd-OE-BU5"/>
+                                                <constraint firstAttribute="trailing" secondItem="LJN-Cg-fkb" secondAttribute="trailing" constant="20" id="s5t-oG-sMF"/>
+                                                <constraint firstItem="Qtk-3K-tyP" firstAttribute="leading" secondItem="xUd-BY-w18" secondAttribute="leading" constant="20" id="y8w-zz-WYp"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="200" id="PY3-Bg-JXa">
-                                        <rect key="frame" x="0.0" y="200" width="375" height="200"/>
+                                        <rect key="frame" x="0.0" y="270" width="375" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PY3-Bg-JXa" id="oap-gW-YQA">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
@@ -892,38 +924,6 @@ line two</string>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="70" id="CyY-M4-HoM">
-                                        <rect key="frame" x="0.0" y="400" width="375" height="70"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CyY-M4-HoM" id="xUd-BY-w18">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qtk-3K-tyP">
-                                                    <rect key="frame" x="20" y="24" width="22" height="22"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="22" id="u2d-ai-oJt"/>
-                                                        <constraint firstAttribute="width" constant="22" id="ycA-M0-hLm"/>
-                                                    </constraints>
-                                                    <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wähle eine Challenge aus (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LJN-Cg-fkb">
-                                                    <rect key="frame" x="57" y="24" width="298" height="22"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="centerY" secondItem="xUd-BY-w18" secondAttribute="centerY" id="0Uw-YZ-3V6"/>
-                                                <constraint firstItem="Qtk-3K-tyP" firstAttribute="centerY" secondItem="xUd-BY-w18" secondAttribute="centerY" id="J7a-xm-5FW"/>
-                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="leading" secondItem="Qtk-3K-tyP" secondAttribute="trailing" constant="15" id="NE7-dz-bEK"/>
-                                                <constraint firstItem="LJN-Cg-fkb" firstAttribute="height" secondItem="Qtk-3K-tyP" secondAttribute="height" id="ZVd-OE-BU5"/>
-                                                <constraint firstAttribute="trailing" secondItem="LJN-Cg-fkb" secondAttribute="trailing" constant="20" id="s5t-oG-sMF"/>
-                                                <constraint firstItem="Qtk-3K-tyP" firstAttribute="leading" secondItem="xUd-BY-w18" secondAttribute="leading" constant="20" id="y8w-zz-WYp"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -934,8 +934,11 @@ line two</string>
                     </tableView>
                     <navigationItem key="navigationItem" id="V2s-wv-Wnj"/>
                     <connections>
+                        <outlet property="challengeCell" destination="CyY-M4-HoM" id="EiM-ZZ-jzK"/>
+                        <outlet property="challengeImageView" destination="Qtk-3K-tyP" id="TzV-vk-eRm"/>
                         <outlet property="challengeLabel" destination="LJN-Cg-fkb" id="Od0-ra-U7X"/>
                         <outlet property="locationLabel" destination="8Wa-uk-WBS" id="GNN-S6-Fp1"/>
+                        <outlet property="mediaCell" destination="Lul-zz-ymm" id="quy-aI-TYM"/>
                         <outlet property="messageTextView" destination="4wS-ff-bfU" id="h2K-rH-k1N"/>
                         <outlet property="postingPictureImageView" destination="l6V-Fr-wCp" id="MLm-AQ-u19"/>
                     </connections>

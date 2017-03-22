@@ -30,6 +30,9 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class NewPostingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate {
     
+    @IBOutlet weak var mediaCell: UITableViewCell!
+    @IBOutlet weak var challengeCell: UITableViewCell!
+    @IBOutlet weak var challengeImageView: UIButton!
     @IBOutlet weak var postingPictureImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var messageTextView: UITextView!
@@ -180,6 +183,16 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return mediaCell.frame.height
+        }
+        if indexPath.row == 1 {
+            return challengeCell.frame.height
+        }
+        return tableView.frame.height - mediaCell.frame.height - challengeCell.frame.height
+    }
+    
     
     
 // MARK: - Button Actions
@@ -321,5 +334,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.navigationController?.pushViewController(challengesTableViewController, animated: true)
         }
     }
+    
+    
 
 }
