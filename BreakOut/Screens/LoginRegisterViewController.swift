@@ -97,8 +97,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         if textField == self.emailTextField {
             // Switch focus to other text field
             self.passwordTextField.becomeFirstResponder()
-        }else{
+        } else {
             // Login should be triggered
+            self.loginButtonPressed(loginButton)
         }
         return true
     }
