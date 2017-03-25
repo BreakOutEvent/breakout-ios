@@ -98,7 +98,7 @@ extension Team {
      
      - Returns: Promise of the posts
      */
-    func fetch(using api: BreakOut) -> Team.Result {
+    func fetch(using api: BreakOut = .shared) -> Team.Result {
         return Team.team(with: id, in: event, using: api)
     }
     

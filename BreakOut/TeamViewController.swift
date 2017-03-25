@@ -35,6 +35,7 @@ final class TeamViewController: PageboyViewController, Observable {
     
     var listeners = [Listener]()
     
+    var partialTeam: Team?
     var team: Team?
     
     private func create<V: UIViewController>() -> V {
@@ -81,17 +82,24 @@ final class TeamViewController: PageboyViewController, Observable {
         super.viewDidLoad()
         
         if team == nil {
-            
-            // Create menu buttons for navigation item
-            let barButtonImage = UIImage(named: "menu_Icon_white")
-            if barButtonImage != nil {
-                self.addLeftBarButtonWithImage(barButtonImage!)
-            }
-            
-            Team.team(with: CurrentUser.shared.currentTeamId(), in: CurrentUser.shared.currentEventId()).onSuccess { team in
-                self.team = team
-                self.title = team.name
-                self.hasChanged()
+            if let partialTeam = partialTeam {
+                partialTeam.fetch().onSuccess { team in
+                    self.team = team
+                    self.title = team.name
+                    self.hasChanged()
+                }
+            } else {
+                // Create menu buttons for navigation item
+                let barButtonImage = UIImage(named: "menu_Icon_white")
+                if barButtonImage != nil {
+                    self.addLeftBarButtonWithImage(barButtonImage!)
+                }
+                
+                Team.team(with: CurrentUser.shared.currentTeamId(), in: CurrentUser.shared.currentEventId()).onSuccess { team in
+                    self.team = team
+                    self.title = team.name
+                    self.hasChanged()
+                }
             }
         }
         

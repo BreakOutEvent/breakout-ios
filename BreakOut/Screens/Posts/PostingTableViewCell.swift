@@ -188,6 +188,24 @@ class PostingTableViewCell: UITableViewCell {
         }
     }
     
+    @IBAction func teamPressed(_ sender: Any) {
+        
+        UIView.animate(withDuration: 0.1) {
+            self.parentTableViewController?.navigationController?.navigationBar.alpha = 0.0
+        }
+        
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let teamController = storyboard.instantiateViewController(withIdentifier: "TeamViewController")
+        
+        if let teamController = teamController as? TeamViewController {
+            teamController.partialTeam = posting.participant.team
+        }
+        
+        parentTableViewController?.navigationController?.pushViewController(teamController, animated: true)
+        
+    }
+    
     @IBAction func likesButtonPressed(_ sender: UIButton) {
         posting.toggleLike().onSuccess(call: **self.loadInterface).onError(call: **self.loadInterface)
     }
