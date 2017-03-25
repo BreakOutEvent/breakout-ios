@@ -110,17 +110,28 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     func keyboardWillShow(_ notification: Notification) {
         let userInfo:NSDictionary = (notification as NSNotification).userInfo! as NSDictionary
         if let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.formContainerViewToBottomConstraint.constant = keyboardSize.height
-            self.logoBottomConstraint.constant = 5.0
-            self.logoTopConstraint.constant = 5.0
+            keyboardIsResizing(to: keyboardSize.height, notification: notification)
         }
     }
     
     func keyboardWillHide(_ notification: Notification) {
-        //
-        self.formContainerViewToBottomConstraint.constant = 0.0
-        self.logoBottomConstraint.constant = 55.0
-        self.logoTopConstraint.constant = 60.0
+        keyboardIsResizing(to: 0, notification: notification)
+    }
+    
+    func keyboardIsResizing(to height: CGFloat, notification: Notification) {
+        guard let duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double,
+            let curveValue = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt else {
+                
+            return
+        }
+        let curve = UIViewAnimationOptions(rawValue: curveValue << 16)
+        UIView.animate(withDuration: duration, delay: 0.0, options: curve, animations: {
+            self.view.layoutIfNeeded()
+            self.formContainerViewToBottomConstraint.constant = height
+            self.logoBottomConstraint.constant = max(16, 55 - height)
+            self.logoTopConstraint.constant = max(16, 60 - height)
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     
