@@ -304,7 +304,8 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         optionMenu.addAction(photoLibraryOption)
         optionMenu.addAction(cancelOption)
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            optionMenu.addAction(cameraOption)} else {
+            optionMenu.addAction(cameraOption)
+        } else {
             print ("I don't have a camera.")
         }
         
@@ -327,6 +328,8 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         
         // Tracking
         Answers.logCustomEvent(withName: "/logoutButtonPressed", customAttributes: [:])
+        
+        BreakOut.shared.logout()
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)
     }

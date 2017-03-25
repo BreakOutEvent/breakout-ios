@@ -25,6 +25,7 @@ class TeamProfilePostingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         extendedLayoutIncludesOpaqueBars = true
+        tableView.tableFooterView = UIView()
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
         tableView.parallaxHeader.height = 300
@@ -79,7 +80,9 @@ class TeamProfilePostingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 1:
-            return tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath)
+            cell.separatorInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, cell.bounds.size.width)
+            return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostingTableViewCell", for: indexPath)
             if let cell = cell as? PostingTableViewCell {

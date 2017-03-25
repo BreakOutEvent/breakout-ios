@@ -1,4 +1,4 @@
-    //
+//
 //  AllPostingsTableViewController.swift
 //  BreakOut
 //
@@ -17,35 +17,53 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
     
     static var shared: UIViewController?
     
-    var allPostingsArray = [Post]()
-    var lastLoadedPage: Int = -1
-    var isLoading: Bool = false
+    var pages = [(Int, [Post])]()
+    
+    var allPostingsArray: [Post] {
+        return pages.sorted(ascending: firstArgument).flatMap { $1 }
+    }
+    
+    var lastLoadedPage: Int {
+        return pages.max(firstArgument) ?? -1
+    }
+    
+    var isLoading = false
+    var isReloading = false
     
     func loadNewPageOfPostings() {
-        self.lastLoadedPage += 1
-        self.loadPostingsFromBackend(self.lastLoadedPage)
+        self.loadPostingsFromBackend(lastLoadedPage + 1)
     }
     
     func loadPostingsFromBackend(_ page: Int = 0) {
         self.loadingCell(true)
         BONetworkIndicator.si.increaseLoading()
-        Post.get(page: page).onSuccess { newPosts in
-            newPosts >>> **self.tableView.reloadData
-            self.allPostingsArray.append(contentsOf: newPosts)
-            self.lastLoadedPage = page
-            self.tableView.reloadData()
-            self.tableView.reloadInputViews()
-            self.loadingCell(false)
-            BONetworkIndicator.si.decreaseLoading()
-        }
-        .onError(call: **{
+        Post.get(page: page).onSuccess(call: self.add <** page).onError(call: **{
             BONetworkIndicator.si.decreaseLoading()
             self.loadingCell(false)
+            self.refreshControl?.endRefreshing()
         })
     }
     
     func loadingCell(_ isLoading: Bool = false) {
         self.isLoading = isLoading
+    }
+    
+    func add(postings: [Post], as page: Int) {
+        if self.isReloading {
+            self.pages.removeAll()
+            self.isReloading = false
+            self.refreshControl?.endRefreshing()
+        }
+        if let index = pages.index(where: { $0.0 == page }) {
+            pages[index] = (page, postings)
+        } else {
+            pages.append((page, postings))
+        }
+        postings >>> **self.tableView.reloadData
+        self.tableView.reloadData()
+        self.tableView.reloadInputViews()
+        self.loadingCell(false)
+        BONetworkIndicator.si.decreaseLoading()
     }
 
     override func viewDidLoad() {
@@ -61,6 +79,7 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
+        tableView.tableFooterView = UIView()
         
         self.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
     }
@@ -77,13 +96,8 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
-        self.allPostingsArray.removeAll()
-        self.tableView.reloadData()
-        
+        self.isReloading = true
         self.loadPostingsFromBackend(0)
-        
-        self.tableView.reloadData()
-        refreshControl.endRefreshing()
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -95,7 +109,7 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
             }
         }
         
-        if !isLoading, (indexPath as NSIndexPath).row == self.tableView.numberOfRows(inSection: (indexPath as NSIndexPath).section)-1 {
+        if !isLoading, indexPath.row == self.tableView.numberOfRows(inSection: indexPath.section) - 1 {
             self.loadNewPageOfPostings()
         }
         
@@ -150,6 +164,7 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == self.tableView.numberOfRows(inSection: indexPath.section) - 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath) as! LoadingTableViewCell
+            cell.separatorInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, cell.bounds.size.width)
             cell.activityIndicator.startAnimating()
             return cell
         }else{
@@ -176,4 +191,12 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
         
         self.navigationController?.pushViewController(postingDetailsTableViewController, animated: true)
     }
+}
+
+extension AllPostingsTableViewController {
+    
+    func titleForEmptyStateView() -> NSAttributedString {
+        return NSAttributedString(string: "No Postings for you!")
+    }
+    
 }

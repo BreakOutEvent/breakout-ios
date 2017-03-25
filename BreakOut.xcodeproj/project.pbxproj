@@ -26,9 +26,15 @@
 		0E3B87FA1E61F93900C21AB9 /* NewComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87F91E61F93900C21AB9 /* NewComment.swift */; };
 		0E3B87FC1E61F9B100C21AB9 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3B87FB1E61F9B100C21AB9 /* Challenge.swift */; };
 		0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6289231E623F7E00EF1FAD /* UploadManager.swift */; };
+		0E7E230B1E832384002BAD97 /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7E230A1E832384002BAD97 /* CommentButton.swift */; };
+		0E7E230D1E833B22002BAD97 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7E230C1E833B22002BAD97 /* ProfileHeaderView.swift */; };
+		0E7E230F1E833B2C002BAD97 /* ProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E7E230E1E833B2C002BAD97 /* ProfileHeaderView.xib */; };
 		0E8663361E63A99900B5738D /* NewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8663351E63A99900B5738D /* NewPost.swift */; };
 		0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8990581E6871E00080E123 /* PersistentViewController.swift */; };
 		0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A25111E6440F60011082D /* AppDefaults.swift */; };
+		0EBAB3741E868C0A00237237 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBAB3731E868C0A00237237 /* HeaderView.swift */; };
+		0EBAB3761E868C4500237237 /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBAB3751E868C4500237237 /* LoginHeaderView.swift */; };
+		0EBAB3781E868C6800237237 /* LoginHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EBAB3771E868C6800237237 /* LoginHeaderView.xib */; };
 		0EBE9D5C1E787E0700355E1E /* TeamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */; };
 		0EBE9D5E1E787F6600355E1E /* TeamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */; };
 		0EBE9D601E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D5F1E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift */; };
@@ -123,9 +129,15 @@
 		0E3B87FB1E61F9B100C21AB9 /* Challenge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		0E6289231E623F7E00EF1FAD /* UploadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		0E6E6A60DAADD446EC06104D /* Pods-BreakOutTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOutTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOutTests/Pods-BreakOutTests.release.xcconfig"; sourceTree = "<group>"; };
+		0E7E230A1E832384002BAD97 /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
+		0E7E230C1E833B22002BAD97 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		0E7E230E1E833B2C002BAD97 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
 		0E8663351E63A99900B5738D /* NewPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewPost.swift; sourceTree = "<group>"; };
 		0E8990581E6871E00080E123 /* PersistentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentViewController.swift; sourceTree = "<group>"; };
 		0E9A25111E6440F60011082D /* AppDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefaults.swift; sourceTree = "<group>"; };
+		0EBAB3731E868C0A00237237 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		0EBAB3751E868C4500237237 /* LoginHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
+		0EBAB3771E868C6800237237 /* LoginHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginHeaderView.xib; sourceTree = "<group>"; };
 		0EBE9D5B1E787E0700355E1E /* TeamHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeamHeaderView.xib; sourceTree = "<group>"; };
 		0EBE9D5D1E787F6600355E1E /* TeamHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamHeaderView.swift; sourceTree = "<group>"; };
 		0EBE9D5F1E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamChallengesOverviewTableViewController.swift; sourceTree = "<group>"; };
@@ -366,6 +378,7 @@
 				26F29BEA1CF2111E003DB37E /* ChallengeTableViewCell.swift */,
 				26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */,
 				263874BE1D01940B008BF00E /* LoadingTableViewCell.swift */,
+				0E7E230A1E832384002BAD97 /* CommentButton.swift */,
 			);
 			name = Posts;
 			sourceTree = "<group>";
@@ -467,6 +480,11 @@
 				0E8990581E6871E00080E123 /* PersistentViewController.swift */,
 				26BB1E891C3F082C00871024 /* SidebarMenuTableViewController.swift */,
 				26AA75221C81CFA80023D009 /* BOPopoverViewController.swift */,
+				0EBAB3731E868C0A00237237 /* HeaderView.swift */,
+				0EBAB3751E868C4500237237 /* LoginHeaderView.swift */,
+				0EBAB3771E868C6800237237 /* LoginHeaderView.xib */,
+				0E7E230C1E833B22002BAD97 /* ProfileHeaderView.swift */,
+				0E7E230E1E833B2C002BAD97 /* ProfileHeaderView.xib */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -599,6 +617,8 @@
 				2678A5891B7E4BB4000CF85A /* Images.xcassets in Resources */,
 				263874C11D0222FF008BF00E /* GoogleService-Info.plist in Resources */,
 				0EBE9D5C1E787E0700355E1E /* TeamHeaderView.xib in Resources */,
+				0EBAB3781E868C6800237237 /* LoginHeaderView.xib in Resources */,
+				0E7E230F1E833B2C002BAD97 /* ProfileHeaderView.xib in Resources */,
 				0E31C5831E772260008E9C9C /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -738,6 +758,7 @@
 				0E3B87EB1E61F81C00C21AB9 /* Image.swift in Sources */,
 				0E3B87F21E61F84100C21AB9 /* Comment.swift in Sources */,
 				0E3B87EF1E61F82900C21AB9 /* MediaItem.swift in Sources */,
+				0EBAB3761E868C4500237237 /* LoginHeaderView.swift in Sources */,
 				26F29BED1CF21137003DB37E /* ChallengesTableViewController.swift in Sources */,
 				6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */,
 				0EBE9D661E79252C00355E1E /* TeamCollectionViewCell.swift in Sources */,
@@ -753,6 +774,7 @@
 				2643F5F51CC2B94500031038 /* NewPostingTableViewController.swift in Sources */,
 				0EBE9D5E1E787F6600355E1E /* TeamHeaderView.swift in Sources */,
 				260121481C79008E0041EAA8 /* BOButton.swift in Sources */,
+				0E7E230D1E833B22002BAD97 /* ProfileHeaderView.swift in Sources */,
 				2678A5801B7E4BB4000CF85A /* AppDelegate.swift in Sources */,
 				0E6289241E623F7E00EF1FAD /* UploadManager.swift in Sources */,
 				0E3B87FC1E61F9B100C21AB9 /* Challenge.swift in Sources */,
@@ -777,6 +799,7 @@
 				26B3272F1CF63E060039FB66 /* BOLocationManager.swift in Sources */,
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				263874BF1D01940B008BF00E /* LoadingTableViewCell.swift in Sources */,
+				0EBAB3741E868C0A00237237 /* HeaderView.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */,
 				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
@@ -784,6 +807,7 @@
 				0E3B87F61E61F88400C21AB9 /* NewMedia.swift in Sources */,
 				262955AC1CE789B4004D3213 /* PostingCommentTableViewCell.swift in Sources */,
 				0E3B87E91E61F7F900C21AB9 /* BreakOutEndpoints.swift in Sources */,
+				0E7E230B1E832384002BAD97 /* CommentButton.swift in Sources */,
 				0E3B87E31E61F7D600C21AB9 /* Team.swift in Sources */,
 				61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */,
 				26B327311CFB6C050039FB66 /* BOPushManager.swift in Sources */,

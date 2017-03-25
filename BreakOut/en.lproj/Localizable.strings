@@ -12,10 +12,19 @@
 "register" = "REGISTER FOR FREE";
 "unknownLocation" = "Unknown location";
 
+"new_comment" = "Comment...";
+
 "cancel" = "Cancel";
 
-"comments" = "Comments";
-"likes" = "Likes";
+"just_now" = "Just Now";
+"time" = "%@ ago";
+"hours" = "h";
+"days" = "d";
+
+"commentsSingular" = "Comment";
+"commentsPlural" = "Comments";
+"likesSingular" = "Like";
+"likesPlural" = "Likes";
 
 "about_us" = "About us:";
 

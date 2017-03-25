@@ -56,6 +56,7 @@ class WelcomeScreenViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/welcomeScreen", timed: true)
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         
         if CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() < 0 {
             self.participateButton.isEnabled = false

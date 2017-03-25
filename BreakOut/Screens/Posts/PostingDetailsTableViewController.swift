@@ -26,6 +26,8 @@ class PostingDetailsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "postingDetailsTitle".local
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = .ultraLightBackgroundColor
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
     }
@@ -39,6 +41,7 @@ class PostingDetailsTableViewController: UITableViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        posting.media ==> { $0.video } => { $0.pause() }
         Flurry.endTimedEvent("/PostingDetailsTVC", withParameters: nil)
     }
 

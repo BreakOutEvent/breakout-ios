@@ -102,7 +102,7 @@ class PostingTableViewCell: UITableViewCell {
     }
     
     func loadInterface() {
-        likesButton.setTitle(String(format: "%i %@", posting.likes, "likes".local), for: .normal)
+        likesButton.setTitle("likes".localized(amount: posting.likes), for: .normal)
         
         if posting.liked {
             likesButton.setTitleColor(.brick, for: .normal)
@@ -111,12 +111,13 @@ class PostingTableViewCell: UITableViewCell {
             likesButton.setTitleColor(.lightGray, for: .normal)
             likesButton.imageView?.set(image: #imageLiteral(resourceName: "post-like_Icon"), with: .lightGray)
         }
+        commentsButton.setTitleColor(.lightGray, for: .normal)
         commentsButton.imageView?.set(image: #imageLiteral(resourceName: "post-comment_Icon"), with: .lightGray)
         
         likesButton.isEnabled = CurrentUser.shared.isLoggedIn()
         
         // Add count for comments
-        commentsButton.setTitle(String(format: "%i %@", posting.comments.count, "comments".localized(with: "Comments")), for: .normal)
+        commentsButton.setTitle("comments".localized(amount: posting.comments.count), for: .normal)
         setNeedsUpdateConstraints()
         updateConstraintsIfNeeded()
     }
@@ -138,6 +139,8 @@ class PostingTableViewCell: UITableViewCell {
         playOverlay.layer.cornerRadius = 22
         playOverlay.clipsToBounds = true
         playOverlay.insertSubview(effectView, at: 0)
+        
+        commentsButton.isEnabled = false
         
         // Styling of the Posting Picture
         commentsButton.imageView?.alpha = 0.201
@@ -183,6 +186,24 @@ class PostingTableViewCell: UITableViewCell {
             fullscreenImageViewController.dataSource = self
             self.parentTableViewController?.present(fullscreenImageViewController, animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func teamPressed(_ sender: Any) {
+        
+        UIView.animate(withDuration: 0.1) {
+            self.parentTableViewController?.navigationController?.navigationBar.alpha = 0.0
+        }
+        
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let teamController = storyboard.instantiateViewController(withIdentifier: "TeamViewController")
+        
+        if let teamController = teamController as? TeamViewController {
+            teamController.partialTeam = posting.participant.team
+        }
+        
+        parentTableViewController?.navigationController?.pushViewController(teamController, animated: true)
+        
     }
     
     @IBAction func likesButtonPressed(_ sender: UIButton) {

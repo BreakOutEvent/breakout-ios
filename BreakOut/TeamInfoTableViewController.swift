@@ -26,6 +26,9 @@ class TeamInfoTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 500
+        
         imageView.layer.cornerRadius = imageView.frame.height / 2
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
@@ -57,6 +60,10 @@ class TeamInfoTableViewController: UITableViewController {
         if indexPath.row == 1 {
             cell.separatorInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, cell.bounds.size.width)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
 }

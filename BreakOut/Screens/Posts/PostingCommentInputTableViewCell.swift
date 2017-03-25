@@ -11,7 +11,7 @@ import Sweeft
 
 class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
 
-    @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var postButton: CommentButton!
     @IBOutlet weak var commentInputTextField: UITextField!
     
     var post: Post!
@@ -22,6 +22,7 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
         super.awakeFromNib()
         // Initialization code
         
+        self.commentInputTextField.placeholder = "new_comment".local
         self.postButton.isEnabled = false
     }
 
@@ -44,8 +45,14 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
 // MARK: - Button Actions
 
     @IBAction func postButtonPressed(_ sender: UIButton) {
+        postButton.isLoading = true
         post.comment(commentInputTextField.text.?).onSuccess { comment in
             self.commentInputTextField.text = .empty
+            self.postButton.isEnabled = false
+            self.postButton.isLoading = false
+        }
+        .onError { _ in
+            self.postButton.isLoading = false
         }
     }
 }

@@ -30,6 +30,9 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 class NewPostingTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate, UITextViewDelegate {
     
+    @IBOutlet weak var mediaCell: UITableViewCell!
+    @IBOutlet weak var challengeCell: UITableViewCell!
+    @IBOutlet weak var challengeImageView: UIButton!
     @IBOutlet weak var postingPictureImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var messageTextView: UITextView!
@@ -46,6 +49,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     var newLatitude: Double = 0.0
     var newCity: String?
     
+    var rightButton: UIBarButtonItem!
+    
+    var isShowingMenu = true
+    
     @IBOutlet weak var challengeLabel: UILabel!
     var newChallenge: Challenge?
     
@@ -53,6 +60,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIApplication.shared.keyWindow?.windowLevel = UIWindowLevelNormal
+        
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
@@ -64,7 +75,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.title = "newPostingTitle".local
         
         // Create posting button for navigation item
-        let rightButton = UIBarButtonItem(image: UIImage(named: "checkmark_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sendPostingButtonPressed))
+        rightButton = UIBarButtonItem(image: UIImage(named: "checkmark_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sendPostingButtonPressed))
         navigationItem.rightBarButtonItem = rightButton
         
         let cancelButton = UIBarButtonItem(image: UIImage(named: "cancel_Icon"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(closeView))
@@ -98,6 +109,13 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isShowingMenu && navigationController?.isBeingDismissed ?? false {
+            UIApplication.shared.keyWindow?.windowLevel = UIWindowLevelStatusBar + 1
+        }
+    }
+    
     /*func closeView() {
         self.closeView(false)
     }*/
@@ -111,8 +129,9 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if let amount = newChallenge?.amount, let text = newChallenge?.text {
-            self.challengeLabel.text = String(format: "%0.2f € -- \(text)", Double(amount))
+        if let text = newChallenge?.text {
+            self.challengeLabel.text = text
+            self.challengeImageView.setImage(#imageLiteral(resourceName: "team-challanges_Icon"), for: .normal)
             self.styleChallengeLabel()
         }
         // Tracking
@@ -149,6 +168,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     }
     
     func styleMessageInput(_ placeholder: Bool) {
+        rightButton.isEnabled = !placeholder
         if placeholder {
             self.messageTextView.textColor = .lightGray
         } else {
@@ -167,7 +187,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
 // MARK: - UITextViewDelegate
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") {
+        if textView.text == "newPostingEmptyMessage".localized(with: "Empty") || textView.text == "" {
             self.styleMessageInput(true)
         } else {
             self.styleMessageInput(false)
@@ -180,6 +200,16 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return mediaCell.frame.height
+        }
+        if indexPath.row == 1 {
+            return challengeCell.frame.height
+        }
+        return tableView.frame.height - mediaCell.frame.height - challengeCell.frame.height
+    }
+    
     
     
 // MARK: - Button Actions
@@ -189,9 +219,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         Post.post(text: messageTextView.text, latitude: newLatitude, longitude: newLongitude, city: newCity, challenge: newChallenge, media: media).onSuccess { post in
             
             self.setupLoadingHUD("New Posting sent!")
-            self.loadingHUD.hide(true, afterDelay: 3.0)
+            self.loadingHUD.hide(true, afterDelay: 1.0)
             self.resetAllInputs()
             
+            self.isShowingMenu = false
             
             let withImage = !media.isEmpty
             
@@ -204,7 +235,10 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             defaults.synchronize()
             BOPushManager.shared.setupAllLocalPushNotifications()
             
-            self.closeView(true)
+            1.0 >>> {
+                self.closeView(true)
+            }
+            
         }
         
         // After Saving throw User message and reset inputs
@@ -321,5 +355,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.navigationController?.pushViewController(challengesTableViewController, animated: true)
         }
     }
+    
+    
 
 }
