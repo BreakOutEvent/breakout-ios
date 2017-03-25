@@ -10,15 +10,30 @@ import Sweeft
 import UIKit
 
 /// Main Part Of Our API
-struct BreakOut: API {
+class BreakOut: API {
+    
     typealias Endpoint = BreakOutEndpoint
     
     var baseURL: String
     
+    /// Current Authentication
+    lazy var auth: Auth = {
+        var oauth = BreakOutAuth.value
+        oauth?.onChange { oauth in
+            BreakOutAuth.value = oauth
+        }
+        return oauth ?? NoAuth.standard
+    }()
+    
     /// Shared instance of the API
-    static var shared: BreakOut {
+    static var shared: BreakOut = {
         return BreakOut(baseURL: PrivateConstants().backendURL())
+    }()
+    
+    init(baseURL: String) {
+        self.baseURL = baseURL
     }
+    
 }
 
 extension BreakOut {
@@ -26,17 +41,6 @@ extension BreakOut {
     fileprivate struct BreakOutAuth: OptionalStatus {
         typealias Value = OAuth
         static var key: AppDefaults = .login
-    }
-    
-    /// Current Authentication
-    var auth: Auth {
-        get {
-            var oauth = BreakOutAuth.value
-            oauth?.onChange { oauth in
-                BreakOutAuth.value = oauth
-            }
-            return oauth ?? NoAuth.standard
-        }
     }
     
     /**
@@ -52,8 +56,14 @@ extension BreakOut {
         let manager = self.oauthManager(clientID: "breakout_app", secret: PrivateConstants().oAuthSecret())
         return manager.authenticate(at: .login, username: email, password: password, scope: "read", "write").nested { (auth: OAuth) in
             BreakOutAuth.value = auth
+            self.auth = auth
             return auth
         }
+    }
+    
+    func logout() {
+        BreakOutAuth.value = nil
+        auth = NoAuth.standard
     }
     
 }

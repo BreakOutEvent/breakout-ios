@@ -9,7 +9,7 @@
 import UIKit
 import Sweeft
 
-class ProfileHeaderView: UIView {
+class ProfileHeaderView: HeaderView {
 
     @IBOutlet weak var statsLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -38,6 +38,7 @@ class ProfileHeaderView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        populate()
         profileImageView.cornerRadius = profileImageView.frame.width / 2
         profileImageView.clipsToBounds = true
     }

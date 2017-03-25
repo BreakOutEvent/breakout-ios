@@ -20,19 +20,19 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How far can you go?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhs-Bg-APg">
-                    <rect key="frame" x="10" y="630" width="132" height="17"/>
+                    <rect key="frame" x="10" y="634" width="132" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NwX-U8-cvB">
-                    <rect key="frame" x="10" y="603" width="78.5" height="17"/>
+                    <rect key="frame" x="10" y="609" width="78.5" height="17"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NJe-EQ-Gfv">
-                    <rect key="frame" x="10" y="519" width="64" height="64"/>
+                    <rect key="frame" x="10" y="529" width="64" height="64"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="NJe-EQ-Gfv" secondAttribute="height" multiplier="1:1" id="OfE-Fj-4cp"/>
                         <constraint firstAttribute="height" constant="64" id="gKv-fJ-oL2"/>
@@ -43,10 +43,10 @@
             <constraints>
                 <constraint firstItem="Lhs-Bg-APg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="8vh-oU-Jul"/>
                 <constraint firstItem="NJe-EQ-Gfv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Bzg-h8-kEk"/>
-                <constraint firstAttribute="bottom" secondItem="Lhs-Bg-APg" secondAttribute="bottom" constant="20" id="DfD-MP-GXJ"/>
-                <constraint firstItem="Lhs-Bg-APg" firstAttribute="top" secondItem="NwX-U8-cvB" secondAttribute="bottom" constant="10" id="Hbt-4G-um8"/>
+                <constraint firstAttribute="bottom" secondItem="Lhs-Bg-APg" secondAttribute="bottom" constant="16" id="DfD-MP-GXJ"/>
+                <constraint firstItem="Lhs-Bg-APg" firstAttribute="top" secondItem="NwX-U8-cvB" secondAttribute="bottom" constant="8" id="Hbt-4G-um8"/>
                 <constraint firstItem="9jA-Rr-luo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="SRb-KG-Gka"/>
-                <constraint firstItem="NwX-U8-cvB" firstAttribute="top" secondItem="NJe-EQ-Gfv" secondAttribute="bottom" constant="20" id="UlO-KD-Ho3"/>
+                <constraint firstItem="NwX-U8-cvB" firstAttribute="top" secondItem="NJe-EQ-Gfv" secondAttribute="bottom" constant="16" id="UlO-KD-Ho3"/>
                 <constraint firstItem="9jA-Rr-luo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="YjL-EW-TD3"/>
                 <constraint firstAttribute="bottom" secondItem="9jA-Rr-luo" secondAttribute="bottom" id="ec7-Wc-NHN"/>
                 <constraint firstAttribute="trailing" secondItem="9jA-Rr-luo" secondAttribute="trailing" id="lUW-0g-OU5"/>

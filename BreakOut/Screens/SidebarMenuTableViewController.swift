@@ -71,28 +71,18 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         self.fillInputsWithCurrentUserInfo()
         tableView.reloadData()
         
-        self.cell(self.profileHeaderTableViewCell, setHidden: CurrentUser.shared.isLoggedIn())
+        self.cell(self.profileHeaderTableViewCell, setHidden: true)
         
-        if CurrentUser.shared.isLoggedIn() {
-            
-            ProfileHeaderView.shared.populate()
-            tableView.parallaxHeader.view = ProfileHeaderView.shared
-            tableView.parallaxHeader.minimumHeight = 0
-            tableView.parallaxHeader.height = 200
-            tableView.parallaxHeader.mode = .fill
-            
-            self.userPictureImageView.isHidden = false
-            self.usernameLabel.isHidden = false
-            self.userDistanceRemainingTimeLabel.isHidden = false
-            self.loginAndRegisterButton.isHidden = true
-            CurrentUser.shared.profilePic?.onChange(do: **self.fillInputsWithCurrentUserInfo)
-        } else {
-            tableView.parallaxHeader.height = 0
-            self.userPictureImageView.isHidden = true
-            self.usernameLabel.isHidden = true
-            self.userDistanceRemainingTimeLabel.isHidden = true
-            self.loginAndRegisterButton.isHidden = false
-        }
+        let headerView = header()
+        tableView.parallaxHeader.view = headerView
+        tableView.parallaxHeader.minimumHeight = 0
+        tableView.parallaxHeader.height = headerView.headerHeight
+        tableView.parallaxHeader.mode = .fill
+        
+        self.userPictureImageView.isHidden = true
+        self.usernameLabel.isHidden = true
+        self.userDistanceRemainingTimeLabel.isHidden = true
+        self.loginAndRegisterButton.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,6 +98,14 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Constants.NOTIFICATION_NEW_POSTING_CLOSED_WANTS_LIST), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)
+    }
+    
+    func header() -> HeaderView {
+        if CurrentUser.shared.isLoggedIn() {
+            return ProfileHeaderView.shared
+        } else {
+            return LoginHeaderView.shared
+        }
     }
     
     func fillInputsWithCurrentUserInfo() {
@@ -207,15 +205,5 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
                 internalWebViewController.openWebpageWithUrl("http://break-out.org/worum-gehts/")
             }
         }
-    }
-    
-// MARK: - Button Actions
-
-    @IBAction func addUserpictureButtonPressed(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction func loginButtonPressed(_ sender: UIButton) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
     }
 }

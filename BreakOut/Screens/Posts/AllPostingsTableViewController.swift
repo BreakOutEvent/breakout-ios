@@ -79,6 +79,7 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175.0
+        tableView.tableFooterView = UIView()
         
         self.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
     }
@@ -163,6 +164,7 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == self.tableView.numberOfRows(inSection: indexPath.section) - 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LoadingTableViewCell", for: indexPath) as! LoadingTableViewCell
+            cell.separatorInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, cell.bounds.size.width)
             cell.activityIndicator.startAnimating()
             return cell
         }else{
