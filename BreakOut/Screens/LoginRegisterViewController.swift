@@ -104,6 +104,23 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        let underlay = textField == emailTextField ? emailUnderlinedView : passwordUnderlinedView
+        UIView.animate(withDuration: 0.3) {
+            underlay?.backgroundColor = .mainOrange
+            underlay?.alpha = 1.0
+        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let underlay = textField == emailTextField ? emailUnderlinedView : passwordUnderlinedView
+        UIView.animate(withDuration: 0.3) {
+            underlay?.backgroundColor = .white
+            underlay?.alpha = 0.5
+        }
+    }
+    
     
     
 // MARK: - Keyboard Functions
