@@ -1,5 +1,14 @@
 PODS:
   - Alamofire (4.4.0)
+  - AsyncDisplayKit (1.9.92):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.92)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.92)
+  - AsyncDisplayKit/Core (1.9.92):
+    - AsyncDisplayKit/ASDealloc2MainObject
+  - AsyncDisplayKit/PINRemoteImage (1.9.92):
+    - AsyncDisplayKit/Core
+    - PINCache (= 3.0.1-beta)
+    - PINRemoteImage/iOS (= 3.0.0-beta.3)
   - Crashlytics (3.7.3):
     - Fabric (~> 1.6.3)
   - DTPhotoViewerController (1.0.7)
@@ -32,9 +41,18 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - LECropPictureViewController (0.1.2)
   - MBProgressHUD (0.9.2)
+  - MDGroupAvatarView (0.0.4):
+    - SDWebImage (~> 3.8)
   - MXParallaxHeader (0.6.1)
+  - NMessenger (1.0.79):
+    - AsyncDisplayKit (= 1.9.92)
   - Pageboy (0.4.11)
   - Pantry (0.3)
+  - PINCache (3.0.1-beta)
+  - PINRemoteImage/Core (3.0.0-beta.3):
+    - PINCache (>= 3.0.0-beta)
+  - PINRemoteImage/iOS (3.0.0-beta.3):
+    - PINRemoteImage/Core
   - Protobuf (3.2.0)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
@@ -56,7 +74,9 @@ DEPENDENCIES:
   - Flurry-iOS-SDK/FlurrySDK (~> 7.5.2)
   - LECropPictureViewController (~> 0.1.2)
   - MBProgressHUD (~> 0.9.2)
+  - MDGroupAvatarView (from `https://github.com/ttmdung203/MDGroupAvatarView.git`)
   - MXParallaxHeader
+  - NMessenger
   - Pageboy
   - Pantry
   - SDWebImage (~> 3.7)
@@ -67,8 +87,18 @@ DEPENDENCIES:
   - Toaster (~> 2.0)
   - TouchVisualizer (~> 2.0.1)
 
+EXTERNAL SOURCES:
+  MDGroupAvatarView:
+    :git: https://github.com/ttmdung203/MDGroupAvatarView.git
+
+CHECKOUT OPTIONS:
+  MDGroupAvatarView:
+    :commit: 940a26e3e47186c58f0079a127ae008beb0c17eb
+    :git: https://github.com/ttmdung203/MDGroupAvatarView.git
+
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  AsyncDisplayKit: 49d94f5739669d666ff7cdc3430f43f0b2cfbeaf
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   DTPhotoViewerController: 8dfc3953143581dddcac6a3d177f630010e7f333
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
@@ -81,9 +111,13 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   LECropPictureViewController: d64cd991d94d7804c0971f97adae6d1bc216a7b8
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MDGroupAvatarView: a01456e15fd882cd6cbec7a6c93a6568c79bd492
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
+  NMessenger: 79b8a4d2132fe49e03ec8964d07955d6553f831c
   Pageboy: 32d84608c26425cd545c08d71232f7a423aa79c6
   Pantry: 98481849be65d2b2cb9658976533e84ebd266192
+  PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
+  PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
@@ -93,6 +127,6 @@ SPEC CHECKSUMS:
   Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: 21a631ec0d42e7cc2b5f2691b682d50ff43b0625
+PODFILE CHECKSUM: 43dca74c98c5b76f98c4e85846bfec26a742c0e6
 
 COCOAPODS: 1.2.0

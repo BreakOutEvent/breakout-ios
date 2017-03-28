@@ -18,6 +18,10 @@ extension UIColor {
         return UIColor(red:1.0, green:1.0, blue:1.0, alpha:0.5) //For Placeholder Texts
     }
     
+    static var bubbleGray: UIColor {
+        return UIColor(red: 229 / 255, green: 229 / 255, blue: 234 / 255, alpha: 1)
+    }
+    
     //TODO: @alexkaessner -> Update this information.    
     static var mainBackgroundColor: UIColor {
         return UIColor(red:0.17, green:0.18, blue:0.23, alpha:1)

@@ -45,6 +45,14 @@ extension JSON {
         return Participant(from: self)
     }
     
+    var participants: [Participant] {
+        return array ==> Participant.init
+    }
+    
+    var messages: [Message] {
+        return array ==> Message.init
+    }
+    
     /// Challenge
     var challenge: Challenge? {
         return Challenge(from: self)

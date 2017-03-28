@@ -102,6 +102,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     
     func header() -> HeaderView {
         if CurrentUser.shared.isLoggedIn() {
+            ProfileHeaderView.shared.populate()
             return ProfileHeaderView.shared
         } else {
             return LoginHeaderView.shared
