@@ -34,16 +34,6 @@ class WelcomeScreenViewController: UIViewController {
         
         self.participateButton.backgroundColor = .mainOrange
         
-        if CurrentUser.shared.isLoggedIn() {
-            // User is logged in
-            self.participateButton.setTitle("welcomeScreenParticipateButtonShareLocation".local, for: .normal)
-        }else{
-            // User is not logged in
-            self.participateButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: .normal)
-        }
-        
-        
-        
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
     }
     
@@ -58,6 +48,13 @@ class WelcomeScreenViewController: UIViewController {
         Flurry.logEvent("/welcomeScreen", timed: true)
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         
+        if CurrentUser.shared.isLoggedIn() {
+            // User is logged in
+            self.participateButton.setTitle("welcomeScreenParticipateButtonShareLocation".local, for: .normal)
+        } else {
+            // User is not logged in
+            self.participateButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: .normal)
+        }
         if CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() < 0 {
             self.participateButton.isEnabled = false
         }
@@ -93,7 +90,7 @@ class WelcomeScreenViewController: UIViewController {
                 
                 slideMenuController.mainViewController?.present(navigationController, animated: true, completion: nil)
             }
-        }else{
+        } else {
             // User is NOT logged in -> show login screen
             NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_LOGIN_SCREEN), object: nil)
         }

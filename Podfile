@@ -35,7 +35,7 @@ pod 'StaticDataTableViewController', '~> 2.0'
 pod 'DTPhotoViewerController'
 pod 'TouchVisualizer', '~> 2.0.1'
 
-pod 'MDGroupAvatarView', :git => 'https://github.com/ttmdung203/MDGroupAvatarView.git'
+pod 'MDGroupAvatarView', :git => 'https://github.com/mathiasquintero/MDGroupAvatarView.git'
 
 
 # Team UI

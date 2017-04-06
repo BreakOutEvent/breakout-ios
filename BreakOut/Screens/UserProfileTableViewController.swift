@@ -329,6 +329,7 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         // Tracking
         Answers.logCustomEvent(withName: "/logoutButtonPressed", customAttributes: [:])
         
+        CurrentUser.resetUser()
         BreakOut.shared.logout()
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)

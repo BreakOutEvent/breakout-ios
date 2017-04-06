@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0E0C682C1E8ADE54007001F1 /* ChatDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C682B1E8ADE54007001F1 /* ChatDetailsTableViewController.swift */; };
+		0E0C682E1E8AF1A0007001F1 /* BOActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C682D1E8AF1A0007001F1 /* BOActivityIndicator.swift */; };
+		0E0C68301E8AF22D007001F1 /* BOActivityOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C682F1E8AF22D007001F1 /* BOActivityOverlayController.swift */; };
 		0E31C5831E772260008E9C9C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0E31C5821E772260008E9C9C /* Settings.bundle */; };
 		0E31C5851E7747C4008E9C9C /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E31C5841E7747C4008E9C9C /* TeamViewController.swift */; };
 		0E3477D11E7D5A70004CBEB3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3477D01E7D5A70004CBEB3 /* ImageDownloader.swift */; };
@@ -115,6 +117,8 @@
 /* Begin PBXFileReference section */
 		05FB01B2A32B991368F6CE98 /* Pods-BreakOut.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BreakOut.release.xcconfig"; path = "Pods/Target Support Files/Pods-BreakOut/Pods-BreakOut.release.xcconfig"; sourceTree = "<group>"; };
 		0E0C682B1E8ADE54007001F1 /* ChatDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDetailsTableViewController.swift; sourceTree = "<group>"; };
+		0E0C682D1E8AF1A0007001F1 /* BOActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOActivityIndicator.swift; sourceTree = "<group>"; };
+		0E0C682F1E8AF22D007001F1 /* BOActivityOverlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOActivityOverlayController.swift; sourceTree = "<group>"; };
 		0E31C5821E772260008E9C9C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0E31C5841E7747C4008E9C9C /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		0E3477D01E7D5A70004CBEB3 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
@@ -480,6 +484,8 @@
 		26FD9E611C0A3D0200BF9EFD /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				0E0C682D1E8AF1A0007001F1 /* BOActivityIndicator.swift */,
+				0E0C682F1E8AF22D007001F1 /* BOActivityOverlayController.swift */,
 				26FD9E5D1C0A3CC700BF9EFD /* Chat */,
 				26FD9E5C1C0A3CA100BF9EFD /* Teams */,
 				26FD9E5B1C0A3C9C00BF9EFD /* Settings */,
@@ -787,6 +793,7 @@
 				0E8990591E6871E00080E123 /* PersistentViewController.swift in Sources */,
 				26AA75231C81CFA80023D009 /* BOPopoverViewController.swift in Sources */,
 				2678A5841B7E4BB4000CF85A /* AboutBreakOutViewController.swift in Sources */,
+				0E0C682E1E8AF1A0007001F1 /* BOActivityIndicator.swift in Sources */,
 				0E9A25121E6440F60011082D /* AppDefaults.swift in Sources */,
 				26985F151C428EAB00C5FA0C /* BecomeParticipantTableViewController.swift in Sources */,
 				260121421C78F6F20041EAA8 /* BOToast.swift in Sources */,
@@ -821,6 +828,7 @@
 				0EBAB3741E868C0A00237237 /* HeaderView.swift in Sources */,
 				0EF65CFE1E8988CB002C7BA5 /* Message.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
+				0E0C68301E8AF22D007001F1 /* BOActivityOverlayController.swift in Sources */,
 				0EF65D021E899A21002C7BA5 /* ChatTableViewCell.swift in Sources */,
 				262955AA1CE7898B004D3213 /* PostingDetailsTableViewController.swift in Sources */,
 				260121441C78FD6C0041EAA8 /* Extensions.swift in Sources */,
