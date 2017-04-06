@@ -23,7 +23,7 @@ before_install:
 
 script:
 - set -o pipefail && xcodebuild test -workspace BreakOut.xcworkspace -scheme BreakOutTests
-  -destination 'platform=iOS Simulator,id=22FA2149-1241-469C-BF6D-462D3837DB72,OS=10.2'
+  -destination 'platform=iOS Simulator,id=34FA4749-C467-4D45-9F8E-E31AEDDC39C2,OS=10.2'
   CODE_SIGNING_REQUIRED=NO | xcpretty
 
 after_success:
