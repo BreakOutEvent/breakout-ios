@@ -13,8 +13,6 @@ import Flurry_iOS_SDK
 import MBProgressHUD
 import SpinKit
 
-import LECropPictureViewController
-
 class BecomeParticipantTableViewController: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var addUserpictureButton: UIButton!

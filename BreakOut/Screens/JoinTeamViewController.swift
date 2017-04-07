@@ -12,8 +12,6 @@ import Flurry_iOS_SDK
 import MBProgressHUD
 import SpinKit
 
-import LECropPictureViewController
-
 class JoinTeamViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     

@@ -32,6 +32,10 @@
 
 "sendMessage" = "Send";
 
+"newMessage" = "New Message";
+"recepient" = "To: ";
+"search" = "Search";
+
 "pending_challenges" = "PENDING";
 "completed_challenges" = "COMPLETED";
 

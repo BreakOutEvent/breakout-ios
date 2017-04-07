@@ -21,8 +21,6 @@ pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2' # Thinking about removing it...
 # Database
 pod 'Pantry'
 
-pod 'NMessenger'
-
 # Networking
 pod 'Alamofire', '~> 4.0'
 
@@ -30,11 +28,13 @@ pod 'Alamofire', '~> 4.0'
 pod 'SpinKit', '~>1.2.0'
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'SlideMenuControllerSwift', '~> 3.0.0'
-pod 'LECropPictureViewController', '~> 0.1.2'
 pod 'StaticDataTableViewController', '~> 2.0'
 pod 'DTPhotoViewerController'
 pod 'TouchVisualizer', '~> 2.0.1'
 
+
+pod 'NMessenger'
+pod 'KSTokenView', '~> 3.1'
 pod 'MDGroupAvatarView', :git => 'https://github.com/mathiasquintero/MDGroupAvatarView.git'
 
 

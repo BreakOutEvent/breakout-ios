@@ -30,13 +30,12 @@ class ChatListTableViewController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .mainOrange
         self.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
-        
-        loadMessages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        loadMessages()
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
     
@@ -88,10 +87,6 @@ class ChatListTableViewController: UITableViewController {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         let controller = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
-        
-        if let controller = controller as? ChatViewController {
-            controller.chat = chats[0]
-        }
         
         self.navigationController?.pushViewController(controller, animated: true)
     }

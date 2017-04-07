@@ -36,7 +36,7 @@ class ChatTableViewCell: UITableViewCell {
     
     func setImages(members: [Participant]) {
         let images = members => { $0.image?.image ?? #imageLiteral(resourceName: "emptyProfilePic") }
-        avatarViews.setAvatarImages(images.array(withFirst: 3), realTotal: members.count + 1)
+        avatarViews.setAvatarImages(images.array(withFirst: 3), realTotal: members.count)
     }
     
 }

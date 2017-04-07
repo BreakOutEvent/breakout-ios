@@ -880,7 +880,7 @@ line two</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UAB-cj-GV5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2189" y="312"/>
+            <point key="canvasLocation" x="2188" y="311.69415292353824"/>
         </scene>
         <!--New Posting-->
         <scene sceneID="vmK-nT-p7k">
@@ -1328,7 +1328,7 @@ line two</string>
         <scene sceneID="RHa-kO-xz4">
             <objects>
                 <collectionViewController storyboardIdentifier="AllTeamsCollectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="F15-3i-Nx7" customClass="AllTeamsCollectionViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="iOa-8J-jKw">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="iOa-8J-jKw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
