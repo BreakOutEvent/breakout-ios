@@ -156,7 +156,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             cell.alpha = 0.5
         } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
-        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() < 0 {
+        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() {
             cell.alpha = 0.5
         } else {
             cell.alpha = 1.0
