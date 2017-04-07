@@ -63,6 +63,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         // Tracking
         Flurry.logEvent("/login", withParameters: nil, timed: true)
         
@@ -73,11 +75,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/login", withParameters: nil)
-        
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         NotificationCenter.default.addObserver(self, selector: #selector(LoginRegisterViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LoginRegisterViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }

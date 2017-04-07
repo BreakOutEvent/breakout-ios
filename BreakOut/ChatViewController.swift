@@ -19,9 +19,34 @@ class ChatViewController: NMessengerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = chat.title
-        
+//        if let view = self.inputBarView as? NMessengerBarView {
+//            view.inputTextViewPlaceholder = "Message"
+//        }
         self.messengerView.addMessages(cells(), scrollsToMessage: false)
         self.messengerView.scrollToLastMessage(animated: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+    }
+    
+    override func getInputBar() -> InputBarView {
+        return ChatInputBarView.create(controller: self)
+    }
+    
+    func startSpinning() {
+        guard let inputBarView = inputBarView as? ChatInputBarView else {
+            return
+        }
+        inputBarView.disable()
+    }
+    
+    func stopSpinning() {
+        guard let inputBarView = inputBarView as? ChatInputBarView else {
+            return
+        }
+        inputBarView.enable()
     }
     
     func cells() -> [GeneralMessengerCell] {
@@ -67,7 +92,7 @@ class ChatViewController: NMessengerViewController {
     }
     
     override func sendText(_ text: String, isIncomingMessage: Bool) -> GeneralMessengerCell {
-        
+        startSpinning()
         let content = TextContentNode(textMessageString: text,
                                       currentViewController: self,
                                       bubbleConfiguration: self)
@@ -78,9 +103,11 @@ class ChatViewController: NMessengerViewController {
         message.isIncomingMessage = false
         chat.send(message: text).onSuccess { _ in
             self.addMessageToMessenger(message)
+            self.stopSpinning()
         }
         .onError { _ in
             self.inputBarView.textInputView.text = text
+            self.stopSpinning()
         }
         return message
     }

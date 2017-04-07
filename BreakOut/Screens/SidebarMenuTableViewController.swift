@@ -142,6 +142,8 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             return false
         } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
             return false
+        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() {
+            return false
         }
         
         return true
@@ -153,6 +155,8 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
             cell.alpha = 0.5
         } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
+            cell.alpha = 0.5
+        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() < 0 {
             cell.alpha = 0.5
         } else {
             cell.alpha = 1.0

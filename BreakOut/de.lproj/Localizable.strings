@@ -21,6 +21,10 @@
 "hours" = "std.";
 "days" = "t";
 
+"message" = "Nachricht";
+
+"sendMessage" = "Senden";
+
 "commentsSingular" = "Kommentar";
 "commentsPlural" = "Kommentare";
 "likesSingular" = "Like";

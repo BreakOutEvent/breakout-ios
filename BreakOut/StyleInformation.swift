@@ -22,6 +22,14 @@ extension UIColor {
         return UIColor(red: 229 / 255, green: 229 / 255, blue: 234 / 255, alpha: 1)
     }
     
+    static var borderColor: UIColor {
+        return UIColor(red: 173 / 255, green: 173 / 255, blue: 173 / 255, alpha: 1)
+    }
+    
+    static var messageTextColor: UIColor {
+        return UIColor(red: 51 / 255, green: 51 / 255, blue: 51 / 255, alpha: 1)
+    }
+    
     //TODO: @alexkaessner -> Update this information.    
     static var mainBackgroundColor: UIColor {
         return UIColor(red:0.17, green:0.18, blue:0.23, alpha:1)

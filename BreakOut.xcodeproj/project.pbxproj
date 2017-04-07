@@ -10,6 +10,8 @@
 		0E0C682C1E8ADE54007001F1 /* ChatDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C682B1E8ADE54007001F1 /* ChatDetailsTableViewController.swift */; };
 		0E0C682E1E8AF1A0007001F1 /* BOActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C682D1E8AF1A0007001F1 /* BOActivityIndicator.swift */; };
 		0E0C68301E8AF22D007001F1 /* BOActivityOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C682F1E8AF22D007001F1 /* BOActivityOverlayController.swift */; };
+		0E1F69A91E980C1B0023C299 /* ChatInputBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F69A81E980C1B0023C299 /* ChatInputBarView.swift */; };
+		0E1F69AB1E980C270023C299 /* ChatInputBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1F69AA1E980C270023C299 /* ChatInputBarView.xib */; };
 		0E31C5831E772260008E9C9C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0E31C5821E772260008E9C9C /* Settings.bundle */; };
 		0E31C5851E7747C4008E9C9C /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E31C5841E7747C4008E9C9C /* TeamViewController.swift */; };
 		0E3477D11E7D5A70004CBEB3 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3477D01E7D5A70004CBEB3 /* ImageDownloader.swift */; };
@@ -119,6 +121,8 @@
 		0E0C682B1E8ADE54007001F1 /* ChatDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDetailsTableViewController.swift; sourceTree = "<group>"; };
 		0E0C682D1E8AF1A0007001F1 /* BOActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOActivityIndicator.swift; sourceTree = "<group>"; };
 		0E0C682F1E8AF22D007001F1 /* BOActivityOverlayController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BOActivityOverlayController.swift; sourceTree = "<group>"; };
+		0E1F69A81E980C1B0023C299 /* ChatInputBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputBarView.swift; sourceTree = "<group>"; };
+		0E1F69AA1E980C270023C299 /* ChatInputBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInputBarView.xib; sourceTree = "<group>"; };
 		0E31C5821E772260008E9C9C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0E31C5841E7747C4008E9C9C /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		0E3477D01E7D5A70004CBEB3 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
@@ -322,7 +326,6 @@
 				26FD9E601C0A3CF200BF9EFD /* Core */,
 				2678A57F1B7E4BB4000CF85A /* AppDelegate.swift */,
 				2678B0431C39CBA800136507 /* ContainerViewController.swift */,
-				0EF65D031E89B683002C7BA5 /* ChatViewController.swift */,
 				2678A5851B7E4BB4000CF85A /* Main.storyboard */,
 				2678A5881B7E4BB4000CF85A /* Images.xcassets */,
 				2678A58A1B7E4BB4000CF85A /* LaunchScreen.xib */,
@@ -427,7 +430,10 @@
 			children = (
 				0EF65CFF1E899981002C7BA5 /* ChatListTableViewController.swift */,
 				0EF65D011E899A21002C7BA5 /* ChatTableViewCell.swift */,
+				0EF65D031E89B683002C7BA5 /* ChatViewController.swift */,
 				0E0C682B1E8ADE54007001F1 /* ChatDetailsTableViewController.swift */,
+				0E1F69A81E980C1B0023C299 /* ChatInputBarView.swift */,
+				0E1F69AA1E980C270023C299 /* ChatInputBarView.xib */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 				0EBAB3781E868C6800237237 /* LoginHeaderView.xib in Resources */,
 				0E7E230F1E833B2C002BAD97 /* ProfileHeaderView.xib in Resources */,
 				0E31C5831E772260008E9C9C /* Settings.bundle in Resources */,
+				0E1F69AB1E980C270023C299 /* ChatInputBarView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +817,7 @@
 				0EBE9D621E78982500355E1E /* TeamInfoTableViewController.swift in Sources */,
 				26AA75251C8318A20023D009 /* CreateTeamTableViewController.swift in Sources */,
 				0E31C5851E7747C4008E9C9C /* TeamViewController.swift in Sources */,
+				0E1F69A91E980C1B0023C299 /* ChatInputBarView.swift in Sources */,
 				260121401C7892620041EAA8 /* FeatureFlagManager.swift in Sources */,
 				0EBE9D601E788BCC00355E1E /* TeamChallengesOverviewTableViewController.swift in Sources */,
 				260121461C78FE650041EAA8 /* BOImageView.swift in Sources */,

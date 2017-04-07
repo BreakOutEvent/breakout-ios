@@ -44,6 +44,10 @@ class WelcomeScreenViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
+        
         // Tracking
         Flurry.logEvent("/welcomeScreen", timed: true)
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
@@ -63,7 +67,6 @@ class WelcomeScreenViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/welcomeScreen", withParameters: nil)
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
 
     override func didReceiveMemoryWarning() {

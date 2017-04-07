@@ -1328,7 +1328,7 @@ line two</string>
         <scene sceneID="RHa-kO-xz4">
             <objects>
                 <collectionViewController storyboardIdentifier="AllTeamsCollectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="F15-3i-Nx7" customClass="AllTeamsCollectionViewController" customModule="BreakOut" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="iOa-8J-jKw">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="iOa-8J-jKw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2892,10 +2892,6 @@ line two</string>
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection id="qGj-1Z-bzz">
-                                <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChatListTableViewController" id="WNn-oq-axz">
                                         <rect key="frame" x="0.0" y="324" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
@@ -2945,6 +2941,10 @@ line two</string>
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="qGj-1Z-bzz">
+                                <cells>
                                     <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="17" id="gNT-do-oEy" userLabel="Divider Line">
                                         <rect key="frame" x="0.0" y="372" width="375" height="17"/>
                                         <autoresizingMask key="autoresizingMask"/>

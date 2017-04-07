@@ -28,6 +28,11 @@ class BOActivityOverlayController: UIViewController {
         overlayView.addSubview(effectView)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         activityIndicator.startLoading()

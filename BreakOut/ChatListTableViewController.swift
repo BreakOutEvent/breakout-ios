@@ -37,12 +37,16 @@ class ChatListTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
     
     func loadMessages() {
         GroupMessage.all().onSuccess { chats in
             self.chats = chats.sorted(descending: { $0.lastActivity ?? Date.distantPast })
             self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        }
+        .onError { error in
             self.refreshControl?.endRefreshing()
         }
     }

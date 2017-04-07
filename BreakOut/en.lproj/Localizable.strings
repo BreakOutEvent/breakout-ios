@@ -28,6 +28,10 @@
 
 "about_us" = "About us:";
 
+"message" = "Message";
+
+"sendMessage" = "Send";
+
 "pending_challenges" = "PENDING";
 "completed_challenges" = "COMPLETED";
 
