@@ -58,8 +58,11 @@ extension MapLocation {
     }
     
     static func inPostings(by team: Int, in event: Int, using api: BreakOut = .shared) -> MapLocation.Results {
-        /// TODO: Find a way to ease the load without skipping 4 in 5 posts
-        return Post.ids(by: team, in: event).onSuccess(call: (Array.including ** 5) >>> (MapLocation.inPostings <** api)).future
+        return Post.all(by: team, in: event).onSuccess { postings -> MapLocation.Results in
+            let ids = postings => { $0.id }
+            return MapLocation.inPostings(with: ids, using: api)
+        }
+        .future
     }
     
     func post() -> Post.Result {

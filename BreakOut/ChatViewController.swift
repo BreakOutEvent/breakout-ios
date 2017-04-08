@@ -39,8 +39,8 @@ class ChatViewController: NMessengerViewController {
             recepientsField.searchResultSize = CGSize(width: self.view.frame.width, height: view.frame.height - 60)
             recepientsField.direction = .horizontal
             recepientsField.layer.borderWidth = 0
-            recepientsField._tokenField.layer.borderWidth = 0
-            recepientsField._tokenField.borderStyle = .none
+//            recepientsField._tokenField.layer.borderWidth = 0
+//            recepientsField._tokenField.borderStyle = .none
             _ = recepientsField.becomeFirstResponder()
         }
         recepientsField.delegate = self
