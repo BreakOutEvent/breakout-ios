@@ -137,7 +137,7 @@ class PostingTableViewCell: UITableViewCell {
         effectView.clipsToBounds = true
         effectView.frame = playOverlay.bounds
         playOverlay.layer.cornerRadius = 22
-        playOverlay.clipsToBounds = true
+        playOverlay.clipsToBounds = true        
         playOverlay.insertSubview(effectView, at: 0)
         
         commentsButton.isEnabled = false

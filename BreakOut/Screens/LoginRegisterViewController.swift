@@ -10,7 +10,6 @@ import UIKit
 import Flurry_iOS_SDK
 import Crashlytics
 
-import MBProgressHUD
 import SpinKit
 
 import Toaster
@@ -35,8 +34,6 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var formContainerViewToBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var formToLogoConstraint: NSLayoutConstraint!
-    
-    var loadingHUD: MBProgressHUD = MBProgressHUD()
 
 // MARK: - Screen Actions    
     override func viewDidLoad() {
@@ -66,6 +63,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         // Tracking
         Flurry.logEvent("/login", withParameters: nil, timed: true)
         
@@ -76,11 +75,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         // Tracking
         Flurry.endTimedEvent("/login", withParameters: nil)
-        
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         NotificationCenter.default.addObserver(self, selector: #selector(LoginRegisterViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LoginRegisterViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
@@ -90,8 +89,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+    // MARK: - TextField Functions
     
-// MARK: - TextField Functions
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField == self.emailTextField {
@@ -101,6 +100,15 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             // Login should be triggered
             self.loginButtonPressed(loginButton)
         }
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
+            self.alertPopover.isHidden = true
+            self.alertPopover.alpha = 0.0
+            self.view.layoutIfNeeded()
+        }, completion: nil)
         return true
     }
     
@@ -210,21 +218,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                 self.alertPopover.alpha = 1.0
                 self.view.layoutIfNeeded()
-                }, completion: nil)
+            }, completion: nil)
             return false
         }
         
         return true
-    }
-        
-    func setupLoadingHUD(_ localizedKey: String) {
-        let spinner: RTSpinKitView = RTSpinKitView(style: RTSpinKitViewStyle.style9CubeGrid, color: UIColor.white, spinnerSize: 37.0)
-        self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
-        self.loadingHUD.isSquare = true
-        self.loadingHUD.mode = MBProgressHUDMode.customView
-        self.loadingHUD.customView = spinner
-        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
-        spinner.startAnimating()
     }
     
     func enableInputs(_ enabled: Bool) {
@@ -243,29 +241,39 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     :returns: No return value
     */
     func startRegistrationRequest() {
-        self.setupLoadingHUD("registrationLoading")
         self.enableInputs(false)
+        let activity = BOActivityOverlayController.create()
+        activity?.modalTransitionStyle = .crossDissolve
+        self.present(activity!, animated: true) {
+            CurrentUser.shared.register(email: self.emailTextField.text.?, password: self.passwordTextField.text.?).onSuccess { _ in
+                // Tracking
+                Flurry.logEvent("/registration/completed_successful")
+                Answers.logSignUp(withMethod: "e-mail",
+                                  success: true,
+                                  customAttributes: [:])
+                
+                self.startLoginRequest(overlay: activity)
+            }
+            .onError { error in
+                
+                self.enableInputs(true)
+                activity?.error {
+                    switch error {
+                    case .invalidStatus(409, _):
+                        print("Email already exists")
+                    default: break
+                    }
+                }
+                
+                // Tracking
+                Flurry.logEvent("/registration/completed_error")
+                Answers.logSignUp(withMethod: "e-mail",
+                                  success: false,
+                                  customAttributes: [:])
+            }
+        }
         
-        CurrentUser.shared.register(email: self.emailTextField.text.?, password: self.passwordTextField.text.?).onSuccess { _ in
-            // Tracking
-            Flurry.logEvent("/registration/completed_successful")
-            Answers.logSignUp(withMethod: "e-mail",
-                              success: true,
-                              customAttributes: [:])
-            
-            self.loadingHUD.hide(true)
-            self.startLoginRequest()
-        }
-        .onError { error in
-            self.enableInputs(true)
-            self.loadingHUD.hide(true)
-            
-            // Tracking
-            Flurry.logEvent("/registration/completed_error")
-            Answers.logSignUp(withMethod: "e-mail",
-                              success: false,
-                              customAttributes: [:])
-        }
+        
     }
 
     
@@ -276,33 +284,48 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      
      :returns: No return value
      */
-    func startLoginRequest() {
+    func startLoginRequest(overlay: BOActivityOverlayController? = nil) {
         
         if let email = emailTextField.text, let pass = passwordTextField.text {
-            self.setupLoadingHUD("loginLoading")
+            let activity = overlay ?? BOActivityOverlayController.create()
             self.enableInputs(false)
-            
-            BreakOut.shared.login(email: email, password: pass).onSuccess { _ in
-                CurrentUser.get().onSuccess { user in
-                    // Empty Textinputs
-                    self.emailTextField.text = ""
-                    self.passwordTextField.text = ""
-                    
-                    self.loadingHUD.hide(true)
+            let doit = { () -> () in
+                BreakOut.shared.login(email: email, password: pass).onSuccess { _ in
+                    CurrentUser.get().onSuccess { user in
+                        // Empty Textinputs
+                        self.emailTextField.text = ""
+                        self.passwordTextField.text = ""
+                        
+                        self.enableInputs(true)
+                        
+                        // Tracking
+                        Flurry.logEvent("/login/completed_successful")
+                        Answers.logLogin(withMethod: "e-mail", success: true, customAttributes: [:])
+                        
+                        activity?.success {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                }
+                .onError { error in
+                    activity?.error {
+                        switch error {
+                        case .invalidStatus(401, _), .invalidStatus(400, _):
+                            print("Incorrect credentials")
+                        default:
+                            break
+                        }
+                    }
                     self.enableInputs(true)
-                    
-                    // Tracking
-                    Flurry.logEvent("/login/completed_successful")
-                    Answers.logLogin(withMethod: "e-mail", success: true, customAttributes: [:])
-                    
-                    self.dismiss(animated: true, completion: nil)
                 }
             }
-            .onError { error in
-                self.loadingHUD.hide(true)
-                self.enableInputs(true)
+            if overlay == nil {
+                activity?.modalTransitionStyle = .crossDissolve
+                self.present(activity!, animated: true, completion: doit)
+            } else {
+                doit()
             }
-
+            
         } else {
             //TODO: Handle no text entered
         }

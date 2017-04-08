@@ -87,6 +87,8 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        
         // Style the navigation bar
         self.navigationController!.navigationBar.isTranslucent = false
         self.navigationController!.navigationBar.barTintColor = .mainOrange

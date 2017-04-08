@@ -12,11 +12,12 @@ import Sweeft
 enum BreakOutEndpoint: String, APIEndpoint {
     case user = "user/"
     case userData = "user/{id}/"
+    case userSearch = "user/search/{search}/"
     case currentUser = "me/"
     case postingsSince = "posting/get/since/{id}/"
     case postings = "posting/"
     case postComment = "posting/{id}/comment/"
-    case postingIdsForTeam = "event/{event}/team/{team}/posting/"
+    case postingByTeam = "event/{event}/team/{team}/posting/"
     case postingsForHashtag = "/posting/hashtag/{hashtag}/"
     case likePosting = "/posting/{id}/like/"
     case notLoadedPostings = "posting/get/ids/"
@@ -31,4 +32,7 @@ enum BreakOutEndpoint: String, APIEndpoint {
     case eventTeamChallenge = "event/{event}/team/{team}/challenge/"
     case challengeStatus = "event/{event}/team/{team}/challenge/{challenge}/status/"
     case login = "oauth/token"
+    case messages = "messaging/"
+    case message = "messaging/{id}/"
+    case newMessage = "messaging/{id}/message/"
 }

@@ -21,6 +21,14 @@
 "hours" = "std.";
 "days" = "t";
 
+"message" = "Nachricht";
+
+"sendMessage" = "Senden";
+
+"newMessage" = "Neue Nachricht";
+"recepient" = "An: ";
+"search" = "Suche";
+
 "commentsSingular" = "Kommentar";
 "commentsPlural" = "Kommentare";
 "likesSingular" = "Like";

@@ -18,6 +18,7 @@ struct Location {
     let team: Team?
     let country: String?
     let locality: String?
+    let distance: Double
 }
 
 extension Location: Deserializable {
@@ -26,7 +27,8 @@ extension Location: Deserializable {
         guard let id = json["id"].int,
             let date = json["date"].date(),
             let latitude = json["latitude"].double,
-            let longitude = json["longitude"].double else {
+            let longitude = json["longitude"].double,
+            let distance = json["distance"].double else {
                 return nil
         }
         self.init(id: id,
@@ -35,7 +37,8 @@ extension Location: Deserializable {
                   latitude: latitude,
                   team: json.team,
                   country: json["locationData"]["COUNTRY"].string,
-                  locality: json["locationData"]["LOCALITY"].string ?? json["locationData"]["ADMINISTRATIVE_AREA_LEVEL_3"].string)
+                  locality: json["locationData"]["LOCALITY"].string ?? json["locationData"]["ADMINISTRATIVE_AREA_LEVEL_3"].string,
+                  distance: distance)
     }
     
 }
@@ -74,18 +77,6 @@ extension Location {
 extension Location {
     
     /**
-     Fetch all the locations in an event
-     
-     - Parameter event: id of the event
-     - Parameter api: Break Out backend
-     
-     - Returns: Promise of the locations
-     */
-    static func all(for event: Int, using api: BreakOut = .shared) -> Location.Results {
-        return getAll(using: api, at: .eventAllLocations, arguments: ["event": event])
-    }
-    
-    /**
      Fetch all the locations in an event by a team
      
      - Parameter team: id of the team
@@ -94,8 +85,10 @@ extension Location {
      
      - Returns: Promise of the locations
      */
-    static func all(forTeam team: Int, event: Int, using api: BreakOut = .shared) -> Location.Results {
-        return getAll(using: api, at: .eventTeamLocation, arguments: ["event": event, "team": team])
+    static func all(forTeam team: Int, event: Int, locationsPerTeam perTeam: Int? = nil, using api: BreakOut = .shared) -> Location.Results {
+        var queries = [String : CustomStringConvertible]()
+        queries["perTeam"] = perTeam
+        return getAll(using: api, at: .eventTeamLocation, arguments: ["event": event, "team": team], queries: queries)
     }
     
 }

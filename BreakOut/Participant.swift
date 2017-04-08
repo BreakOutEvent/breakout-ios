@@ -12,13 +12,19 @@ final class Participant: Observable {
     
     var listeners = [Listener]()
     let id: Int
-    let name: String
+    let firstName: String
+    let lastName: String
     let team: Team?
     let image: Image?
     
-    init(id: Int, name: String, team: Team?, image: Image?) {
+    var name: String {
+        return "\(firstName) \(lastName)"
+    }
+    
+    init(id: Int, firstName: String, lastName: String, team: Team?, image: Image?) {
         self.id = id
-        self.name = name
+        self.firstName = firstName
+        self.lastName = lastName
         self.team = team
         self.image = image
         image >>> **self.hasChanged
@@ -35,7 +41,7 @@ extension Participant: Deserializable {
                 
                 return nil
         }
-        self.init(id: id, name: "\(first) \(last)", team: json["participant"].team, image: json.profilePic)
+        self.init(id: id, firstName: first, lastName: last, team: json["participant"].team, image: json.profilePic)
     }
     
 }
@@ -79,6 +85,23 @@ extension Participant {
         let promise = api.doJSONRequest(with: .post, to: .userData, auth: api.auth, body: body, acceptableStatusCodes: [200, 201])
         promise.onSuccess(call: CurrentUser.shared.set)
         return promise
+    }
+    
+}
+
+extension Participant {
+    
+    /**
+     Search for a user
+     
+     - Parameter query: what you're searching for
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the Users
+     */
+    static func search(for query: String, using api: BreakOut = .shared) -> Participant.Results {
+        let query = query.replacingOccurrences(of: " ", with: ".")
+        return getAll(using: api, at: .userSearch, arguments: ["search": query])
     }
     
 }

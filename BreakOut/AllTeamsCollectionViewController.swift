@@ -54,6 +54,7 @@ class AllTeamsCollectionViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.layoutIfNeeded()
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         UIView.animate(withDuration: 0.1, animations: {
             self.navigationController?.navigationBar.alpha = 1
             self.view.layoutIfNeeded()
@@ -61,7 +62,7 @@ class AllTeamsCollectionViewController: UICollectionViewController {
             self.view.layoutIfNeeded() // Panic!
         }
     }
-
+    
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
