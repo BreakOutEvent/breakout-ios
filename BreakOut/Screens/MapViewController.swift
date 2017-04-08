@@ -119,6 +119,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         */
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         // Tracking
         super.viewDidAppear(animated)

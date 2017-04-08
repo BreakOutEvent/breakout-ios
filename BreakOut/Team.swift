@@ -33,8 +33,8 @@ extension Team: Deserializable {
                   event: event,
                   name: name,
                   description: json["description"].string,
-                  distance: json["distance"]["linear_distance"].double,
-                  sum: json["donateSum"]["full_sum"].double,
+                  distance: json["distance"].double,
+                  sum: json["donateSum"]["fullSum"].double,
                   image: json["profilePic"].image,
                   names: json["members"].array ==> { ($0["firstname"].string, $0["lastname"].string) } >>> iff)
     }

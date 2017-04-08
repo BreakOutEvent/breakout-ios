@@ -91,19 +91,6 @@ extension Post {
     }
     
     /**
-     Fetches postings after a certain id
-     
-     - Parameter id: id last fetched
-     - Parameter api: Break Out backend from which it should fetch them
-     
-     - Returns: Promise of the Postings
-     */
-    static func all(since id: Int, using api: BreakOut = .shared) -> Post.Results {
-        let user = CurrentUser.shared.id
-        return getAll(using: api, at: .postingsSince, arguments: ["id": id], queries: ["userid": user])
-    }
-    
-    /**
      Fetches postings from a team in an event
      
      - Parameter team: id of the team
@@ -112,23 +99,9 @@ extension Post {
      
      - Returns: Promise of the Postings
      */
-    static func all(by team: Int, in event: Int, using api: BreakOut = .shared) -> Post.Results {
-        return ids(by: team, in: event).onSuccess(call: Post.postings <** api).future
-    }
-    
-    /**
-     IDs of all the Posts by a team
-     
-     - Parameter team: id of the team
-     - Parameter event: id of the event
-     - Parameter api: Break Out backend from which it should fetch them
-     
-     - Returns: Promise of the Postings IDs
-     */
-    static func ids(by team: Int, in event: Int, using api: BreakOut = .shared) -> Promise<[Int], APIError> {
-        return api.doJSONRequest(to: .postingIdsForTeam, arguments: ["team": team, "event": event]).nested { json in
-            return json.array ==> { $0.int }
-        }
+    static func all(by team: Int, page: Int = 0, in event: Int, using api: BreakOut = .shared) -> Post.Results {
+        let user = CurrentUser.shared.id
+        return getAll(using: api, at: .postingByTeam, arguments: ["event": event, "team": team], queries: ["page": page, "userid": user])
     }
     
     /**
@@ -179,9 +152,9 @@ extension Post {
      
      - Returns: Promise of the Postings
      */
-    static func get(page: Int, of size: Int = 20, using api: BreakOut = .shared) -> Post.Results {
+    static func get(page: Int, using api: BreakOut = .shared) -> Post.Results {
         let user = CurrentUser.shared.id
-        return getAll(using: api, at: .postings, queries: ["offset": page, "limit": size, "userid": user])
+        return getAll(using: api, at: .postings, queries: ["page": page, "userid": user])
     }
     
 }

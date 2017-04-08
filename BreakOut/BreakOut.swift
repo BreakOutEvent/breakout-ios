@@ -61,6 +61,9 @@ extension BreakOut {
         }
     }
     
+    /**
+     Will erase any persisted login data
+     */
     func logout() {
         BreakOutAuth.value = nil
         auth = NoAuth.standard

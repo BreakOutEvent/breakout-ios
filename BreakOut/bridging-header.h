@@ -11,6 +11,4 @@
 
 #define MR_SHORTHAND
 
-#import <LECropPictureViewController/LECropPictureViewController.h>
-
 #endif

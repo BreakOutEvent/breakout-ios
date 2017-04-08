@@ -216,6 +216,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     func sendPostingButtonPressed() {
         let media = ![self.media]
+        
         Post.post(text: messageTextView.text, latitude: newLatitude, longitude: newLongitude, city: newCity, challenge: newChallenge, media: media).onSuccess { post in
             
             self.setupLoadingHUD("New Posting sent!")

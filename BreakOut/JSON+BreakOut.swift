@@ -20,6 +20,10 @@ extension JSON {
         return Location(from: self)
     }
     
+    var locations: [Location] {
+        return self.array ==> Location.init
+    }
+    
     /// Video
     var video: Video? {
         return Video(from: self)
@@ -43,6 +47,14 @@ extension JSON {
     /// Participant
     var participant: Participant? {
         return Participant(from: self)
+    }
+    
+    var participants: [Participant] {
+        return array ==> Participant.init
+    }
+    
+    var messages: [Message] {
+        return array ==> Message.init
     }
     
     /// Challenge
