@@ -20,6 +20,10 @@ extension JSON {
         return Location(from: self)
     }
     
+    var locations: [Location] {
+        return self.array ==> Location.init
+    }
+    
     /// Video
     var video: Video? {
         return Video(from: self)

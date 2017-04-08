@@ -17,7 +17,7 @@ enum BreakOutEndpoint: String, APIEndpoint {
     case postingsSince = "posting/get/since/{id}/"
     case postings = "posting/"
     case postComment = "posting/{id}/comment/"
-    case postingIdsForTeam = "event/{event}/team/{team}/posting/"
+    case postingByTeam = "event/{event}/team/{team}/posting/"
     case postingsForHashtag = "/posting/hashtag/{hashtag}/"
     case likePosting = "/posting/{id}/like/"
     case notLoadedPostings = "posting/get/ids/"

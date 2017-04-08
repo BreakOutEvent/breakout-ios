@@ -22,7 +22,7 @@ import MapKit
  TODO: add image to Annotation and maybe other accessory views
  
 */
-final class MapLocation: NSObject, MKAnnotation{
+final class MapLocation: NSObject, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
     var title: String?
