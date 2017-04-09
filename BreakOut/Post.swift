@@ -66,7 +66,7 @@ extension Post: Deserializable {
         self.init(id: id, text: json["text"].string,
                   date: date, participant: participant,
                   location: json["postingLocation"].location,
-                  challenge: json["challenge"].challenge,
+                  challenge: json["proves"].challenge,
                   media: json["media"].media,
                   hashtags: json["hashtags"].array ==> { $0.string },
                   comments: json["comments"].comments,
