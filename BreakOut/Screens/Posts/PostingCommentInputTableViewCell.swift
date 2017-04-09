@@ -42,9 +42,7 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
         return true
     }
     
-// MARK: - Button Actions
-
-    @IBAction func postButtonPressed(_ sender: UIButton) {
+    func send() {
         postButton.isLoading = true
         post.comment(commentInputTextField.text.?).onSuccess { comment in
             self.commentInputTextField.text = .empty
@@ -54,5 +52,19 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
         .onError { _ in
             self.postButton.isLoading = false
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if textField.text != nil, textField.text != .empty {
+            send()
+        }
+        return true
+    }
+    
+// MARK: - Button Actions
+
+    @IBAction func postButtonPressed(_ sender: UIButton) {
+        send()
     }
 }
