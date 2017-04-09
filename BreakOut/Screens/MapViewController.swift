@@ -17,6 +17,8 @@ import Crashlytics
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     
+    typealias LocationsByEvent = [Int : [TeamLocations]]
+    
     // TODO
     // > fetch user location from backend -> should work
     // > delete dummy user.swift
@@ -38,10 +40,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var selectedEvents = [Int]()
     
-    var locationsByEvent = [Int : [TeamLocations]]() {
+    var locationsByEvent = LocationsByEvent() {
         didSet {
             drawLocationsForAllEventsOnMap()
         }
+    }
+    
+    func loadAllLocations(for events: [Int]) -> Promise<LocationsByEvent, APIError> {
+        return BulkPromise(promises: events => { event in
+            return TeamLocations.all(for: event).nested { (event, $0) }
+        }).nested { $0.dictionary { $0 } }
     }
     
     @IBOutlet weak var mapView: MKMapView!
@@ -53,17 +61,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         mapView.mapType = .standard
         mapView.delegate = self
-        
-        if let teamController = teamController {
-            if let team = teamController.team {
-                set(team: team)
-            } else {
-                teamController >>> { $0.team | self.set }
-            }
-        } else {
-            // Fetch locations
-            loadIdsOfAllEvents()
-        }
     
         // Style the navigation bar
         navigationController?.navigationBar.isTranslucent = false
@@ -75,6 +72,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.done, target: self, action: #selector(showSideBar))
         navigationItem.leftBarButtonItem = leftButton
+        
+        if let teamController = teamController {
+            if let team = teamController.team {
+                set(team: team)
+            } else {
+                teamController >>> { $0.team | self.set }
+            }
+        } else {
+            // Fetch locations
+            loadIdsOfAllEvents()
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,12 +103,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadIdsOfAllEvents() {
+        navigationController?.navigationBar.startSpining()
         Event.all().onSuccess { events in
-            self.selectedEvents = events => { $0.id }
-            events => {
-                self.loadAllLocationsForEvent($0.id)
+            self.loadAllLocations(for: events => { $0.id }).onSuccess { locations in
+                .main >>> {
+                    self.locationsByEvent = locations
+                    self.navigationController?.navigationBar.stopSpinning()
+                }
+            }
+            .onError { _ in
+                // TODO: Error handling
+                self.navigationController?.navigationBar.stopSpinning()
             }
         }
+        
     }
     
     func loadAllLocationsForEvent(_ eventId: Int) {
@@ -109,7 +126,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
+        self.teamController?.navigationController?.navigationBar.startSpining()
         TeamLocations.locations(forTeam: teamId, event: eventId).onSuccess { locations in
+            self.teamController?.navigationController?.navigationBar.stopSpinning()
             self.locationsByEvent = [eventId : [locations]]
         }
     }
@@ -151,7 +170,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
         coordinateArray.removeAll()
         mapView.add(polyLine)
-        mapView.addAnnotation(locationArray.last!)
+        guard let lastLocation = locationArray.last else {
+            return
+        }
+        mapView.addAnnotation(lastLocation)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

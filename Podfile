@@ -25,6 +25,7 @@ pod 'Pantry'
 pod 'Alamofire', '~> 4.0'
 
 # UI
+pod 'GSIndeterminateProgressBar'
 pod 'SpinKit', '~>1.2.0'
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'SlideMenuControllerSwift', '~> 3.0.0'

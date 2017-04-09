@@ -12,7 +12,7 @@ import Sweeft
 class CommentButton: UIButton {
     
     var previousText: String = .empty
-    var activityIndicator = UIActivityIndicatorView()
+    lazy var activityIndicator = UIActivityIndicatorView()
     
     var isLoading: Bool = false {
         didSet {

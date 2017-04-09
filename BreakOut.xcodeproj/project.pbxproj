@@ -48,6 +48,7 @@
 		0EBE9D641E79205700355E1E /* AllTeamsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D631E79205700355E1E /* AllTeamsCollectionViewController.swift */; };
 		0EBE9D661E79252C00355E1E /* TeamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBE9D651E79252C00355E1E /* TeamCollectionViewCell.swift */; };
 		0EC3F3FC1E64B7F800908372 /* GenderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */; };
+		0EC649641E9A5030001645CC /* LoadingNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC649631E9A5030001645CC /* LoadingNavigationBar.swift */; };
 		0EDDC2D21E992B99008B7D78 /* TeamLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDDC2D11E992B99008B7D78 /* TeamLocations.swift */; };
 		0EF0FAE61E260A7F0049F878 /* BreakOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0FAE51E260A7F0049F878 /* BreakOut.swift */; };
 		0EF65CFC1E8988A7002C7BA5 /* GroupMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF65CFB1E8988A7002C7BA5 /* GroupMessage.swift */; };
@@ -163,6 +164,7 @@
 		0EBE9D651E79252C00355E1E /* TeamCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamCollectionViewCell.swift; sourceTree = "<group>"; };
 		0EC3F3FB1E64B7F800908372 /* GenderAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderAPI.swift; sourceTree = "<group>"; };
 		0EC543261E6DDB6E0023DD91 /* BreakOut.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BreakOut.entitlements; sourceTree = "<group>"; };
+		0EC649631E9A5030001645CC /* LoadingNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingNavigationBar.swift; sourceTree = "<group>"; };
 		0ECBE49E1E71809800D5451B /* deploy.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = deploy.sh; path = ../deploy.sh; sourceTree = "<group>"; };
 		0ECBE4A01E7180A800D5451B /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .travis.yml; path = ../.travis.yml; sourceTree = "<group>"; };
 		0EDDC2D11E992B99008B7D78 /* TeamLocations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamLocations.swift; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 		26FD9E611C0A3D0200BF9EFD /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				0EC649631E9A5030001645CC /* LoadingNavigationBar.swift */,
 				0E60B1621E990CB6000D5172 /* EventSelectorViewController.swift */,
 				0E0C682D1E8AF1A0007001F1 /* BOActivityIndicator.swift */,
 				0E0C682F1E8AF22D007001F1 /* BOActivityOverlayController.swift */,
@@ -784,6 +787,7 @@
 				0EBE9D641E79205700355E1E /* AllTeamsCollectionViewController.swift in Sources */,
 				0E3B87F41E61F85100C21AB9 /* Type.swift in Sources */,
 				26DA0DA61C31568A009AB1B7 /* InternalWebViewController.swift in Sources */,
+				0EC649641E9A5030001645CC /* LoadingNavigationBar.swift in Sources */,
 				26DA0DA21C31538A009AB1B7 /* LoginRegisterViewController.swift in Sources */,
 				0E3B87ED1E61F82200C21AB9 /* Video.swift in Sources */,
 				0E3B87DF1E61F7C400C21AB9 /* Post.swift in Sources */,
