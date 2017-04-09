@@ -39,7 +39,7 @@ class AllTeamsCollectionViewController: UICollectionViewController {
         title = "allTeamsTitle".local
         // Only fetch the latest instead of everything...
         loadingActivityIndicator.startAnimating()
-        Team.current().onSuccess { teams in
+        Team.currentTeams().onSuccess { teams in
             let images = teams ==> { $0.image }
             images >>> **{
                 self.collectionView?.reloadData()

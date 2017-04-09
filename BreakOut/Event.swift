@@ -14,6 +14,7 @@ struct Event {
     let title: String
     let city: String
     let date: Date
+    let isCurrent: Bool
 }
 
 extension Event: Deserializable {
@@ -22,11 +23,12 @@ extension Event: Deserializable {
         guard let id = json["id"].int,
             let title = json["title"].string,
             let city = json["city"].string,
-            let date = json["date"].date() else {
+            let date = json["date"].date(),
+            let isCurrent = json["current"].bool else {
                 
                 return nil
         }
-        self.init(id: id, title: title, city: city, date: date)
+        self.init(id: id, title: title, city: city, date: date, isCurrent: isCurrent)
     }
     
 }
@@ -57,6 +59,17 @@ extension Event {
      */
     static func all(using api: BreakOut = .shared) -> Event.Results {
         return getAll(using: api, at: .event)
+    }
+    
+    /**
+     Fetch all Events that are marked as a current event
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
+    static func current(using api: BreakOut = .shared) -> Event.Results {
+        return all().nested { $0 |> { $0.isCurrent } }
     }
     
 }

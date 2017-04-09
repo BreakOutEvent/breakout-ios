@@ -147,12 +147,12 @@ extension Team {
         .future
     }
     
-    static func current(using api: BreakOut = .shared) -> Team.Results {
+    static func currentTeams(using api: BreakOut = .shared) -> Team.Results {
         let event = CurrentUser.shared.currentEventId()
         if event > -1 {
             return all(for: event, using: api)
         }
-        return Event.all(using: api).onSuccess { events -> Team.Results in
+        return Event.current(using: api).onSuccess { events -> Team.Results in
             guard let event = events.argmax({ $0.date }) else {
                 return .errored(with: .cannotPerformRequest)
             }
