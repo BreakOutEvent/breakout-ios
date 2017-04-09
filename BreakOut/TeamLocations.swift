@@ -27,6 +27,20 @@ extension TeamLocations: Deserializable {
 extension TeamLocations {
     
     /**
+     Fetch all the locations in an event by a team
+     
+     - Parameter team: id of the team
+     - Parameter event: id of the event
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
+    static func locations(forTeam team: Int, event: Int, locationsPerTeam perTeam: Int? = nil, using api: BreakOut = .shared) -> TeamLocations.Result {
+        return Location.all(forTeam: team, event: event, locationsPerTeam: perTeam).nested { locations in
+            return TeamLocations(teamName: "", locations: locations)
+        }
+    }
+    /**
      Fetch all the locations in an event
      
      - Parameter event: id of the event
@@ -47,7 +61,7 @@ extension TeamLocations {
     func mapLocations() -> [MapLocation] {
         return locations => { location in
             let distanceString = String(format: "%.3f km", location.distance)
-            return MapLocation(coordinate: location.coordinates, title: teamName, subtitle: distanceString)
+            return MapLocation(coordinate: location.coordinates, title: teamName, subtitle: distanceString, posting: location.postingId)
         }
     }
     

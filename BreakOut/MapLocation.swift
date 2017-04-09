@@ -29,10 +29,11 @@ final class MapLocation: NSObject, MKAnnotation {
     var subtitle: String?
     var posting: Int?
     
-    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?){
+    init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?, posting: Int? = nil) {
         self.coordinate = coordinate
         self.title = title
         self.subtitle = subtitle
+        self.posting = posting
         super.init()
     }
     
@@ -52,18 +53,6 @@ extension MapLocation: Deserializable {
 }
 
 extension MapLocation {
-    
-    static func inPostings(with ids: [Int], using api: BreakOut = .shared) -> MapLocation.Results {
-        return api.doObjectsRequest(with: .post, to: .notLoadedPostings, body: ids.json)
-    }
-    
-    static func inPostings(by team: Int, in event: Int, using api: BreakOut = .shared) -> MapLocation.Results {
-        return Post.all(by: team, in: event).onSuccess { postings -> MapLocation.Results in
-            let ids = postings => { $0.id }
-            return MapLocation.inPostings(with: ids, using: api)
-        }
-        .future
-    }
     
     func post() -> Post.Result {
         guard let id = posting else {
