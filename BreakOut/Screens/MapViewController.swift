@@ -20,9 +20,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
 
     //MARK: Properties
-    fileprivate let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
-    fileprivate var lastCurrentLocation = CLLocation()
-    fileprivate let regionRadius : CLLocationDistance = 5000
     fileprivate var coordinateArray : [CLLocationCoordinate2D] = []
     fileprivate var polyLineArray : [MKPolyline] = []
     fileprivate var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
