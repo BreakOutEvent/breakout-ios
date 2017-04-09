@@ -90,7 +90,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func set(team: Team) {
-        loadAllLocationsForTeam(team.event, teamId: team.id)
+        loadAllLocationsForTeam(team: team)
     }
     
     func loadIdsOfAllEvents() {
@@ -108,9 +108,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
-        TeamLocations.locations(forTeam: teamId, event: eventId).onSuccess { locations in
-            self.locationsByEvent = [eventId : [locations]]
+    func loadAllLocationsForTeam(team: Team) {
+        TeamLocations.locations(forTeam: team).onSuccess { locations in
+            self.locationsByEvent = [team.event : [locations]]
         }
     }
     
@@ -143,6 +143,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      - parameter location: Array of MapLocation
      */
     private func drawLocationsForTeamOnMap(_ locations: TeamLocations) {
+        
+        let shoulAnnotateAll = teamController != nil
+        
         let locationArray = locations.mapLocations()
         for location in locationArray {
             coordinateArray.append(location.coordinate)
@@ -151,7 +154,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
         coordinateArray.removeAll()
         mapView.add(polyLine)
-        mapView.addAnnotation(locationArray.last!)
+        if shoulAnnotateAll {
+            for location in locationArray where location.posting != nil {
+                mapView.addAnnotation(location)
+            }
+        } else {
+            mapView.addAnnotation(locationArray.last!)
+        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -168,9 +177,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     let btn = UIButton(type: .detailDisclosure)
                     annotationView!.rightCalloutAccessoryView = btn
                 }
-            } else {
-                annotationView!.annotation = annotation
             }
+            annotationView!.annotation = annotation
             
             return annotationView
         }
