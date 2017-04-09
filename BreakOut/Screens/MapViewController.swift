@@ -99,7 +99,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func set(team: Team) {
-        loadAllLocationsForTeam(team.event, teamId: team.id)
+        loadAllLocationsForTeam(team: team)
     }
     
     func loadIdsOfAllEvents() {
@@ -125,11 +125,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    func loadAllLocationsForTeam(_ eventId: Int, teamId: Int) {
+    func loadAllLocationsForTeam(team: Team) {
         self.teamController?.navigationController?.navigationBar.startSpining()
-        TeamLocations.locations(forTeam: teamId, event: eventId).onSuccess { locations in
+        
+        TeamLocations.locations(forTeam: team).onSuccess { locations in
             self.teamController?.navigationController?.navigationBar.stopSpinning()
-            self.locationsByEvent = [eventId : [locations]]
+            self.locationsByEvent = [team.event : [locations]]
+            }
+            .onError { _ in
+                self.teamController?.navigationController?.navigationBar.stopSpinning()
         }
     }
     
@@ -162,6 +166,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      - parameter location: Array of MapLocation
      */
     private func drawLocationsForTeamOnMap(_ locations: TeamLocations) {
+        
+        let shoulAnnotateAll = teamController != nil
+        
         let locationArray = locations.mapLocations()
         for location in locationArray {
             coordinateArray.append(location.coordinate)
@@ -170,10 +177,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let polyLine = MKPolyline(coordinates: &coordinateArray, count: coordinateArray.count)
         coordinateArray.removeAll()
         mapView.add(polyLine)
-        guard let lastLocation = locationArray.last else {
-            return
+        if shoulAnnotateAll {
+            for location in locationArray where location.posting != nil {
+                mapView.addAnnotation(location)
+            }
+        } else {
+            guard let lastLocation = locationArray.last else {
+                return
+            }
+            mapView.addAnnotation(lastLocation)
         }
-        mapView.addAnnotation(lastLocation)
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -190,9 +203,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     let btn = UIButton(type: .detailDisclosure)
                     annotationView!.rightCalloutAccessoryView = btn
                 }
-            } else {
-                annotationView!.annotation = annotation
             }
+            annotationView!.annotation = annotation
             
             return annotationView
         }

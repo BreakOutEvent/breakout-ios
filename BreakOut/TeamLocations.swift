@@ -35,9 +35,9 @@ extension TeamLocations {
      
      - Returns: Promise of the locations
      */
-    static func locations(forTeam team: Int, event: Int, locationsPerTeam perTeam: Int? = nil, using api: BreakOut = .shared) -> TeamLocations.Result {
-        return Location.all(forTeam: team, event: event, locationsPerTeam: perTeam).nested { locations in
-            return TeamLocations(teamName: "", locations: locations)
+    static func locations(forTeam team: Team, locationsPerTeam perTeam: Int? = nil, using api: BreakOut = .shared) -> TeamLocations.Result {
+        return Location.all(forTeam: team.id, event: team.event, locationsPerTeam: perTeam).nested { locations in
+            return TeamLocations(teamName: team.name, locations: locations)
         }
     }
     /**
