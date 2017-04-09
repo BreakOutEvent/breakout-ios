@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16E175b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E192b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -42,23 +42,38 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleAspectFit" verticalCompressionResistancePriority="1" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bm8-pb-37p">
+                    <rect key="frame" x="8" y="30" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="20" id="K7Q-Kj-EwQ"/>
+                        <constraint firstAttribute="width" constant="20" id="UAz-mF-ish"/>
+                    </constraints>
+                    <state key="normal" image="back_icon_std"/>
+                    <connections>
+                        <action selector="didPressActionButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ngf-pT-5sZ"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="RQ5-C6-DES" secondAttribute="bottom" id="08J-Ka-FTr"/>
+                <constraint firstItem="Bm8-pb-37p" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="0SF-n7-yI0"/>
                 <constraint firstItem="Gzv-fL-gPN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="LIK-hT-K0W"/>
                 <constraint firstAttribute="bottom" secondItem="xCc-2H-b7M" secondAttribute="bottom" constant="40" id="MBm-cO-GYf"/>
                 <constraint firstAttribute="trailing" secondItem="ZXR-KC-Zwu" secondAttribute="trailing" constant="16" id="V3B-cJ-gcx"/>
                 <constraint firstAttribute="trailing" secondItem="RQ5-C6-DES" secondAttribute="trailing" id="Vdp-Cq-XGf"/>
                 <constraint firstItem="xCc-2H-b7M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="cb2-tS-deo"/>
                 <constraint firstItem="ZXR-KC-Zwu" firstAttribute="centerY" secondItem="xCc-2H-b7M" secondAttribute="centerY" id="cks-qM-uCi"/>
+                <constraint firstItem="Bm8-pb-37p" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="dUg-8m-eQo"/>
                 <constraint firstItem="5ct-vo-GEd" firstAttribute="centerY" secondItem="Gzv-fL-gPN" secondAttribute="centerY" id="gvJ-56-9zi"/>
                 <constraint firstItem="RQ5-C6-DES" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="hd1-g9-Vql"/>
                 <constraint firstItem="RQ5-C6-DES" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="l7w-dl-kW9"/>
+                <constraint firstItem="Gzv-fL-gPN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Bm8-pb-37p" secondAttribute="bottom" id="oWu-XF-IDE"/>
                 <constraint firstItem="xCc-2H-b7M" firstAttribute="top" secondItem="Gzv-fL-gPN" secondAttribute="bottom" constant="2" id="s12-zc-NpL"/>
                 <constraint firstAttribute="trailing" secondItem="5ct-vo-GEd" secondAttribute="trailing" constant="16" id="yt2-4V-lCc"/>
             </constraints>
             <connections>
+                <outlet property="actionButton" destination="Bm8-pb-37p" id="4EC-vN-NYM"/>
                 <outlet property="distanceLabel" destination="5ct-vo-GEd" id="dJc-Fg-OoF"/>
                 <outlet property="moneyLabel" destination="ZXR-KC-Zwu" id="bDe-zp-hH6"/>
                 <outlet property="namesLabel" destination="xCc-2H-b7M" id="B1m-2h-Cdv"/>
@@ -68,4 +83,7 @@
             <point key="canvasLocation" x="33.5" y="54.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="back_icon_std" width="100" height="100"/>
+    </resources>
 </document>

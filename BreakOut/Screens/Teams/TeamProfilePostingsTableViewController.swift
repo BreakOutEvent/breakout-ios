@@ -44,7 +44,15 @@ class TeamProfilePostingsTableViewController: UITableViewController {
         profilePic?.onChange { _ in
             self.setImage()
         }
-        tableView.parallaxHeader.view = TeamHeaderView.create(for: team)
+        let isOwn = teamProfileController?.isOwnTeam ?? true
+        let image = isOwn ? #imageLiteral(resourceName: "menu_Icon_white") : #imageLiteral(resourceName: "back_icon_std")
+        tableView.parallaxHeader.view = TeamHeaderView.create(for: team, image: image) {
+            if isOwn {
+                self.teamProfileController?.toggleLeft()
+            } else {
+                _ = self.teamProfileController?.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     func load() {

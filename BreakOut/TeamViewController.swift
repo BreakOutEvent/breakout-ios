@@ -33,6 +33,8 @@ final class TeamViewController: PageboyViewController, Observable {
     var subMenuSelectionBarView: UIView = UIView()
     var previousConstant: CGFloat = 180
     
+    var isOwnTeam = false
+    
     var listeners = [Listener]()
     
     var partialTeam: Team?
@@ -89,6 +91,9 @@ final class TeamViewController: PageboyViewController, Observable {
                     self.hasChanged()
                 }
             } else {
+                
+                isOwnTeam = true
+                
                 // Create menu buttons for navigation item
                 let barButtonImage = UIImage(named: "menu_Icon_white")
                 if barButtonImage != nil {

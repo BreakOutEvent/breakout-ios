@@ -63,9 +63,10 @@ extension Post: Deserializable {
             let participant = json["user"].participant else {
                 return nil
         }
+        let location = json["postingLocation"].location
         self.init(id: id, text: json["text"].string,
                   date: date, participant: participant,
-                  location: json["postingLocation"].location,
+                  location: location,
                   challenge: json["challenge"].challenge,
                   media: json["media"].media,
                   hashtags: json["hashtags"].array ==> { $0.string },
