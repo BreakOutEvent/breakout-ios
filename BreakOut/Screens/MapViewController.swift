@@ -14,38 +14,33 @@ import Sweeft
 import Flurry_iOS_SDK
 import Crashlytics
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapViewController: UIViewController, CLLocationManagerDelegate {
+    
+    // MARK: IBOutlets
+    @IBOutlet weak var mapView: MKMapView!
 
-    
-    // TODO
-    // > fetch user location from backend -> should work
-    // > delete dummy user.swift
-    // > add sideView in annotations
-    // > set alpha of navigationbar background
-    // > send locations to databse
-    
-    //MARK: Properties and Outlets
-    let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
-    var lastCurrentLocation = CLLocation()
-    let regionRadius : CLLocationDistance = 5000
-    var coordinateArray : [CLLocationCoordinate2D] = []
-    var polyLineArray : [MKPolyline] = []
-    
-    private var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
-    private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00), 2: UIColor.red]
-    
+    //MARK: Properties
+    fileprivate let initalLocation = CLLocation(latitude: 48.13842, longitude: 11.57917)
+    fileprivate var lastCurrentLocation = CLLocation()
+    fileprivate let regionRadius : CLLocationDistance = 5000
+    fileprivate var coordinateArray : [CLLocationCoordinate2D] = []
+    fileprivate var polyLineArray : [MKPolyline] = []
+    fileprivate var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
+    fileprivate let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00), 2: UIColor.red]
+    fileprivate var selectedEvents = [Int]()
+    /** This MapViewController is also used by TeamViewController, which itself sets this property.
+     Dependent on wheather this property was set or not, we display map annotations at all locations 
+     of postings or only one annotation at the last known location.
+     */
     var teamController: TeamViewController?
     
-    var selectedEvents = [Int]()
-    
-    var locationsByEvent = [Int : [TeamLocations]]() {
+    // MARK: Computed properties
+    fileprivate var locationsByEvent = [Int : [TeamLocations]]() {
         didSet {
             drawLocationsForAllEventsOnMap()
         }
     }
     
-    @IBOutlet weak var mapView: MKMapView!
-
     
     // MARK: Life Cycle
     override func viewDidLoad() {
@@ -56,12 +51,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         if let teamController = teamController {
             if let team = teamController.team {
-                set(team: team)
+                loadAllLocationsForTeam(team: team)
             } else {
-                teamController >>> { $0.team | self.set }
+                // closure is executed if a team was set in teamController
+                teamController >>> { $0.team | self.loadAllLocationsForTeam }
             }
         } else {
-            // Fetch locations
             loadIdsOfAllEvents()
         }
     
@@ -75,6 +70,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.done, target: self, action: #selector(showSideBar))
         navigationItem.leftBarButtonItem = leftButton
+        
+        //TO DO: right button for filtering
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,41 +86,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         Answers.logCustomEvent(withName: "/MapViewController", customAttributes: [:])
     }
     
-    func set(team: Team) {
-        loadAllLocationsForTeam(team: team)
-    }
     
-    func loadIdsOfAllEvents() {
-        Event.all().onSuccess { events in
-            self.selectedEvents = events => { $0.id }
+    
+    // MARK: User functions
+    
+    private func loadIdsOfAllEvents() {
+        Event.all().onSuccess { [weak weakSelf = self] events in
+            weakSelf?.selectedEvents = events => { $0.id }
             events => {
-                self.loadAllLocationsForEvent($0.id)
+                weakSelf?.loadAllLocationsForEvent($0.id)
             }
         }
     }
     
-    func loadAllLocationsForEvent(_ eventId: Int) {
-        TeamLocations.all(for: eventId).onSuccess { locations in
-            self.locationsByEvent[eventId] = locations
+    private func loadAllLocationsForEvent(_ eventId: Int) {
+        TeamLocations.all(for: eventId).onSuccess { [weak weakSelf = self] locations in
+            weakSelf?.locationsByEvent[eventId] = locations
         }
     }
     
-    func loadAllLocationsForTeam(team: Team) {
-        TeamLocations.locations(forTeam: team).onSuccess { locations in
-            self.locationsByEvent = [team.event : [locations]]
+    private func loadAllLocationsForTeam(team: Team) {
+        TeamLocations.locations(forTeam: team).onSuccess { [weak weakSelf = self] locations in
+            weakSelf?.locationsByEvent = [team.event : [locations]]
         }
     }
     
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        
-        let pr = MKPolylineRenderer(overlay: overlay)
-        pr.strokeColor = strokeColor
-        pr.lineWidth = 2
-        return pr
-    }
-    
-    // MARK: selector functions
-    let blc = BasicLocationController()
     
     /**
      loops through event dictionary containing all locations for all events and teams and calls drawLocationsForTeamOnMap for each teamId.
@@ -163,9 +150,41 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    // MARK: Selector functions
+    
+    func showSideBar(){
+        self.slideMenuController()?.toggleLeft()
+    }
+    
+    // MARK: IBActions
+    
+    @IBAction func currentLocationButtonPressed(_ sender: UIButton) {
+        let center = mapView.userLocation.coordinate
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        
+        if center.longitude != 0 && center.latitude != 0 {
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
+
+}
+
+
+
+extension MapViewController: MKMapViewDelegate{
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let pr = MKPolylineRenderer(overlay: overlay)
+        pr.strokeColor = strokeColor
+        pr.lineWidth = 2
+        return pr
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "PostingLocation"
-
+        
         if let annotation = annotation as? MapLocation {
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
             
@@ -200,19 +219,4 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
         
     }
-    
-    @IBAction func currentLocationButtonPressed(_ sender: UIButton) {
-        //let center = CLLocationCoordinate2D(latitude: lastCurrentLocation.coordinate.latitude, longitude: lastCurrentLocation.coordinate.longitude)
-        let center = mapView.userLocation.coordinate
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        
-        if center.longitude != 0 && center.latitude != 0 {
-            mapView.setRegion(region, animated: true)
-        }
-    }
-    
-     func showSideBar(){
-        self.slideMenuController()?.toggleLeft()
-    }
-    
 }
