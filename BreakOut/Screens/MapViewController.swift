@@ -247,7 +247,8 @@ extension MapViewController: EventSelectorDelegate {
     func eventSelector(_ eventSelector: EventSelectorViewController, didChange selected: [Int]) {
         selectedEvents = selected
         navigationController?.navigationBar.startSpining()
-        loadAllLocations(for: selected |> { self.locationsByEvent[$0] == nil }).onSuccess { locations in
+        let needed = selected - locationsByEvent.keys.array
+        loadAllLocations(for: needed.array).onSuccess { locations in
             self.navigationController?.navigationBar.stopSpinning()
             self.locationsByEvent = self.locationsByEvent + locations
         }

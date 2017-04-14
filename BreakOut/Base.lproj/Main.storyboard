@@ -50,7 +50,7 @@
                                         </constraints>
                                     </view>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Jgg-Wr-LJ1" userLabel="Password Text Input">
-                                        <rect key="frame" x="70" y="76" width="270" height="30"/>
+                                        <rect key="frame" x="69" y="76" width="233" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="CvP-5f-3AQ"/>
                                             <constraint firstAttribute="height" constant="30" id="M7L-p2-l1U"/>
@@ -162,6 +162,16 @@
                                             </mask>
                                         </variation>
                                     </imageView>
+                                    <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXD-6y-euv">
+                                        <rect key="frame" x="310" y="76" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="QXD-6y-euv" secondAttribute="height" multiplier="1:1" id="Ltt-xp-770"/>
+                                        </constraints>
+                                        <state key="normal" image="1password_Icon"/>
+                                        <connections>
+                                            <action selector="useOnePassword:" destination="8s9-fy-0zo" eventType="touchUpInside" id="uKR-06-jIg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.20392156859999999" green="0.1960784314" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -182,12 +192,15 @@
                                     <constraint firstItem="wU7-rl-JhH" firstAttribute="leading" secondItem="Duk-dl-8Hf" secondAttribute="leading" constant="35" id="Wxc-b9-oEY"/>
                                     <constraint firstAttribute="trailing" secondItem="7Jz-hA-EMW" secondAttribute="trailing" constant="30" id="Yyn-nR-Yxt"/>
                                     <constraint firstItem="a8G-XH-v9T" firstAttribute="top" secondItem="PV5-sG-V7X" secondAttribute="bottom" constant="5" id="alb-Di-Qxt"/>
-                                    <constraint firstItem="wU7-rl-JhH" firstAttribute="trailing" secondItem="Jgg-Wr-LJ1" secondAttribute="trailing" id="bN6-Gx-RXu"/>
-                                    <constraint firstItem="Jgg-Wr-LJ1" firstAttribute="leading" secondItem="aqz-y7-VdU" secondAttribute="trailing" constant="5" id="cQm-fL-aVS"/>
+                                    <constraint firstItem="Jgg-Wr-LJ1" firstAttribute="leading" secondItem="aqz-y7-VdU" secondAttribute="trailing" constant="4" id="cQm-fL-aVS"/>
                                     <constraint firstItem="mM1-JX-feO" firstAttribute="top" secondItem="Duk-dl-8Hf" secondAttribute="top" constant="20" id="gSL-EF-v84"/>
                                     <constraint firstItem="0qN-5m-e3u" firstAttribute="top" secondItem="l3v-iv-v33" secondAttribute="bottom" constant="20" id="hDT-Vb-8wM"/>
+                                    <constraint firstItem="QXD-6y-euv" firstAttribute="centerY" secondItem="Jgg-Wr-LJ1" secondAttribute="centerY" id="jgY-WG-V2P"/>
                                     <constraint firstAttribute="trailing" secondItem="wU7-rl-JhH" secondAttribute="trailing" constant="35" id="kO7-Gh-hzU"/>
+                                    <constraint firstItem="QXD-6y-euv" firstAttribute="leading" secondItem="Jgg-Wr-LJ1" secondAttribute="trailing" constant="8" id="kpM-UO-thH"/>
+                                    <constraint firstAttribute="trailing" secondItem="QXD-6y-euv" secondAttribute="trailing" constant="35" id="pGL-yk-Top"/>
                                     <constraint firstItem="mM1-JX-feO" firstAttribute="leading" secondItem="PV5-sG-V7X" secondAttribute="trailing" constant="5" id="qEc-hg-k6w"/>
+                                    <constraint firstItem="QXD-6y-euv" firstAttribute="height" secondItem="Jgg-Wr-LJ1" secondAttribute="height" id="rzv-me-9Ia"/>
                                     <constraint firstItem="wU7-rl-JhH" firstAttribute="top" secondItem="Jgg-Wr-LJ1" secondAttribute="bottom" constant="5" id="t0y-ho-NyC"/>
                                     <constraint firstAttribute="bottom" secondItem="0qN-5m-e3u" secondAttribute="bottom" constant="20" id="utI-ZX-UdJ"/>
                                     <constraint firstItem="l3v-iv-v33" firstAttribute="top" secondItem="7Jz-hA-EMW" secondAttribute="bottom" constant="20" id="yNZ-dT-x5C"/>
@@ -5297,6 +5310,7 @@ line two</string>
         </scene>
     </scenes>
     <resources>
+        <image name="1password_Icon" width="24" height="24"/>
         <image name="BreakOut-Logo_Login" width="200" height="200"/>
         <image name="about-app_Icon" width="28" height="28"/>
         <image name="add_Icon" width="24" height="24"/>

@@ -51,6 +51,7 @@
 		0EC649641E9A5030001645CC /* LoadingNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC649631E9A5030001645CC /* LoadingNavigationBar.swift */; };
 		0EDDC2D21E992B99008B7D78 /* TeamLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDDC2D11E992B99008B7D78 /* TeamLocations.swift */; };
 		0EF0FAE61E260A7F0049F878 /* BreakOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF0FAE51E260A7F0049F878 /* BreakOut.swift */; };
+		0EF3D41E1EA10EF700003FB8 /* OnePasswordExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3D41D1EA10EF700003FB8 /* OnePasswordExtension.m */; };
 		0EF65CFC1E8988A7002C7BA5 /* GroupMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF65CFB1E8988A7002C7BA5 /* GroupMessage.swift */; };
 		0EF65CFE1E8988CB002C7BA5 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF65CFD1E8988CB002C7BA5 /* Message.swift */; };
 		0EF65D001E899981002C7BA5 /* ChatListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF65CFF1E899981002C7BA5 /* ChatListTableViewController.swift */; };
@@ -169,6 +170,8 @@
 		0ECBE4A01E7180A800D5451B /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .travis.yml; path = ../.travis.yml; sourceTree = "<group>"; };
 		0EDDC2D11E992B99008B7D78 /* TeamLocations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamLocations.swift; sourceTree = "<group>"; };
 		0EF0FAE51E260A7F0049F878 /* BreakOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreakOut.swift; sourceTree = "<group>"; };
+		0EF3D41C1EA10EF100003FB8 /* OnePasswordExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnePasswordExtension.h; sourceTree = "<group>"; };
+		0EF3D41D1EA10EF700003FB8 /* OnePasswordExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnePasswordExtension.m; sourceTree = "<group>"; };
 		0EF65CFB1E8988A7002C7BA5 /* GroupMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMessage.swift; sourceTree = "<group>"; };
 		0EF65CFD1E8988CB002C7BA5 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		0EF65CFF1E899981002C7BA5 /* ChatListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListTableViewController.swift; sourceTree = "<group>"; };
@@ -281,6 +284,15 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
+		0EF3D41F1EA10F0700003FB8 /* One Password */ = {
+			isa = PBXGroup;
+			children = (
+				0EF3D41C1EA10EF100003FB8 /* OnePasswordExtension.h */,
+				0EF3D41D1EA10EF700003FB8 /* OnePasswordExtension.m */,
+			);
+			name = "One Password";
+			sourceTree = "<group>";
+		};
 		1EB499C04979986967F64D58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +355,7 @@
 		2678A57D1B7E4BB4000CF85A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0EF3D41F1EA10F0700003FB8 /* One Password */,
 				0ECBE4A01E7180A800D5451B /* .travis.yml */,
 				0ECBE49E1E71809800D5451B /* deploy.sh */,
 				263874C01D0222FF008BF00E /* GoogleService-Info.plist */,
@@ -846,6 +859,7 @@
 				26DA0DA81C316317009AB1B7 /* UserProfileTableViewController.swift in Sources */,
 				263874BF1D01940B008BF00E /* LoadingTableViewCell.swift in Sources */,
 				0EBAB3741E868C0A00237237 /* HeaderView.swift in Sources */,
+				0EF3D41E1EA10EF700003FB8 /* OnePasswordExtension.m in Sources */,
 				0EF65CFE1E8988CB002C7BA5 /* Message.swift in Sources */,
 				2678A5821B7E4BB4000CF85A /* FirstViewController.swift in Sources */,
 				0E0C68301E8AF22D007001F1 /* BOActivityOverlayController.swift in Sources */,

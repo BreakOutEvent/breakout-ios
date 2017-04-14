@@ -11,4 +11,6 @@
 
 #define MR_SHORTHAND
 
+#import "OnePasswordExtension.h"
+
 #endif

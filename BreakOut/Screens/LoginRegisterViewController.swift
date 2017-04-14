@@ -275,6 +275,20 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         
     }
+    
+    func storeCredentials(email: String, pass: String) {
+        let loginDetails = [
+            AppExtensionTitleKey: "BreakOut",
+            AppExtensionUsernameKey: email,
+            AppExtensionPasswordKey: pass,
+        ]
+//        OnePasswordExtension.shared().storeLogin(forURLString: "https://break-out.org/",
+//                                                 loginDetails: loginDetails,
+//                                                 passwordGenerationOptions: nil,
+//                                                 for: self,
+//                                                 sender: self,
+//                                                 completion: dropArguments)
+    }
 
     
     /**
@@ -285,8 +299,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      :returns: No return value
      */
     func startLoginRequest(overlay: BOActivityOverlayController? = nil) {
-        
         if let email = emailTextField.text, let pass = passwordTextField.text {
+            storeCredentials(email: email, pass: pass)
             let activity = overlay ?? BOActivityOverlayController.create()
             self.enableInputs(false)
             let doit = { () -> () in
@@ -332,4 +346,13 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    @IBAction func useOnePassword(_ sender: Any) {
+        OnePasswordExtension.shared().findLogin(forURLString: "https://break-out.org", for: self, sender: self) { (dict, error) in
+            guard let dict = dict, dict.count > 0 else {
+                return
+            }
+            self.emailTextField.text = dict[AppExtensionUsernameKey] as? String
+            self.passwordTextField.text = dict[AppExtensionPasswordKey] as? String
+        }
+    }
 }
