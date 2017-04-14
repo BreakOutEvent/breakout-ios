@@ -15,11 +15,11 @@ class ChatListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Chat"
-        self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = .mainOrange
-        self.navigationController!.navigationBar.backgroundColor = .mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barTintColor = .mainOrange
+        self.navigationController?.navigationBar.backgroundColor = .mainOrange
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         // Create menu buttons for navigation item
         let barButtonImage = UIImage(named: "menu_Icon_white")
@@ -29,7 +29,8 @@ class ChatListTableViewController: UITableViewController {
         
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .mainOrange
-        self.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+        refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+        refreshControl?.beginRefreshing()
     }
     
     override func viewWillAppear(_ animated: Bool) {

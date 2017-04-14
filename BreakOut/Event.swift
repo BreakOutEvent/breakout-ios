@@ -23,12 +23,11 @@ extension Event: Deserializable {
         guard let id = json["id"].int,
             let title = json["title"].string,
             let city = json["city"].string,
-            let date = json["date"].date(),
-            let isCurrent = json["current"].bool else {
+            let date = json["date"].date() else {
                 
                 return nil
         }
-        self.init(id: id, title: title, city: city, date: date, isCurrent: isCurrent)
+        self.init(id: id, title: title, city: city, date: date, isCurrent: json["current"].bool ?? true)
     }
     
 }
@@ -70,6 +69,26 @@ extension Event {
      */
     static func current(using api: BreakOut = .shared) -> Event.Results {
         return all().nested { $0 |> { $0.isCurrent } }
+    }
+    
+    /**
+     Fetch the ID of the current event
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
+    static func currentId(using api: BreakOut = .shared) -> Promise<Int, APIError> {
+        let event = CurrentUser.shared.currentEventId()
+        if event > -1 {
+            return .successful(with: event)
+        }
+        return current(using: api).nested { events, promise in
+            guard let last = events.first?.id else {
+                return promise.error(with: .noData)
+            }
+            promise.success(with: last)
+        }
     }
     
 }

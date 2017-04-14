@@ -28,6 +28,7 @@ class PostingTableViewCell: UITableViewCell {
     @IBOutlet weak var challengeView: UIView!
     @IBOutlet weak var challengeLabel: UILabel!
     @IBOutlet weak var playOverlay: UIView!
+    @IBOutlet weak var shareButton: UIButton!
     
     var videoController: AVPlayerViewController = AVPlayerViewController()
     var posting: Post! {
@@ -113,6 +114,11 @@ class PostingTableViewCell: UITableViewCell {
         }
         commentsButton.setTitleColor(.lightGray, for: .normal)
         commentsButton.imageView?.set(image: #imageLiteral(resourceName: "post-comment_Icon"), with: .lightGray)
+        
+        shareButton.setTitleColor(.lightGray, for: .normal)
+        shareButton.imageView?.set(image: #imageLiteral(resourceName: "share_icon"), with: .lightGray)
+        
+        challengeView.layer.borderColor = UIColor.black.withAlphaComponent(0.2).cgColor
         
         likesButton.isEnabled = CurrentUser.shared.isLoggedIn()
         
@@ -212,6 +218,12 @@ class PostingTableViewCell: UITableViewCell {
 
     @IBAction func commentsButtonPressed(_ sender: UIButton) {
         loadInterface()
+    }
+    
+    @IBAction func shareButtonPressed(_ sender: Any) {
+        loadInterface()
+        let activity = UIActivityViewController(activityItems: [posting.sharingURL], applicationActivities: nil)
+        parentTableViewController?.present(activity, animated: true, completion: nil)
     }
 }
 

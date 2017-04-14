@@ -7,6 +7,7 @@
 //
 
 import Sweeft
+import UIKit
 
 /// Represents a Posting
 final class Post: Observable {
@@ -23,6 +24,10 @@ final class Post: Observable {
     var comments: [Comment]
     var liked: Bool
     var likes: Int
+    
+    var sharingURL: URL {
+        return URL(string: "https://break-out.org/post/\(id)")!
+    }
     
     init(id: Int,
          text: String? = nil,
@@ -63,7 +68,6 @@ extension Post: Deserializable {
             let participant = json["user"].participant else {
                 return nil
         }
-        let location = json["postingLocation"].location
         self.init(id: id, text: json["text"].string,
                   date: date, participant: participant,
                   location: json["postingLocation"].location,

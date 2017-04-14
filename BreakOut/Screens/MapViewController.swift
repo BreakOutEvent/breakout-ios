@@ -15,7 +15,6 @@ import Flurry_iOS_SDK
 import Crashlytics
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-
     
     typealias LocationsByEvent = [Int : [TeamLocations]]
     
@@ -33,12 +32,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var coordinateArray : [CLLocationCoordinate2D] = []
     var polyLineArray : [MKPolyline] = []
     
+    var selectedEvents = [Int]()
+    
     private var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
     private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00), 2: UIColor.red]
     
     var teamController: TeamViewController?
-    
-    var selectedEvents = [Int]()
     
     var locationsByEvent = LocationsByEvent() {
         didSet {
@@ -52,8 +51,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }).nested { $0.dictionary { $0 } }
     }
     
+    @IBOutlet weak var filterViewOffset: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
-
     
     // MARK: Life Cycle
     override func viewDidLoad() {
@@ -79,9 +78,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             } else {
                 teamController >>> { $0.team | self.set }
             }
-        } else {
-            // Fetch locations
-            loadIdsOfAllEvents()
         }
         
     }
@@ -102,23 +98,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         loadAllLocationsForTeam(team: team)
     }
     
-    func loadIdsOfAllEvents() {
-        navigationController?.navigationBar.startSpining()
-        Event.all().onSuccess { events in
-            self.loadAllLocations(for: events => { $0.id }).onSuccess { locations in
-                .main >>> {
-                    self.locationsByEvent = locations
-                    self.navigationController?.navigationBar.stopSpinning()
-                }
-            }
-            .onError { _ in
-                // TODO: Error handling
-                self.navigationController?.navigationBar.stopSpinning()
-            }
-        }
-        
-    }
-    
     func loadAllLocationsForEvent(_ eventId: Int) {
         TeamLocations.all(for: eventId).onSuccess { locations in
             self.locationsByEvent[eventId] = locations
@@ -130,10 +109,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         TeamLocations.locations(forTeam: team).onSuccess { locations in
             self.teamController?.navigationController?.navigationBar.stopSpinning()
+            self.selectedEvents = [team.event]
             self.locationsByEvent = [team.event : [locations]]
-            }
-            .onError { _ in
-                self.teamController?.navigationController?.navigationBar.stopSpinning()
+        }
+        .onError { _ in
+            self.teamController?.navigationController?.navigationBar.stopSpinning()
         }
     }
     
@@ -153,7 +133,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      - parameter locationsForEventsAndTeams: Dictionary with first parameter as eventId , second as teamId
      */
     private func drawLocationsForAllEventsOnMap() {
-        for (eventId, teams) in locationsByEvent {
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays |> { $0 is MKPolyline })
+        for (eventId, teams) in locationsByEvent where selectedEvents.contains(eventId) {
             strokeColor = colorsForEvent[eventId] ?? .black
             for team in teams {
                 drawLocationsForTeamOnMap(team)
@@ -198,13 +180,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if annotationView == nil {
                 annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 annotationView!.canShowCallout = true
-                
-                if annotation.posting != nil {
-                    let btn = UIButton(type: .detailDisclosure)
-                    annotationView!.rightCalloutAccessoryView = btn
-                }
             }
-            annotationView!.annotation = annotation
+            annotationView?.annotation = annotation
+            if annotation.posting != nil {
+                let btn = UIButton(type: .detailDisclosure)
+                annotationView?.rightCalloutAccessoryView = btn
+            } else {
+                annotationView?.rightCalloutAccessoryView = nil
+            }
             
             return annotationView
         }
@@ -237,8 +220,40 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    @IBAction func didPressFilter(_ sender: Any) {
+        let newHeight: CGFloat = filterViewOffset.constant == 0 ? -300 : 0
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+            self.filterViewOffset.constant = newHeight
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
      func showSideBar(){
         self.slideMenuController()?.toggleLeft()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? EventSelectorViewController, teamController == nil {
+            controller.delegate = self
+        }
+    }
+    
+}
+
+extension MapViewController: EventSelectorDelegate {
+    
+    func eventSelector(_ eventSelector: EventSelectorViewController, didChange selected: [Int]) {
+        selectedEvents = selected
+        navigationController?.navigationBar.startSpining()
+        loadAllLocations(for: selected |> { self.locationsByEvent[$0] == nil }).onSuccess { locations in
+            self.navigationController?.navigationBar.stopSpinning()
+            self.locationsByEvent = self.locationsByEvent + locations
+        }
+        .onError { _ in
+            self.navigationController?.navigationBar.stopSpinning()
+        }
     }
     
 }
