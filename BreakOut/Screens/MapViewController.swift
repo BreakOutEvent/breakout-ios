@@ -183,7 +183,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             annotationView?.annotation = annotation
             if annotation.posting != nil {
-                let btn = UIButton(type: .detailDisclosure)
+                let btn = CommentButton(type: .detailDisclosure)
                 annotationView?.rightCalloutAccessoryView = btn
             } else {
                 annotationView?.rightCalloutAccessoryView = nil
@@ -197,8 +197,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let mapLocationAnnotation = view.annotation as! MapLocation
-        
+        let button = view.rightCalloutAccessoryView as? CommentButton
+        button?.isLoading = true
         mapLocationAnnotation.post().onSuccess { posting in
+            button?.isLoading = false
             let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             
             let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController

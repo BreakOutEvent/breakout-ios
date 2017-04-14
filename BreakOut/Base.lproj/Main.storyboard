@@ -975,7 +975,7 @@ line two</string>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </stackView>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="event" id="pXJ-s2-gib">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="event" id="pXJ-s2-gib">
                                         <rect key="frame" x="0.0" y="72" width="359" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pXJ-s2-gib" id="yZl-eu-PV1">
@@ -983,6 +983,7 @@ line two</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -1275,6 +1276,7 @@ line two</string>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aU-B7-Cb2">
                                                 <rect key="frame" x="150" y="0.0" width="75" height="34"/>
                                                 <state key="normal" image="team-info_Icon"/>
+                                                <state key="selected" image="team-info_Icon_active"/>
                                                 <connections>
                                                     <action selector="didPressButton:" destination="Dfe-U5-eYq" eventType="touchUpInside" id="M1C-h8-ob0"/>
                                                 </connections>
@@ -1282,6 +1284,7 @@ line two</string>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YMf-ec-zdQ">
                                                 <rect key="frame" x="225" y="0.0" width="75" height="34"/>
                                                 <state key="normal" image="team-challanges_Icon"/>
+                                                <state key="selected" image="team-challanges_Icon_active"/>
                                                 <connections>
                                                     <action selector="didPressButton:" destination="Dfe-U5-eYq" eventType="touchUpInside" id="XgU-RE-pdz"/>
                                                 </connections>
@@ -5347,7 +5350,9 @@ line two</string>
         <image name="share_icon" width="18" height="18"/>
         <image name="shirt_Icon" width="24" height="24"/>
         <image name="team-challanges_Icon" width="24" height="24"/>
+        <image name="team-challanges_Icon_active" width="24" height="24"/>
         <image name="team-info_Icon" width="24" height="24"/>
+        <image name="team-info_Icon_active" width="24" height="24"/>
         <image name="team-map_Icon" width="24" height="24"/>
         <image name="team-map_Icon_active" width="24" height="24"/>
         <image name="team-posts_Icon" width="24" height="24"/>

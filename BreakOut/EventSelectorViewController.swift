@@ -90,7 +90,9 @@ extension EventSelectorViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "event", for: indexPath)
         cell.textLabel?.text = events[indexPath.row].title
-        cell.selectionStyle = .gray
+        cell.selectionStyle = .default
+        cell.multipleSelectionBackgroundView = UIView()
+        cell.multipleSelectionBackgroundView?.backgroundColor = .clear
         if selected.contains(events[indexPath.row].id) {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }

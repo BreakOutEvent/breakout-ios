@@ -12,6 +12,8 @@ import Sweeft
 class CommentButton: UIButton {
     
     var previousText: String = .empty
+    var previousImage: UIImage?
+    
     lazy var activityIndicator = UIActivityIndicatorView()
     
     var isLoading: Bool = false {
@@ -31,7 +33,11 @@ class CommentButton: UIButton {
         activityIndicator.activityIndicatorViewStyle = .gray
         activityIndicator.color = .mainOrange
         previousText = (titleLabel?.text).?
+        previousImage = imageView?.image
         setTitle("", for: .normal)
+        if previousImage != nil || buttonType != .system {
+            setImage(UIImage(), for: .normal)
+        }
         let side = frame.height - 2
         let x = (frame.width - side - 2)/2
         activityIndicator.frame = CGRect(x: x, y: 1, width: side, height: side)
@@ -45,6 +51,7 @@ class CommentButton: UIButton {
         activityIndicator.stopAnimating()
         activityIndicator.removeFromSuperview()
         setTitle(previousText, for: .normal)
+        setImage(previousImage, for: .normal)
     }
     
 }
