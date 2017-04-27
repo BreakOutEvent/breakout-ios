@@ -6,7 +6,7 @@
 //  Copyright © 2017 BreakOut. All rights reserved.
 //
 
-import UIKit
+import Sweeft
 
 var activityIndicator = UIActivityIndicatorView()
 var previousText: String = .empty
@@ -16,7 +16,7 @@ extension UINavigationBar {
     func startSpining() {
         activityIndicator.activityIndicatorViewStyle = .gray
         activityIndicator.color = .white
-        previousText = self.topItem?.title ?? ""
+        previousText <- self.topItem?.title
         self.topItem?.title = ""
         let side = frame.height - 2
         let x = (frame.width - side - 2)/2

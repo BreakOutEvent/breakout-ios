@@ -67,12 +67,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         navigationController?.navigationBar.backgroundColor = .mainOrange
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        title = "mapTitle".local
         
         let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.done, target: self, action: #selector(showSideBar))
         navigationItem.leftBarButtonItem = leftButton
         
         if let teamController = teamController {
+            title = "mapTitle".local
             if let team = teamController.team {
                 set(team: team)
             } else {
@@ -223,7 +223,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @IBAction func didPressFilter(_ sender: Any) {
-        let newHeight: CGFloat = filterViewOffset.constant == 0 ? -300 : 0
+        let newHeight: CGFloat = filterViewOffset.constant == 0 ? -260 : 0
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
             self.filterViewOffset.constant = newHeight
@@ -238,6 +238,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? EventSelectorViewController, teamController == nil {
+            title = "mapTitle".local
             controller.delegate = self
         }
     }
