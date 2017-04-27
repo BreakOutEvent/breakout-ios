@@ -207,7 +207,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             
             if cell.reuseIdentifier == "InternalWebViewController" {
                 let internalWebViewController = controller as! InternalWebViewController
-                internalWebViewController.openWebpageWithUrl("http://break-out.org/worum-gehts/")
+                internalWebViewController.openWebpageWithUrl("https://break-out.org/next-steps")
             }
         }
     }

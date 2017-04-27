@@ -14,7 +14,7 @@ class InternalWebViewController: UIViewController {
     
     @IBOutlet weak var internalWebView: UIWebView!
     
-    var initialURL: String = "http://www.break-out.org"
+    var initialURL: String = "https://www.break-out.org"
     var urlToOpenAfterViewDidLoad: String?
     
 // MARK: - Screen Actions
@@ -44,6 +44,11 @@ class InternalWebViewController: UIViewController {
         if barButtonImage != nil {
             self.addLeftBarButtonWithImage(barButtonImage!)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .lightContent
     }
     
     override func didReceiveMemoryWarning() {

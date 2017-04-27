@@ -202,7 +202,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             let navigationController = UINavigationController(rootViewController: internalWebView)
             
             present(navigationController, animated: true, completion: nil)
-            internalWebView.openWebpageWithUrl("http://break-out.org/worum-gehts/")
+            internalWebView.openWebpageWithUrl("https://break-out.org/next-steps")
             
             // --> Tracking
             //Answers.logCustomEventWithName("Opened What-Is-BreakOut", customAttributes: [:])
