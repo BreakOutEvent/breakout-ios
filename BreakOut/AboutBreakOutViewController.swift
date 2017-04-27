@@ -13,7 +13,7 @@ import Flurry_iOS_SDK
 class AboutBreakOutViewController: UIViewController {
     
     @IBOutlet weak var internalWebView: UIWebView!
-    var initialURL: String = "http://www.break-out.org"
+    var initialURL: String = "https://www.break-out.org"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +29,14 @@ class AboutBreakOutViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         // Tracking
-        Flurry.logEvent("/aboutBreakOutView", withParameters: ["url":self.initialURL], timed: true)
+        Flurry.logEvent("/aboutBreakOutView", withParameters: ["url" : self.initialURL], timed: true)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
