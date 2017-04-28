@@ -27,7 +27,7 @@ extension Event: Deserializable {
                 
                 return nil
         }
-        self.init(id: id, title: title, city: city, date: date, isCurrent: json["current"].bool ?? true)
+        self.init(id: id, title: title, city: city, date: date, isCurrent: json["isCurrent"].bool ?? true)
     }
     
 }
