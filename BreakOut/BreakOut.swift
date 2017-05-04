@@ -40,6 +40,7 @@ extension BreakOut {
     
     fileprivate struct BreakOutAuth: OptionalStatus {
         typealias Value = OAuth
+        static var storage: Storage = .keychain
         static var key: AppDefaults = .login
     }
     
