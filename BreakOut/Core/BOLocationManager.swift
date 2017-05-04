@@ -19,6 +19,10 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
     
     var lastKnownLocation: CLLocation?
     
+    var shouldMonitorLocation: Bool {
+        return CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() >= 0
+    }
+    
     let locationManager = CLLocationManager()
     
     func start() {
@@ -48,14 +52,16 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.pausesLocationUpdatesAutomatically = true
         
         // start monitoring
-        if CLLocationManager.locationServicesEnabled(){
+        if CLLocationManager.locationServicesEnabled(), shouldMonitorLocation {
             print("location Services are enabled. Start Updating Locations ...")
             locationManager.startUpdatingLocation()
         }
     }
     
     func enterBackground() {
-        locationManager.startMonitoringSignificantLocationChanges()
+        if shouldMonitorLocation {
+            locationManager.startMonitoringSignificantLocationChanges()
+        }
     }
     
     func becomeActive() {
@@ -100,8 +106,10 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         case .denied:
             print("location tracking status denied")
             locationManager.stopUpdatingLocation()
-        case .notDetermined:print("location tracking status not determined")
-        case .restricted:print("location tracking status restricted")
+        case .notDetermined:
+            print("location tracking status not determined")
+        case .restricted:
+            print("location tracking status restricted")
         default:break
         }
     }
