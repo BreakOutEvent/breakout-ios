@@ -25,7 +25,7 @@ pod 'Pantry'
 pod 'Alamofire', '~> 4.0'
 
 # UI
-pod 'SpinKit', '~>1.2.0'
+pod 'SpinKit', '~> 1.2.0'
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'SlideMenuControllerSwift', '~> 3.0.0'
 pod 'StaticDataTableViewController', '~> 2.0'
@@ -39,7 +39,7 @@ pod 'MDGroupAvatarView', :git => 'https://github.com/mathiasquintero/MDGroupAvat
 
 
 # Team UI
-pod 'Pageboy'
+pod 'Pageboy', '~> 0.4.11'
 pod 'MXParallaxHeader'
 
 use_frameworks!

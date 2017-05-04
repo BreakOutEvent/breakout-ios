@@ -45,7 +45,7 @@ PODS:
   - MXParallaxHeader (0.6.1)
   - NMessenger (1.0.80):
     - AsyncDisplayKit (= 2.2)
-  - Pageboy (1.0.6)
+  - Pageboy (0.4.12)
   - Pantry (0.3)
   - PINCache (3.0.1-beta.4):
     - PINCache/Arc-exception-safe (= 3.0.1-beta.4)
@@ -61,14 +61,14 @@ PODS:
   - PINRemoteImage/PINCache (3.0.0-beta.8):
     - PINCache (= 3.0.1-beta.4)
     - PINRemoteImage/Core
-  - Protobuf (3.2.1)
+  - Protobuf (3.3.0)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - SlideMenuControllerSwift (3.0.1)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - Sweeft (0.8.0)
+  - Sweeft (0.8.1)
   - Toaster (2.0.3)
   - TouchVisualizer (2.0.1)
 
@@ -85,7 +85,7 @@ DEPENDENCIES:
   - MDGroupAvatarView (from `https://github.com/mathiasquintero/MDGroupAvatarView.git`)
   - MXParallaxHeader
   - NMessenger
-  - Pageboy
+  - Pageboy (~> 0.4.11)
   - Pantry
   - SDWebImage (~> 3.7)
   - SlideMenuControllerSwift (~> 3.0.0)
@@ -122,20 +122,20 @@ SPEC CHECKSUMS:
   MDGroupAvatarView: a01456e15fd882cd6cbec7a6c93a6568c79bd492
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   NMessenger: ca6a89073ca40d3868cf45505f6f8318853afd40
-  Pageboy: 92bd275945ab1d44a34958c38bd2c79a4a285fbd
+  Pageboy: 4a0a478d78cf5b31a5439828bc8f6519edf4e508
   Pantry: 98481849be65d2b2cb9658976533e84ebd266192
   PINCache: a89c8f609232afac77128557bd12c861844423d7
   PINOperation: ac23db44796d4a564ecf9b5ea7163510f579b71d
   PINRemoteImage: c4f9f16932840c597f32e69dd288e10e111a1929
-  Protobuf: 2ccbaf193f6c65adc67745453ca0c13234c32796
+  Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  Sweeft: 875f9127c0d9e79aa0ce6e38a5649f95a660d089
+  Sweeft: 489d6b1959089104b58bd64dc3df1a0d5c100592
   Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: c5f7f4eebfe493626f43e9781602462a694a4642
+PODFILE CHECKSUM: acc55e2c2b8f767578850450d0a1f5cf21180cde
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
