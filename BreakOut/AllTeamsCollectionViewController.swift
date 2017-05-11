@@ -143,6 +143,8 @@ extension AllTeamsCollectionViewController: EventSelectorDelegate {
         
         Team.byEvents(needed.array).onSuccess { teams in
             self.loadingActivityIndicator.stopAnimating()
+            let images = teams.flatMap({ $0 }) ==> { $0.image }
+            images >>> **self.collectionView.reloadData
             let new = zip(needed, teams).map { $0 }
             let items = new >>= id
             self.teamsByEvent = self.teamsByEvent + items

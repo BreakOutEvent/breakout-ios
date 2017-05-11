@@ -28,7 +28,6 @@ final class TeamViewController: PageboyViewController, Observable {
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var challengesButton: UIButton!
-    @IBOutlet weak var sponsorsButton: UIButton!
     
     var subMenuSelectionBarView: UIView = UIView()
     var previousConstant: CGFloat = 180
@@ -187,7 +186,6 @@ extension TeamViewController {
             mapButton,
             infoButton,
             challengesButton,
-            sponsorsButton
         ]
     }
     
