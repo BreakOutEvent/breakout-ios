@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F60a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eSS-2Z-G5I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="eSS-2Z-G5I">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -26,7 +26,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jB4-Zx-ggZ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="385"/>
-                                <color key="backgroundColor" red="0.90196078430000004" green="0.50980392159999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" image="BreakOut-Logo_Login" translatesAutoresizingMaskIntoConstraints="NO" id="WEX-iP-CCq" userLabel="Logo Image View">
                                 <rect key="frame" x="87.5" y="100" width="200" height="199"/>
@@ -84,7 +84,7 @@
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Jz-hA-EMW" customClass="BOButton" customModule="BreakOut" customModuleProvider="target">
                                         <rect key="frame" x="30" y="142" width="315" height="50"/>
-                                        <color key="backgroundColor" red="0.92156862750000001" green="0.51372549020000002" blue="0.035294117649999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" priority="750" constant="50" id="DUV-qh-KQd"/>
                                         </constraints>
@@ -794,7 +794,7 @@ line two</string>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="cFY-Za-MMG">
                                             <rect key="frame" x="169" y="28" width="37" height="54"/>
-                                            <color key="color" red="0.90196078430000004" green="0.50980392159999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="color" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </activityIndicatorView>
                                     </subviews>
                                     <constraints>
@@ -1038,7 +1038,7 @@ line two</string>
                                 <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="Wpq-wn-HAG">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="color" red="0.90196078430000004" green="0.50980392159999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="color" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="dSh-aZ-5AI" customClass="TeamCollectionViewCell" customModule="BreakOut" customModuleProvider="target">
@@ -2055,7 +2055,7 @@ line two</string>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CCY-jF-Ph3" customClass="BOButton" customModule="BreakOut" customModuleProvider="target">
                                                     <rect key="frame" x="30" y="30" width="315" height="50"/>
-                                                    <color key="backgroundColor" red="0.96862745100000003" green="0.57647058819999997" blue="0.1137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="R5l-7g-VTf"/>
                                                     </constraints>
@@ -2883,7 +2883,7 @@ line two</string>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykX-BV-Z1W">
                                                     <rect key="frame" x="16" y="106" width="343" height="50"/>
-                                                    <color key="backgroundColor" red="0.92156862750000001" green="0.51372549020000002" blue="0.035294117649999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="t33-l1-Uyb"/>
                                                     </constraints>
@@ -2942,7 +2942,7 @@ line two</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewPostingTableViewController" id="bme-qQ-9kG">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewPostingTableViewController" id="bme-qQ-9kG">
                                         <rect key="frame" x="0.0" y="180" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bme-qQ-9kG" id="Xj4-po-fxw">
@@ -3065,14 +3065,14 @@ line two</string>
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChatListTableViewController" id="WNn-oq-axz">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatListTableViewController" id="WNn-oq-axz">
                                         <rect key="frame" x="0.0" y="324" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WNn-oq-axz" id="btS-CI-H0N">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="RT7-JG-L4c">
+                                                <imageView userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="RT7-JG-L4c">
                                                     <rect key="frame" x="16" y="12" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="24" id="gY5-cv-4Ic"/>
@@ -3088,7 +3088,7 @@ line two</string>
                                                     <color key="textColor" red="0.54000002150000004" green="0.54000002150000004" blue="0.54000002150000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dqf-ck-YSw">
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dqf-ck-YSw">
                                                     <rect key="frame" x="72" y="15" width="241" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3140,7 +3140,7 @@ line two</string>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MapViewController" id="52u-fI-UZc">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MapViewController" id="52u-fI-UZc">
                                         <rect key="frame" x="0.0" y="389" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="52u-fI-UZc" id="dhu-El-Exa">
@@ -3181,7 +3181,7 @@ line two</string>
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="MMV-q6-f1c">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="MMV-q6-f1c">
                                         <rect key="frame" x="0.0" y="437" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MMV-q6-f1c" id="RGa-s8-uT3">
@@ -3230,7 +3230,7 @@ line two</string>
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AllPostingsTableViewController" id="6XJ-UK-6EL">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AllPostingsTableViewController" id="6XJ-UK-6EL">
                                         <rect key="frame" x="0.0" y="485" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6XJ-UK-6EL" id="riT-Ym-MgZ">
@@ -3282,21 +3282,21 @@ line two</string>
                                             </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AllTeamsCollectionViewController" id="7Ly-0J-CTK">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AllTeamsCollectionViewController" id="7Ly-0J-CTK">
                                         <rect key="frame" x="0.0" y="533" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Ly-0J-CTK" id="GPj-ag-AGX">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="all-teams_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="VGq-Fj-cHJ">
+                                                <imageView userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="all-teams_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="VGq-Fj-cHJ">
                                                     <rect key="frame" x="16" y="12" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="VGq-Fj-cHJ" secondAttribute="height" multiplier="1:1" id="VX4-aq-87X"/>
                                                         <constraint firstAttribute="width" constant="24" id="WTw-FS-Bq2"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Teams" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW1-Eq-sP3">
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Teams" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oW1-Eq-sP3">
                                                     <rect key="frame" x="72" y="15" width="287" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4700,7 +4700,7 @@ line two</string>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Br1-ta-qJZ" customClass="BOButton" customModule="BreakOut" customModuleProvider="target">
                                                     <rect key="frame" x="30" y="30" width="315" height="50"/>
-                                                    <color key="backgroundColor" red="0.96862745100000003" green="0.57647058819999997" blue="0.1137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="0dc-uD-2E4"/>
                                                     </constraints>
@@ -4835,7 +4835,7 @@ line two</string>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mw8-z9-6W8" customClass="BOButton" customModule="BreakOut" customModuleProvider="target">
                                                     <rect key="frame" x="30" y="30" width="315" height="50"/>
-                                                    <color key="backgroundColor" red="0.96862745100000003" green="0.57647058819999997" blue="0.1137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="ecg-LZ-0hC"/>
                                                     </constraints>
@@ -5214,7 +5214,7 @@ line two</string>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qKW-Gm-tNq">
                                             <rect key="frame" x="169" y="28" width="37" height="54"/>
-                                            <color key="color" red="0.90196078430000004" green="0.50980392159999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="color" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </activityIndicatorView>
                                     </subviews>
                                     <constraints>
@@ -5306,7 +5306,7 @@ line two</string>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="579-j7-oWn">
                                             <rect key="frame" x="169" y="28" width="37" height="54"/>
-                                            <color key="color" red="0.90196078430000004" green="0.50980392159999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="color" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </activityIndicatorView>
                                     </subviews>
                                     <constraints>
@@ -5389,7 +5389,7 @@ line two</string>
         <image name="what-is-breakout_Icon" width="28" height="28"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="l1c-ZY-jbC"/>
+        <segue reference="ujz-UH-qmb"/>
     </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.96862745100000003" green="0.57647058819999997" blue="0.1137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <color key="tintColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
