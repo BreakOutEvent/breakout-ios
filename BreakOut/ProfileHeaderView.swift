@@ -49,7 +49,7 @@ class ProfileHeaderView: HeaderView {
     
     @IBAction func didPress(_ sender: Any) {
         imagePicker.delegate = self
-        let optionMenu = UIAlertController(title: nil, message: "sourceOfImage".local, preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: nil, message: "profileImageSource".local, preferredStyle: .actionSheet)
         
         let photoLibraryOption = UIAlertAction(title: "photoLibrary".local, style: .default) { alert in
             self.imagePicker.allowsEditing = true
