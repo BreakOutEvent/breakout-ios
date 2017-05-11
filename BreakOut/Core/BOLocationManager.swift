@@ -39,7 +39,7 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         
         // set distance filter in meters
-        locationManager.distanceFilter = 5000
+        locationManager.distanceFilter = 1000
         
         // allow background updates
         if #available(iOS 9.0, *) {

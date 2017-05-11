@@ -102,7 +102,7 @@ class ChatViewController: NMessengerViewController {
             let avatar = ASImageNode()
             avatar.layer.cornerRadius = 10
             avatar.clipsToBounds = true
-            avatar.preferredFrameSize = CGSize(width: 20, height: 20)
+            avatar.style.preferredSize = CGSize(width: 20, height: 20)
             avatar.image = users[group.0]?.image?.image
             users[group.0]?.onChange { user in
                 avatar.image = user.image?.image

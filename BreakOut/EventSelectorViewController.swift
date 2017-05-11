@@ -23,6 +23,12 @@ class EventSelectorViewController: UIViewController {
     var events = [Event]()
     var selected = [Int]()
     
+    var sortedSelection: [Int] {
+        return selected.sorted(ascending: { selected in
+            return self.events.index(where: { $0.id == selected }) ?? -1
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundView?.backgroundColor = .clear
@@ -36,17 +42,14 @@ class EventSelectorViewController: UIViewController {
         blurView.addSubview(effectView)
         Event.all().onSuccess { events in
             self.events = events
-            self.tableView.reloadData()
-        }
-        Event.currentId().onSuccess { id in
-            self.selected = [id]
+            self.selected = events |> { $0.isCurrent } => { $0.id }
             self.updateDelegate()
             self.tableView.reloadData()
         }
     }
     
     func updateDelegate() {
-        delegate?.eventSelector(self, didChange: selected)
+        delegate?.eventSelector(self, didChange: sortedSelection)
     }
     
     @IBAction func didSelectAll(_ sender: Any) {

@@ -143,6 +143,10 @@ extension Team {
         return (events => all <** api).bulk.flattened
     }
     
+    static func byEvents(_ events: [Int], using api: BreakOut = .shared) -> Promise<[[Team]], APIError> {
+        return (events => all <** api).bulk
+    }
+    
     /**
      Fetch all the teams ever
      

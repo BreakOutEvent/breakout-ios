@@ -11,11 +11,27 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class AllTeamsCollectionViewController: UICollectionViewController {
+class AllTeamsCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    @IBOutlet weak var filterViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
     
-    var teams = [Team]()
+    var selectedEvents = [Int]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
+    var teamsByEvent = [Int : [Team]]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
+    var teams: [Team] {
+        return selectedEvents.flatMap { teamsByEvent[$0] ?? [] }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,18 +53,6 @@ class AllTeamsCollectionViewController: UICollectionViewController {
         collectionView?.backgroundColor = .ultraLightBackgroundColor
         
         title = "allTeamsTitle".local
-        // Only fetch the latest instead of everything...
-        loadingActivityIndicator.startAnimating()
-        Team.currentTeams().onSuccess { teams in
-            let images = teams ==> { $0.image }
-            images >>> **{
-                self.collectionView?.reloadData()
-            }
-            self.loadingActivityIndicator.stopAnimating()
-            self.loadingActivityIndicator.isHidden = true
-            self.teams = teams
-            self.collectionView?.reloadData()
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,16 +69,16 @@ class AllTeamsCollectionViewController: UICollectionViewController {
     
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return teams.count
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         if let cell = cell as? TeamCollectionViewCell {
             cell.team = teams[indexPath.row]
@@ -82,7 +86,7 @@ class AllTeamsCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         UIView.animate(withDuration: 0.1) {
             self.navigationController?.navigationBar.alpha = 0.0
@@ -99,6 +103,21 @@ class AllTeamsCollectionViewController: UICollectionViewController {
         navigationController?.pushViewController(teamController, animated: true)
     
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? EventSelectorViewController {
+            controller.delegate = self
+        }
+    }
+    
+    @IBAction func didPressFilter(_ sender: Any) {
+        let newHeight: CGFloat = filterViewConstraint.constant == 0 ? -260 : 0
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+            self.filterViewConstraint.constant = newHeight
+            self.view.layoutIfNeeded()
+        }
+    }
 
 }
 
@@ -112,6 +131,25 @@ extension AllTeamsCollectionViewController: UICollectionViewDelegateFlowLayout {
         let width = (screenSize.width - 9) / 2
         let height = width + 50
         return CGSize(width: width, height: height)
+    }
+    
+}
+
+extension AllTeamsCollectionViewController: EventSelectorDelegate {
+    
+    func eventSelector(_ eventSelector: EventSelectorViewController, didChange selected: [Int]) {
+        selectedEvents = selected
+        let needed = selected - teamsByEvent.keys.array
+        
+        Team.byEvents(needed.array).onSuccess { teams in
+            self.loadingActivityIndicator.stopAnimating()
+            let new = zip(needed, teams).map { $0 }
+            let items = new >>= id
+            self.teamsByEvent = self.teamsByEvent + items
+        }
+        .onError { _ in
+            self.loadingActivityIndicator.stopAnimating()
+        }
     }
     
 }

@@ -6,6 +6,9 @@
   Copyright © 2016 BreakOut. All rights reserved.
 */
 
+"selectAll" = "Alle Auswählen";
+"deselectAll" = "Alle Abwählen";
+
 "email" = "E-Mail";
 "password" = "Password";
 "login" = "EINLOGGEN";
