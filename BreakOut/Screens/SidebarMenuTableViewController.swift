@@ -25,6 +25,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     @IBOutlet weak var allTeamsTableViewCell: UITableViewCell!
     @IBOutlet weak var newsTableViewCell: UITableViewCell!
     @IBOutlet weak var settingsTableViewCell: UITableViewCell!
+    @IBOutlet weak var profileTableViewCell: UITableViewCell!
     
     var selected: IndexPath?
     
@@ -53,7 +54,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         
 //        self.cell(self.yourTeamTableViewCell, setHidden: true)
         self.cell(self.newsTableViewCell, setHidden: true)
-//        self.cell(self.allTeamsTableViewCell, setHidden: true)
+        self.cell(self.profileTableViewCell, setHidden: true)
         self.cell(self.settingsTableViewCell, setHidden: true)
         
         self.loginAndRegisterButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: UIControlState())
@@ -103,6 +104,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     func header() -> HeaderView {
         if CurrentUser.shared.isLoggedIn() {
             ProfileHeaderView.shared.populate()
+            ProfileHeaderView.shared.containingViewController = self
             return ProfileHeaderView.shared
         } else {
             return LoginHeaderView.shared

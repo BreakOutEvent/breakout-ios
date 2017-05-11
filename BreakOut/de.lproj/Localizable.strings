@@ -6,6 +6,8 @@
   Copyright © 2016 BreakOut. All rights reserved.
 */
 
+"logout" = "Ausloggen";
+
 "selectAll" = "Alle Auswählen";
 "deselectAll" = "Alle Abwählen";
 
