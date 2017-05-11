@@ -81,6 +81,7 @@
 
 // UIImagePicker
 "sourceOfImage" = "Choose a photo for your post";
+"profileImageSource" = "Choose a new Profile Picture";
 "photoLibrary" = "Photo Library";
 "takeAPhoto" = "Camera";
 

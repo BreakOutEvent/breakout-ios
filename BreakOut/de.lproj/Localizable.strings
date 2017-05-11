@@ -81,6 +81,7 @@
 
 // UIImagePicker
 "sourceOfImage" = "Wähle ein Bild für deinen Post";
+"profileImageSource" = "Wähle ein Bild für deinen Profil";
 "photoLibrary" = "Fotoarchiv";
 "takeAPhoto" = "Foto aufnehmen";
 
