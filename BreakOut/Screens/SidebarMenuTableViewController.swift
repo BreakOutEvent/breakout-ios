@@ -140,11 +140,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             return false
-        } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 2 && CurrentUser.shared.currentTeamId() < 0 {
             return false
-        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
-            return false
-        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 3 && !CurrentUser.shared.isLoggedIn() {
             return false
         }
         
@@ -154,11 +152,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
-        } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 2 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
-        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
-            cell.alpha = 0.5
-        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 3 && !CurrentUser.shared.isLoggedIn() {
             cell.alpha = 0.5
         } else {
             cell.alpha = 1.0
