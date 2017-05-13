@@ -17,6 +17,8 @@ import Firebase
 
 import TouchVisualizer
 
+import OneSignal
+
 import Sweeft
 
 @UIApplicationMain
@@ -26,9 +28,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        GroupMessage.all().onSuccess { messages in
-            print(messages)
-        }
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+        
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId: "db55a101-3fe8-4f3a-9898-e79146ed9bbb",
+                                        handleNotificationAction: nil,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
+        
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            guard CurrentUser.shared.isLoggedIn(), accepted, let token = OneSignal.token else {
+                return
+            }
+            BreakOut.shared.sendNotificationToken(token: token).onSuccess { json in
+                print(json)
+            }
+            .onError { error in
+                print(error)
+            }
+        })
     
         FIRApp.configure()
         

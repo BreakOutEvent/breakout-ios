@@ -35,4 +35,5 @@ enum BreakOutEndpoint: String, APIEndpoint {
     case messages = "messaging/"
     case message = "messaging/{id}/"
     case newMessage = "messaging/{id}/message/"
+    case notificationToken = "user/{id}/notificationtoken"
 }

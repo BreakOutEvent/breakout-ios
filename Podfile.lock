@@ -45,6 +45,7 @@ PODS:
   - MXParallaxHeader (0.6.1)
   - NMessenger (1.0.80):
     - AsyncDisplayKit (= 2.2)
+  - OneSignal (2.5.3)
   - Pageboy (0.4.12)
   - Pantry (0.3)
   - PINCache (3.0.1-beta.4):
@@ -85,6 +86,7 @@ DEPENDENCIES:
   - MDGroupAvatarView (from `https://github.com/mathiasquintero/MDGroupAvatarView.git`)
   - MXParallaxHeader
   - NMessenger
+  - OneSignal (< 3.0, >= 2.5.2)
   - Pageboy (~> 0.4.11)
   - Pantry
   - SDWebImage (~> 3.7)
@@ -122,6 +124,7 @@ SPEC CHECKSUMS:
   MDGroupAvatarView: a01456e15fd882cd6cbec7a6c93a6568c79bd492
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   NMessenger: ca6a89073ca40d3868cf45505f6f8318853afd40
+  OneSignal: 08a57b17168033a3e8c635d676241eb07614a5e6
   Pageboy: 4a0a478d78cf5b31a5439828bc8f6519edf4e508
   Pantry: 98481849be65d2b2cb9658976533e84ebd266192
   PINCache: a89c8f609232afac77128557bd12c861844423d7
@@ -136,6 +139,6 @@ SPEC CHECKSUMS:
   Toaster: 77c0b03d78e680bbbab0071c9c7ee392b0034010
   TouchVisualizer: d1bd1b438d084245332c222d9e14416c271c5f25
 
-PODFILE CHECKSUM: acc55e2c2b8f767578850450d0a1f5cf21180cde
+PODFILE CHECKSUM: 4d03ea92b98b5375a3e776b6c83ab9544a13dd74
 
 COCOAPODS: 1.2.1

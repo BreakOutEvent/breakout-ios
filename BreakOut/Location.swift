@@ -11,7 +11,7 @@ import CoreLocation
 
 /// Location of a Team
 struct Location {
-    let id: Int
+    let id: Int?
     let postingId: Int?
     let date: Date
     let longitude: Double
@@ -25,14 +25,13 @@ struct Location {
 extension Location: Deserializable {
     
     init?(from json: JSON) {
-        guard let id = json["id"].int,
-            let date = json["date"].date(),
+        guard let date = json["date"].date(),
             let latitude = json["latitude"].double,
             let longitude = json["longitude"].double,
             let distance = json["distance"].double else {
                 return nil
         }
-        self.init(id: id,
+        self.init(id: json["id"].int,
                   postingId: json["postingId"].int,
                   date: date,
                   longitude: longitude,

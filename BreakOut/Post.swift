@@ -255,7 +255,7 @@ extension Post {
     @discardableResult func unlike(using api: BreakOut = .shared) -> JSON.Result {
         return api.doJSONRequest(with: .delete,
                                  to: .likePosting,
-                                 arguments: ["id": id],
+                                 arguments: ["6id": id],
                                  auth: api.auth).nested { (json: JSON) in
             
             self.likes -= 1

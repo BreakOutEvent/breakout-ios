@@ -70,33 +70,16 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: CLLocation delegate methods
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         print("Update Locations")
-        // only use last location
+        
         if let coordiante = locations.last?.coordinate, CurrentUser.shared.currentTeamId() > -1 {
             let event = CurrentUser.shared.currentEventId()
             let team = CurrentUser.shared.currentTeamId()
             Location.update(coordinates: coordiante, event: event, team: team).onSuccess { _ in
                 print("Location Sent!")
             }
-            self.lastKnownLocation = locations.last
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_LOCATION_DID_UPDATE), object: nil)
-            
-            // ONLY FOR DEBUGGING
-            #if DEBUG
-                let notification = UILocalNotification()
-                notification.fireDate = Date(timeIntervalSinceNow: 0)
-                if UIApplication.shared.applicationState == UIApplicationState.background {
-                    notification.alertTitle = "App in Background"
-                } else {
-                    notification.alertTitle = "App in Foreground"
-                }
-                notification.alertBody = "Location Did Change!"
-                notification.soundName = UILocalNotificationDefaultSoundName
-                UIApplication.shared.scheduleLocalNotification(notification)
-            #endif
         }
-        // stop updating locations. Optional.
-        // locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

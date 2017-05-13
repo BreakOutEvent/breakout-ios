@@ -9,6 +9,8 @@
 import UIKit
 import Sweeft
 
+import OneSignal
+
 public extension UIImage {
     
     public func hasContent() -> Bool {
@@ -219,6 +221,19 @@ extension Date {
         }
         
         
+    }
+    
+}
+
+extension OneSignal {
+    
+    static var token: String? {
+        guard let state = getPermissionSubscriptionState(),
+            let token = state.subscriptionStatus.userId else {
+                
+            return nil
+        }
+        return token
     }
     
 }

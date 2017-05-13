@@ -3,6 +3,9 @@
 
 target 'BreakOut' do
 
+# Push Notifications
+pod 'OneSignal', '>= 2.5.2', '< 3.0'
+
 # Model and API Calls
 pod 'Sweeft', '~> 0.6'
 

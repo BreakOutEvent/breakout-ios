@@ -359,7 +359,7 @@ final class CurrentUser: NSObject {
     func currentEventId() -> Int {
         if self.eventid != nil {
             return self.eventid!
-        }else{
+        } else {
             return -1
         }
     }

@@ -324,8 +324,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 .onError { error in
                     activity?.error {
                         switch error {
-                        case .invalidStatus(401, _), .invalidStatus(400, _):
+                        case .invalidStatus(401, let data):
                             print("Incorrect credentials")
+                            print("Data: \(data?.string ?? "")")
                         default:
                             break
                         }
