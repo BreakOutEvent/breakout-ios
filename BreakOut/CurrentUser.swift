@@ -22,6 +22,9 @@ final class CurrentUser: NSObject {
     var picture: UIImage?
     var profilePic: Image? {
         didSet {
+            guard oldValue?.id != profilePic?.id else {
+                return
+            }
             profilePic >>> {
                 self.picture <- $0.image
             }
