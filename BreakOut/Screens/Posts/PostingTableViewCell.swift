@@ -78,10 +78,7 @@ class PostingTableViewCell: UITableViewCell {
         
         video = posting.media.flatMap({ $0.video }).first
         
-        // Set the team image & name
-        if posting.participant.team?.name != nil {
-            teamNameLabel.text = posting.participant.team?.name
-        }
+        teamNameLabel.text = posting.prettyTeamName
         teamPictureImageView.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
         
         

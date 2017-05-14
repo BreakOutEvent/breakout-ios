@@ -11,6 +11,32 @@ import Sweeft
 
 import OneSignal
 
+func countryName(for code: String) -> String {
+    return NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.countryCode, value: code) ?? ""
+}
+
+func countryCode(for country: String) -> String? {
+    let locales = NSLocale.isoCountryCodes
+    let map = locales >>= { (countryName(for: $0).lowercased(), $0) }
+    return map[country.lowercased()]
+}
+
+func emojiFlag(countryCode: String) -> String {
+    return countryCode.uppercased().unicodeScalars.reduce(.empty) { result, item in
+        guard let scalar = UnicodeScalar(127397 + item.value) else {
+            return result
+        }
+        return result + String(scalar)
+    }
+}
+
+func emoji(for country: String) -> String? {
+    guard let countryCode = countryCode(for: country) else {
+        return nil
+    }
+    return emojiFlag(countryCode: countryCode)
+}
+
 public extension UIImage {
     
     public func hasContent() -> Bool {

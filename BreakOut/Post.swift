@@ -60,6 +60,20 @@ final class Post: Observable {
     
 }
 
+extension Post {
+    
+    var prettyTeamName: String? {
+        guard let teamName = participant.team?.name else {
+            return nil
+        }
+        guard let country = location?.country, let emoji = emoji(for: country) else {
+            return teamName
+        }
+        return "\(teamName) \(emoji)"
+    }
+    
+}
+
 extension Post: Deserializable {
     
     convenience init?(from json: JSON) {
