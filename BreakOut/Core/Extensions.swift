@@ -237,3 +237,20 @@ extension OneSignal {
     }
     
 }
+
+extension UIViewController {
+    
+    func open(message: Int) {
+        guard let container = slideMenuController() as? ContainerViewController,
+            let sideMenu = container.leftViewController as? SidebarMenuTableViewController else {
+                
+            return
+        }
+        let indexPath = IndexPath(row: 3, section: 1)
+        sideMenu.tableView(sideMenu.tableView, didSelectRowAt: indexPath)
+        guard let chatViewController = sideMenu.presentedViewController as? ChatListTableViewController else {
+            return
+        }
+    }
+    
+}

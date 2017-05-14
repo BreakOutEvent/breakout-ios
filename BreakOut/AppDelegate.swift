@@ -32,10 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         OneSignal.initWithLaunchOptions(launchOptions,
                                         appId: "db55a101-3fe8-4f3a-9898-e79146ed9bbb",
-                                        handleNotificationAction: nil,
+                                        handleNotificationReceived: self.handleReceived,
+                                        handleNotificationAction: self.handleAction,
                                         settings: onesignalInitSettings)
         
-        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification
+        OneSignal.inFocusDisplayType = .none
         
         OneSignal.promptForPushNotifications(userResponse: { accepted in
             guard CurrentUser.shared.isLoggedIn(), accepted, let token = OneSignal.token else {
@@ -48,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(error)
             }
         })
-    
+        
         FIRApp.configure()
         
         #if DEBUG
@@ -92,7 +93,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-
+    func handleReceived(notification: OSNotification?) {
+        print(notification)
+    }
+    
+    func handleAction(notification: OSNotificationOpenedResult?) {
+        guard let id = notification?.notification.payload.additionalData["id"] as? Int else {
+            return
+        }
+        UIApplication.shared.keyWindow?.rootViewController?.open(message: id)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print(userInfo)
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
