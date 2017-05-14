@@ -35,7 +35,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var selectedEvents = [Int]()
     
     private var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
-    private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00), 2: UIColor.red]
+    private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00),
+                                  2: .red,
+                                  3: .yellow,
+                                  4: .blue,
+                                  5: .orange]
     
     var teamController: TeamViewController?
     

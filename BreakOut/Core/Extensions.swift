@@ -248,9 +248,6 @@ extension UIViewController {
         }
         let indexPath = IndexPath(row: 3, section: 1)
         sideMenu.tableView(sideMenu.tableView, didSelectRowAt: indexPath)
-        guard let chatViewController = sideMenu.presentedViewController as? ChatListTableViewController else {
-            return
-        }
     }
     
 }
