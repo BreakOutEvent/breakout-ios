@@ -97,7 +97,7 @@ class AllTeamsCollectionViewController: UIViewController, UICollectionViewDelega
         let teamController = storyboard.instantiateViewController(withIdentifier: "TeamViewController")
         
         if let teamController = teamController as? TeamViewController {
-            teamController.team = teams[indexPath.row]
+            teamController.partialTeam = teams[indexPath.row]
         }
         
         navigationController?.pushViewController(teamController, animated: true)

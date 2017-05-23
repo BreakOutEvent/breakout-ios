@@ -266,6 +266,19 @@ extension OneSignal {
 
 extension UIViewController {
     
+    var current: UIViewController {
+        if let navigation = self as? UINavigationController {
+            guard let last = navigation.topViewController else {
+                return navigation
+            }
+            return last
+        }
+        if let presented = presentedViewController {
+            return presented.current
+        }
+        return self
+    }
+    
     func open(message: Int) {
         guard let container = slideMenuController() as? ContainerViewController,
             let sideMenu = container.leftViewController as? SidebarMenuTableViewController else {
@@ -273,7 +286,60 @@ extension UIViewController {
             return
         }
         let indexPath = IndexPath(row: 3, section: 1)
-        sideMenu.tableView(sideMenu.tableView, didSelectRowAt: indexPath)
+        sideMenu.open(at: indexPath) { controller in
+            guard let controller = controller as? ChatListTableViewController else {
+                return
+            }
+            controller.open(chat: message)
+        }
+    }
+    
+}
+
+extension UIImage {
+    
+    private convenience init?(data: Data?) {
+        guard let data = data else {
+            return nil
+        }
+        self.init(data: data)
+    }
+    
+    static func at(url: String) -> Promise<UIImage, AnyError> {
+        return async(qos: .userInitiated) {
+            guard let url = URL(string: url) else {
+                throw APIError.cannotPerformRequest
+            }
+            let key = url.path.replacingOccurrences(of: "/", with: "_")
+            let cache = FileCache(directory: "Images")
+            if let image = UIImage(data: cache.get(with: key, maxTime: .forever)) {
+                return image
+            }
+            guard let data = try? Data(contentsOf: url) else {
+                throw APIError.noData
+            }
+            guard let image = UIImage(data: data) else {
+                throw APIError.invalidData(data: data)
+            }
+            cache.store(data, with: key)
+            return image
+        }
+    }
+    
+}
+
+extension CGRect {
+    
+    var atZero: CGRect {
+        return CGRect(x: 0, y: 0, width: self.width, height: self.height)
+    }
+    
+}
+
+extension Array {
+    
+    func array(from index: Int) -> [Element] {
+        return array(withLast: count - index)
     }
     
 }

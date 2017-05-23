@@ -10,9 +10,9 @@ import UIKit
 import Flurry_iOS_SDK
 import Crashlytics
 
-import SpinKit
+import OneSignal
 
-import Toaster
+import SpinKit
 
 import Sweeft
 
@@ -306,6 +306,11 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             let doit = { () -> () in
                 BreakOut.shared.login(email: email, password: pass).onSuccess { _ in
                     CurrentUser.get().onSuccess { user in
+                        
+                        if let token = OneSignal.token {
+                            BreakOut.shared.sendNotificationToken(token: token)
+                        }
+                        
                         // Empty Textinputs
                         self.emailTextField.text = ""
                         self.passwordTextField.text = ""

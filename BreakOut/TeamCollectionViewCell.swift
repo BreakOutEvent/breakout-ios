@@ -18,11 +18,12 @@ class TeamCollectionViewCell: UICollectionViewCell {
         didSet {
             imageView.image = team.image?.image ?? #imageLiteral(resourceName: "emptyProfilePic")
             nameLabel.text = team.name
-            if let distance = team.distance, let money = team.sum {
-                statsLabel.text = "\(Int(distance)) km | \(String(format: "%.2f €", money))"
-            } else {
-                statsLabel.text = ""
-            }
+            statsLabel.text = team.names.join(with: ", ") { $0.firstname }
+//            if let distance = team.distance, let money = team.sum {
+//                statsLabel.text = "\(Int(distance)) km | \(String(format: "%.2f €", money))"
+//            } else {
+//                statsLabel.text = ""
+//            }
         }
     }
     

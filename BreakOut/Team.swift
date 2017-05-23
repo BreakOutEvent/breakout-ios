@@ -128,7 +128,7 @@ extension Team {
      - Returns: Promise of the teams
      */
     static func all(for event: Int, using api: BreakOut = .shared) -> Team.Results {
-        return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event])
+        return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event], maxCacheTime: .time(3 * 24 * 60 * 60))
     }
     
     /**

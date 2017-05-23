@@ -44,6 +44,10 @@ final class Video: Observable {
         return player != nil
     }
     
+    var isEmpty: Bool {
+        return (image?.isEmpty).? && video == nil
+    }
+    
     init(id: Int, image: Image?, url: String?) {
         self.id = id
         self.image = image

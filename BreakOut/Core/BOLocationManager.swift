@@ -79,6 +79,9 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
             Location.update(coordinates: coordiante, event: event, team: team).onSuccess { _ in
                 print("Location Sent!")
             }
+            .onError { _ in
+                LocationUploadQueue.shared.add(coordinates: coordiante)
+            }
         }
     }
     

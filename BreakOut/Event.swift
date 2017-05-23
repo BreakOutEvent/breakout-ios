@@ -57,7 +57,7 @@ extension Event {
      - Returns: Promise of the locations
      */
     static func all(using api: BreakOut = .shared) -> Event.Results {
-        return getAll(using: api, at: .event).nested { $0.sorted(descending: { $0.date }) }
+        return getAll(using: api, at: .event, maxCacheTime: .time(24.0 * 60.0 * 60.0)).nested { $0.sorted(descending: { $0.date }) }
     }
     
     /**

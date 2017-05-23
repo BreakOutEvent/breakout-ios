@@ -7,7 +7,6 @@
 //
 
 import Sweeft
-import OneSignal
 import UIKit
 
 /// Main Part Of Our API
@@ -59,9 +58,6 @@ extension BreakOut {
         return manager.authenticate(at: .login, username: email, password: password, scope: "read", "write").nested { (auth: OAuth) in
             BreakOutAuth.value = auth
             self.auth = auth
-            if let token = OneSignal.token {
-                self.sendNotificationToken(token: token)
-            }
             return auth
         }
     }
@@ -80,7 +76,9 @@ extension BreakOut {
      Will erase any persisted login data
      */
     func logout() {
-        removeNotificationToken()
+        if CurrentUser.shared.isLoggedIn() {
+            removeNotificationToken()
+        }
         BreakOutAuth.value = nil
         auth = NoAuth.standard
     }

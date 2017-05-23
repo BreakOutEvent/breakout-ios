@@ -13,10 +13,6 @@ import Fabric
 import Crashlytics
 import Flurry_iOS_SDK
 
-import Firebase
-
-import TouchVisualizer
-
 import OneSignal
 
 import Sweeft
@@ -28,7 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        print(emoji(for: "spain"))
+        DispatchQoS.userInitiated >>> {
+            FileCache(directory: "Images").clean(everythingOlder: 7 * 24 * 60 * 60) // Clean up the cache off items older than a week
+        }
         
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
         
@@ -52,8 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         
-        FIRApp.configure()
-        
         #if DEBUG
             //Instabug Setup
 //            Instabug.start(withToken: PrivateConstants.instabugAPIToken, invocationEvent: IBGInvocationEvent.twoFingersSwipeLeft)
@@ -66,14 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Flurry Setup
         Flurry.startSession(PrivateConstants.flurryAPIToken);
         
-        // Network Debugging
-        #if DEBUG
-            Visualizer.start()
-        #endif
-        
         BOLocationManager.shared.start()
         
-        FeatureFlagManager.shared.downloadCurrentFeatureFlagSetup()
+//        FeatureFlagManager.shared.downloadCurrentFeatureFlagSetup()
         
         let settings = UIApplication.shared.currentUserNotificationSettings
         
@@ -92,18 +83,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Answers.logCustomEvent(withName: "/Delegate/didLaunch/LocalNotificationKey", customAttributes: [:])
         }
         
+        LocationUploadQueue.shared.process()
+        
         return true
     }
     
     func handleReceived(notification: OSNotification?) {
-        print(notification)
+        guard let notification = notification, notification.wasAppInFocus else {
+            return
+        }
+        let container = UIApplication.shared.keyWindow?.rootViewController as? ContainerViewController
+        if let controller = container?.mainViewController?.current as? ChatListTableViewController {
+            controller.loadMessages()
+        }
+        if let controller = container?.mainViewController?.current as? ChatViewController,
+            let id = notification.payload.additionalData["id"] as? Int,
+            controller.chat.id == id {
+            
+            controller.refresh()
+        }
     }
     
     func handleAction(notification: OSNotificationOpenedResult?) {
+        
+        // TODO: Handle no view controller present
+        
         guard let id = notification?.notification.payload.additionalData["id"] as? Int else {
             return
         }
-        UIApplication.shared.keyWindow?.rootViewController?.open(message: id)
+        0.5 >>> {
+            UIApplication.shared.keyWindow?.rootViewController?.open(message: id)
+        }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {

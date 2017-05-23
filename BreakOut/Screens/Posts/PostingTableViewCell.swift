@@ -29,6 +29,7 @@ class PostingTableViewCell: UITableViewCell {
     @IBOutlet weak var challengeLabel: UILabel!
     @IBOutlet weak var playOverlay: UIView!
     @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var mediaStatusLabel: UILabel!
     
     var videoController: AVPlayerViewController = AVPlayerViewController()
     var posting: Post! {
@@ -50,11 +51,29 @@ class PostingTableViewCell: UITableViewCell {
     var images: [Image] = .empty {
         didSet {
             if let image = images.first {
-                postingPictureImageView.image = image.image ?? #imageLiteral(resourceName: "image_placeholder")
-                postingMediaView.isHidden = false
+                use(image: image)
             } else {
                 postingMediaView.isHidden = true
+                mediaStatusLabel.isHidden = true
             }
+        }
+    }
+    
+    func use(image: Image) {
+        let media = MediaItem.image(image)
+        switch media.state(uploadedAt: posting.date) {
+        case .ready:
+            postingPictureImageView.image = image.image ?? #imageLiteral(resourceName: "image_placeholder")
+            postingMediaView.isHidden = false
+            mediaStatusLabel.isHidden = true
+        case .processing:
+            mediaStatusLabel.text = "media_processing".local
+            postingMediaView.isHidden = true
+            mediaStatusLabel.isHidden = false
+        case .failed:
+            mediaStatusLabel.text = "media_failed".local
+            postingMediaView.isHidden = true
+            mediaStatusLabel.isHidden = false
         }
     }
     

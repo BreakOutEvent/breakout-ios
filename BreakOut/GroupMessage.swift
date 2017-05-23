@@ -30,8 +30,8 @@ extension GroupMessage {
         return members.join()
     }
     
-    var messageGroups: [(Int, [Message])] {
-        return messages.reduce([]) { groups, message in
+    func messageGroups(from index: Int = 0) ->  [(Int, [Message])] {
+        return messages.array(from: index).reduce([]) { groups, message in
             var groups = groups
             guard let last = groups.popLast() else {
                 return [(message.participant, [message])]

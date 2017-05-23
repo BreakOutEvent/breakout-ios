@@ -67,8 +67,8 @@ class ProfileHeaderView: HeaderView {
         
         let logoutOption = UIAlertAction(title: "logout".local, style: .destructive) { alert in
             optionMenu.dismiss(animated: true, completion: nil)
-            CurrentUser.resetUser()
             BreakOut.shared.logout()
+            CurrentUser.resetUser()
             NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_PRESENT_WELCOME_SCREEN), object: nil)
         }
         

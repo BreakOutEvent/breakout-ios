@@ -125,6 +125,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             let controller = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeScreenViewController")
             slideMenuController.changeMainViewController(controller!, close: true)
         }
+        self.selected = nil
     }
     
     func showAllPostingsTVC() {
@@ -178,6 +179,10 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     
 // MARK: - TableView Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        open(at: indexPath)
+    }
+    
+    func open(at indexPath: IndexPath, completion: ((UIViewController) -> ())? = nil) {
         let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         
         if indexPath != IndexPath(row: 1, section: 1) {
@@ -197,7 +202,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             let navigationController = UINavigationController(rootViewController: controller!)
             
             if cell.reuseIdentifier == "NewPostingTableViewController" {
-                slideMenuController.mainViewController?.present(navigationController, animated: true, completion: nil)
+                slideMenuController.mainViewController?.present(navigationController, animated: true) {
+                    completion?(controller!)
+                }
                 return
             }
             
@@ -207,6 +214,10 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
                 let internalWebViewController = controller as! InternalWebViewController
                 internalWebViewController.openWebpageWithUrl("https://break-out.org/next-steps")
             }
+            
+            completion?(controller!)
+            
         }
     }
+    
 }

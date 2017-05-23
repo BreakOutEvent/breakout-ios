@@ -6,6 +6,9 @@
   Copyright © 2016 BreakOut. All rights reserved.
 */
 
+"media_processing" = "Medien verarbeiten noch";
+"media_failed" = "Medien hochladen fehlgeschlagen";
+
 "logout" = "Ausloggen";
 
 "selectAll" = "Alle Auswählen";
@@ -97,16 +100,16 @@
 
 // Help Screen
 "helpMedicalEmergencyTitle" = "Medizinischer Notfall";
-"helpMedicalEmergency" = "Ruhe bewahren! \n\n• Euronotruf informieren unter 112 \n• Der Euronotruf kann auch Englisch \n• Erste Hilfe leisten \n• BreakOut Informieren unter +49 (0) 89 8986 0579 \n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+"helpMedicalEmergency" = "Ruhe bewahren! \n\n• Euronotruf informieren unter 112 \n• Der Euronotruf kann auch Englisch \n• Erste Hilfe leisten \n• BreakOut Informieren unter +49 211-97531979 \n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
 
 "helpPoliceEmergencyTitle" = "Polizeilicher Notfall";
-"helpPoliceEmergency" = "Ruhe bewahren!\n\n• Euronotruf informieren unter 112\n• Der Euronotruf kann auch Englisch\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+"helpPoliceEmergency" = "Ruhe bewahren!\n\n• Euronotruf informieren unter 112\n• Der Euronotruf kann auch Englisch\n• BreakOut Informieren unter +49 211-97531979\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
 
 "helpDiplomaticEmergencyTitle" = "Dipolomatischer Notfall im Ausland";
-"helpDiplomaticEmergency" = "Ruhe bewahren!\n\n• Notdienst des Auswertigen Amtes informieren +49 (0) 30 1817 0\n • Der Notdienst spricht natürlich Deutsch und Englisch\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+"helpDiplomaticEmergency" = "Ruhe bewahren!\n\n• Notdienst des Auswertigen Amtes informieren +49 (0) 30 1817 0\n • Der Notdienst spricht natürlich Deutsch und Englisch\n• BreakOut Informieren unter +49 211-97531979\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
 
 "helpTeampartnerEmergencyTitle" = "Teampartner verloren";
-"helpTeampartnerEmergency" = "Ruhe bewahren!\n\n• Zurück gehen zu dem letzten Ort an dem Ihr gemeinsam wart\n• Teampartner versuchen an zu rufen\n• BreakOut Informieren unter +49 (0) 89 8986 0579\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
+"helpTeampartnerEmergency" = "Ruhe bewahren!\n\n• Zurück gehen zu dem letzten Ort an dem Ihr gemeinsam wart\n• Teampartner versuchen an zu rufen\n• BreakOut Informieren unter +49 211-97531979\n• Wir sind zwar nicht vor Ort aber können Fernhilfe leisten";
 
 "helpOtherEmergencyTitle" = "Alle anderen Notfälle oder Probleme";
-"helpOtherEmergency" = "Ruhe bewahren!\n\nIhr könnt während den 36 Stunden rund um die Uhr BreakOut unter +49 (0) 89 8986 0579 erreichen. Wir sind zwar nicht vor Ort aber mit schnellem Internet, viel Tramp & Reise Erfahrung und diplomatischem Geschick ausgestattet und können euch so bestimmt unterstützen.";
+"helpOtherEmergency" = "Ruhe bewahren!\n\nIhr könnt während den 36 Stunden rund um die Uhr BreakOut unter +49 211-97531979 erreichen. Wir sind zwar nicht vor Ort aber mit schnellem Internet, viel Tramp & Reise Erfahrung und diplomatischem Geschick ausgestattet und können euch so bestimmt unterstützen.";

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Sweeft
 
 class ChatListTableViewController: UITableViewController {
     
@@ -43,8 +44,8 @@ class ChatListTableViewController: UITableViewController {
     func loadMessages() {
         GroupMessage.all().onSuccess { chats in
             self.chats = chats.sorted(descending: { $0.lastActivity ?? Date.distantPast })
-            self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
         }
         .onError { error in
             self.refreshControl?.endRefreshing()
@@ -68,16 +69,7 @@ class ChatListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let controller = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
-        
-        if let controller = controller as? ChatViewController {
-            controller.chat = chats[indexPath.row]
-        }
-        
-        self.navigationController?.pushViewController(controller, animated: true)
+        open(chat: chats[indexPath.row])
     }
     
     func handleRefresh(_ refreshControll: UIRefreshControl) {
@@ -90,6 +82,22 @@ class ChatListTableViewController: UITableViewController {
         let controller = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
         
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func open(chat id: Int) {
+        GroupMessage.groupMessage(with: id).onSuccess(call: self.open <** false)
+    }
+    
+    func open(chat: GroupMessage, animated: Bool = true) {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let controller = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
+        
+        if let controller = controller as? ChatViewController {
+            controller.chat = chat
+        }
+        
+        self.navigationController?.pushViewController(controller, animated: animated)
     }
     
 }

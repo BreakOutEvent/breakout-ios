@@ -8,6 +8,12 @@
 
 import Sweeft
 
+enum MediaState {
+    case processing
+    case failed
+    case ready
+}
+
 enum MediaItem {
     case image(Image)
     case video(Video)
@@ -40,6 +46,27 @@ enum MediaItem {
             return video.image
         }
     }
+    
+    var isEmpty: Bool {
+        switch self {
+        case .image(let image):
+            return image.isEmpty
+        case .video(let video):
+            return video.isEmpty
+        }
+    }
+    
+    func state(uploadedAt date: Date) -> MediaState {
+        guard isEmpty else {
+            return .ready
+        }
+        if Date.now.timeIntervalSince(date) < 10 * 60 {
+            return .processing
+        } else {
+            return .failed
+        }
+    }
+    
 }
 
 extension MediaItem: Deserializable {
