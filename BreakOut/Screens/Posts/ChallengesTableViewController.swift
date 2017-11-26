@@ -28,11 +28,11 @@ class ChallengesTableViewController: UITableViewController {
         
         let event = CurrentUser.shared.currentTeamId()
         let team = CurrentUser.shared.currentTeamId()
-        Challenge.get(event: event, team: team).onSuccess { challenges in
+        Challenge.get(event: event, team: team).onSuccess(in: .main) { challenges in
             self.challenges = challenges
             self.tableView.reloadData()
         }
-        .onError { error in
+        .onError(in: .main) { error in
             print(error)
         }
         

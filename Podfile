@@ -8,7 +8,7 @@ target 'BreakOut' do
     pod 'OneSignal', '>= 2.5.2', '< 3.0'
 
     # Model and API Calls
-    pod 'Sweeft', '~> 0.9'
+    pod 'Sweeft', '~> 0.14.4'
 
     # Analytics
     pod 'Fabric', '~> 1.6.7'
@@ -19,9 +19,6 @@ target 'BreakOut' do
 
     # Database
     pod 'Pantry' # Want to remove this
-
-    # Networking
-    pod 'Alamofire', '~> 4.0' # Should remove this soon
 
     # UI
     pod 'SpinKit', '~> 1.2.0' # I still have no idea why we have this

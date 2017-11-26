@@ -51,8 +51,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func loadAllLocations(for events: [Int]) -> Promise<LocationsByEvent, APIError> {
         return BulkPromise(promises: events => { event in
-            return TeamLocations.all(for: event).nested { (event, $0) }
-        }).nested { $0.dictionary { $0 } }
+            return TeamLocations.all(for: event).map { (event, $0) }
+        }).map { $0.dictionary { $0 } }
     }
     
     @IBOutlet weak var filterViewOffset: NSLayoutConstraint!
@@ -103,7 +103,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadAllLocationsForEvent(_ eventId: Int) {
-        TeamLocations.all(for: eventId).onSuccess { locations in
+        TeamLocations.all(for: eventId).onSuccess(in: .main) { locations in
             self.locationsByEvent[eventId] = locations
         }
     }
@@ -111,12 +111,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     func loadAllLocationsForTeam(team: Team) {
         self.teamController?.navigationController?.navigationBar.startSpining()
         
-        TeamLocations.locations(forTeam: team).onSuccess { locations in
+        TeamLocations.locations(forTeam: team).onSuccess(in: .main) { locations in
             self.teamController?.navigationController?.navigationBar.stopSpinning()
             self.selectedEvents = [team.event]
             self.locationsByEvent = [team.event : [locations]]
         }
-        .onError { _ in
+        .onError(in: .main) { _ in
             self.teamController?.navigationController?.navigationBar.stopSpinning()
         }
     }
@@ -203,7 +203,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let mapLocationAnnotation = view.annotation as! MapLocation
         let button = view.rightCalloutAccessoryView as? CommentButton
         button?.isLoading = true
-        mapLocationAnnotation.post().onSuccess { posting in
+        mapLocationAnnotation.post().onSuccess(in: .main) { posting in
             button?.isLoading = false
             let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             
@@ -255,11 +255,11 @@ extension MapViewController: EventSelectorDelegate {
         selectedEvents = selected
         navigationController?.navigationBar.startSpining()
         let needed = selected - locationsByEvent.keys.array
-        loadAllLocations(for: needed.array).onSuccess { locations in
+        loadAllLocations(for: needed.array).onSuccess(in: .main) { locations in
             self.navigationController?.navigationBar.stopSpinning()
             self.locationsByEvent = self.locationsByEvent + locations
         }
-        .onError { _ in
+        .onError(in: .main) { _ in
             self.navigationController?.navigationBar.stopSpinning()
         }
     }

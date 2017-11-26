@@ -113,10 +113,10 @@ final class CurrentUser: NSObject {
         if self.isLoggedIn() {
             BONetworkIndicator.si.increaseLoading()
             
-            CurrentUser.get().onSuccess { _ in
+            CurrentUser.get().onSuccess(in: .main) { _ in
                 BONetworkIndicator.si.decreaseLoading()
             }
-            .onError { error in
+            .onError(in: .main) { error in
                 BONetworkIndicator.si.decreaseLoading()
                 switch error {
                 case .invalidStatus(401, _), .invalidStatus(code: 400, _):
@@ -135,7 +135,7 @@ final class CurrentUser: NSObject {
         return api.doJSONRequest(with: .post,
                                  to: .user,
                                  body: body,
-                                 acceptableStatusCodes: [200, 201]).nested { (json: JSON) in
+                                 acceptableStatusCodes: [200, 201]).map { (json: JSON) in
                                     
             self.set(with: json)
             self.email = email

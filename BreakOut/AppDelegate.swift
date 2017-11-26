@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         DispatchQoS.userInitiated >>> {
-            FileCache(directory: "Images").clean(everythingOlder: 7 * 24 * 60 * 60) // Clean up the cache off items older than a week
+//            FileCache(directory: "Images").clean(everythingOlder: 7 * 24 * 60 * 60) // Clean up the cache off items older than a week
         }
         
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]

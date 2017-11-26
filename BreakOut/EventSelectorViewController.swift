@@ -40,7 +40,7 @@ class EventSelectorViewController: UIViewController {
         effectView.clipsToBounds = true
         effectView.frame = blurView.bounds
         blurView.addSubview(effectView)
-        Event.all().onSuccess { events in
+        Event.all().onSuccess(in: .main) { events in
             self.events = events
             self.selected = events |> { $0.isCurrent } => { $0.id }
             self.updateDelegate()

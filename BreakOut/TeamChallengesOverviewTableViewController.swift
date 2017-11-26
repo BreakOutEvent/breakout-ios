@@ -33,7 +33,7 @@ class TeamChallengesOverviewTableViewController: UITableViewController {
     }
     
     func load() {
-        teamProfileController?.team?.challenges().onSuccess { challenges in
+        teamProfileController?.team?.challenges().onSuccess(in: .main) { challenges in
             self.remaining = challenges |> { !$0.completed }
             self.completed = challenges |> { $0.completed }
             self.tableView.reloadData()

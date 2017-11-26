@@ -61,7 +61,7 @@ class ChatViewController: NMessengerViewController {
     
     @discardableResult func update(promise: GroupMessage.Result) -> GroupMessage.Result {
         let previousCount = chat.messages.count
-        return promise.nested { (chat: GroupMessage) in
+        return promise.map { (chat: GroupMessage) in
             let new = self.cells(from: previousCount)
             self.messengerView.addMessages(new, scrollsToMessage: false)
             self.messengerView.scrollToLastMessage(animated: true)
@@ -129,10 +129,10 @@ class ChatViewController: NMessengerViewController {
     }
     
     func send(text: String, message: MessageNode) {
-        update(promise: chat.send(message: text)).onSuccess { _ in
+        update(promise: chat.send(message: text)).onSuccess(in: .main) { _ in
             self.stopSpinning()
         }
-        .onError { _ in
+        .onError(in: .main) { _ in
             self.inputBarView.textInputView.text = text
             self.stopSpinning()
         }
@@ -150,13 +150,13 @@ class ChatViewController: NMessengerViewController {
         message.currentViewController = self
         message.isIncomingMessage = false
         if chat == nil {
-            GroupMessage.create(with: addedParticipants).onSuccess { chat in
+            GroupMessage.create(with: addedParticipants).onSuccess(in: .main) { chat in
                 self.chat = chat
                 self.title = chat.title
                 self.send(text: text, message: message)
                 self.recepientsField.removeFromSuperview()
             }
-            .onError { _ in
+            .onError(in: .main) { _ in
                 self.inputBarView.textInputView.text = text
                 self.stopSpinning()
             }
@@ -193,10 +193,10 @@ extension ChatViewController: BubbleConfigurationProtocol {
 extension ChatViewController: KSTokenViewDelegate {
     
     func tokenView(_ token: KSTokenView, performSearchWithString string: String, completion: ((Array<AnyObject>) -> Void)?) {
-        Participant.search(for: string).onSuccess { participants in
+        Participant.search(for: string).onSuccess(in: .main) { participants in
             completion?(participants)
         }
-        .onError { _ in
+        .onError(in: .main) { _ in
             completion?([])
         }
     }

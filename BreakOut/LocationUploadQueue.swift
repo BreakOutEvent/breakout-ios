@@ -53,7 +53,7 @@ class LocationUploadQueue {
                           arguments: ["event": event, "team": team],
                           auth: api.auth,
                           body: location,
-                          acceptableStatusCodes: [200, 201]).onSuccess { json in
+                          acceptableStatusCodes: [200, 201]).onSuccess(in: .main) { json in
                             
             self.locations.remove(at: 0)
             self.process(event: event, team: team, using: api)

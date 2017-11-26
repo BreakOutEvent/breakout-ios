@@ -206,16 +206,16 @@ extension Post {
                                  to: .postings,
                                  auth: api.auth,
                                  body: post.json,
-                                 acceptableStatusCodes: [200, 201]).nested { json, promise in
+                                 acceptableStatusCodes: [200, 201]).flatMap { json in
 
             if let post = Post(from: json) {
-                media => { item, index in
+                media.withIndex => { item, index in
                     item.upload(using: json["media"][index])
                 }
                 challenge?.set(status: .proven, for: post)
-                promise.success(with: post)
+                return .successful(with: post)
             } else {
-                promise.error(with: .mappingError(json: json))
+                return .errored(with: .mappingError(json: json))
             }
         }
     }
@@ -251,7 +251,7 @@ extension Post {
                                  arguments: ["id": id],
                                  auth: api.auth,
                                  body: body,
-                                 acceptableStatusCodes: [200, 201]).nested { (json: JSON) in
+                                 acceptableStatusCodes: [200, 201]).map { (json: JSON) in
                 self.likes += 1
                 self.liked = true
                 self.hasChanged()
@@ -270,7 +270,7 @@ extension Post {
         return api.doJSONRequest(with: .delete,
                                  to: .likePosting,
                                  arguments: ["6id": id],
-                                 auth: api.auth).nested { (json: JSON) in
+                                 auth: api.auth).map { (json: JSON) in
             
             self.likes -= 1
             self.liked = false
@@ -294,12 +294,12 @@ extension Post {
                             arguments: ["id": self.id],
                             auth: api.auth,
                             body: comment.json,
-                            acceptableStatusCodes: [201]).nested { (comment: Comment) in
+                            acceptableStatusCodes: [201]).map { (comment: Comment) in
                                 
-                                comment >>> **self.hasChanged
-                                self.comments.append(comment)
-                                self.hasChanged()
-                                return comment
+            comment >>> **self.hasChanged
+            self.comments.append(comment)
+            self.hasChanged()
+            return comment
         }
     }
     

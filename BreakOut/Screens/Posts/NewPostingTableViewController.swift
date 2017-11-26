@@ -213,7 +213,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
                       city: self.newCity,
                       challenge: self.newChallenge,
                       media: media)
-            .onSuccess { post in
+            .onSuccess(in: .main) { post in
                 
                 activity?.success {
                     self.resetAllInputs()
@@ -235,7 +235,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
                 }
                 
             }
-            .onError { _ in
+            .onError(in: .main) { _ in
                 activity?.error()
             }
         }

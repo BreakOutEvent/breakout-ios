@@ -42,12 +42,12 @@ class ChatListTableViewController: UITableViewController {
     }
     
     func loadMessages() {
-        GroupMessage.all().onSuccess { chats in
+        GroupMessage.all().onSuccess(in: .main) { chats in
             self.chats = chats.sorted(descending: { $0.lastActivity ?? Date.distantPast })
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
-        .onError { error in
+        .onError(in: .main) { error in
             self.refreshControl?.endRefreshing()
         }
     }

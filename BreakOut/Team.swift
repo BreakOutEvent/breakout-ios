@@ -155,7 +155,7 @@ extension Team {
      - Returns: Promise of the teams
      */
     static func all(using api: BreakOut = .shared) -> Team.Results {
-        return Event.all().next { all(for: $0 => { $0.id }, using: api) }
+        return Event.all().flatMap { all(for: $0 => { $0.id }, using: api) }
     }
     
     /**
@@ -166,7 +166,7 @@ extension Team {
      - Returns: Promise of the teams
      */
     static func currentTeams(using api: BreakOut = .shared) -> Team.Results {
-        return Event.currentId(using: api).next(all <** api)
+        return Event.currentId(using: api).flatMap(all <** api)
     }
     
     /**
@@ -193,13 +193,13 @@ extension Team {
                 image?.upload(itemWith: id, using: token)
             }
         }
-        return promise.nested { json, promise in
+        return promise.flatMap { json in
             if let team = json.team {
                 CurrentUser.shared.teamid = team.id
                 CurrentUser.shared.storeInNSUserDefaults()
-                promise.success(with: team)
+                return .successful(with: team)
             } else {
-                promise.error(with: .mappingError(json: json))
+                return .errored(with: .mappingError(json: json))
             }
         }
     }

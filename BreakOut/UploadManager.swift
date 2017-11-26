@@ -8,7 +8,19 @@
 
 import AVFoundation
 import Sweeft
-import Alamofire
+
+struct MediaAPI: API {
+    
+    enum Endpoint: String, APIEndpoint {
+        case upload = ""
+    }
+    
+    static var shared: MediaAPI = {
+        return .init(baseURL: "https://media.break-out.org")
+    }()
+    
+    let baseURL: String
+}
 
 enum UploadManager {
     
@@ -23,24 +35,18 @@ enum UploadManager {
      
      */
     static func upload(data: Data, id: Int, token: String, filename: String, type: String) {
-        Alamofire.upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: "file", fileName: filename, mimeType: type)
-            if let data = id.description.data(using: String.Encoding.utf8, allowLossyConversion: false) {
-                multipartFormData.append(data, withName: "id")
-            }
-        }, usingThreshold: UInt64(10*1024*1024), to: "https://media.break-out.org/", method: .post, headers: ["X-UPLOAD-TOKEN": token]) { encodingResult in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.responseString() { (response) in
-                    if response.result.error != nil {
-                        // TODO: Find a way to queue it again
-                    }
-                    print(response.data?.string ?? "")
-                }
-            case .failure(let encodingError):
-                print(encodingError)
-                // Queue it again here
-            }
+        
+        var form = MultiformData()
+        form[filename] = MultiformFile(data: data, mimeType: type)
+        form["id"] = String(id)
+        
+        MediaAPI.shared.doRepresentedRequest(with: .post,
+                                             to: .upload,
+                                             headers: ["X-UPLOAD-TOKEN": token],
+                                             body: form,
+                                             acceptableStatusCodes: [200, 201]).onResult { (result: Result<Data, APIError>) in
+            
+            print(result)
         }
     }
     

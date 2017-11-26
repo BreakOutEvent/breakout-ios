@@ -62,11 +62,11 @@ class FeatureFlagManager: NSObject {
     }
     
     func downloadCurrentFeatureFlagSetup() {
-        Feature.all().onSuccess { features in
+        Feature.all().onSuccess(in: .main) { features in
             features => Feature.pack
             Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful": true])
         }
-        .onError { error in
+        .onError(in: .main) { error in
             Flurry.endTimedEvent("/featureFlags/download", withParameters: ["successful": false])
         }
         Pantry.pack(true, key: "featureFlag")

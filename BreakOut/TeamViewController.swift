@@ -84,7 +84,7 @@ final class TeamViewController: PageboyViewController, Observable {
         
         if team == nil {
             if let partialTeam = partialTeam {
-                partialTeam.fetch().onSuccess { team in
+                partialTeam.fetch().onSuccess(in: .main) { team in
                     self.team = team
                     self.title = team.name
                     self.hasChanged()
@@ -99,7 +99,7 @@ final class TeamViewController: PageboyViewController, Observable {
                     self.addLeftBarButtonWithImage(barButtonImage!)
                 }
                 
-                Team.team(with: CurrentUser.shared.currentTeamId(), in: CurrentUser.shared.currentEventId()).onSuccess { team in
+                Team.team(with: CurrentUser.shared.currentTeamId(), in: CurrentUser.shared.currentEventId()).onSuccess(in: .main) { team in
                     self.team = team
                     self.title = team.name
                     self.hasChanged()

@@ -9,40 +9,36 @@
 import Sweeft
 import UIKit
 
-/// Main Part Of Our API
-class BreakOut: API {
+class BreakOut: OAuthAPI<BreakOutEndpoint, AppDefaults> {
     
-    typealias Endpoint = BreakOutEndpoint
-    
-    var baseURL: String
-    
-    /// Current Authentication
-    lazy var auth: Auth = {
-        var oauth = BreakOutAuth.value
-        oauth?.onChange { oauth in
-            BreakOutAuth.value = oauth
-        }
-        return oauth ?? NoAuth.standard
-    }()
-    
-    /// Shared instance of the API
     static var shared: BreakOut = {
-        return BreakOut(baseURL: PrivateConstants().backendURL())
+        return .init(baseURL: PrivateConstants().backendURL())
     }()
     
     init(baseURL: String) {
-        self.baseURL = baseURL
+        super.init(baseURL: baseURL,
+                   storage: .keychain,
+                   tokenKey: .login,
+                   authEndpoint: .login,
+                   clientID: "breakout_app",
+                   clientSecret: PrivateConstants().oAuthSecret(),
+                   useBasicHttp: true,
+                   useJSON: false)
+    }
+    
+    /**
+     Will erase any persisted login data
+     */
+    override func logout() {
+        if CurrentUser.shared.isLoggedIn() {
+            removeNotificationToken()
+        }
+        super.logout()
     }
     
 }
 
 extension BreakOut {
-    
-    fileprivate struct BreakOutAuth: OptionalStatus {
-        typealias Value = OAuth
-        static var storage: Storage = .keychain
-        static var key: AppDefaults = .login
-    }
     
     /**
      Will Login using OAuth and store it for persistance.
@@ -53,13 +49,10 @@ extension BreakOut {
      
      - Returns: Promise of the Auth Object
      */
-    func login(email: String, password: String) -> OAuth.Result {
-        let manager = self.oauthManager(clientID: "breakout_app", secret: PrivateConstants().oAuthSecret())
-        return manager.authenticate(at: .login, username: email, password: password, scope: "read", "write").nested { (auth: OAuth) in
-            BreakOutAuth.value = auth
-            self.auth = auth
-            return auth
-        }
+    func login(email: String, password: String) -> Response<OAuth> {
+        return authenticate(username: email,
+                            password: password,
+                            scope: "read", "write")
     }
     
     @discardableResult func sendNotificationToken(token: String, for user: CurrentUser = .shared) -> JSON.Result {
@@ -70,17 +63,6 @@ extension BreakOut {
     
     @discardableResult func removeNotificationToken(for user: CurrentUser = .shared) -> JSON.Result {
         return doJSONRequest(with: .delete, to: .notificationToken, arguments: ["id": user.id], auth: auth)
-    }
-    
-    /**
-     Will erase any persisted login data
-     */
-    func logout() {
-        if CurrentUser.shared.isLoggedIn() {
-            removeNotificationToken()
-        }
-        BreakOutAuth.value = nil
-        auth = NoAuth.standard
     }
     
 }

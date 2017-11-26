@@ -392,7 +392,7 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
     }
     
     func getGenderByFirstname() {
-        Gender.gender(for: self.firstNameTextfield.text.?).onSuccess { gender in
+        Gender.gender(for: self.firstNameTextfield.text.?).onSuccess(in: .main) { gender in
             self.genderSegmentedControl.selectedSegmentIndex = gender.hashValue
         }
     }
@@ -424,13 +424,13 @@ class BecomeParticipantTableViewController: UITableViewController, UITextFieldDe
             
             Participant.become(firstName: first, lastName: last, gender: genderAsString,
                                email: email, emergencyNumber: emergency,
-                               phone: phone, shirtSize: shirt).onSuccess { _ in
+                               phone: phone, shirtSize: shirt).onSuccess(in: .main) { _ in
                     
                     self.setAllInputsToEnabled(true)
                     self.loadingHUD.hide(true)
                     self.performSegue(withIdentifier: "showJoinTeamViewController", sender: self)
                 }
-                .onError { _ in
+                .onError(in: .main) { _ in
                     // Activate Inputs again
                     self.setAllInputsToEnabled(true)
                     

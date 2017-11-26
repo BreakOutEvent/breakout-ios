@@ -245,7 +245,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         let activity = BOActivityOverlayController.create()
         activity?.modalTransitionStyle = .crossDissolve
         self.present(activity!, animated: true) {
-            CurrentUser.shared.register(email: self.emailTextField.text.?, password: self.passwordTextField.text.?).onSuccess { _ in
+            CurrentUser.shared.register(email: self.emailTextField.text.?, password: self.passwordTextField.text.?).onSuccess(in: .main) { _ in
                 // Tracking
                 Flurry.logEvent("/registration/completed_successful")
                 Answers.logSignUp(withMethod: "e-mail",
@@ -254,7 +254,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 
                 self.startLoginRequest(overlay: activity)
             }
-            .onError { error in
+            .onError(in: .main) { error in
                 
                 self.enableInputs(true)
                 activity?.error {
@@ -304,8 +304,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             let activity = overlay ?? BOActivityOverlayController.create()
             self.enableInputs(false)
             let doit = { () -> () in
-                BreakOut.shared.login(email: email, password: pass).onSuccess { _ in
-                    CurrentUser.get().onSuccess { user in
+                BreakOut.shared.login(email: email, password: pass).onSuccess(in: .main) { _ in
+                    CurrentUser.get().onSuccess(in: .main) { user in
                         
                         if let token = OneSignal.token {
                             BreakOut.shared.sendNotificationToken(token: token)
@@ -326,10 +326,10 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                         }
                     }
                 }
-                .onError { error in
+                .onError(in: .main) { error in
                     activity?.error {
                         switch error {
-                        case .invalidStatus(401, let data):
+                        case .invalidStatus(_, let data):
                             print("Incorrect credentials")
                             print("Data: \(data?.string ?? "")")
                         default:

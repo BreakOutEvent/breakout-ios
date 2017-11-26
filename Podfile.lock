@@ -1,5 +1,4 @@
 PODS:
-  - Alamofire (4.4.0)
   - AsyncDisplayKit (1.9.92):
     - AsyncDisplayKit/PINRemoteImage (= 1.9.92)
   - AsyncDisplayKit/ASDealloc2MainObject (1.9.92)
@@ -34,10 +33,9 @@ PODS:
   - SlideMenuControllerSwift (3.0.1)
   - SpinKit (1.2.0)
   - StaticDataTableViewController (2.0.5)
-  - Sweeft (0.9.0)
+  - Sweeft (0.14.4)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.0)
   - Crashlytics (~> 3.7.0)
   - DTPhotoViewerController
   - Fabric (~> 1.6.7)
@@ -52,7 +50,7 @@ DEPENDENCIES:
   - SlideMenuControllerSwift (~> 3.0.0)
   - SpinKit (~> 1.2.0)
   - StaticDataTableViewController (~> 2.0)
-  - Sweeft (~> 0.9)
+  - Sweeft (~> 0.14.4)
 
 EXTERNAL SOURCES:
   MDGroupAvatarView:
@@ -64,7 +62,6 @@ CHECKOUT OPTIONS:
     :git: https://github.com/mathiasquintero/MDGroupAvatarView.git
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   AsyncDisplayKit: 49d94f5739669d666ff7cdc3430f43f0b2cfbeaf
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   DTPhotoViewerController: 12769a5dba1d2e2147a058111e7d6f0188de6944
@@ -83,8 +80,8 @@ SPEC CHECKSUMS:
   SlideMenuControllerSwift: 9a163b16d54afab734add42858cba7ef7c307755
   SpinKit: 65906a8b534a4e14cbfd3f8b0b6c329131faef4a
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
-  Sweeft: 83fbf575c1edd3666689a74d21ce37b136dd99b2
+  Sweeft: 4c93caa9a21c2e2b5d8fb29df91133c55c6ff326
 
-PODFILE CHECKSUM: 294eafebbfe457b6d28f151482f61c7dd057f9b0
+PODFILE CHECKSUM: 7bdacf84c19cb7e74e7e1d41131298e56d1f3683
 
 COCOAPODS: 1.4.0.beta.1

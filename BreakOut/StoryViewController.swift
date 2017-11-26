@@ -39,7 +39,7 @@ class StoryViewController: UIViewController, UIScrollViewDelegate, UICollectionV
         collectionView.frame = view.frame
         view.addSubview(collectionView)
         
-        team.posts().onSuccess { posts in
+        team.posts().onSuccess(in: .main) { posts in
             let media = posts.flatMap { $0.media }
             self.media = media.array(withFirst: 5).flatMap { $0.image }
             self.setUpPagingView()

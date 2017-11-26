@@ -244,7 +244,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
 // MARK: - API Calls
     
     func getAllEventsRequest() {
-        Event.all().onSuccess { events in
+        Event.all().onSuccess(in: .main) { events in
             self.eventDataSourceArray = events
             self.setupEventPicker()
         }
@@ -261,7 +261,7 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         if let name = teamNameTextfield.text, let currentEvent = eventCurrentlySelected {
             let eventID: Int = self.eventDataSourceArray[currentEvent].id
             
-            team.invite(name: name, to: eventID).onSuccess { json in
+            team.invite(name: name, to: eventID).onSuccess(in: .main) { json in
                 print(json)
             }
         }
@@ -280,13 +280,13 @@ class CreateTeamTableViewController: UITableViewController, UIImagePickerControl
         if let name = teamNameTextfield.text, let currentEvent = eventCurrentlySelected {
             let eventID: Int = self.eventDataSourceArray[currentEvent].id
             
-            Team.create(name: name, event: eventID, image: chosenImage).onSuccess { team in
+            Team.create(name: name, event: eventID, image: chosenImage).onSuccess(in: .main) { team in
                 self.sendInvitationRequest(team)
                 self.setAllInputsToEnabled(true)
                 self.loadingHUD.hide(true)
                 self.dismiss(animated: true, completion: nil)
             }
-            .onError { error in
+            .onError(in: .main) { error in
                 self.setAllInputsToEnabled(true)
                 self.loadingHUD.hide(true)
             }

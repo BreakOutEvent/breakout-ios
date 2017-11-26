@@ -141,7 +141,7 @@ extension AllTeamsCollectionViewController: EventSelectorDelegate {
         selectedEvents = selected
         let needed = selected - teamsByEvent.keys.array
         
-        Team.byEvents(needed.array).onSuccess { teams in
+        Team.byEvents(needed.array).onSuccess(in: .main) { teams in
             self.loadingActivityIndicator.stopAnimating()
             let images = teams.flatMap({ $0 }) ==> { $0.image }
             images >>> **self.collectionView.reloadData
@@ -149,7 +149,7 @@ extension AllTeamsCollectionViewController: EventSelectorDelegate {
             let items = new >>= id
             self.teamsByEvent = self.teamsByEvent + items
         }
-        .onError { _ in
+        .onError(in: .main) { _ in
             self.loadingActivityIndicator.stopAnimating()
         }
     }

@@ -57,7 +57,9 @@ extension Event {
      - Returns: Promise of the locations
      */
     static func all(using api: BreakOut = .shared) -> Event.Results {
-        return getAll(using: api, at: .event, maxCacheTime: .time(24.0 * 60.0 * 60.0)).nested { $0.sorted(descending: { $0.date }) }
+        return getAll(using: api,
+                      at: .event,
+                      maxCacheTime: .time(24.0 * 60.0 * 60.0)).map { $0.sorted(descending: { $0.date }) }
     }
     
     /**
@@ -68,7 +70,7 @@ extension Event {
      - Returns: Promise of the locations
      */
     static func current(using api: BreakOut = .shared) -> Event.Results {
-        return all().nested { $0 |> { $0.isCurrent } }
+        return all().map { $0 |> { $0.isCurrent } }
     }
     
     /**
@@ -83,11 +85,11 @@ extension Event {
         if event > -1 {
             return .successful(with: event)
         }
-        return current(using: api).nested { events, promise in
+        return current(using: api).flatMap { events in
             guard let last = events.first?.id else {
-                return promise.error(with: .noData)
+                return .errored(with: .noData)
             }
-            promise.success(with: last)
+            return .successful(with: last)
         }
     }
     

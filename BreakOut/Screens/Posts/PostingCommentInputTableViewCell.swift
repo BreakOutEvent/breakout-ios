@@ -44,12 +44,12 @@ class PostingCommentInputTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     func send() {
         postButton.isLoading = true
-        post.comment(commentInputTextField.text.?).onSuccess { comment in
+        post.comment(commentInputTextField.text.?).onSuccess(in: .main) { comment in
             self.commentInputTextField.text = .empty
             self.postButton.isEnabled = false
             self.postButton.isLoading = false
         }
-        .onError { _ in
+        .onError(in: .main) { _ in
             self.postButton.isLoading = false
         }
     }

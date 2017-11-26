@@ -192,11 +192,11 @@ extension UIButton {
 extension Array {
     
     func skipping(oneInEvery n: Int) -> [Element] {
-        return self |> { $1 % n != 0 }
+        return self.withIndex |> { $1 % n != 0 } => { $0.0 }
     }
     
     func including(oneInEvery n: Int) -> [Element] {
-        return self |> { $1 % n == 0 }
+        return self.withIndex |> { $1 % n == 0 } => { $0.0 }
     }
     
 }

@@ -57,7 +57,7 @@ class TeamProfilePostingsTableViewController: UITableViewController {
     
     func load() {
         setImage()
-        team?.posts().onSuccess { posts in
+        team?.posts().onSuccess(in: .main) { posts in
             self.isLoading = false
             self.posts = posts
             posts >>> **self.tableView.reloadData

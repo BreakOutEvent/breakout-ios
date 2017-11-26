@@ -37,7 +37,10 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
     func loadPostingsFromBackend(_ page: Int = 0) {
         self.loadingCell(true)
         BONetworkIndicator.si.increaseLoading()
-        Post.get(page: page).onSuccess(call: self.add <** page).onError(call: **{
+        Post.get(page: page)
+            .onSuccess(in: .main, call: self.add <** page)
+            .onError(in: .main, call: **{
+                
             BONetworkIndicator.si.decreaseLoading()
             self.loadingCell(false)
             self.refreshControl?.endRefreshing()
