@@ -30,8 +30,8 @@ extension GroupMessage {
         return members.join()
     }
     
-    var messageGroups: [(Int, [Message])] {
-        return messages.reduce([]) { groups, message in
+    func messageGroups(from index: Int = 0) ->  [(Int, [Message])] {
+        return messages.array(from: index).reduce([]) { groups, message in
             var groups = groups
             guard let last = groups.popLast() else {
                 return [(message.participant, [message])]
@@ -82,10 +82,9 @@ extension GroupMessage {
      - Returns: Promise of the Group Message Object
      */
     static func all(using api: BreakOut = .shared) -> GroupMessage.Results {
-        return api.doJSONRequest(to: .currentUser, auth: api.auth).onSuccess { json in
+        return api.doJSONRequest(to: .currentUser, auth: api.auth).next { json in
             return GroupMessage.messages(with: json["groupMessageIds"].array ==> { $0.int }, using: api)
         }
-        .future
     }
     
 }
@@ -220,11 +219,10 @@ extension GroupMessage {
                                  arguments: ["id": id],
                                  auth: api.auth,
                                  body: body,
-                                 acceptableStatusCodes: [200, 201]).onSuccess { _ in
+                                 acceptableStatusCodes: [200, 201]).next { _ in
                                     
             return self.refresh(using: api)
         }
-        .future
     }
     
 }

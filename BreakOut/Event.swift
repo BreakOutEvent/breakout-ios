@@ -14,6 +14,7 @@ struct Event {
     let title: String
     let city: String
     let date: Date
+    let isCurrent: Bool
 }
 
 extension Event: Deserializable {
@@ -26,7 +27,7 @@ extension Event: Deserializable {
                 
                 return nil
         }
-        self.init(id: id, title: title, city: city, date: date)
+        self.init(id: id, title: title, city: city, date: date, isCurrent: json["isCurrent"].bool ?? true)
     }
     
 }
@@ -56,7 +57,38 @@ extension Event {
      - Returns: Promise of the locations
      */
     static func all(using api: BreakOut = .shared) -> Event.Results {
-        return getAll(using: api, at: .event)
+        return getAll(using: api, at: .event, maxCacheTime: .time(24.0 * 60.0 * 60.0)).nested { $0.sorted(descending: { $0.date }) }
+    }
+    
+    /**
+     Fetch all Events that are marked as a current event
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
+    static func current(using api: BreakOut = .shared) -> Event.Results {
+        return all().nested { $0 |> { $0.isCurrent } }
+    }
+    
+    /**
+     Fetch the ID of the current event
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the locations
+     */
+    static func currentId(using api: BreakOut = .shared) -> Promise<Int, APIError> {
+        let event = CurrentUser.shared.currentEventId()
+        if event > -1 {
+            return .successful(with: event)
+        }
+        return current(using: api).nested { events, promise in
+            guard let last = events.first?.id else {
+                return promise.error(with: .noData)
+            }
+            promise.success(with: last)
+        }
     }
     
 }

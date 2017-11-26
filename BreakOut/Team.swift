@@ -128,7 +128,23 @@ extension Team {
      - Returns: Promise of the teams
      */
     static func all(for event: Int, using api: BreakOut = .shared) -> Team.Results {
-        return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event])
+        return getAll(using: api, method: .get, at: .eventTeam, arguments: ["event": event], maxCacheTime: .time(3 * 24 * 60 * 60))
+    }
+    
+    /**
+     Fetch all the teams in the given events
+     
+     - Parameter events: ids of the events
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the teams
+     */
+    static func all(for events: [Int], using api: BreakOut = .shared) -> Team.Results {
+        return (events => all <** api).bulk.flattened
+    }
+    
+    static func byEvents(_ events: [Int], using api: BreakOut = .shared) -> Promise<[[Team]], APIError> {
+        return (events => all <** api).bulk
     }
     
     /**
@@ -139,26 +155,18 @@ extension Team {
      - Returns: Promise of the teams
      */
     static func all(using api: BreakOut = .shared) -> Team.Results {
-        return api.doJSONRequest(to: .event).onSuccess { json -> Team.Results in
-            let ids = json.array ==> { $0["id"].int }
-            return api.doFlatBulkObjectRequest(to: ids => **{ .eventTeam },
-                                               arguments: ids => { ["event": $0] })
-        }
-        .future
+        return Event.all().next { all(for: $0 => { $0.id }, using: api) }
     }
     
-    static func current(using api: BreakOut = .shared) -> Team.Results {
-        let event = CurrentUser.shared.currentEventId()
-        if event > -1 {
-            return all(for: event, using: api)
-        }
-        return Event.all(using: api).onSuccess { events -> Team.Results in
-            guard let event = events.argmax({ $0.date }) else {
-                return .errored(with: .cannotPerformRequest)
-            }
-            return event.teams(using: api)
-        }
-        .future
+    /**
+     Fetch the teams for the current event
+     
+     - Parameter api: Break Out backend
+     
+     - Returns: Promise of the teams
+     */
+    static func currentTeams(using api: BreakOut = .shared) -> Team.Results {
+        return Event.currentId(using: api).next(all <** api)
     }
     
     /**

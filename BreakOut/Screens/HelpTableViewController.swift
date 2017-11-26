@@ -37,6 +37,12 @@ class HelpTableViewController: StaticDataTableViewController {
         tableView.estimatedRowHeight = 175.0
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         // Tracking
         Flurry.logEvent("/helpView", timed: true)

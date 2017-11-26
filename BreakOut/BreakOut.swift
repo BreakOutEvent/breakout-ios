@@ -40,6 +40,7 @@ extension BreakOut {
     
     fileprivate struct BreakOutAuth: OptionalStatus {
         typealias Value = OAuth
+        static var storage: Storage = .keychain
         static var key: AppDefaults = .login
     }
     
@@ -61,10 +62,23 @@ extension BreakOut {
         }
     }
     
+    @discardableResult func sendNotificationToken(token: String, for user: CurrentUser = .shared) -> JSON.Result {
+        return doJSONRequest(with: .put, to: .notificationToken, arguments: ["id": user.id], auth: auth, body: [
+                "token": token,
+            ])
+    }
+    
+    @discardableResult func removeNotificationToken(for user: CurrentUser = .shared) -> JSON.Result {
+        return doJSONRequest(with: .delete, to: .notificationToken, arguments: ["id": user.id], auth: auth)
+    }
+    
     /**
      Will erase any persisted login data
      */
     func logout() {
+        if CurrentUser.shared.isLoggedIn() {
+            removeNotificationToken()
+        }
         BreakOutAuth.value = nil
         auth = NoAuth.standard
     }

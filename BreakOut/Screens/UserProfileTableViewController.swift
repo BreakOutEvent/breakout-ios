@@ -318,15 +318,15 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
         self.present(optionMenu, animated: true, completion: nil)
     }
     
-    @IBAction func participateButtonPressed(_ sender: UIButton) {
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewController(withIdentifier: "BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
-        
-        self.present(becomeParticipantTVC, animated: true, completion: nil)
-        /*if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") {
-            self.slideMenuController()?.changeMainViewController(controller, close: true)
-        }*/
-    }
+//    @IBAction func participateButtonPressed(_ sender: UIButton) {
+//        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let becomeParticipantTVC: BecomeParticipantTableViewController = storyboard.instantiateViewController(withIdentifier: "BecomeParticipantTableViewController") as! BecomeParticipantTableViewController
+//        
+//        self.present(becomeParticipantTVC, animated: true, completion: nil)
+//        /*if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("BecomeParticipantTableViewController") {
+//            self.slideMenuController()?.changeMainViewController(controller, close: true)
+//        }*/
+//    }
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         CurrentUser.resetUser()

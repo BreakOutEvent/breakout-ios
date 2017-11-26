@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E192b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16F43c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,13 +18,22 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RQ5-C6-DES">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Names" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xCc-2H-b7M">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="teamSiteGradientBottom" translatesAutoresizingMaskIntoConstraints="NO" id="5zQ-z5-MN6">
+                    <rect key="frame" x="0.0" y="577" width="375" height="90"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="90" id="CtV-vl-8gb"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="teamSiteGradientTop" translatesAutoresizingMaskIntoConstraints="NO" id="Fvs-BM-5F2">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Names" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xCc-2H-b7M">
                     <rect key="frame" x="16" y="609" width="48" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gzv-fL-gPN">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Team Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gzv-fL-gPN">
                     <rect key="frame" x="16" y="587" width="94.5" height="20"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -58,9 +67,13 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="RQ5-C6-DES" secondAttribute="bottom" id="08J-Ka-FTr"/>
                 <constraint firstItem="Bm8-pb-37p" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="0SF-n7-yI0"/>
+                <constraint firstAttribute="trailing" secondItem="Fvs-BM-5F2" secondAttribute="trailing" id="1Nb-ql-9kd"/>
                 <constraint firstItem="Gzv-fL-gPN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="LIK-hT-K0W"/>
                 <constraint firstAttribute="bottom" secondItem="xCc-2H-b7M" secondAttribute="bottom" constant="40" id="MBm-cO-GYf"/>
+                <constraint firstItem="5zQ-z5-MN6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="OWs-gs-zUF"/>
+                <constraint firstItem="5ct-vo-GEd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Gzv-fL-gPN" secondAttribute="trailing" constant="4" id="Tbe-7N-wWy"/>
                 <constraint firstAttribute="trailing" secondItem="ZXR-KC-Zwu" secondAttribute="trailing" constant="16" id="V3B-cJ-gcx"/>
+                <constraint firstItem="Fvs-BM-5F2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VKY-9J-IK4"/>
                 <constraint firstAttribute="trailing" secondItem="RQ5-C6-DES" secondAttribute="trailing" id="Vdp-Cq-XGf"/>
                 <constraint firstItem="xCc-2H-b7M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="cb2-tS-deo"/>
                 <constraint firstItem="ZXR-KC-Zwu" firstAttribute="centerY" secondItem="xCc-2H-b7M" secondAttribute="centerY" id="cks-qM-uCi"/>
@@ -70,7 +83,11 @@
                 <constraint firstItem="RQ5-C6-DES" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="l7w-dl-kW9"/>
                 <constraint firstItem="Gzv-fL-gPN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Bm8-pb-37p" secondAttribute="bottom" id="oWu-XF-IDE"/>
                 <constraint firstItem="xCc-2H-b7M" firstAttribute="top" secondItem="Gzv-fL-gPN" secondAttribute="bottom" constant="2" id="s12-zc-NpL"/>
+                <constraint firstItem="Fvs-BM-5F2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uh6-LQ-GIT"/>
+                <constraint firstAttribute="trailing" secondItem="5zQ-z5-MN6" secondAttribute="trailing" id="vVg-PX-gVD"/>
+                <constraint firstItem="Fvs-BM-5F2" firstAttribute="bottom" secondItem="Bm8-pb-37p" secondAttribute="bottom" constant="8" id="wLa-Ab-cyp"/>
                 <constraint firstAttribute="trailing" secondItem="5ct-vo-GEd" secondAttribute="trailing" constant="16" id="yt2-4V-lCc"/>
+                <constraint firstAttribute="bottom" secondItem="5zQ-z5-MN6" secondAttribute="bottom" id="zpe-g8-Z6y"/>
             </constraints>
             <connections>
                 <outlet property="actionButton" destination="Bm8-pb-37p" id="4EC-vN-NYM"/>
@@ -85,5 +102,7 @@
     </objects>
     <resources>
         <image name="back_icon_std" width="100" height="100"/>
+        <image name="teamSiteGradientBottom" width="375" height="115"/>
+        <image name="teamSiteGradientTop" width="375" height="64"/>
     </resources>
 </document>

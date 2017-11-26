@@ -25,6 +25,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     @IBOutlet weak var allTeamsTableViewCell: UITableViewCell!
     @IBOutlet weak var newsTableViewCell: UITableViewCell!
     @IBOutlet weak var settingsTableViewCell: UITableViewCell!
+    @IBOutlet weak var profileTableViewCell: UITableViewCell!
     
     var selected: IndexPath?
     
@@ -53,7 +54,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
         
 //        self.cell(self.yourTeamTableViewCell, setHidden: true)
         self.cell(self.newsTableViewCell, setHidden: true)
-//        self.cell(self.allTeamsTableViewCell, setHidden: true)
+        self.cell(self.profileTableViewCell, setHidden: true)
         self.cell(self.settingsTableViewCell, setHidden: true)
         
         self.loginAndRegisterButton.setTitle("welcomeScreenParticipateButtonLoginAndRegister".local, for: UIControlState())
@@ -103,6 +104,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     func header() -> HeaderView {
         if CurrentUser.shared.isLoggedIn() {
             ProfileHeaderView.shared.populate()
+            ProfileHeaderView.shared.containingViewController = self
             return ProfileHeaderView.shared
         } else {
             return LoginHeaderView.shared
@@ -123,6 +125,7 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             let controller = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeScreenViewController")
             slideMenuController.changeMainViewController(controller!, close: true)
         }
+        self.selected = nil
     }
     
     func showAllPostingsTVC() {
@@ -138,11 +141,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             return false
-        } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 2 && CurrentUser.shared.currentTeamId() < 0 {
             return false
-        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
-            return false
-        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 3 && !CurrentUser.shared.isLoggedIn() {
             return false
         }
         
@@ -152,11 +153,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == 1 && indexPath.row == 1 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
-        } else if indexPath.section == 1 && indexPath.row == 2 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 2 && CurrentUser.shared.currentTeamId() < 0 {
             cell.alpha = 0.5
-        } else if indexPath.section == 1 && indexPath.row == 3 && CurrentUser.shared.currentTeamId() < 0 {
-            cell.alpha = 0.5
-        } else if indexPath.section == 1 && indexPath.row == 4 && !CurrentUser.shared.isLoggedIn() {
+        } else if indexPath.section == 1 && indexPath.row == 3 && !CurrentUser.shared.isLoggedIn() {
             cell.alpha = 0.5
         } else {
             cell.alpha = 1.0
@@ -180,6 +179,10 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
     
 // MARK: - TableView Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        open(at: indexPath)
+    }
+    
+    func open(at indexPath: IndexPath, completion: ((UIViewController) -> ())? = nil) {
         let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         
         if indexPath != IndexPath(row: 1, section: 1) {
@@ -199,7 +202,9 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             let navigationController = UINavigationController(rootViewController: controller!)
             
             if cell.reuseIdentifier == "NewPostingTableViewController" {
-                slideMenuController.mainViewController?.present(navigationController, animated: true, completion: nil)
+                slideMenuController.mainViewController?.present(navigationController, animated: true) {
+                    completion?(controller!)
+                }
                 return
             }
             
@@ -207,8 +212,12 @@ class SidebarMenuTableViewController: StaticDataTableViewController {
             
             if cell.reuseIdentifier == "InternalWebViewController" {
                 let internalWebViewController = controller as! InternalWebViewController
-                internalWebViewController.openWebpageWithUrl("http://break-out.org/worum-gehts/")
+                internalWebViewController.openWebpageWithUrl("https://break-out.org/next-steps")
             }
+            
+            completion?(controller!)
+            
         }
     }
+    
 }

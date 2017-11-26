@@ -39,8 +39,8 @@ class ChatViewController: NMessengerViewController {
             recepientsField.searchResultSize = CGSize(width: self.view.frame.width, height: view.frame.height - 60)
             recepientsField.direction = .horizontal
             recepientsField.layer.borderWidth = 0
-//            recepientsField._tokenField.layer.borderWidth = 0
-//            recepientsField._tokenField.borderStyle = .none
+            recepientsField._tokenField.layer.borderWidth = 0
+            recepientsField._tokenField.borderStyle = .none
             _ = recepientsField.becomeFirstResponder()
         }
         recepientsField.delegate = self
@@ -53,6 +53,20 @@ class ChatViewController: NMessengerViewController {
     
     override func getInputBar() -> InputBarView {
         return ChatInputBarView.create(controller: self)
+    }
+    
+    func refresh() {
+        update(promise: chat.refresh())
+    }
+    
+    @discardableResult func update(promise: GroupMessage.Result) -> GroupMessage.Result {
+        let previousCount = chat.messages.count
+        return promise.nested { (chat: GroupMessage) in
+            let new = self.cells(from: previousCount)
+            self.messengerView.addMessages(new, scrollsToMessage: false)
+            self.messengerView.scrollToLastMessage(animated: true)
+            return chat
+        }
     }
     
     func startSpinning() {
@@ -69,12 +83,12 @@ class ChatViewController: NMessengerViewController {
         inputBarView.enable()
     }
     
-    func cells() -> [GeneralMessengerCell] {
+    func cells(from index: Int = 0) -> [GeneralMessengerCell] {
         if chat == nil {
             return []
         }
         let users = chat.users.dictionaryWithoutOptionals { ($0.id, $0) }
-        return chat.messageGroups => self.cell <** users
+        return chat.messageGroups(from: index) => self.cell <** users
     }
     
     func cell(for group: (Int, [Message]), users: [Int : Participant]) -> GeneralMessengerCell {
@@ -115,8 +129,7 @@ class ChatViewController: NMessengerViewController {
     }
     
     func send(text: String, message: MessageNode) {
-        chat.send(message: text).onSuccess { _ in
-            self.addMessageToMessenger(message)
+        update(promise: chat.send(message: text)).onSuccess { _ in
             self.stopSpinning()
         }
         .onError { _ in
@@ -127,6 +140,7 @@ class ChatViewController: NMessengerViewController {
     
     override func sendText(_ text: String, isIncomingMessage: Bool) -> GeneralMessengerCell {
         startSpinning()
+
         let content = TextContentNode(textMessageString: text,
                                       currentViewController: self,
                                       bubbleConfiguration: self)

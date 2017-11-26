@@ -10,7 +10,6 @@ import Sweeft
 
 /// Comment on a posting
 struct Comment {
-    let id: Int
     let date: Date
     let text: String?
     let participant: Participant
@@ -19,13 +18,12 @@ struct Comment {
 extension Comment: Deserializable {
     
     init?(from json: JSON) {
-        guard let id = json["id"].int,
-            let date = json["date"].date(),
-            let participant = json["user"].participant else {
+        guard let date = json["date"].date(),
+              let participant = json["user"].participant else {
                 
                 return nil
         }
-        self.init(id: id, date: date, text: json["text"].string, participant: participant)
+        self.init(date: date, text: json["text"].string, participant: participant)
     }
     
 }

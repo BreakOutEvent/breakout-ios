@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Sweeft
 
 class ChatListTableViewController: UITableViewController {
     
@@ -15,11 +16,11 @@ class ChatListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Chat"
-        self.navigationController!.navigationBar.isTranslucent = false
-        self.navigationController!.navigationBar.barTintColor = .mainOrange
-        self.navigationController!.navigationBar.backgroundColor = .mainOrange
-        self.navigationController!.navigationBar.tintColor = UIColor.white
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.barTintColor = .mainOrange
+        self.navigationController?.navigationBar.backgroundColor = .mainOrange
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         // Create menu buttons for navigation item
         let barButtonImage = UIImage(named: "menu_Icon_white")
@@ -29,7 +30,8 @@ class ChatListTableViewController: UITableViewController {
         
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .mainOrange
-        self.refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+        refreshControl?.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
+        refreshControl?.beginRefreshing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,8 +44,8 @@ class ChatListTableViewController: UITableViewController {
     func loadMessages() {
         GroupMessage.all().onSuccess { chats in
             self.chats = chats.sorted(descending: { $0.lastActivity ?? Date.distantPast })
-            self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
         }
         .onError { error in
             self.refreshControl?.endRefreshing()
@@ -67,16 +69,7 @@ class ChatListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let controller = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
-        
-        if let controller = controller as? ChatViewController {
-            controller.chat = chats[indexPath.row]
-        }
-        
-        self.navigationController?.pushViewController(controller, animated: true)
+        open(chat: chats[indexPath.row])
     }
     
     func handleRefresh(_ refreshControll: UIRefreshControl) {
@@ -89,6 +82,22 @@ class ChatListTableViewController: UITableViewController {
         let controller = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
         
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func open(chat id: Int) {
+        GroupMessage.groupMessage(with: id).onSuccess(call: self.open <** false)
+    }
+    
+    func open(chat: GroupMessage, animated: Bool = true) {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let controller = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
+        
+        if let controller = controller as? ChatViewController {
+            controller.chat = chat
+        }
+        
+        self.navigationController?.pushViewController(controller, animated: animated)
     }
     
 }

@@ -43,6 +43,8 @@ class ContainerViewController: SlideMenuController {
     
 // MARK: - Helper Functions
     func presentLoginScreen() {
+        BreakOut.shared.logout()
+        CurrentUser.resetUser()
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let loginRegisterViewController: LoginRegisterViewController = storyboard.instantiateViewController(withIdentifier: "LoginRegisterViewController") as! LoginRegisterViewController
         

@@ -9,6 +9,34 @@
 import UIKit
 import Sweeft
 
+import OneSignal
+
+func countryName(for code: String) -> String {
+    return NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.countryCode, value: code) ?? ""
+}
+
+func countryCode(for country: String) -> String? {
+    let locales = NSLocale.isoCountryCodes
+    let map = locales >>= { (countryName(for: $0).lowercased(), $0) }
+    return map[country.lowercased()]
+}
+
+func emojiFlag(countryCode: String) -> String {
+    return countryCode.uppercased().unicodeScalars.reduce(.empty) { result, item in
+        guard let scalar = UnicodeScalar(127397 + item.value) else {
+            return result
+        }
+        return result + String(scalar)
+    }
+}
+
+func emoji(for country: String) -> String? {
+    guard let countryCode = countryCode(for: country) else {
+        return nil
+    }
+    return emojiFlag(countryCode: countryCode)
+}
+
 public extension UIImage {
     
     public func hasContent() -> Bool {
@@ -219,6 +247,99 @@ extension Date {
         }
         
         
+    }
+    
+}
+
+extension OneSignal {
+    
+    static var token: String? {
+        guard let state = getPermissionSubscriptionState(),
+            let token = state.subscriptionStatus.userId else {
+                
+            return nil
+        }
+        return token
+    }
+    
+}
+
+extension UIViewController {
+    
+    var current: UIViewController {
+        if let navigation = self as? UINavigationController {
+            guard let last = navigation.topViewController else {
+                return navigation
+            }
+            return last
+        }
+        if let presented = presentedViewController {
+            return presented.current
+        }
+        return self
+    }
+    
+    func open(message: Int) {
+        guard let container = slideMenuController() as? ContainerViewController,
+            let sideMenu = container.leftViewController as? SidebarMenuTableViewController else {
+                
+            return
+        }
+        let indexPath = IndexPath(row: 3, section: 1)
+        sideMenu.open(at: indexPath) { controller in
+            guard let controller = controller as? ChatListTableViewController else {
+                return
+            }
+            controller.open(chat: message)
+        }
+    }
+    
+}
+
+extension UIImage {
+    
+    private convenience init?(data: Data?) {
+        guard let data = data else {
+            return nil
+        }
+        self.init(data: data)
+    }
+    
+    static func at(url: String) -> Promise<UIImage, AnyError> {
+        return async(qos: .userInitiated) {
+            guard let url = URL(string: url) else {
+                throw APIError.cannotPerformRequest
+            }
+            let key = url.path.replacingOccurrences(of: "/", with: "_")
+            let cache = FileCache(directory: "Images")
+            if let image = UIImage(data: cache.get(with: key, maxTime: .forever)) {
+                return image
+            }
+            guard let data = try? Data(contentsOf: url) else {
+                throw APIError.noData
+            }
+            guard let image = UIImage(data: data) else {
+                throw APIError.invalidData(data: data)
+            }
+            cache.store(data, with: key)
+            return image
+        }
+    }
+    
+}
+
+extension CGRect {
+    
+    var atZero: CGRect {
+        return CGRect(x: 0, y: 0, width: self.width, height: self.height)
+    }
+    
+}
+
+extension Array {
+    
+    func array(from index: Int) -> [Element] {
+        return array(withLast: count - index)
     }
     
 }

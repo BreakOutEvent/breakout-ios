@@ -6,6 +6,14 @@
   Copyright © 2016 BreakOut. All rights reserved.
 */
 
+"media_processing" = "Media still processing";
+"media_failed" = "Media upload failed";
+
+"logout" = "Log Out";
+
+"selectAll" = "Select All";
+"deselectAll" = "Deselect All";
+
 "email" = "E-Mail";
 "password" = "Password";
 "login" = "LOG IN";
@@ -76,6 +84,7 @@
 
 // UIImagePicker
 "sourceOfImage" = "Choose a photo for your post";
+"profileImageSource" = "Choose a new Profile Picture";
 "photoLibrary" = "Photo Library";
 "takeAPhoto" = "Camera";
 
@@ -91,12 +100,12 @@
 
 // Help Screen
 "helpMedicalEmergencyTitle" = "Medical Emergency";
-"helpMedicalEmergency" = "Keep Calm! \n\n• Notify Euro Emergency 112 \n• The Euro Emergency can also speak english \n• First Aid \n• Notify BreakOut at +49 (0) 89 8986 0579 \n• We are not on site, but can provide remote assistance";
+"helpMedicalEmergency" = "Keep Calm! \n\n• Notify Euro Emergency 112 \n• The Euro Emergency can also speak english \n• First Aid \n• Notify BreakOut at +49 211-97531979 \n• We are not on site, but can provide remote assistance";
 "helpPoliceEmergencyTitle" = "Police Emergency";
-"helpPoliceEmergency" = "Keep Calm!\n\n• Notify Euro Emergency 112\n• The Euro Emergency can also speak english \n• Notify BreakOut at +49 (0) 89 8986 0579\n• We are not on site, but can provide remote assistance";
+"helpPoliceEmergency" = "Keep Calm!\n\n• Notify Euro Emergency 112\n• The Euro Emergency can also speak english \n• Notify BreakOut at +49 211-97531979\n• We are not on site, but can provide remote assistance";
 "helpDiplomaticEmergencyTitle" = "Diplomatic Emergency in a Foreign Country";
-"helpDiplomaticEmergency" = "Keep Calm!\n\n• Notify the Emergency Service of the Foreign Ministry +49 (0) 30 1817 0\n • The Emergency Service speaks both english and german\n• Notify BreakOut at +49 (0) 89 8986 0579\n• We are not on site, but can provide remote assistance";
+"helpDiplomaticEmergency" = "Keep Calm!\n\n• Notify the Emergency Service of the Foreign Ministry +49 (0) 30 1817 0\n • The Emergency Service speaks both english and german\n• Notify BreakOut at +49 211-97531979\n• We are not on site, but can provide remote assistance";
 "helpTeampartnerEmergencyTitle" = "Lost Team Partner";
-"helpTeampartnerEmergency" = "Keep Calm!\n\n• Return to the last place you were together\n• Attempt to call your team partner\n• Notify BreakOut at +49 (0) 89 8986 0579\n• We are not on site, but can provide remote assistance";
+"helpTeampartnerEmergency" = "Keep Calm!\n\n• Return to the last place you were together\n• Attempt to call your team partner\n• Notify BreakOut at +49 211-97531979\n• We are not on site, but can provide remote assistance";
 "helpOtherEmergencyTitle" = "All Other Emergencies or Problems";
-"helpOtherEmergency" = "Keep Calm!\n\n You can contact BreakOut during the entire 36 hours at +49 (0) 89 8986 0579. We are not on site, but have fast internet, lots of hitch hiking, travel and diplomatic experience with which we can support you.";
+"helpOtherEmergency" = "Keep Calm!\n\n You can contact BreakOut during the entire 36 hours at +49 211-97531979. We are not on site, but have fast internet, lots of hitch hiking, travel and diplomatic experience with which we can support you.";

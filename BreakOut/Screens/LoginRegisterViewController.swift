@@ -10,9 +10,9 @@ import UIKit
 import Flurry_iOS_SDK
 import Crashlytics
 
-import SpinKit
+import OneSignal
 
-import Toaster
+import SpinKit
 
 import Sweeft
 
@@ -202,7 +202,7 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             let navigationController = UINavigationController(rootViewController: internalWebView)
             
             present(navigationController, animated: true, completion: nil)
-            internalWebView.openWebpageWithUrl("http://break-out.org/worum-gehts/")
+            internalWebView.openWebpageWithUrl("https://break-out.org/next-steps")
             
             // --> Tracking
             //Answers.logCustomEventWithName("Opened What-Is-BreakOut", customAttributes: [:])
@@ -275,6 +275,20 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
         
     }
+    
+    func storeCredentials(email: String, pass: String) {
+        let loginDetails = [
+            AppExtensionTitleKey: "BreakOut",
+            AppExtensionUsernameKey: email,
+            AppExtensionPasswordKey: pass,
+        ]
+//        OnePasswordExtension.shared().storeLogin(forURLString: "https://break-out.org/",
+//                                                 loginDetails: loginDetails,
+//                                                 passwordGenerationOptions: nil,
+//                                                 for: self,
+//                                                 sender: self,
+//                                                 completion: dropArguments)
+    }
 
     
     /**
@@ -285,13 +299,18 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
      :returns: No return value
      */
     func startLoginRequest(overlay: BOActivityOverlayController? = nil) {
-        
         if let email = emailTextField.text, let pass = passwordTextField.text {
+            storeCredentials(email: email, pass: pass)
             let activity = overlay ?? BOActivityOverlayController.create()
             self.enableInputs(false)
             let doit = { () -> () in
                 BreakOut.shared.login(email: email, password: pass).onSuccess { _ in
                     CurrentUser.get().onSuccess { user in
+                        
+                        if let token = OneSignal.token {
+                            BreakOut.shared.sendNotificationToken(token: token)
+                        }
+                        
                         // Empty Textinputs
                         self.emailTextField.text = ""
                         self.passwordTextField.text = ""
@@ -310,8 +329,9 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                 .onError { error in
                     activity?.error {
                         switch error {
-                        case .invalidStatus(401, _), .invalidStatus(400, _):
+                        case .invalidStatus(401, let data):
                             print("Incorrect credentials")
+                            print("Data: \(data?.string ?? "")")
                         default:
                             break
                         }
@@ -332,4 +352,13 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    @IBAction func useOnePassword(_ sender: Any) {
+        OnePasswordExtension.shared().findLogin(forURLString: "https://break-out.org", for: self, sender: self) { (dict, error) in
+            guard let dict = dict, dict.count > 0 else {
+                return
+            }
+            self.emailTextField.text = dict[AppExtensionUsernameKey] as? String
+            self.passwordTextField.text = dict[AppExtensionPasswordKey] as? String
+        }
+    }
 }

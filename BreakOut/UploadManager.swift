@@ -71,13 +71,14 @@ extension URL {
     func uploadVideo(with id: Int, using token: String) {
         let asset = AVAsset(url: self)
         let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
-        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Video.mp4")
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(id)-Video.mp4")
         exporter?.outputFileType = AVFileTypeMPEG4
         exporter?.outputURL = url
         exporter?.exportAsynchronously {
             guard let data = try? Data(contentsOf: url) else {
                 return
             }
+            try? FileManager.default.removeItem(at: url)
             UploadManager.upload(data: data, id: id, token: token, filename: "Video.mp4", type: "video/mp4")
         }
     }

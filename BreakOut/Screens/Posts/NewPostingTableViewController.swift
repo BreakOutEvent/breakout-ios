@@ -15,7 +15,6 @@ import Sweeft
 import Flurry_iOS_SDK
 import Crashlytics
 
-import MBProgressHUD
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -55,8 +54,6 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     
     @IBOutlet weak var challengeLabel: UILabel!
     var newChallenge: Challenge?
-    
-    var loadingHUD: MBProgressHUD = MBProgressHUD()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +117,7 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.closeView(false)
     }*/
     
-    func closeView(_ showAllPostingsList:Bool = false) {
+    func closeView(_ showAllPostingsList: Bool = false) {
         self.navigationController?.dismiss(animated: true, completion: nil)
         
         if showAllPostingsList {
@@ -155,16 +152,6 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
         self.messageTextView.resignFirstResponder()
         self.messageTextView.text = "newPostingEmptyMessage".localized(with: "Empty")
         self.styleMessageInput(true)
-    }
-    
-    func setupLoadingHUD(_ localizedKey: String) {
-        self.loadingHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
-        self.loadingHUD.isSquare = true
-        self.loadingHUD.mode = MBProgressHUDMode.customView
-        
-        //TODO: Add Done image
-        
-        self.loadingHUD.labelText = localizedKey.localized(with: "loading")
     }
     
     func styleMessageInput(_ placeholder: Bool) {
@@ -217,29 +204,40 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
     func sendPostingButtonPressed() {
         let media = ![self.media]
         
-        Post.post(text: messageTextView.text, latitude: newLatitude, longitude: newLongitude, city: newCity, challenge: newChallenge, media: media).onSuccess { post in
-            
-            self.setupLoadingHUD("New Posting sent!")
-            self.loadingHUD.hide(true, afterDelay: 1.0)
-            self.resetAllInputs()
-            
-            self.isShowingMenu = false
-            
-            let withImage = !media.isEmpty
-            
-            // Tracking
-            Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])
-            Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage": withImage.description])
-            
-            let defaults = UserDefaults.standard
-            defaults.set(Date(), forKey: "lastPostingSent")
-            defaults.synchronize()
-            BOPushManager.shared.setupAllLocalPushNotifications()
-            
-            1.0 >>> {
-                self.closeView(true)
+        let activity = BOActivityOverlayController.create()
+        activity?.modalTransitionStyle = .crossDissolve
+        self.present(activity!, animated: true) {
+            Post.post(text: self.messageTextView.text,
+                      latitude: self.newLatitude,
+                      longitude: self.newLongitude,
+                      city: self.newCity,
+                      challenge: self.newChallenge,
+                      media: media)
+            .onSuccess { post in
+                
+                activity?.success {
+                    self.resetAllInputs()
+                    
+                    self.isShowingMenu = false
+                    
+                    let withImage = !media.isEmpty
+                    
+                    // Tracking
+                    Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])
+                    Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage": withImage.description])
+                    
+                    let defaults = UserDefaults.standard
+                    defaults.set(Date(), forKey: "lastPostingSent")
+                    defaults.synchronize()
+                    BOPushManager.shared.setupAllLocalPushNotifications()
+                    self.closeView(true)
+                    
+                }
+                
             }
-            
+            .onError { _ in
+                activity?.error()
+            }
         }
         
         // After Saving throw User message and reset inputs

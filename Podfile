@@ -1,65 +1,54 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, '6.0'
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+use_frameworks!
 
 target 'BreakOut' do
 
-# Model and API Calls
-pod 'Sweeft', '~> 0.6'
+    # Push Notifications
+    pod 'OneSignal', '>= 2.5.2', '< 3.0'
 
-# Analytics
-pod 'Fabric', '~> 1.6.7'
-pod 'Crashlytics', '~> 3.7.0'
+    # Model and API Calls
+    pod 'Sweeft', '~> 0.9'
 
-pod 'Firebase'
-pod 'Firebase/Messaging'
+    # Analytics
+    pod 'Fabric', '~> 1.6.7'
+    pod 'Crashlytics', '~> 3.7.0'
 
-# Flurry -> App Analytics (Funnel, ...)
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '10.0'
-pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2' # Thinking about removing it...
+    # Flurry -> App Analytics (Funnel, ...)
+    pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2' # Thinking about removing it...
 
-# Database
-pod 'Pantry'
+    # Database
+    pod 'Pantry' # Want to remove this
 
-# Networking
-pod 'Alamofire', '~> 4.0'
+    # Networking
+    pod 'Alamofire', '~> 4.0' # Should remove this soon
 
-# UI
-pod 'SpinKit', '~>1.2.0'
-pod 'MBProgressHUD', '~> 0.9.2'
-pod 'SlideMenuControllerSwift', '~> 3.0.0'
-pod 'StaticDataTableViewController', '~> 2.0'
-pod 'DTPhotoViewerController'
-pod 'TouchVisualizer', '~> 2.0.1'
+    # UI
+    pod 'SpinKit', '~> 1.2.0' # I still have no idea why we have this
+    pod 'SlideMenuControllerSwift', '~> 3.0.0'
+    pod 'StaticDataTableViewController', '~> 2.0'
+    pod 'DTPhotoViewerController'
 
-
-pod 'NMessenger'
-pod 'KSTokenView', '~> 3.1'
-pod 'MDGroupAvatarView', :git => 'https://github.com/mathiasquintero/MDGroupAvatarView.git'
+    # Chat UI
+    pod 'NMessenger’, '1.0.79'
+    pod 'KSTokenView', '~> 3.1'
+    pod 'MDGroupAvatarView', :git => 'https://github.com/mathiasquintero/MDGroupAvatarView.git'
 
 
-# Team UI
-pod 'Pageboy'
-pod 'MXParallaxHeader'
+    # Team UI
+    pod 'Pageboy', '~> 0.4.11'
+    pod 'MXParallaxHeader'
 
-use_frameworks!
-
-# Will soon be removed
-pod 'Toaster', '~> 2.0'
-
-# Image Caching
-pod 'SDWebImage', '~>3.7'
-
-end
-
-target 'BreakOutTests' do
+    target 'BreakOutTests' do
+        inherit! :search_paths
+    end
 
 end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-      config.build_settings['SWIFT_VERSION'] = '3.0'
+      config.build_settings['SWIFT_VERSION'] = '3.2'
     end
   end
 end

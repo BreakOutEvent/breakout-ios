@@ -19,6 +19,10 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
     
     var lastKnownLocation: CLLocation?
     
+    var shouldMonitorLocation: Bool {
+        return CurrentUser.shared.isLoggedIn() && CurrentUser.shared.currentTeamId() >= 0
+    }
+    
     let locationManager = CLLocationManager()
     
     func start() {
@@ -35,7 +39,7 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         
         // set distance filter in meters
-        locationManager.distanceFilter = 5000
+        locationManager.distanceFilter = 1000
         
         // allow background updates
         if #available(iOS 9.0, *) {
@@ -48,14 +52,16 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.pausesLocationUpdatesAutomatically = true
         
         // start monitoring
-        if CLLocationManager.locationServicesEnabled(){
+        if CLLocationManager.locationServicesEnabled(), shouldMonitorLocation {
             print("location Services are enabled. Start Updating Locations ...")
             locationManager.startUpdatingLocation()
         }
     }
     
     func enterBackground() {
-        locationManager.startMonitoringSignificantLocationChanges()
+        if shouldMonitorLocation {
+            locationManager.startMonitoringSignificantLocationChanges()
+        }
     }
     
     func becomeActive() {
@@ -64,33 +70,19 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: CLLocation delegate methods
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         print("Update Locations")
-        // only use last location
+        
         if let coordiante = locations.last?.coordinate, CurrentUser.shared.currentTeamId() > -1 {
             let event = CurrentUser.shared.currentEventId()
             let team = CurrentUser.shared.currentTeamId()
             Location.update(coordinates: coordiante, event: event, team: team).onSuccess { _ in
                 print("Location Sent!")
             }
-            self.lastKnownLocation = locations.last
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Constants.NOTIFICATION_LOCATION_DID_UPDATE), object: nil)
-            
-            // ONLY FOR DEBUGGING
-            #if DEBUG
-                let notification = UILocalNotification()
-                notification.fireDate = Date(timeIntervalSinceNow: 0)
-                if UIApplication.shared.applicationState == UIApplicationState.background {
-                    notification.alertTitle = "App in Background"
-                } else {
-                    notification.alertTitle = "App in Foreground"
-                }
-                notification.alertBody = "Location Did Change!"
-                notification.soundName = UILocalNotificationDefaultSoundName
-                UIApplication.shared.scheduleLocalNotification(notification)
-            #endif
+            .onError { _ in
+                LocationUploadQueue.shared.add(coordinates: coordiante)
+            }
         }
-        // stop updating locations. Optional.
-        // locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -100,8 +92,10 @@ class BOLocationManager: NSObject, CLLocationManagerDelegate {
         case .denied:
             print("location tracking status denied")
             locationManager.stopUpdatingLocation()
-        case .notDetermined:print("location tracking status not determined")
-        case .restricted:print("location tracking status restricted")
+        case .notDetermined:
+            print("location tracking status not determined")
+        case .restricted:
+            print("location tracking status restricted")
         default:break
         }
     }

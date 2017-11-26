@@ -15,7 +15,8 @@ import Flurry_iOS_SDK
 import Crashlytics
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-
+    
+    typealias LocationsByEvent = [Int : [TeamLocations]]
     
     // TODO
     // > fetch user location from backend -> should work
@@ -31,21 +32,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var coordinateArray : [CLLocationCoordinate2D] = []
     var polyLineArray : [MKPolyline] = []
     
+    var selectedEvents = [Int]()
+    
     private var strokeColor = UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00)
-    private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00), 2: UIColor.red]
+    private let colorsForEvent = [1: UIColor(red:0.35, green:0.67, blue:0.65, alpha:1.00),
+                                  2: .red,
+                                  3: .yellow,
+                                  4: .blue,
+                                  5: .orange]
     
     var teamController: TeamViewController?
     
-    var selectedEvents = [Int]()
-    
-    var locationsByEvent = [Int : [TeamLocations]]() {
+    var locationsByEvent = LocationsByEvent() {
         didSet {
             drawLocationsForAllEventsOnMap()
         }
     }
     
+    func loadAllLocations(for events: [Int]) -> Promise<LocationsByEvent, APIError> {
+        return BulkPromise(promises: events => { event in
+            return TeamLocations.all(for: event).nested { (event, $0) }
+        }).nested { $0.dictionary { $0 } }
+    }
+    
+    @IBOutlet weak var filterViewOffset: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
-
     
     // MARK: Life Cycle
     override func viewDidLoad() {
@@ -53,17 +64,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         mapView.mapType = .standard
         mapView.delegate = self
-        
-        if let teamController = teamController {
-            if let team = teamController.team {
-                set(team: team)
-            } else {
-                teamController >>> { $0.team | self.set }
-            }
-        } else {
-            // Fetch locations
-            loadIdsOfAllEvents()
-        }
     
         // Style the navigation bar
         navigationController?.navigationBar.isTranslucent = false
@@ -71,10 +71,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         navigationController?.navigationBar.backgroundColor = .mainOrange
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        title = "mapTitle".local
         
         let leftButton = UIBarButtonItem(image: UIImage(named: "menu_Icon_black"), style: UIBarButtonItemStyle.done, target: self, action: #selector(showSideBar))
         navigationItem.leftBarButtonItem = leftButton
+        
+        if let teamController = teamController {
+            title = "mapTitle".local
+            if let team = teamController.team {
+                set(team: team)
+            } else {
+                teamController >>> { $0.team | self.set }
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,15 +102,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         loadAllLocationsForTeam(team: team)
     }
     
-    func loadIdsOfAllEvents() {
-        Event.all().onSuccess { events in
-            self.selectedEvents = events => { $0.id }
-            events => {
-                self.loadAllLocationsForEvent($0.id)
-            }
-        }
-    }
-    
     func loadAllLocationsForEvent(_ eventId: Int) {
         TeamLocations.all(for: eventId).onSuccess { locations in
             self.locationsByEvent[eventId] = locations
@@ -109,8 +109,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func loadAllLocationsForTeam(team: Team) {
+        self.teamController?.navigationController?.navigationBar.startSpining()
+        
         TeamLocations.locations(forTeam: team).onSuccess { locations in
+            self.teamController?.navigationController?.navigationBar.stopSpinning()
+            self.selectedEvents = [team.event]
             self.locationsByEvent = [team.event : [locations]]
+        }
+        .onError { _ in
+            self.teamController?.navigationController?.navigationBar.stopSpinning()
         }
     }
     
@@ -130,7 +137,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
      - parameter locationsForEventsAndTeams: Dictionary with first parameter as eventId , second as teamId
      */
     private func drawLocationsForAllEventsOnMap() {
-        for (eventId, teams) in locationsByEvent {
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays |> { $0 is MKPolyline })
+        for (eventId, teams) in locationsByEvent where selectedEvents.contains(eventId) {
             strokeColor = colorsForEvent[eventId] ?? .black
             for team in teams {
                 drawLocationsForTeamOnMap(team)
@@ -159,7 +168,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 mapView.addAnnotation(location)
             }
         } else {
-            mapView.addAnnotation(locationArray.last!)
+            guard let lastLocation = locationArray.last else {
+                return
+            }
+            mapView.addAnnotation(lastLocation)
         }
     }
     
@@ -172,13 +184,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if annotationView == nil {
                 annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 annotationView!.canShowCallout = true
-                
-                if annotation.posting != nil {
-                    let btn = UIButton(type: .detailDisclosure)
-                    annotationView!.rightCalloutAccessoryView = btn
-                }
             }
-            annotationView!.annotation = annotation
+            annotationView?.annotation = annotation
+            if annotation.posting != nil {
+                let btn = CommentButton(type: .detailDisclosure)
+                annotationView?.rightCalloutAccessoryView = btn
+            } else {
+                annotationView?.rightCalloutAccessoryView = nil
+            }
             
             return annotationView
         }
@@ -188,8 +201,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let mapLocationAnnotation = view.annotation as! MapLocation
-        
+        let button = view.rightCalloutAccessoryView as? CommentButton
+        button?.isLoading = true
         mapLocationAnnotation.post().onSuccess { posting in
+            button?.isLoading = false
             let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             
             let postingDetailsTableViewController: PostingDetailsTableViewController = storyboard.instantiateViewController(withIdentifier: "PostingDetailsTableViewController") as! PostingDetailsTableViewController
@@ -211,8 +226,42 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    @IBAction func didPressFilter(_ sender: Any) {
+        let newHeight: CGFloat = filterViewOffset.constant == 0 ? -260 : 0
+        UIView.animate(withDuration: 0.5) {
+            self.view.layoutIfNeeded()
+            self.filterViewOffset.constant = newHeight
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
      func showSideBar(){
         self.slideMenuController()?.toggleLeft()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? EventSelectorViewController, teamController == nil {
+            title = "mapTitle".local
+            controller.delegate = self
+        }
+    }
+    
+}
+
+extension MapViewController: EventSelectorDelegate {
+    
+    func eventSelector(_ eventSelector: EventSelectorViewController, didChange selected: [Int]) {
+        selectedEvents = selected
+        navigationController?.navigationBar.startSpining()
+        let needed = selected - locationsByEvent.keys.array
+        loadAllLocations(for: needed.array).onSuccess { locations in
+            self.navigationController?.navigationBar.stopSpinning()
+            self.locationsByEvent = self.locationsByEvent + locations
+        }
+        .onError { _ in
+            self.navigationController?.navigationBar.stopSpinning()
+        }
     }
     
 }

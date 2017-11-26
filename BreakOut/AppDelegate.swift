@@ -13,9 +13,7 @@ import Fabric
 import Crashlytics
 import Flurry_iOS_SDK
 
-import Firebase
-
-import TouchVisualizer
+import OneSignal
 
 import Sweeft
 
@@ -26,11 +24,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        GroupMessage.all().onSuccess { messages in
-            print(messages)
+        DispatchQoS.userInitiated >>> {
+            FileCache(directory: "Images").clean(everythingOlder: 7 * 24 * 60 * 60) // Clean up the cache off items older than a week
         }
-    
-        FIRApp.configure()
+        
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+        
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId: "db55a101-3fe8-4f3a-9898-e79146ed9bbb",
+                                        handleNotificationReceived: self.handleReceived,
+                                        handleNotificationAction: self.handleAction,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = .none
+        
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            guard CurrentUser.shared.isLoggedIn(), accepted, let token = OneSignal.token else {
+                return
+            }
+            BreakOut.shared.sendNotificationToken(token: token).onSuccess { json in
+                print(json)
+            }
+            .onError { error in
+                print(error)
+            }
+        })
         
         #if DEBUG
             //Instabug Setup
@@ -44,14 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Flurry Setup
         Flurry.startSession(PrivateConstants.flurryAPIToken);
         
-        // Network Debugging
-        #if DEBUG
-            Visualizer.start()
-        #endif
-        
         BOLocationManager.shared.start()
         
-        FeatureFlagManager.shared.downloadCurrentFeatureFlagSetup()
+//        FeatureFlagManager.shared.downloadCurrentFeatureFlagSetup()
         
         let settings = UIApplication.shared.currentUserNotificationSettings
         
@@ -70,10 +83,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Answers.logCustomEvent(withName: "/Delegate/didLaunch/LocalNotificationKey", customAttributes: [:])
         }
         
+        LocationUploadQueue.shared.process()
+        
         return true
     }
     
-
+    func handleReceived(notification: OSNotification?) {
+        guard let notification = notification, notification.wasAppInFocus else {
+            return
+        }
+        let container = UIApplication.shared.keyWindow?.rootViewController as? ContainerViewController
+        if let controller = container?.mainViewController?.current as? ChatListTableViewController {
+            controller.loadMessages()
+        }
+        if let controller = container?.mainViewController?.current as? ChatViewController,
+            let id = notification.payload.additionalData["id"] as? Int,
+            controller.chat.id == id {
+            
+            controller.refresh()
+        }
+    }
+    
+    func handleAction(notification: OSNotificationOpenedResult?) {
+        
+        // TODO: Handle no view controller present
+        
+        guard let id = notification?.notification.payload.additionalData["id"] as? Int else {
+            return
+        }
+        0.5 >>> {
+            UIApplication.shared.keyWindow?.rootViewController?.open(message: id)
+        }
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print(userInfo)
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

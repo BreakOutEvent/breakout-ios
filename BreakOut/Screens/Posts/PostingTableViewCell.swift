@@ -28,6 +28,8 @@ class PostingTableViewCell: UITableViewCell {
     @IBOutlet weak var challengeView: UIView!
     @IBOutlet weak var challengeLabel: UILabel!
     @IBOutlet weak var playOverlay: UIView!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var mediaStatusLabel: UILabel!
     
     var videoController: AVPlayerViewController = AVPlayerViewController()
     var posting: Post! {
@@ -49,11 +51,29 @@ class PostingTableViewCell: UITableViewCell {
     var images: [Image] = .empty {
         didSet {
             if let image = images.first {
-                postingPictureImageView.image = image.image ?? #imageLiteral(resourceName: "image_placeholder")
-                postingMediaView.isHidden = false
+                use(image: image)
             } else {
                 postingMediaView.isHidden = true
+                mediaStatusLabel.isHidden = true
             }
+        }
+    }
+    
+    func use(image: Image) {
+        let media = MediaItem.image(image)
+        switch media.state(uploadedAt: posting.date) {
+        case .ready:
+            postingPictureImageView.image = image.image ?? #imageLiteral(resourceName: "image_placeholder")
+            postingMediaView.isHidden = false
+            mediaStatusLabel.isHidden = true
+        case .processing:
+            mediaStatusLabel.text = "media_processing".local
+            postingMediaView.isHidden = true
+            mediaStatusLabel.isHidden = false
+        case .failed:
+            mediaStatusLabel.text = "media_failed".local
+            postingMediaView.isHidden = true
+            mediaStatusLabel.isHidden = false
         }
     }
     
@@ -77,10 +97,7 @@ class PostingTableViewCell: UITableViewCell {
         
         video = posting.media.flatMap({ $0.video }).first
         
-        // Set the team image & name
-        if posting.participant.team?.name != nil {
-            teamNameLabel.text = posting.participant.team?.name
-        }
+        teamNameLabel.text = posting.prettyTeamName
         teamPictureImageView.image = posting.participant.image?.image ?? UIImage(named: "emptyProfilePic")
         
         
@@ -113,6 +130,11 @@ class PostingTableViewCell: UITableViewCell {
         }
         commentsButton.setTitleColor(.lightGray, for: .normal)
         commentsButton.imageView?.set(image: #imageLiteral(resourceName: "post-comment_Icon"), with: .lightGray)
+        
+        shareButton.setTitleColor(.lightGray, for: .normal)
+        shareButton.imageView?.set(image: #imageLiteral(resourceName: "share_icon"), with: .lightGray)
+        
+        challengeView.layer.borderColor = UIColor.black.withAlphaComponent(0.2).cgColor
         
         likesButton.isEnabled = CurrentUser.shared.isLoggedIn()
         
@@ -212,6 +234,12 @@ class PostingTableViewCell: UITableViewCell {
 
     @IBAction func commentsButtonPressed(_ sender: UIButton) {
         loadInterface()
+    }
+    
+    @IBAction func shareButtonPressed(_ sender: Any) {
+        loadInterface()
+        let activity = UIActivityViewController(activityItems: [posting.sharingURL], applicationActivities: nil)
+        parentTableViewController?.present(activity, animated: true, completion: nil)
     }
 }
 

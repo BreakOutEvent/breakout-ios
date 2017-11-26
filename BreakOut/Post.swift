@@ -7,6 +7,7 @@
 //
 
 import Sweeft
+import UIKit
 
 /// Represents a Posting
 final class Post: Observable {
@@ -23,6 +24,10 @@ final class Post: Observable {
     var comments: [Comment]
     var liked: Bool
     var likes: Int
+    
+    var sharingURL: URL {
+        return URL(string: "https://break-out.org/post/\(id)")!
+    }
     
     init(id: Int,
          text: String? = nil,
@@ -55,6 +60,20 @@ final class Post: Observable {
     
 }
 
+extension Post {
+    
+    var prettyTeamName: String? {
+        guard let teamName = participant.team?.name else {
+            return nil
+        }
+        guard let country = location?.country, let emoji = emoji(for: country) else {
+            return teamName
+        }
+        return "\(teamName) \(emoji)"
+    }
+    
+}
+
 extension Post: Deserializable {
     
     convenience init?(from json: JSON) {
@@ -63,11 +82,10 @@ extension Post: Deserializable {
             let participant = json["user"].participant else {
                 return nil
         }
-        let location = json["postingLocation"].location
         self.init(id: id, text: json["text"].string,
                   date: date, participant: participant,
-                  location: location,
-                  challenge: json["challenge"].challenge,
+                  location: json["postingLocation"].location,
+                  challenge: json["proves"].challenge,
                   media: json["media"].media,
                   hashtags: json["hashtags"].array ==> { $0.string },
                   comments: json["comments"].comments,
@@ -251,7 +269,7 @@ extension Post {
     @discardableResult func unlike(using api: BreakOut = .shared) -> JSON.Result {
         return api.doJSONRequest(with: .delete,
                                  to: .likePosting,
-                                 arguments: ["id": id],
+                                 arguments: ["6id": id],
                                  auth: api.auth).nested { (json: JSON) in
             
             self.likes -= 1

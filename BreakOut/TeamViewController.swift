@@ -28,7 +28,6 @@ final class TeamViewController: PageboyViewController, Observable {
     @IBOutlet weak var mapButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var challengesButton: UIButton!
-    @IBOutlet weak var sponsorsButton: UIButton!
     
     var subMenuSelectionBarView: UIView = UIView()
     var previousConstant: CGFloat = 180
@@ -133,6 +132,11 @@ final class TeamViewController: PageboyViewController, Observable {
         
         self.select(button: postingsButton)
         
+        NotificationCenter.default.addObserver(forName: Notification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { _ in
+            self.hasScrolled(to: -self.previousConstant)
+            self.hasChanged(showNavbar: self.previousConstant < 0)
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -182,7 +186,6 @@ extension TeamViewController {
             mapButton,
             infoButton,
             challengesButton,
-            sponsorsButton
         ]
     }
     
