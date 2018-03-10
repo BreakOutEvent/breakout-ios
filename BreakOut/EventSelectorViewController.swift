@@ -35,11 +35,18 @@ class EventSelectorViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.setEditing(true, animated: false)
+        
         let effect = UIBlurEffect(style: .extraLight)
         let effectView = UIVisualEffectView(effect: effect)
         effectView.clipsToBounds = true
-        effectView.frame = blurView.bounds
+        effectView.translatesAutoresizingMaskIntoConstraints = false
         blurView.addSubview(effectView)
+        
+        effectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        effectView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        effectView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
         Event.all().onSuccess(in: .main) { events in
             self.events = events
             self.selected = events |> { $0.isCurrent } => { $0.id }
