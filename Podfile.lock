@@ -20,7 +20,6 @@ PODS:
     - AsyncDisplayKit (= 1.9.92)
   - OneSignal (2.5.3)
   - Pageboy (0.4.12)
-  - Pantry (0.3)
   - PINCache (3.0.1-beta)
   - PINRemoteImage/Core (3.0.0-beta.3):
     - PINCache (>= 3.0.0-beta)
@@ -44,7 +43,6 @@ DEPENDENCIES:
   - NMessenger (= 1.0.79)
   - OneSignal (< 3.0, >= 2.5.2)
   - Pageboy (~> 0.4.11)
-  - Pantry
   - SlideMenuControllerSwift (~> 3.0.0)
   - SpinKit (~> 1.2.0)
   - StaticDataTableViewController (~> 2.0)
@@ -70,7 +68,6 @@ SPEC CHECKSUMS:
   NMessenger: 79b8a4d2132fe49e03ec8964d07955d6553f831c
   OneSignal: 08a57b17168033a3e8c635d676241eb07614a5e6
   Pageboy: 4a0a478d78cf5b31a5439828bc8f6519edf4e508
-  Pantry: 98481849be65d2b2cb9658976533e84ebd266192
   PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
@@ -79,6 +76,6 @@ SPEC CHECKSUMS:
   StaticDataTableViewController: 7ea8d7bc8c7f0a4e9255a320224462c7346c1d4a
   Sweeft: 07c455af2b0b9f8d282fd92571fbabb0d1632436
 
-PODFILE CHECKSUM: 08e8900567bd4e6603b86ee113499265f77f032a
+PODFILE CHECKSUM: 1ae5a0400604dbcb545c45489dd94b52597af020
 
 COCOAPODS: 1.4.0

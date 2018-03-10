@@ -14,9 +14,6 @@ target 'BreakOut' do
     pod 'Fabric', '~> 1.6.7'
     pod 'Crashlytics', '~> 3.7.0'
 
-    # Database
-    pod 'Pantry' # Want to remove this
-
     # UI
     pod 'SpinKit', '~> 1.2.0' # I still have no idea why we have this
     pod 'SlideMenuControllerSwift', '~> 3.0.0'
