@@ -11,7 +11,6 @@ import MapKit
 import CoreLocation
 import Sweeft
 
-import Flurry_iOS_SDK
 import Crashlytics
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
@@ -89,13 +88,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // Tracking
-        super.viewDidAppear(animated)
-        Flurry.logEvent("/MapViewController", timed: true)
-        Answers.logCustomEvent(withName: "/MapViewController", customAttributes: [:])
     }
     
     func set(team: Team) {

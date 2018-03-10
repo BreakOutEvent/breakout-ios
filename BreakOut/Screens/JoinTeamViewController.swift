@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Flurry_iOS_SDK
 
 import MBProgressHUD
 import SpinKit

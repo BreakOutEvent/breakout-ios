@@ -13,7 +13,6 @@ import Toaster
 import Sweeft
 
 // Tracking
-import Flurry_iOS_SDK
 
 struct Feature {
     let key: String

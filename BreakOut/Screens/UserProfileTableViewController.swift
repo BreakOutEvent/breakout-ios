@@ -9,7 +9,6 @@
 import UIKit
 
 // Tracking
-import Flurry_iOS_SDK
 import Crashlytics
 
 
@@ -107,19 +106,12 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        // Tracking
-        Flurry.logEvent("/user/profile", withParameters: nil, timed: true)
         
         // Check UserDefaults for already logged in user
         let defaults = UserDefaults.standard
         if defaults.object(forKey: "userDictionary") == nil {
             self.presentLoginScreen()
         }
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        // Tracking
-        Flurry.endTimedEvent("/user/profile", withParameters: nil)
     }
     
     func fillInputsWithCurrentUserInfo() {
@@ -330,9 +322,6 @@ class UserProfileTableViewController: StaticDataTableViewController, UIImagePick
     
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         CurrentUser.resetUser()
-        
-        // Tracking
-        Answers.logCustomEvent(withName: "/logoutButtonPressed", customAttributes: [:])
         
         CurrentUser.resetUser()
         BreakOut.shared.logout()

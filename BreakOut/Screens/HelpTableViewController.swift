@@ -10,7 +10,6 @@ import UIKit
 
 import StaticDataTableViewController
 
-import Flurry_iOS_SDK
 import Crashlytics
 
 class HelpTableViewController: StaticDataTableViewController {
@@ -41,17 +40,6 @@ class HelpTableViewController: StaticDataTableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // Tracking
-        Flurry.logEvent("/helpView", timed: true)
-        Answers.logCustomEvent(withName: "/helpView", customAttributes: [:])
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        // Tracking
-        Flurry.endTimedEvent("/helpView", withParameters: nil)
     }
 
     override func didReceiveMemoryWarning() {

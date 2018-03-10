@@ -8,7 +8,6 @@
 
 import UIKit
 
-import Flurry_iOS_SDK
 
 class AboutBreakOutViewController: UIViewController {
     
@@ -33,17 +32,6 @@ class AboutBreakOutViewController: UIViewController {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // Tracking
-        Flurry.logEvent("/aboutBreakOutView", withParameters: ["url" : self.initialURL], timed: true)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        // Tracking
-        Flurry.endTimedEvent("/aboutBreakOutView", withParameters: nil)
-    }
-
 
 }
 

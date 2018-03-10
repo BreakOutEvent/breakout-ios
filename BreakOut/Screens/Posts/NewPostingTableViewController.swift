@@ -12,7 +12,6 @@ import CoreLocation
 import Sweeft
 
 // Tracking
-import Flurry_iOS_SDK
 import Crashlytics
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -131,19 +130,6 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
             self.challengeImageView.setImage(#imageLiteral(resourceName: "team-challanges_Icon"), for: .normal)
             self.styleChallengeLabel()
         }
-        // Tracking
-        Flurry.logEvent("/newPostingTableViewController", timed: true)
-        Answers.logCustomEvent(withName: "/newPostingTableViewController", customAttributes: [:])
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        // Tracking
-        Flurry.endTimedEvent("/newPostingTableViewController", withParameters: nil)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func resetAllInputs() {
@@ -221,10 +207,6 @@ class NewPostingTableViewController: UITableViewController, UIImagePickerControl
                     self.isShowingMenu = false
                     
                     let withImage = !media.isEmpty
-                    
-                    // Tracking
-                    Flurry.logEvent("/newPostingTVC/posting_stored", withParameters: ["withImage": withImage])
-                    Answers.logCustomEvent(withName: "/newPostingTVC/posting_stored", customAttributes: ["withImage": withImage.description])
                     
                     let defaults = UserDefaults.standard
                     defaults.set(Date(), forKey: "lastPostingSent")

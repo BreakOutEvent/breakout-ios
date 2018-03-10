@@ -14,9 +14,6 @@ target 'BreakOut' do
     pod 'Fabric', '~> 1.6.7'
     pod 'Crashlytics', '~> 3.7.0'
 
-    # Flurry -> App Analytics (Funnel, ...)
-    pod 'Flurry-iOS-SDK/FlurrySDK', '~> 7.5.2' # Thinking about removing it...
-
     # Database
     pod 'Pantry' # Want to remove this
 

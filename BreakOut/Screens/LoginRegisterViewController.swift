@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Flurry_iOS_SDK
 import Crashlytics
 
 import OneSignal
@@ -65,16 +64,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Tracking
-        Flurry.logEvent("/login", withParameters: nil, timed: true)
-        
         self.emailTextField.isEnabled = true
         self.passwordTextField.isEnabled = true
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        // Tracking
-        Flurry.endTimedEvent("/login", withParameters: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -203,9 +194,6 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
             
             present(navigationController, animated: true, completion: nil)
             internalWebView.openWebpageWithUrl("https://break-out.org/next-steps")
-            
-            // --> Tracking
-            //Answers.logCustomEventWithName("Opened What-Is-BreakOut", customAttributes: [:])
         }
     }
     
@@ -245,12 +233,8 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
         let activity = BOActivityOverlayController.create()
         activity?.modalTransitionStyle = .crossDissolve
         self.present(activity!, animated: true) {
-            CurrentUser.shared.register(email: self.emailTextField.text.?, password: self.passwordTextField.text.?).onSuccess(in: .main) { _ in
-                // Tracking
-                Flurry.logEvent("/registration/completed_successful")
-                Answers.logSignUp(withMethod: "e-mail",
-                                  success: true,
-                                  customAttributes: [:])
+            CurrentUser.shared.register(email: self.emailTextField.text.?,
+                                        password: self.passwordTextField.text.?).onSuccess(in: .main) { _ in
                 
                 self.startLoginRequest(overlay: activity)
             }
@@ -264,12 +248,6 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                     default: break
                     }
                 }
-                
-                // Tracking
-                Flurry.logEvent("/registration/completed_error")
-                Answers.logSignUp(withMethod: "e-mail",
-                                  success: false,
-                                  customAttributes: [:])
             }
         }
         
@@ -316,10 +294,6 @@ class LoginRegisterViewController: UIViewController, UITextFieldDelegate {
                         self.passwordTextField.text = ""
                         
                         self.enableInputs(true)
-                        
-                        // Tracking
-                        Flurry.logEvent("/login/completed_successful")
-                        Answers.logLogin(withMethod: "e-mail", success: true, customAttributes: [:])
                         
                         activity?.success {
                             self.dismiss(animated: true, completion: nil)

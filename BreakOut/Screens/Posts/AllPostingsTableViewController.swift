@@ -10,7 +10,6 @@ import UIKit
 
 import Sweeft
     
-import Flurry_iOS_SDK
 import Crashlytics
 
 class AllPostingsTableViewController: UITableViewController, PersistentViewController {
@@ -129,16 +128,6 @@ class AllPostingsTableViewController: UITableViewController, PersistentViewContr
         if let cell = cell as? PostingTableViewCell {
             cell.video?.pause() // Pause video when you're not it's not on screen
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // Tracking
-        Flurry.logEvent("/AllPostingsTVC", timed: true)
-        Answers.logCustomEvent(withName: "/AllPostingsTVC", customAttributes: [:])
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        Flurry.endTimedEvent("/AllPostingsTVC", withParameters: nil)
     }
     
     func filterButtonPressed() {

@@ -11,7 +11,6 @@ import UIKit
 // Analytics
 import Fabric
 import Crashlytics
-import Flurry_iOS_SDK
 
 import OneSignal
 
@@ -21,12 +20,8 @@ import Sweeft
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        DispatchQoS.userInitiated >>> {
-//            FileCache(directory: "Images").clean(everythingOlder: 7 * 24 * 60 * 60) // Clean up the cache off items older than a week
-        }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
         
@@ -50,21 +45,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         
-        #if DEBUG
-            //Instabug Setup
-//            Instabug.start(withToken: PrivateConstants.instabugAPIToken, invocationEvent: IBGInvocationEvent.twoFingersSwipeLeft)
-        #endif
-        
-        //Fabric Setup
-        //Fabric.with([Crashlytics.self()])
         Fabric.with([Crashlytics.self()])
         
-        //Flurry Setup
-        Flurry.startSession(PrivateConstants.flurryAPIToken);
-        
         BOLocationManager.shared.start()
-        
-//        FeatureFlagManager.shared.downloadCurrentFeatureFlagSetup()
         
         let settings = UIApplication.shared.currentUserNotificationSettings
         
@@ -77,10 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (launchOptions?[UIApplicationLaunchOptionsKey.location] as? NSDictionary) != nil {
             BOLocationManager.shared.start()
-        }
-        
-        if (launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? NSDictionary) != nil {
-            Answers.logCustomEvent(withName: "/Delegate/didLaunch/LocalNotificationKey", customAttributes: [:])
         }
         
         LocationUploadQueue.shared.process()

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Flurry_iOS_SDK
 
 
 class InternalWebViewController: UIViewController {
@@ -54,16 +53,6 @@ class InternalWebViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // Tracking
-        Flurry.logEvent("/internalWebView", withParameters: ["url":self.initialURL], timed: true)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        // Tracking
-        Flurry.endTimedEvent("/internalWebView", withParameters: nil)
     }
     
     func reloadWebView() {

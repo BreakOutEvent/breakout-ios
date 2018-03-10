@@ -9,7 +9,6 @@
 import UIKit
 
 // Tracking
-import Flurry_iOS_SDK
 import Crashlytics
 
 class BOPushManager: NSObject {

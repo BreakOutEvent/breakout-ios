@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 
 // Tracking
-import Flurry_iOS_SDK
 import Crashlytics
 
 class BOLocationManager: NSObject, CLLocationManagerDelegate {

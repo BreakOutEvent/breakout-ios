@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Flurry_iOS_SDK
 
 class WelcomeScreenViewController: UIViewController {
 
@@ -48,10 +47,6 @@ class WelcomeScreenViewController: UIViewController {
         
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         
-        // Tracking
-        Flurry.logEvent("/welcomeScreen", timed: true)
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
-        
         if CurrentUser.shared.isLoggedIn() {
             // User is logged in
             self.participateButton.setTitle("welcomeScreenParticipateButtonShareLocation".local, for: .normal)
@@ -64,19 +59,7 @@ class WelcomeScreenViewController: UIViewController {
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        // Tracking
-        Flurry.endTimedEvent("/welcomeScreen", withParameters: nil)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
-// MARK: - Button Actions
+    // MARK: - Button Actions
     
     @IBAction func participateButtonPressed(_ sender: UIButton) {
         /*let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)

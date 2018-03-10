@@ -9,7 +9,6 @@
 import UIKit
 import Sweeft
 
-import Flurry_iOS_SDK
 import Crashlytics
 
 class PostingDetailsTableViewController: UITableViewController {
@@ -37,17 +36,9 @@ class PostingDetailsTableViewController: UITableViewController {
         navigationController?.navigationBar.alpha = 1.0
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Tracking
-        Flurry.logEvent("/PostingDetailsTVC", timed: true)
-        Answers.logCustomEvent(withName: "/PostingDetailsTVC", customAttributes: [:])
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         posting.media ==> { $0.video } => { $0.pause() }
-        Flurry.endTimedEvent("/PostingDetailsTVC", withParameters: nil)
     }
     
     // MARK: - Table view data source
