@@ -394,10 +394,10 @@
                             <constraint firstItem="7Ul-51-2i5" firstAttribute="centerY" secondItem="aIS-py-fop" secondAttribute="centerY" id="Ey8-xr-xNa"/>
                             <constraint firstItem="445-T8-tnG" firstAttribute="top" secondItem="aIS-py-fop" secondAttribute="top" constant="-260" id="Gv6-u1-aqM"/>
                             <constraint firstItem="7Ul-51-2i5" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="LAG-cZ-eEP"/>
-                            <constraint firstItem="445-T8-tnG" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="-16" id="SEg-X4-PmS"/>
                             <constraint firstItem="aIS-py-fop" firstAttribute="bottom" secondItem="Dwq-vv-S6c" secondAttribute="bottom" constant="14" id="UC0-cR-JJS"/>
                             <constraint firstItem="7Ul-51-2i5" firstAttribute="height" secondItem="tsR-hK-woN" secondAttribute="height" id="YT0-xu-g6I"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="445-T8-tnG" secondAttribute="trailing" constant="-16" id="c8b-RH-AAk"/>
+                            <constraint firstItem="445-T8-tnG" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="cua-V7-YKZ"/>
+                            <constraint firstItem="445-T8-tnG" firstAttribute="centerX" secondItem="aIS-py-fop" secondAttribute="centerX" id="eAZ-on-1M1"/>
                             <constraint firstItem="7Ul-51-2i5" firstAttribute="centerX" secondItem="aIS-py-fop" secondAttribute="centerX" id="oyA-bF-cea"/>
                             <constraint firstItem="aIS-py-fop" firstAttribute="trailing" secondItem="Dwq-vv-S6c" secondAttribute="trailing" constant="14" id="uuZ-Jb-Lzn"/>
                         </constraints>
