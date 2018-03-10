@@ -121,9 +121,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return pr
     }
     
-    // MARK: selector functions
-    let blc = BasicLocationController()
-    
     /**
      loops through event dictionary containing all locations for all events and teams and calls drawLocationsForTeamOnMap for each teamId.
      - parameter locationsForEventsAndTeams: Dictionary with first parameter as eventId , second as teamId

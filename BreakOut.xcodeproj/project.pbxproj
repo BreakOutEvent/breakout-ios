@@ -97,7 +97,6 @@
 		26F29BED1CF21137003DB37E /* ChallengesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F29BEC1CF21137003DB37E /* ChallengesTableViewController.swift */; };
 		26FD9E711C0BAEF100BF9EFD /* StyleInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD9E701C0BAEF100BF9EFD /* StyleInformation.swift */; };
 		47A166F481A5147BD339A76A /* Pods_BreakOut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A5BB60249B97E779246C647 /* Pods_BreakOut.framework */; };
-		6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6153CCB81CD7FA1900E9CAE6 /* BasicLocationController.swift */; };
 		61D0BE7A1CD6B32A0069DAEC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE791CD6B32A0069DAEC /* MapViewController.swift */; };
 		61D0BE7E1CD6B3D50069DAEC /* PrivateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D0BE7D1CD6B3D50069DAEC /* PrivateConstants.swift */; };
 		61E86D791CE77082000CD707 /* MapLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E86D781CE77082000CD707 /* MapLocation.swift */; };
@@ -871,7 +870,6 @@
 				0E3B87EF1E61F82900C21AB9 /* MediaItem.swift in Sources */,
 				0EBAB3761E868C4500237237 /* LoginHeaderView.swift in Sources */,
 				26F29BED1CF21137003DB37E /* ChallengesTableViewController.swift in Sources */,
-				6153CCB91CD7FA1900E9CAE6 /* BasicLocationController.swift in Sources */,
 				0EBE9D661E79252C00355E1E /* TeamCollectionViewCell.swift in Sources */,
 				0E3B87FA1E61F93900C21AB9 /* NewComment.swift in Sources */,
 				0E0C682C1E8ADE54007001F1 /* ChatDetailsTableViewController.swift in Sources */,
