@@ -24,8 +24,13 @@ class BOActivityOverlayController: UIViewController {
         let effect = UIBlurEffect(style: .regular)
         let effectView = UIVisualEffectView(effect: effect)
         effectView.clipsToBounds = true
-        effectView.frame = overlayView.bounds
+        effectView.translatesAutoresizingMaskIntoConstraints = false
         overlayView.addSubview(effectView)
+        effectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        effectView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        effectView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
