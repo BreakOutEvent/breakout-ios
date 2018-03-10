@@ -51,7 +51,6 @@ class LocationUploadQueue {
         api.doJSONRequest(with: .post,
                           to: .eventTeamLocation,
                           arguments: ["event": event, "team": team],
-                          auth: api.auth,
                           body: location,
                           acceptableStatusCodes: [200, 201]).onSuccess(in: .main) { json in
                             

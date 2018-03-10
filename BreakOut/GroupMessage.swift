@@ -82,7 +82,7 @@ extension GroupMessage {
      - Returns: Promise of the Group Message Object
      */
     static func all(using api: BreakOut = .shared) -> GroupMessage.Results {
-        return api.doJSONRequest(to: .currentUser, auth: api.auth).flatMap { json in
+        return api.doJSONRequest(to: .currentUser).flatMap { json in
             return GroupMessage.messages(with: json["groupMessageIds"].array ==> { $0.int }, using: api)
         }
     }
@@ -100,7 +100,7 @@ extension GroupMessage {
      - Returns: Promise of the Group Message Object
      */
     static func groupMessage(with id: Int, using api: BreakOut = .shared) -> GroupMessage.Result {
-        return get(using: api, at: .message, arguments: ["id": id], auth: api.auth)
+        return get(using: api, at: .message, arguments: ["id": id])
     }
     
     /**
@@ -112,7 +112,7 @@ extension GroupMessage {
      - Returns: Promise of the Group Message Object
      */
     static func messages(with ids: [Int], using api: BreakOut = .shared) -> GroupMessage.Results {
-        return api.doBulkObjectRequest(to: .message, arguments: ids => { ["id": $0] }, auth: api.auth)
+        return api.doBulkObjectRequest(to: .message, arguments: ids => { ["id": $0] })
     }
     
     /**
@@ -123,7 +123,7 @@ extension GroupMessage {
      - Returns: Promise of the Group Message Object (will be the same object)
      */
     @discardableResult func refresh(using api: BreakOut = .shared) -> GroupMessage.Result {
-        return api.doJSONRequest(to: .message, arguments: ["id": id], auth: api.auth).map { (json: JSON) in
+        return api.doJSONRequest(to: .message, arguments: ["id": id]).map { (json: JSON) in
             self.messages = json["messages"].messages
             return self
         }
@@ -154,7 +154,7 @@ extension GroupMessage {
      - Returns: Promise of the Group Message Object
      */
     @discardableResult static func create(with users: [Int], using api: BreakOut = .shared) -> GroupMessage.Result {
-        return api.doObjectRequest(with: .post, to: .messages, auth: api.auth, body: users.json, acceptableStatusCodes: [200, 201])
+        return api.doObjectRequest(with: .post, to: .messages, body: users.json, acceptableStatusCodes: [200, 201])
     }
     
 }
@@ -195,7 +195,7 @@ extension GroupMessage {
      */
     func set(users: [Participant], using api: BreakOut = .shared) -> GroupMessage.Result {
         let body = (users => { $0.id }).json
-        return api.doJSONRequest(with: .put, to: .message, arguments: ["id": id], auth: api.auth, body: body).map { (json: JSON) in
+        return api.doJSONRequest(with: .put, to: .message, arguments: ["id": id], body: body).map { (json: JSON) in
             self.messages = json["messages"].messages
             return self
         }
@@ -217,7 +217,6 @@ extension GroupMessage {
         return api.doJSONRequest(with: .post,
                                  to: .newMessage,
                                  arguments: ["id": id],
-                                 auth: api.auth,
                                  body: body,
                                  acceptableStatusCodes: [200, 201]).flatMap { _ in
                                     

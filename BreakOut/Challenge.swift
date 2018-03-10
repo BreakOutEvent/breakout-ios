@@ -71,7 +71,6 @@ extension Challenge {
         return api.doObjectRequest(with: .put,
                                    to: .challengeStatus,
                                    arguments: ["event": event, "team": team, "challenge": id],
-                                   auth: api.auth,
                                    body: body)
     }
     
@@ -89,7 +88,7 @@ extension Challenge {
      - Returns: Promise of the JSON
      */
     static func get(event: Int, team: Int, using api: BreakOut = .shared) -> Challenge.Results {
-        return getAll(using: api, method: .get, at: .eventTeamChallenge, arguments: ["event": event, "team": team], auth: api.auth)
+        return getAll(using: api, method: .get, at: .eventTeamChallenge, arguments: ["event": event, "team": team])
     }
     
 }

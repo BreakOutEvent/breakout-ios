@@ -82,7 +82,7 @@ extension Participant {
                 "tshirtsize": shirtSize
             ].json
         ]
-        let promise = api.doJSONRequest(with: .post, to: .userData, auth: api.auth, body: body, acceptableStatusCodes: [200, 201])
+        let promise = api.doJSONRequest(with: .post, to: .userData, body: body, acceptableStatusCodes: [200, 201])
         promise.onSuccess(call: CurrentUser.shared.set)
         return promise
     }

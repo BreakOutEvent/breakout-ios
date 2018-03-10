@@ -60,7 +60,6 @@ extension Team {
         return api.doJSONRequest(with: .post,
                                  to: .eventInvitation,
                                  arguments: ["event": event, "team": id],
-                                 auth: api.auth,
                                  body: body,
                                  acceptableStatusCodes: [200, 201])
     }
@@ -184,7 +183,7 @@ extension Team {
             "event": event,
             "name": name,
         ]
-        let promise = api.doJSONRequest(with: .post, to: .eventTeam, arguments: ["event": event], auth: api.auth, body: body, acceptableStatusCodes: [200, 201])
+        let promise = api.doJSONRequest(with: .post, to: .eventTeam, arguments: ["event": event], body: body, acceptableStatusCodes: [200, 201])
         promise.onSuccess { json in
             
             if let token = json["profilePic"]["uploadToken"].string,

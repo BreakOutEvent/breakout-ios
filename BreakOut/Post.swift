@@ -204,7 +204,6 @@ extension Post {
         let post = NewPost(text: text, date: .now, latitude: latitude, longitude: longitude, media: media)
         return api.doJSONRequest(with: .post,
                                  to: .postings,
-                                 auth: api.auth,
                                  body: post.json,
                                  acceptableStatusCodes: [200, 201]).flatMap { json in
 
@@ -249,7 +248,6 @@ extension Post {
         return api.doJSONRequest(with: .post,
                                  to: .likePosting,
                                  arguments: ["id": id],
-                                 auth: api.auth,
                                  body: body,
                                  acceptableStatusCodes: [200, 201]).map { (json: JSON) in
                 self.likes += 1
@@ -269,8 +267,7 @@ extension Post {
     @discardableResult func unlike(using api: BreakOut = .shared) -> JSON.Result {
         return api.doJSONRequest(with: .delete,
                                  to: .likePosting,
-                                 arguments: ["6id": id],
-                                 auth: api.auth).map { (json: JSON) in
+                                 arguments: ["6id": id]).map { (json: JSON) in
             
             self.likes -= 1
             self.liked = false
@@ -292,7 +289,6 @@ extension Post {
         return api.doObjectRequest(with: .post,
                             to: .postComment,
                             arguments: ["id": self.id],
-                            auth: api.auth,
                             body: comment.json,
                             acceptableStatusCodes: [201]).map { (comment: Comment) in
                                 

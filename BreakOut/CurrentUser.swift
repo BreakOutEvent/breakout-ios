@@ -85,13 +85,13 @@ final class CurrentUser: NSObject {
             
             let dictionary = params.dictionaryWithValues(forKeys: params.allKeys ==> { $0 as? String })
             let json = JSON(from: dictionary) // Small hack
-            BONetworkIndicator.si.increaseLoading()
+            DispatchQueue.main >>> { BONetworkIndicator.si.increaseLoading() }
             
             api.doJSONRequest(with: .put,
                               to: .userData,
                               arguments: ["id": id],
-                              auth: api.auth,
-                              body: json).onSuccess { response in
+
+                              body: json).onSuccess(in: .main) { response in
                 
                 if self.profilePic?.image != self.picture {
                     self.picture?.upload(using: response["profilePic"])
@@ -410,7 +410,7 @@ extension CurrentUser: Deserializable {
 extension CurrentUser {
     
     static func get(using api: BreakOut = .shared) -> CurrentUser.Result {
-        return get(using: api, at: .currentUser, auth: api.auth)
+        return get(using: api, at: .currentUser)
     }
     
 }

@@ -8,7 +8,7 @@ target 'BreakOut' do
     pod 'OneSignal', '>= 2.5.2', '< 3.0'
 
     # Model and API Calls
-    pod 'Sweeft', '~> 0.14.4'
+    pod 'Sweeft', '~> 0.15.2'
 
     # Analytics
     pod 'Fabric', '~> 1.6.7'
