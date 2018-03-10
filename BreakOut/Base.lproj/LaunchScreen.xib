@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <viewController id="LYV-I7-7x2">
-            <layoutGuides>
-                <viewControllerLayoutGuide type="top" id="WZk-4S-1t3"/>
-                <viewControllerLayoutGuide type="bottom" id="aXZ-cd-adG"/>
-            </layoutGuides>
             <view key="view" contentMode="scaleToFill" id="c1B-ob-ZP2">
                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -24,18 +20,17 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlZ-z7-yJm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.50980392156862742" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="64" id="lVH-JQ-SNh"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <color key="tintColor" red="0.96862745100000003" green="0.57647058819999997" blue="0.1137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="mlZ-z7-yJm" secondAttribute="trailing" constant="-16" id="3i5-A9-gD8"/>
-                    <constraint firstItem="mlZ-z7-yJm" firstAttribute="leading" secondItem="c1B-ob-ZP2" secondAttribute="leadingMargin" constant="-16" id="g2a-ur-8Qe"/>
-                    <constraint firstItem="mlZ-z7-yJm" firstAttribute="top" secondItem="WZk-4S-1t3" secondAttribute="bottom" constant="-20" id="tOd-9F-DUM"/>
+                    <constraint firstItem="zcF-Md-Fif" firstAttribute="top" secondItem="mlZ-z7-yJm" secondAttribute="bottom" constant="-44" id="CUF-47-Mfj"/>
+                    <constraint firstItem="mlZ-z7-yJm" firstAttribute="width" secondItem="c1B-ob-ZP2" secondAttribute="width" id="If0-cp-c35"/>
+                    <constraint firstItem="mlZ-z7-yJm" firstAttribute="centerX" secondItem="zcF-Md-Fif" secondAttribute="centerX" id="ntR-A9-bfj"/>
+                    <constraint firstItem="mlZ-z7-yJm" firstAttribute="top" secondItem="c1B-ob-ZP2" secondAttribute="top" id="tOd-9F-DUM"/>
                 </constraints>
+                <viewLayoutGuide key="safeArea" id="zcF-Md-Fif"/>
             </view>
             <point key="canvasLocation" x="84.5" y="321.5"/>
         </viewController>
